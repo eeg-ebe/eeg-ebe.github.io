@@ -1,0 +1,22 @@
+[
+    {
+        "name" : "jQuery",
+        "urls" : [ "https://jquery.com/", "https://github.com/jquery/jquery" ],
+        "license" : "https://github.com/jquery/jquery/blob/master/LICENSE.txt"
+    },
+    {
+        "name" : "jqueryui",
+        "urls" : [ "http://jqueryui.com/", "https://github.com/jquery/jqueryui.com" ],
+        "license" : "https://github.com/jquery/jqueryui.com/blob/master/LICENSE.txt"
+    },
+    {
+        "name" : "pako.js"
+        "urls" : [ "https://github.com/nodeca/pako" ],
+        "license" : "https://github.com/nodeca/pako/blob/master/LICENSE"
+    },
+    {
+        "name" : "HaXe",
+        "urls" : [ "http://haxe.org/", "https://github.com/HaxeFoundation/haxe" ],
+        "license" : "https://haxe.org/foundation/open-source.html"
+    }
+]

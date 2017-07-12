@@ -1,0 +1,9 @@
+{
+  "lang_short" : "en",
+  "lang_long" : "English",
+  "flag_path" : "enFlag.svg",
+  "dict" : {
+    "languageChoose" : "Please choose your language:",
+    "documentation" : "Documentation"
+  }
+}
