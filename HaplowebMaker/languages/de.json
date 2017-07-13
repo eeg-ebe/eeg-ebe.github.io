@@ -3,6 +3,7 @@
   "lang_long" : "Deutsch",
   "flag_path" : "deFlag.svg",
   "dict" : {
+    "searchbarplaceholdertext" : "Suchen",
     "buttonSave" : "Speichern",
     "buttonCancel" : "Abbrechen",
     "buttonOk" : "Ok",
@@ -21,9 +22,17 @@
     "scrollDown.title" : "Scrolle zum Seitenende",
     "language.label" : "Sprache",
     "language.title" : "Spracheinstellungen",
+    "documentation.label" : "Dokumentation",
+    "documentation.title" : "Dokumentation der Webseite",
+    "cite.label" : "Zitieren",
+    "cite.title" : "Diese Webseite zitieren",
+    "contact.label" : "Kontakt",
+    "contact.title" : "Kontakt mit den Autoren aufnehmen",
+    "usedSoftware.label" : "Benutzte Software",
+    "usedSoftware.title" : "In dieser Webseite verbaute Softwarekomponenten anzeigen",
     "configureShortcuts.label" : "Tastenkombinationen",
     "configureShortcuts.dialog.label" : "Tastenkombinationen",
-    "configureShortcuts.title" : "Seitentastenkombinationen konfigurieren",
+    "configureShortcuts.title" : "Tastenkombinationen der Webseite konfigurieren",
     "shortcutAction.label" : "Aktion",
     "shortcutValue.label" : "Wert"
   }

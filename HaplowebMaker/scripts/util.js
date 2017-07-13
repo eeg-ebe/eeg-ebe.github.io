@@ -107,3 +107,9 @@ function handleEvent(eventName) {
         }
     });
 }
+
+function jump(anchor) {
+    var url = location.href;
+    location.href = "#" + anchor;
+    history.replaceState(null, null, url);
+}

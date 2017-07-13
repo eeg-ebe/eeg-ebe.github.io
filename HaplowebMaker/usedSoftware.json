@@ -10,7 +10,7 @@
         "license" : "https://github.com/jquery/jqueryui.com/blob/master/LICENSE.txt"
     },
     {
-        "name" : "pako.js"
+        "name" : "pako.js",
         "urls" : [ "https://github.com/nodeca/pako" ],
         "license" : "https://github.com/nodeca/pako/blob/master/LICENSE"
     },

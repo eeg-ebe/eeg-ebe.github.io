@@ -27,6 +27,7 @@ body {
     text-decoration: none;
     color: lightgray;
     font: italic 32px Verdana;
+    cursor: pointer;
 }
 #mainToolsToolbox {
     display: none;

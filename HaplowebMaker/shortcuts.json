@@ -1,7 +1,11 @@
 {
-    "actions" : [ "newInstance", "scrollUp", "scrollDown", "openMainToolsToolbox" ],
-    "_s78" : "newInstance",
-    "_s85" : "scrollUp",
+    "actions" : [ "newInstance", "scrollUp", "scrollDown", "openMainToolsToolbox", "contact", "cite", "usedSoftware", "configureShortcuts" ],
+    "_s67" : "contact",
     "_s68" : "scrollDown",
-    "_s84" : "openMainToolsToolbox"
+    "_s78" : "newInstance",
+    "_s81" : "configureShortcuts",
+    "_s84" : "openMainToolsToolbox",
+    "_s85" : "scrollUp",
+    "_s87" : "usedSoftware",
+    "_s90" : "cite"
 }
