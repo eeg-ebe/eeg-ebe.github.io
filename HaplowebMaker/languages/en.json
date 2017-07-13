@@ -3,7 +3,20 @@
   "lang_long" : "English",
   "flag_path" : "enFlag.svg",
   "dict" : {
-    "languageChoose" : "Please choose your language:",
-    "documentation" : "Documentation"
+    "buttonSave" : "Save",
+    "buttonCancel" : "Cancel",
+    "openMainToolsToolbox.title" : "Opens (and closes) a toolbox that contains the most basic tools",
+    "newInstance.label" : "New instance",
+    "newInstance.title" : "Open a new instance of this program",
+    "navigation.label" : "Navigation",
+    "navigation.title" : "Navigation actions",
+    "scrollUp.label" : "Scroll up",
+    "scrollUp.title" : "Scroll to the top of this page",
+    "scrollDown.label" : "Scroll down",
+    "scrollDown.title" : "Scorll to the bottom of this page",
+    "language.label" : "Language",
+    "language.title" : "Language settings",
+    "configureShortcuts.label" : "Shortcuts",
+    "configureShortcuts.title" : "Configure the shortcuts of this page"
   }
 }

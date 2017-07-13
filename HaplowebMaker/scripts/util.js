@@ -55,33 +55,55 @@ function setLanguage(lang) {
     // check if this is a supported language
     language = lang; // change the language
     $(".label").each(function(){
-        setTxt(this);
+        setTxt(this, true);
+    });
+    $(".tooltip").each(function() {
+        setTxt(this, false);
     });
 }
 
-function setTxt(obj) {
+function setTxt(obj, lbl) {
     // set the text of an object
     // the object should be of class "label" and have lid and possible la0,..laN attributes
     var obj = $(obj);
-    if(obj.hasClass('label')) {
+    if((lbl && obj.hasClass('label')) || (!lbl && obj.hasClass('tooltip'))) {
         // get the lid of the object
-        var lid = obj.attr("lid");
+        var lid = (lbl) ? obj.attr("lid") : obj.attr("tid");
         if (typeof lid === typeof undefined || lid === false) {
-            console.log("WARNING: obj: " + obj + " is of type label but does not contain an attribute 'lid'!");
+            console.log("WARNING: obj: " + obj + " is of type label/tooltip but does not contain an attribute 'lid'/'tid'!");
         } else {
             // get all la0,...,laN attributes
             var i = 0, args = [];
             while(true) {
-                var arg = obj.attr("la" + i);
+                var arg = (lbl) ? obj.attr("la" + i) : obj.attr("ta" + i);
                 if (typeof arg === typeof undefined || arg === false) {
                     break;
                 }
                 args.push(arg);
+                i++;
             }
-            var txt = languageDicts[language]['dict'][lid].format(args);
-            obj.text(txt);
+            var txt = "???";
+            if(typeof languageDicts[language]['dict'][lid] != "undefined") {
+                txt = languageDicts[language]['dict'][lid].format(args);
+            } else {
+                console.log("WARNING: lid: '" + lid + "' not found for language '" + language + "'!");
+            }
+            if(lbl) {
+                obj.text(txt);
+            } else {
+                obj.attr("title", txt);
+            }
         }
     } else {
-        console.log("WARNING: obj: " + obj + " does not have class label!");
+        console.log("WARNING: obj: " + obj + " does not have class label and/or tooltip!");
     }
+}
+
+function handleEvent(eventName) {
+    $(".shortcut").each(function () {
+        if($(this).attr("shortcut") == eventName) {
+            this.click();
+            return false;
+        }
+    });
 }

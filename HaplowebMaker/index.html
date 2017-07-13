@@ -1,0 +1,181 @@
+<!Doctype html public>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" type="image/png" href="images/favicon.svg"/>
+        <title>HaplowebMaker</title>
+        <link rel="stylesheet" href="main.css"/>
+        <link rel="stylesheet" href="external/jquery-ui.min.css"/>
+        <script src="external/jquery.js"></script>
+        <script src="external/jquery-ui.min.js"></script>
+        <script src="scripts/util.js"></script>
+        <script>
+            // load shortcuts
+            shortcuts = {};
+            $.getJSON("shortcuts.json", function(data) {
+                shortcuts = data;
+            });
+            // load the available languages
+            loadLanguages();
+            // parse the uri
+            urlParams = parseUrl();
+            // check in which language the site should get displayed;
+            language = 'en'; // fallback: english
+            var browserLang = navigator.browserLanguage || navigator.language; // check if the language of the browser is among the supported languages => if yes, use it
+            browserLang = browserLang.split("-")[0].toLowerCase();
+            if(typeof languageDicts[browserLang] != "undefined") {
+                language = browserLang;
+            }
+            if(typeof urlParams["lang"] != "undefined") { // uri parameter overwrites fallback language
+                if(typeof languageDicts[urlParams["lang"]] != "undefined") {
+                    // ok, a language parameter was given via uri -> use this language instead
+                    language = urlParams["lang"].toLowerCase();
+                } else {
+                    console.log("WARNING: language '" + urlParams['lang'] + "' not found!");
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <a name="top"></a>
+        <div id="banner">
+            <div style="padding: 10">
+                <a href="#" id="mainToolsOpener" class="tooltip" tid="openMainToolsToolbox.title" onclick="javascript: $('#mainToolsToolbox').toggle();">
+                    <img id="logoImg" src="images/logo.svg" />
+                </a>
+            </div>
+        </div>
+        <div id="bannerSpace"></div>
+        <ul id="mainToolsToolbox" class="ui-border-all">
+            <li>
+                <div class="shortcut" shortcut="newInstance" onclick="javascript: openNewInstance();">
+                    <span class="ui-icon ui-icon-plus"></span><span class="label tooltip" lid="newInstance.label" tid="newInstance.title"></span>
+                </div>
+            </li>
+            <!-- TODO: load save -->
+            <li>
+                <div>
+                    <span class="ui-icon ui-icon-arrow-4-diag"></span>
+                    <span class="label tooltip" lid="navigation.label" tid="navigation.title"></span>
+                </div>
+                <ul>
+                    <li>
+                        <div class="shortcut" shortcut="scrollUp" onclick="javascript: scrollUp();">
+                            <span class="ui-icon ui-icon-arrowstop-1-n"></span><span class="label tooltip" lid="scrollUp.label" tid="scrollUp.title"></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="shortcut" shortcut="scrollDown" onclick="javascript: scrollDown();">
+                            <span class="ui-icon ui-icon-arrowstop-1-s"></span><span class="label tooltip" lid="scrollDown.label" tid="scrollDown.title"></span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <div>
+                    <span class="ui-icon ui-icon-comment"></span>
+                    <span class="label tooltip" lid="language.label" tid="language.title"></span>
+                </div>
+                <ul>
+                    <script>
+                        for(key in languageDicts) {
+                            document.write("<li><div onclick=\"javascript: setLanguage('" + key + "');\"><span class=\"ui-icon imgInSpan\" style=\"background-image:url('languages/" + languageDicts[key]["flag_path"] + "')\"></span>" + languageDicts[key]["lang_long"] + "</div></li>");
+                        }
+                    </script>
+                </ul>
+            </li>
+            <li>
+                <div class="shortcut" shortcut="configureShortcuts" onclick="javascript: configureShortcuts();">
+                    <span class="ui-icon ui-icon-gear"></span><span class="label tooltip" lid="configureShortcuts.label" tid="configureShortcuts.title"></span>
+                </div>
+            </li>
+        </ul>
+        <a href="https://github.com/eeg-ebe/eeg-ebe.github.io">
+            <img style="z-index: 25; position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png">
+        </a>
+
+<p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>sdfg
+<p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>
+<p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>
+<p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>
+<p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>aageegtt
+    
+        <div id="shortcutConfigurationDialog" class="tooltip" tid="configureShortcuts.label">
+            <div id="shortcutConfigurationDialogContent"></div>
+        </div>
+        <div id="invisibleHelperObjects">
+            <a id="newInstanceLink" target="_blank"></a>
+            <a id="scrollUpLink" href="#top"></a>
+            <a id="scrollDownLink" href="#bottom"></a>
+            <script>
+                function openNewInstance() {
+                    $("#newInstanceLink").attr("href", "index.html?lang=" + language);
+                    document.getElementById("newInstanceLink").click();
+                }
+                function scrollUp() {
+                    document.getElementById("scrollUpLink").click();
+                }
+                function scrollDown() {
+                    document.getElementById("scrollDownLink").click();
+                }
+                function configureShortcuts() {
+                    var diag = $( "#shortcutConfigurationDialog" );
+                    diag.dialog('option', 'title', languageDicts[language]["dict"]["configureShortcuts.label"]);
+                    $(".dialogSaveButton").text(languageDicts[language]["dict"]["buttonSave"]);
+                    $(".dialogCancelButton").text(languageDicts[language]["dict"]["buttonCancel"]);
+                    diag.dialog("open");
+                }
+            </script>
+        </div>
+        <a name="bottom"></a>
+        <script>
+            // complete DOM loaded? Then set the DOM's text
+            setLanguage(language);
+            // tooltip & other jquery-ui objects
+            $( document ).tooltip();
+            $( '#mainToolsToolbox' ).menu();
+            $( "#shortcutConfigurationDialog" ).dialog({
+                autoOpen: false,
+                height: 400,
+                width: 350,
+                modal: true,
+                open : function() {
+                    // TODO fill out shortcutConfigurationDialogContent
+                },
+                buttons: [{
+                        "text" : languageDicts[language]["dict"]["buttonSave"],
+                        "class" : "dialogSaveButton",
+                        "click" : function() {
+                            // TODO: save to shortcuts
+                            $( "#shortcutConfigurationDialog" ).dialog("close");
+                        }
+                    }, {
+                        "text" : languageDicts[language]["dict"]["buttonCancel"],
+                        "class" : "dialogCancelButton",
+                        "click" : function() {
+                            $( "#shortcutConfigurationDialog" ).dialog("close");
+                        }
+                    }
+                ],
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }
+            });
+            // do shortcut handling
+            document.onkeydown = function(event) {
+                var mod = "";
+                if(event.ctrlKey)  mod = mod + "c";
+                if(event.altKey)   mod = mod + "a";
+                if(event.shiftKey) mod = mod + "s";
+                mod = mod + event.keyCode;
+                console.log("INFO: pressed '" + mod + "'!");
+                if(typeof shortcuts[mod] != "undefined") {
+                    console.log("INFO: exec '" + shortcuts[mod] + "'!");
+                    handleEvent(shortcuts[mod]);
+                    e.preventDefault();
+                }
+            }
+        </script>
+    </body>
+</html>

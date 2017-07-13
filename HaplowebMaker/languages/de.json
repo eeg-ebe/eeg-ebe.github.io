@@ -3,7 +3,20 @@
   "lang_long" : "Deutsch",
   "flag_path" : "deFlag.svg",
   "dict" : {
-    "languageChoose" : "Bitte Sprache auswählen:",
-    "documentation" : "Dokumentation"
+    "buttonSave" : "Speichern",
+    "buttonCancel" : "Abbrechen",
+    "openMainToolsToolbox.title" : "Öffnet (und schließt) eine Toolbox die die wichtigsten Werkzeuge enthält",
+    "newInstance.label" : "Neue Instanz",
+    "newInstance.title" : "Öffne eine neue Instanz dieses Programmes",
+    "navigation.label" : "Navigation",
+    "navigation.title" : "Navigationsaktionen",
+    "scrollUp.label" : "Hochscrollen",
+    "scrollUp.title" : "Scrolle zum Seitenanfang",
+    "scrollDown.label" : "Runterscrollen",
+    "scrollDown.title" : "Scrolle zum Seitenende",
+    "language.label" : "Sprache",
+    "language.title" : "Spracheinstellungen",
+    "configureShortcuts.label" : "Tastenkombinationen",
+    "configureShortcuts.title" : "Seitentastenkombinationen konfigurieren"
   }
 }
