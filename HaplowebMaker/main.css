@@ -52,3 +52,42 @@ body {
     background-position: center center;
     background-size: 100%;
 }
+
+.dataContentTable {
+    width: 100%;
+    margin-top: 15px;
+    padding: 3px;
+    border-collapse: collapse;
+}
+.dataContentTable th {
+    border: 0px solid #ddd;
+    padding: 8px;
+}
+.dataContentTable td {
+    border: 0px solid #ddd;
+    padding: 8px;
+}
+.dataContentTable .header {
+    background: #f6a828;
+}
+.dataContentTable .even {
+    background-color: white;
+}
+.dataContentTable .even:hover {
+    background-color: #ffffcc;
+}
+.dataContentTable .odd {
+    background-color: #f2f2f2;
+}
+.dataContentTable .odd:hover {
+    background-color: #ffffcc;
+}
+.dataContentTable .left {
+    text-align: left;
+}
+.dataContentTable .middle {
+    text-align: center;
+}
+.dataContentTable .right {
+    text-align: right;
+}

@@ -42,7 +42,7 @@ function loadLanguages() {
     languageDicts = {}; // create the global language dictionary
     $.getJSON("languages/langs.json", function(data) {
         Object.keys(data).forEach(function(key) {
-            value = data[key];
+            var value = data[key];
             loadLanguage(key, value);
         });
     });

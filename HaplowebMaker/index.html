@@ -40,7 +40,7 @@
         <a name="top"></a>
         <div id="banner">
             <div style="padding: 10">
-                <a href="#" id="mainToolsOpener" class="tooltip" tid="openMainToolsToolbox.title" onclick="javascript: $('#mainToolsToolbox').toggle();">
+                <a href="#" id="mainToolsOpener" class="tooltip shortcut" shortcut="openMainToolsToolbox" tid="openMainToolsToolbox.title" onclick="javascript: $('#mainToolsToolbox').toggle();">
                     <img id="logoImg" src="images/logo.svg" />
                 </a>
             </div>
@@ -99,8 +99,20 @@
 <p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>
 <p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>
 <p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>aageegtt
-    
-        <div id="shortcutConfigurationDialog" class="tooltip" tid="configureShortcuts.label">
+
+        <div id="shortcutConfigurationWarningDialog" class="tooltip" tid="configureShortcuts.warningdialog.label">
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+                <span id="shortcutConfigurationWarningDialogText" class='label' lid='shortcutConfigurationWarningDialogText.label' la0='' la1='' la2=''></span>
+            </p>
+        </div>
+        <div id="shortcutConfigurationDialog" class="tooltip" tid="configureShortcuts.dialog.label">
+            <p style="margin-bottom: 40px;">
+                <button class="ui-button ui-widget ui-corner-all" style="float:right;" onclick="javascript: downloadShortcuts()">
+                    <span class="ui-icon ui-icon-disk"></span><span class="label" lid="buttonDownload"></span>
+                </button>
+                <input type="file" id="uploadShortcutsFileField" onchange="javascript: uploadShortcuts();" autocomplete="off" style="float:right;" />
+            </p>
             <div id="shortcutConfigurationDialogContent"></div>
         </div>
         <div id="invisibleHelperObjects">
@@ -125,6 +137,54 @@
                     $(".dialogCancelButton").text(languageDicts[language]["dict"]["buttonCancel"]);
                     diag.dialog("open");
                 }
+                function getNewShortcuts() {
+                    var result = {};
+                    result["actions"] = shortcuts["actions"];
+                    for(var actionNr=0; actionNr < shortcuts["actions"].length; actionNr++) {
+                        var action = shortcuts["actions"][actionNr];
+                        var shortcut = document.getElementById("shortcut" + action + "edit").value;
+                        if(shortcut != "-") {
+                            if(typeof result["_" + shortcut] === "undefined") {
+                                result["_" + shortcut] = action;
+                            } else {
+                                console.log("WARNING: Duplicated shortcut: '_" + shortcut + "'!");
+                                var diag = $( "#shortcutConfigurationWarningDialog" );
+                                diag.dialog('option', 'title', languageDicts[language]["dict"]["configureShortcuts.warningdialog.label"]);
+                                var ele = $("#shortcutConfigurationWarningDialogText");
+                                ele.attr("la0", languageDicts[language]["dict"][action + ".label"]);
+                                ele.attr("la1", languageDicts[language]["dict"][result["_" + shortcut] + ".label"]);
+                                ele.attr("la2", shortcut);
+                                $(".dialogOkButton").text(languageDicts[language]["dict"]["buttonOk"]);
+                                setLanguage(language);
+                                diag.dialog( "open" );
+                                return null;
+                            }
+                        }
+                    }
+                    return result;
+                }
+                function downloadShortcuts() {
+                    var newShortcuts = getNewShortcuts();
+                    if(newShortcuts != null) {
+                        var b64 = window.btoa(JSON.stringify(newShortcuts));
+                        $("body").append($("<a id='downloadLink' href-lang='application/json' href='data:application/json;base64,\n"+b64+"' title='shortcuts.dat' style='display:none' download='shortcuts.dat'>Download</a>"));
+                        document.getElementById('downloadLink').click();
+                        $("#downloadLink").remove();
+                    }
+                }
+                function uploadShortcuts() {
+                    console.log("INFO: Uploading new shortcuts!");
+                    reader = new FileReader();
+                    var files = files = document.getElementById('uploadShortcutsFileField').files;
+                    for (var i = 0, f; f = files[i]; i++) {
+                        reader.onload = function(data) {
+                            console.log("INFO: shortcut data: " + data.target.result);
+                            shortcuts = JSON.parse(data.target.result);
+                            $( "#shortcutConfigurationDialog" ).dialog("close");
+                        };
+                        reader.readAsText(f);
+                    }
+                }
             </script>
         </div>
         <a name="bottom"></a>
@@ -134,20 +194,51 @@
             // tooltip & other jquery-ui objects
             $( document ).tooltip();
             $( '#mainToolsToolbox' ).menu();
+            $( "#shortcutConfigurationWarningDialog" ).dialog({
+                modal: true,
+                autoOpen: false,
+                buttons: [{
+                    "text" : languageDicts[language]["dict"]["buttonOk"],
+                    "class" : "dialogOkButton",
+                    "click" : function() {
+                        $( this ).dialog( "close" );
+                    }
+                }]
+            });
             $( "#shortcutConfigurationDialog" ).dialog({
                 autoOpen: false,
                 height: 400,
-                width: 350,
+                width: 750,
                 modal: true,
                 open : function() {
-                    // TODO fill out shortcutConfigurationDialogContent
+                    var html = "<table class='dataContentTable'><tr class='header'><td class='label left' lid='shortcutAction.label'></td><td class='label right' lid='shortcutValue.label'></td></tr>";
+                    var counter = 0;
+                    for(var actionNr=0; actionNr < shortcuts["actions"].length; actionNr++) {
+                        var action = shortcuts["actions"][actionNr];
+                        html += "<tr class='" + ((counter % 2 == 0) ? "even" : "odd") +"'><td><span class='label' lid='" + action + ".label'></span></td><td align='right'><input id='shortcut" + action + "edit' type='text' value='-' style='text-align: right;'></td></tr>";
+                        counter++;
+                    }
+                    html += "</table>";
+                    $("#shortcutConfigurationDialogContent").html(html);
+                    for(key in shortcuts) {
+                        if(key.startsWith("_")) {
+                            var value = shortcuts[key];
+                            key = key.substr(1);
+                            document.getElementById("shortcut" + value + "edit").value = key;
+                            counter++;
+                        }
+                    }
+                    setLanguage(language);
                 },
                 buttons: [{
                         "text" : languageDicts[language]["dict"]["buttonSave"],
                         "class" : "dialogSaveButton",
                         "click" : function() {
-                            // TODO: save to shortcuts
-                            $( "#shortcutConfigurationDialog" ).dialog("close");
+                            var newShortcuts = getNewShortcuts();
+                            if(newShortcuts != null) {
+                                shortcuts = newShortcuts;
+                                $( "#shortcutConfigurationDialog" ).dialog("close");
+                            }
                         }
                     }, {
                         "text" : languageDicts[language]["dict"]["buttonCancel"],
@@ -164,7 +255,7 @@
             });
             // do shortcut handling
             document.onkeydown = function(event) {
-                var mod = "";
+                var mod = "_";
                 if(event.ctrlKey)  mod = mod + "c";
                 if(event.altKey)   mod = mod + "a";
                 if(event.shiftKey) mod = mod + "s";
@@ -173,7 +264,7 @@
                 if(typeof shortcuts[mod] != "undefined") {
                     console.log("INFO: exec '" + shortcuts[mod] + "'!");
                     handleEvent(shortcuts[mod]);
-                    e.preventDefault();
+                    event.preventDefault();
                 }
             }
         </script>

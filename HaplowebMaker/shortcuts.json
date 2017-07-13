@@ -1,5 +1,7 @@
 {
-    "s78" : "newInstance",
-    "s85" : "scrollUp",
-    "s68" : "scrollDown"
+    "actions" : [ "newInstance", "scrollUp", "scrollDown", "openMainToolsToolbox" ],
+    "_s78" : "newInstance",
+    "_s85" : "scrollUp",
+    "_s68" : "scrollDown",
+    "_s84" : "openMainToolsToolbox"
 }

@@ -5,6 +5,11 @@
   "dict" : {
     "buttonSave" : "Save",
     "buttonCancel" : "Cancel",
+    "buttonOk" : "Ok",
+    "buttonDownload" : "Download",
+    "configureShortcuts.warningdialog.label" : "Ambiguous shortcut",
+    "shortcutConfigurationWarningDialogText.label" : "Error: The shortcut '{2}' cannot be used for action '{0}' and action '{1}' simultanously!",
+    "openMainToolsToolbox.label" : "Open basic tools box",
     "openMainToolsToolbox.title" : "Opens (and closes) a toolbox that contains the most basic tools",
     "newInstance.label" : "New instance",
     "newInstance.title" : "Open a new instance of this program",
@@ -17,6 +22,9 @@
     "language.label" : "Language",
     "language.title" : "Language settings",
     "configureShortcuts.label" : "Shortcuts",
-    "configureShortcuts.title" : "Configure the shortcuts of this page"
+    "configureShortcuts.dialog.label" : "Shortcuts",
+    "configureShortcuts.title" : "Configure the shortcuts of this page",
+    "shortcutAction.label" : "Action",
+    "shortcutValue.label" : "Value"
   }
 }

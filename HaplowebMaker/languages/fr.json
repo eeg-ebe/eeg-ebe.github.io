@@ -5,6 +5,11 @@
   "dict" : {
     "buttonSave" : "Enregistrer",
     "buttonCancel" : "Annuler",
+    "buttonOk" : "Ok",
+    "buttonDownload" : "Télécharger",
+    "configureShortcuts.warningdialog.label" : "Raccourci ambigu",
+    "shortcutConfigurationWarningDialogText.label" : "Erreur: Le raccourci '{2}' ne peut pas être utiliser pour l'opération '{0}' et pour l'opération '{1}' en même temps!",
+    "openMainToolsToolbox.label" : "Ouvrir la boîte à outils",
     "openMainToolsToolbox.title" : "Ouvrir (ou fermer) une boîte à outils contenant les outils les plus élémentaires",
     "newInstance.label" : "Nouvelle instance",
     "newInstance.title" : "Ouvrir une nouvelle instance de ce programme",
@@ -17,6 +22,10 @@
     "language.label" : "Langue",
     "language.title" : "Paramètres de langue",
     "configureShortcuts.label" : "Raccourci de clavier",
-    "configureShortcuts.title" : "Configuration des raccourcis de la page"
+    "configureShortcuts.dialog.label" : "Raccourci de clavier",
+    "configureShortcuts.title" : "Configuration des raccourcis de la page",
+    "shortcutAction.label" : "Opération",
+    "shortcutValue.label" : "Valeur"
+
   }
 }

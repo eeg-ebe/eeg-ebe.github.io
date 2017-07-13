@@ -5,6 +5,11 @@
   "dict" : {
     "buttonSave" : "Speichern",
     "buttonCancel" : "Abbrechen",
+    "buttonOk" : "Ok",
+    "buttonDownload" : "Herunterladen",
+    "configureShortcuts.warningdialog.label" : "Doppeldeutige Tastenkombination",
+    "shortcutConfigurationWarningDialogText.label" : "Fehler: Die Tastenkombination '{2}' kann nicht gleichzeitig für die Aktion '{0}' und die Aktion '{1}' verwendet werden!",
+    "openMainToolsToolbox.label" : "Werkzeugbox öffnen",
     "openMainToolsToolbox.title" : "Öffnet (und schließt) eine Toolbox die die wichtigsten Werkzeuge enthält",
     "newInstance.label" : "Neue Instanz",
     "newInstance.title" : "Öffne eine neue Instanz dieses Programmes",
@@ -17,6 +22,9 @@
     "language.label" : "Sprache",
     "language.title" : "Spracheinstellungen",
     "configureShortcuts.label" : "Tastenkombinationen",
-    "configureShortcuts.title" : "Seitentastenkombinationen konfigurieren"
+    "configureShortcuts.dialog.label" : "Tastenkombinationen",
+    "configureShortcuts.title" : "Seitentastenkombinationen konfigurieren",
+    "shortcutAction.label" : "Aktion",
+    "shortcutValue.label" : "Wert"
   }
 }
