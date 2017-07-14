@@ -9,7 +9,6 @@
         <script src="external/jquery.js"></script>
         <script src="external/jquery-ui.min.js"></script>
         <script src="scripts/util.js"></script>
-        <script src="scripts/MJAlgo.js"></script>
         <script>
             // load shortcuts
             shortcuts = {};
@@ -130,7 +129,6 @@
                             <span class="label tooltip" lid="usedSoftware.label" tid="usedSoftware.title"></span>
                         </div>
                     </li>
-                </div>
                 </ul>
             </li>            
             <li>
@@ -152,7 +150,7 @@
                     <td class="label" lid="jobSubmissionJobName.label"></td>
                     <td style="text-align: right"><input type="text" id="jobname" name="jobname" /></td>
                 </tr>
-                <tr class="tooltip" tid="jobSubmissionFasta.title"">
+                <tr class="tooltip" tid="jobSubmissionFasta.title">
                     <td class="label" lid="jobSubmissionFasta.label"></td>
                     <td style="text-align: right"><input type="file" id="faAlign" name="faAlign" multiple="" /></td>
                 </tr>
@@ -309,7 +307,13 @@
                     $("#calculationOverlay").show();
                     // check the data that was given!
                     project["projectName"] = document.getElementById("jobname").value;
-                    
+/*
+                    var w = new Worker("scripts/MJAlgoWorker.js")
+w.addEventListener("message", function(e) {
+          alert(e.data);
+      }, false);
+w.postMessage({"epsilon": 0, "seqs": [{"name": "A", "seq":"00000"}, {"name": "A", "seq":"00010"}, {"name": "A", "seq":"10000"}]})
+*/
 console.log(jobName);
 //                    $("#submitNewSequencesDiv").hide();
                     // TODO
