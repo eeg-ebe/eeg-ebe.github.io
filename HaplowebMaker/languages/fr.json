@@ -14,6 +14,10 @@
     "openMainToolsToolbox.title" : "Ouvrir (ou fermer) une boîte à outils contenant les outils les plus élémentaires",
     "newInstance.label" : "Nouvelle instance",
     "newInstance.title" : "Ouvrir une nouvelle instance de ce programme",
+    "loadProject.label" : "Charger un project",
+    "loadProject.title" : "Charger un project",
+    "saveProject.label" : "Enregistrer le projet",
+    "saveProject.title" : "Enregistrer le projet",
     "navigation.label" : "Navigation",
     "navigation.title" : "Actions de navigation",
     "scrollUp.label" : "Défiler en haut",
@@ -34,7 +38,21 @@
     "configureShortcuts.dialog.label" : "Raccourci de clavier",
     "configureShortcuts.title" : "Configuration des raccourcis de la page",
     "shortcutAction.label" : "Opération",
-    "shortcutValue.label" : "Valeur"
-
+    "shortcutValue.label" : "Valeur",
+    "jobSubmissionJobName.title" : "Un identifiant facultatif pour le calcul!",
+    "jobSubmissionJobName.label" : "Nom du calcul(*):",
+    "jobSubmissionFasta.title" : "Veuillez télécharger un alignement FASTA dans lequel les noms des séquences de l'individu XXX sont sous la forme XXX_* (Où * peut être un nombre, une lettre ou un caractère arbitraire que vous utilisez pour distinguer les différents haplotypes trouvés en commun chez un individu donné)",
+    "jobSubmissionFasta.label" : "Fasta alignment(s)(**):",
+    "jobSubmissionButton.label" : "Soumettez le calcul",
+    "jobSubmissionButton.title" : "Soumettez le calcul",
+    "jobSubmissionJobNameExp.label" : "(*) Un identifiant facultatif pour le calcul!",
+    "jobSubmissionFastaExp.label" : "(**) Un/Des alignement(s) de FASTA dans le(s)quel(les) les noms des séquences de l'individu XXX sont sous la forme XXX_* (Où * peut être un nombre, une lettre ou un caractère arbitraire que vous utilisez pour distinguer les différents haplotypes trouvés en commun chez un individu donné)",
+    "jobsubmission.label" : "Soumettez le calcul",
+    "exemplaryFastaFileDownloadLink.label" : "Télécharge les alignmenets exemplaire",
+    "jobSubmissionAdvancedSettings.label" : "Paramètres avancés",
+    "jobSubmissionAdvancedSettingsMJFasta.label" : "Ne pas distinguer les lettres majuscules et minuscules",
+    "jobSubmissionAdvancedSettingsMJFasta.title" : "Si ce paramètre est active ce programme ne va pas distunger les lettres majuscules et minuscules dans les noms et sequences",
+    "jobSubmissionAdvancedSettingsMJEpsilon.label" : "Epsilon",
+    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "Le paramètre epsilon du median joining algorithm (voir Bandelt et al.)"
   }
 }

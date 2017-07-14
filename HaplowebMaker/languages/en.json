@@ -14,6 +14,10 @@
     "openMainToolsToolbox.title" : "Opens (and closes) a toolbox that contains the most basic tools",
     "newInstance.label" : "New instance",
     "newInstance.title" : "Open a new instance of this program",
+    "loadProject.label" : "Load project",
+    "loadProject.title" : "Load a project",
+    "saveProject.label" : "Save project",
+    "saveProject.title" : "Save this project",
     "navigation.label" : "Navigation",
     "navigation.title" : "Navigation actions",
     "scrollUp.label" : "Scroll up",
@@ -34,6 +38,21 @@
     "configureShortcuts.dialog.label" : "Shortcuts",
     "configureShortcuts.title" : "Configure the shortcuts of this page",
     "shortcutAction.label" : "Action",
-    "shortcutValue.label" : "Value"
+    "shortcutValue.label" : "Value",
+    "jobSubmissionJobName.title" : "An optional id for your job!",
+    "jobSubmissionJobName.label" : "Job name(*):",
+    "jobSubmissionFasta.title" : "Please upload a FASTA alignment in which the names of the sequences of individual XXX are in the form XXX_* (where * can be a number, a letter or any symbol you use to distinguish the various haplotypes found co-occurring in a given individual)",
+    "jobSubmissionFasta.label" : "Fasta alignment(s)(**):",
+    "jobSubmissionButton.label" : "Submit job",
+    "jobSubmissionButton.title" : "Submit your job",
+    "jobSubmissionJobNameExp.label" : "(*) OPTIONAL - ID name for your job.",
+    "jobSubmissionFastaExp.label" : "(**) FASTA alignment(s) in which the names of the sequences of individual XXX are in the form XXX_* (where * can be a number, a letter or any symbol you use to distinguish the various haplotypes found co-occurring in a given individual)",
+    "jobsubmission.label" : "Job submission",
+    "exemplaryFastaFileDownloadLink.label" : "Download exemplary FASTA alignment files",
+    "jobSubmissionAdvancedSettings.label" : "Advanced Settings",
+    "jobSubmissionAdvancedSettingsMJFasta.label" : "Ignore upper and lower case",
+    "jobSubmissionAdvancedSettingsMJFasta.title" : "If this parameter is activated this program will not differenciate upper- and lowercase characters in the names and sequences",
+    "jobSubmissionAdvancedSettingsMJEpsilon.label" : "Epsilon",
+    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "The epsilon parameter of the median joining algorithmus (see Bandelt et al.)"
   }
 }

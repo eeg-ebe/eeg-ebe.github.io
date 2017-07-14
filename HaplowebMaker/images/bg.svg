@@ -1,5 +1,5 @@
-<svg version="1.1" baseProfile="full" width="600" height="346" xmlns="http://www.w3.org/2000/svg">
-<rect x='0' y='0' width='560' height='346' fill='white' />
+<svg version="1.1" baseProfile="full" width="600" height="190" xmlns="http://www.w3.org/2000/svg">
+<rect x='0' y='0' width='600' height='190' fill='white' />
 <g stroke='blue' fill='none'>
 <path d="M 50.4809982659 88.0315227741 Q 116.018655611 121.925479203 149.91261204 56.3878218578" stroke-width='2' />
 <path d="M 50.4809982659 88.0315227741 Q 47.0434867144 132.454135858 91.4660997978 135.891647409" stroke-width='4' />

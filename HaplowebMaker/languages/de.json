@@ -14,6 +14,10 @@
     "openMainToolsToolbox.title" : "Öffnet (und schließt) eine Toolbox die die wichtigsten Werkzeuge enthält",
     "newInstance.label" : "Neue Instanz",
     "newInstance.title" : "Öffne eine neue Instanz dieses Programmes",
+    "loadProject.label" : "Projekt laden",
+    "loadProject.title" : "Lade ein Projekt",
+    "saveProject.label" : "Projekt speichern",
+    "saveProject.title" : "Das Projekt abspeichern",
     "navigation.label" : "Navigation",
     "navigation.title" : "Navigationsaktionen",
     "scrollUp.label" : "Hochscrollen",
@@ -34,6 +38,21 @@
     "configureShortcuts.dialog.label" : "Tastenkombinationen",
     "configureShortcuts.title" : "Tastenkombinationen der Webseite konfigurieren",
     "shortcutAction.label" : "Aktion",
-    "shortcutValue.label" : "Wert"
+    "shortcutValue.label" : "Wert",
+    "jobSubmissionJobName.title" : "Eine optionale Id für diesen Job!",
+    "jobSubmissionJobName.label" : "Name des Jobs(*):",
+    "jobSubmissionFasta.title" : "Bitte laden Sie ein FASTA-Alignment hoch, in welchen die Sequenznamen von Individuum XXX in der form XXX_* abgespeichert sind (wobei * eine Zahl, eine Nummer oder jegliches andere Symbol sein kann um zwischen den Haplotypen des Individuums zu unterscheiden)",
+    "jobSubmissionFasta.label" : "Fasta alignment(s)(**):",
+    "jobSubmissionButton.label" : "Weiter",
+    "jobSubmissionButton.title" : "Den Job losschicken",
+    "jobSubmissionJobNameExp.label" : "(*) Eine optionale Id für diesen Job",
+    "jobSubmissionFastaExp.label" : "(**) Fasta alignment(s), in welchen die Sequenznamen von Individuum XXX in der form XXX_* abgespeichert sind (wobei * eine Zahl, eine Nummer oder jegliches andere Symbol sein kann um zwischen den Haplotypen des Individuums zu unterscheiden)",
+    "jobsubmission.label" : "Job starten",
+    "exemplaryFastaFileDownloadLink.label" : "Beispiel FASTA-Alignments herunterladen",
+    "jobSubmissionAdvancedSettings.label" : "Erweiterte Einstellungen",
+    "jobSubmissionAdvancedSettingsMJFasta.label" : "Groß- und Kleinschreibung ignorieren",
+    "jobSubmissionAdvancedSettingsMJFasta.title" : "Wenn dieser Parameter aktiviert ist, wird nicht zwischen Groß- und Kleinbuchstaben in den Namen und in den Sequenzen unterschieden",
+    "jobSubmissionAdvancedSettingsMJEpsilon.label" : "Epsilon",
+    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "Der epsilon Parameter des Median Joining Algorithmus (siehe Bandelt et al.)"
   }
 }

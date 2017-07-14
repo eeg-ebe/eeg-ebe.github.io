@@ -113,3 +113,10 @@ function jump(anchor) {
     location.href = "#" + anchor;
     history.replaceState(null, null, url);
 }
+
+function download(mime, filename, filecontent) {
+    var b64 = window.btoa(filecontent);
+    $("body").append($("<a id='downloadLink' href-lang='" + mime + "' href='data:" + mime + ";base64,\n"+b64+"' title='" + filename + "' style='display:none' download='" + filename + "'>Download</a>"));
+    document.getElementById('downloadLink').click();
+    $("#downloadLink").remove();
+}

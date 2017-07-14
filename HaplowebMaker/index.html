@@ -9,6 +9,7 @@
         <script src="external/jquery.js"></script>
         <script src="external/jquery-ui.min.js"></script>
         <script src="scripts/util.js"></script>
+        <script src="scripts/MJAlgo.js"></script>
         <script>
             // load shortcuts
             shortcuts = {};
@@ -34,14 +35,25 @@
                     console.log("WARNING: language '" + urlParams['lang'] + "' not found!");
                 }
             }
+            // create a new empty project
+            project = {
+                "projectName" : null,
+                "markers" : []
+            };
         </script>
     </head>
     <body>
         <a name="top"></a>
+        <div id="calculationOverlay" class="ui-widget-overlay ui-front" style="z-index: 100">
+            <div class="centerEverythingWrapper">
+                <img src="images/loading.gif" style="z-index:105"/>
+            </div>
+        </div>
         <div id="banner">
             <div style="padding: 10">
-                <a href="#" id="mainToolsOpener" class="tooltip shortcut" shortcut="openMainToolsToolbox" tid="openMainToolsToolbox.title" onclick="javascript: $('#mainToolsToolbox').toggle();">
+                <a id="mainToolsOpener" class="tooltip shortcut" shortcut="openMainToolsToolbox" tid="openMainToolsToolbox.title" onclick="javascript: $('#mainToolsToolbox').toggle();">
                     <img id="logoImg" src="images/logo.svg" />
+                    <span style="vertical-align: middle; height: 40; font: italic 32px Verdana; text-decoration: none; color: lightgray;">&nbsp;HaplowebMaker</span>
                 </a>
             </div>
         </div>
@@ -52,7 +64,16 @@
                     <span class="ui-icon ui-icon-plus"></span><span class="label tooltip" lid="newInstance.label" tid="newInstance.title"></span>
                 </div>
             </li>
-            <!-- TODO: load save -->
+            <li>
+                <div class="shortcut" shortcut="loadProject" onclick="javascript: loadProject();">
+                    <span class="ui-icon ui-icon-folder-open"></span><span class="label tooltip" lid="loadProject.label" tid="loadProject.title"></span>
+                </div>
+            </li>
+            <li>
+                <div class="shortcut" shortcut="saveProject" onclick="javascript: saveProject();">
+                    <span class="ui-icon ui-icon-disk"></span><span class="label tooltip" lid="saveProject.label" tid="saveProject.title"></span>
+                </div>
+            </li>
             <li>
                 <div>
                     <span class="ui-icon ui-icon-arrow-4-diag"></span>
@@ -85,6 +106,34 @@
                 </ul>
             </li>
             <li>
+                <div>
+                    <span class="ui-icon ui-icon-note"></span>
+                    <span class="label tooltip" lid="documentation.label" tid="documentation.title"></span>
+                </div>
+                <ul>
+                    <!-- TODO: documentation-->
+                    <li>
+                        <div class="shortcut" shortcut="cite" onclick="javascript: showCite();">
+                            <span class="ui-icon ui-icon-star"></span>
+                            <span class="label tooltip" lid="cite.label" tid="cite.title"></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="shortcut" shortcut="contact" onclick="javascript: window.location='mailto: Yann Spöri <ga29qal@mytum.de>'">
+                            <span class="ui-icon ui-icon-contact"></span>
+                            <span class="label tooltip" lid="contact.label" tid="contact.title"></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="shortcut" shortcut="usedSoftware" onclick="javascript: showUsedSoftware();">
+                            <span class="ui-icon ui-icon-link"></span>
+                            <span class="label tooltip" lid="usedSoftware.label" tid="usedSoftware.title"></span>
+                        </div>
+                    </li>
+                </div>
+                </ul>
+            </li>            
+            <li>
                 <div class="shortcut" shortcut="configureShortcuts" onclick="javascript: configureShortcuts();">
                     <span class="ui-icon ui-icon-gear"></span><span class="label tooltip" lid="configureShortcuts.label" tid="configureShortcuts.title"></span>
                 </div>
@@ -94,20 +143,59 @@
             <img style="z-index: 25; position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png">
         </a>
 
-<p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>sdfg
-<p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>
-<p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>
-<p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>
-<p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p><p><br/><br/><br/></p>aageegtt
+        <!-- Main content start -->
 
-        <div id="shortcutConfigurationWarningDialog" class="tooltip" tid="configureShortcuts.warningdialog.label">
+        <div id="submitNewSequencesDiv" class="centerEverythingWrapper" style="width: 50.0%;">
+            <img src="images/bg.svg"/>
+            <table id="jobSubmissionTable" class="ui-corner-all">
+                <tr class="tooltip" tid="jobSubmissionJobName.title">
+                    <td class="label" lid="jobSubmissionJobName.label"></td>
+                    <td style="text-align: right"><input type="text" id="jobname" name="jobname" /></td>
+                </tr>
+                <tr class="tooltip" tid="jobSubmissionFasta.title"">
+                    <td class="label" lid="jobSubmissionFasta.label"></td>
+                    <td style="text-align: right"><input type="file" id="faAlign" name="faAlign" multiple="" /></td>
+                </tr>
+                <tr>
+                    <td onclick="javascript: $('.advancedSettings').toggle(); $('#advancedSettingsIcon').toggleClass('ui-icon-triangle-1-e ui-icon-triangle-1-s');" style="cursor:pointer"><span id="advancedSettingsIcon" class="ui-icon ui-icon-triangle-1-e"></span><span class="label" lid="jobSubmissionAdvancedSettings.label">Erweiterete Einstellungen</span></td>
+                    <td></td>
+                </tr>
+                <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsMJFasta.title">
+                    <td class="label" lid="jobSubmissionAdvancedSettingsMJFasta.label"></td>
+                    <td style="text-align: right"><input type="checkbox" name="ignoreUpperLower" id="ignoreUpperLower" checked="cheched"></td>
+                </tr>
+                <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsMJEpsilon.title">
+                    <td class="label" lid="jobSubmissionAdvancedSettingsMJEpsilon.label"></td>
+                    <td style="text-align: right"><input id="epsilon" name="value" value="0"><script>$("#epsilon").spinner()</script></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align: right"><button id="jobSubmissionButton" class="ui-button ui-widget ui-corner-all shortcut label tooltip" shortcut="jobsubmission" lid="jobSubmissionButton.label" tid="jobSubmissionButton.title" onclick="javascript: addNewSequencesToProject();"></button></td>
+                </tr>
+            </table>
+            <div style="font-size: 75%; padding: 5px">
+                <span class="label" lid="jobSubmissionJobNameExp.label"></span><br/>
+                <span class="label" lid="jobSubmissionFastaExp.label"></span> [<a class="label" lid="exemplaryFastaFileDownloadLink.label" href="examples.zip"></a>]
+            </div>
+        </div>
+
+        <!-- Main content end -->
+
+        <div id="genericInfoDialog">
             <p>
-                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+                <span class="ui-icon ui-icon-info" style="float:left;margin:0 7px 0 0;"></span>
+                <div id="genericInfoDialogContent" style="margin:0 0 0 23px"></div>
+            </p>
+        </div>
+        <div id="shortcutConfigurationWarningDialog">
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float:left;margin:0 7px 50px 0;"></span>
                 <span id="shortcutConfigurationWarningDialogText" class='label' lid='shortcutConfigurationWarningDialogText.label' la0='' la1='' la2=''></span>
             </p>
         </div>
         <div id="shortcutConfigurationDialog" class="tooltip" tid="configureShortcuts.dialog.label">
-            <p style="margin-bottom: 40px;">
+            <p style="margin-bottom: 5px;">
+                <input id='availableActionsAutoComplete' class="searchField" autocomplete="off" />
                 <button class="ui-button ui-widget ui-corner-all" style="float:right;" onclick="javascript: downloadShortcuts()">
                     <span class="ui-icon ui-icon-disk"></span><span class="label" lid="buttonDownload"></span>
                 </button>
@@ -120,6 +208,41 @@
             <a id="scrollUpLink" href="#top"></a>
             <a id="scrollDownLink" href="#bottom"></a>
             <script>
+                function showCite() {
+                    $("#calculationOverlay").show();
+                    $.getJSON("cite.json", function(data) {
+                        var dialog = $("#genericInfoDialog");
+                        dialog.dialog('option', 'title', languageDicts[language]["dict"]["cite.label"]);
+                        var html = "";
+                        for(var id=0; id < data.length; id++) {
+                            var paper = data[id];
+                            html += "<div style='margin-bottom: 7px'><span class='ui-icon ui-icon-triangle-1-e'></span>" + paper["ref"] + " [<a href='" + paper["link"] + "'>Link</a>]</div>";
+                        }
+                        $("#genericInfoDialogContent").html(html);
+                        dialog.dialog("open");
+                        $("#calculationOverlay").hide();
+                    });
+                }
+                function showUsedSoftware() {
+                    $("#calculationOverlay").show();
+                    $.getJSON("usedSoftware.json", function(data) {
+                        var dialog = $("#genericInfoDialog");
+                        dialog.dialog('option', 'title', languageDicts[language]["dict"]["usedSoftware.label"]);
+                        var html = "";
+                        for(var id=0; id < data.length; id++) {
+                            var soft = data[id];
+                            html += "<div style='margin-bottom: 7px'><span class='ui-icon ui-icon-triangle-1-e'></span><b>" + soft["name"] + "</b><span style='float:right'>[<a href='" + soft["license"] + "'>License</a>]</span><br>";
+                            for(uid in soft["urls"]) {
+                                var url = soft["urls"][uid];
+                                html += "<a href='" + url + "'>" + url + "</a><br>";
+                            }
+                            html += "</div>";
+                        }
+                        $("#genericInfoDialogContent").html(html);
+                        dialog.dialog("open");
+                        $("#calculationOverlay").hide();
+                    });
+                }
                 function openNewInstance() {
                     $("#newInstanceLink").attr("href", "index.html?lang=" + language);
                     document.getElementById("newInstanceLink").click();
@@ -131,11 +254,7 @@
                     document.getElementById("scrollDownLink").click();
                 }
                 function configureShortcuts() {
-                    var diag = $( "#shortcutConfigurationDialog" );
-                    diag.dialog('option', 'title', languageDicts[language]["dict"]["configureShortcuts.label"]);
-                    $(".dialogSaveButton").text(languageDicts[language]["dict"]["buttonSave"]);
-                    $(".dialogCancelButton").text(languageDicts[language]["dict"]["buttonCancel"]);
-                    diag.dialog("open");
+                    $( "#shortcutConfigurationDialog" ).dialog("open");
                 }
                 function getNewShortcuts() {
                     var result = {};
@@ -185,6 +304,18 @@
                         reader.readAsText(f);
                     }
                 }
+                function addNewSequencesToProject() {
+                    // show the calculation panel
+                    $("#calculationOverlay").show();
+                    // check the data that was given!
+                    project["projectName"] = document.getElementById("jobname").value;
+                    
+console.log(jobName);
+//                    $("#submitNewSequencesDiv").hide();
+                    // TODO
+                }
+                function loadProject() { console.log("loading"); } // TODO
+                function saveProject() { console.log("save"); } // TODO
             </script>
         </div>
         <a name="bottom"></a>
@@ -203,19 +334,54 @@
                     "click" : function() {
                         $( this ).dialog( "close" );
                     }
-                }]
+                }],
+                open: function() {
+                    $(".dialogOkButton").text(languageDicts[language]["dict"]["buttonOk"]);
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }
+            });
+            $( "#genericInfoDialog" ).dialog({
+                modal: true,
+                autoOpen: false,
+                height: 400,
+                width: 750,
+                buttons: [{
+                    "text" : languageDicts[language]["dict"]["buttonOk"],
+                    "class" : "dialogOkButton",
+                    "click" : function() {
+                        $( this ).dialog( "close" );
+                    }
+                }],
+                open: function() {
+                    $(".dialogOkButton").text(languageDicts[language]["dict"]["buttonOk"]);
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }
             });
             $( "#shortcutConfigurationDialog" ).dialog({
                 autoOpen: false,
                 height: 400,
                 width: 750,
                 modal: true,
-                open : function() {
+                open: function() {
+                    // set text
+                    $(this).dialog('option', 'title', languageDicts[language]["dict"]["configureShortcuts.label"]);
+                    $(".dialogSaveButton").text(languageDicts[language]["dict"]["buttonSave"]);
+                    $(".dialogCancelButton").text(languageDicts[language]["dict"]["buttonCancel"]);
+                    $("#availableActionsAutoComplete").attr("placeholder", languageDicts[language]["dict"]["searchbarplaceholdertext"]);
+                    // set content
                     var html = "<table class='dataContentTable'><tr class='header'><td class='label left' lid='shortcutAction.label'></td><td class='label right' lid='shortcutValue.label'></td></tr>";
                     var counter = 0;
+                    var availableActions = new Array();
                     for(var actionNr=0; actionNr < shortcuts["actions"].length; actionNr++) {
                         var action = shortcuts["actions"][actionNr];
-                        html += "<tr class='" + ((counter % 2 == 0) ? "even" : "odd") +"'><td><span class='label' lid='" + action + ".label'></span></td><td align='right'><input id='shortcut" + action + "edit' type='text' value='-' style='text-align: right;'></td></tr>";
+                        availableActions.push(action);
+                        html += "<tr id='shortcut" + action + "tr' class='" + ((counter % 2 == 0) ? "even" : "odd") +"'><td><a name='shortcut" + action + "anchor'></a><span class='label' lid='" + action + ".label'></span></td><td align='right'><input id='shortcut" + action + "edit' type='text' value='-' style='text-align: right;'></td></tr>";
                         counter++;
                     }
                     html += "</table>";
@@ -224,10 +390,24 @@
                         if(key.startsWith("_")) {
                             var value = shortcuts[key];
                             key = key.substr(1);
-                            document.getElementById("shortcut" + value + "edit").value = key;
-                            counter++;
+                            var ele = document.getElementById("shortcut" + value + "edit");
+                            if(ele != null) {
+                                ele.value = key;
+                                $(ele).attr("placeholder", key);
+                                counter++;
+                            }
                         }
                     }
+                    // damn autocomplete
+                    var control = $( "#availableActionsAutoComplete" );
+                    control.autocomplete({
+                        source: availableActions,
+                        select: function(event, ui) {
+                            jump("shortcut" + ui.item.value + "anchor");
+                            javascript:$("#shortcut" + ui.item.value + "tr").effect('highlight', {color: 'red'}, 1750);
+                        }
+                    });
+                    control.focus(function(){$(this).val('');});
                     setLanguage(language);
                 },
                 buttons: [{
@@ -254,19 +434,24 @@
                 }
             });
             // do shortcut handling
-            document.onkeydown = function(event) {
-                var mod = "_";
-                if(event.ctrlKey)  mod = mod + "c";
-                if(event.altKey)   mod = mod + "a";
-                if(event.shiftKey) mod = mod + "s";
-                mod = mod + event.keyCode;
-                console.log("INFO: pressed '" + mod + "'!");
-                if(typeof shortcuts[mod] != "undefined") {
-                    console.log("INFO: exec '" + shortcuts[mod] + "'!");
-                    handleEvent(shortcuts[mod]);
-                    event.preventDefault();
+            $("body").keydown(function(event) {
+                var fobj = $(':focus');
+                if(!fobj.is("input") && !fobj.is("textarea")) {
+                    var mod = "_";
+                    if(event.ctrlKey)  mod = mod + "c";
+                    if(event.altKey)   mod = mod + "a";
+                    if(event.shiftKey) mod = mod + "s";
+                    mod = mod + event.keyCode;
+                    console.log("INFO: pressed '" + mod + "'!");
+                    if(typeof shortcuts[mod] != "undefined") {
+                        console.log("INFO: exec '" + shortcuts[mod] + "'!");
+                        handleEvent(shortcuts[mod]);
+                        event.preventDefault();
+                    }
                 }
-            }
+            });
+            // everything done -> remove overlay
+            $("#calculationOverlay").hide();
         </script>
     </body>
 </html>
