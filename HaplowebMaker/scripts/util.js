@@ -60,6 +60,12 @@ function setLanguage(lang) {
     $(".tooltip").each(function() {
         setTxt(this, false);
     });
+    if(isEmptyDict(project)) {
+        document.title = "HaplowebMaker";
+    } else {
+        document.title = ((project["projectName"] == undefined || project["projectName"] == null || project["projectName"] == "") ?
+            languageDicts[language]["dict"]["emptyProjectName"] : project["projectName"]) + " - HaplowebMaker";
+    }
 }
 
 function setTxt(obj, lbl) {
@@ -101,7 +107,7 @@ function setTxt(obj, lbl) {
 
 function handleEvent(eventName) {
     $(".shortcut").each(function () {
-        if($(this).attr("shortcut") == eventName) {
+        if($(this).attr("shortcut") == eventName && !$(this).hasClass("ui-state-disabled")) {
             this.click();
             return false;
         }
@@ -119,4 +125,8 @@ function download(mime, filename, filecontent) {
     $("body").append($("<a id='downloadLink' href-lang='" + mime + "' href='data:" + mime + ";base64,\n"+b64+"' title='" + filename + "' style='display:none' download='" + filename + "'>Download</a>"));
     document.getElementById('downloadLink').click();
     $("#downloadLink").remove();
+}
+
+function isEmptyDict(obj) {
+  return Object.keys(obj).length === 0;
 }

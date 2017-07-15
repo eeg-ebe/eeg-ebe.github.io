@@ -35,15 +35,14 @@
                 }
             }
             // create a new empty project
-            project = {
-                "projectName" : null,
-                "markers" : []
-            };
+            project = {};
+            // the worker
+            worker = new Worker("scripts/worker.js");
         </script>
     </head>
     <body>
         <a name="top"></a>
-        <div id="calculationOverlay" class="ui-widget-overlay ui-front" style="z-index: 100">
+        <div id="calculationOverlay" class="ui-widget-overlay ui-front" style="z-index: 18">
             <div class="centerEverythingWrapper">
                 <img src="images/loading.gif" style="z-index:105"/>
             </div>
@@ -69,7 +68,7 @@
                 </div>
             </li>
             <li>
-                <div class="shortcut" shortcut="saveProject" onclick="javascript: saveProject();">
+                <div id="saveProjectDiv" class="shortcut ui-state-disabled" shortcut="saveProject" onclick="javascript: saveProject();">
                     <span class="ui-icon ui-icon-disk"></span><span class="label tooltip" lid="saveProject.label" tid="saveProject.title"></span>
                 </div>
             </li>
@@ -148,11 +147,11 @@
             <table id="jobSubmissionTable" class="ui-corner-all">
                 <tr class="tooltip" tid="jobSubmissionJobName.title">
                     <td class="label" lid="jobSubmissionJobName.label"></td>
-                    <td style="text-align: right"><input type="text" id="jobname" name="jobname" /></td>
+                    <td style="text-align: right"><input type="text" id="jobname" name="jobname" autocomplete="off" /></td>
                 </tr>
                 <tr class="tooltip" tid="jobSubmissionFasta.title">
                     <td class="label" lid="jobSubmissionFasta.label"></td>
-                    <td style="text-align: right"><input type="file" id="faAlign" name="faAlign" multiple="" /></td>
+                    <td style="text-align: right"><input type="file" id="faAlign" name="faAlign" multiple="" autocomplete="off" /></td>
                 </tr>
                 <tr>
                     <td onclick="javascript: $('.advancedSettings').toggle(); $('#advancedSettingsIcon').toggleClass('ui-icon-triangle-1-e ui-icon-triangle-1-s');" style="cursor:pointer"><span id="advancedSettingsIcon" class="ui-icon ui-icon-triangle-1-e"></span><span class="label" lid="jobSubmissionAdvancedSettings.label">Erweiterete Einstellungen</span></td>
@@ -160,11 +159,23 @@
                 </tr>
                 <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsMJFasta.title">
                     <td class="label" lid="jobSubmissionAdvancedSettingsMJFasta.label"></td>
-                    <td style="text-align: right"><input type="checkbox" name="ignoreUpperLower" id="ignoreUpperLower" checked="cheched"></td>
+                    <td style="text-align: right"><input type="checkbox" name="ignoreUpperLower" id="ignoreUpperLower" checked="cheched" autocomplete="off" /></td>
                 </tr>
                 <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsMJEpsilon.title">
                     <td class="label" lid="jobSubmissionAdvancedSettingsMJEpsilon.label"></td>
-                    <td style="text-align: right"><input id="epsilon" name="value" value="0"><script>$("#epsilon").spinner()</script></td>
+                    <td style="text-align: right"><input id="epsilon" name="value" value="0.0" autocomplete="off" />
+                        <script>
+                            $("#epsilon").spinner({
+                                step: 0.1,
+                                spin: function( event, ui ) {
+                                    if ( ui.value < 0 ) {
+                                        $( this ).spinner( "value", 0.0 );
+                                        return false;
+                                    }
+                                }
+                            });
+                        </script>
+                    </td>
                 </tr>
                 <tr>
                     <td></td>
@@ -175,6 +186,9 @@
                 <span class="label" lid="jobSubmissionJobNameExp.label"></span><br/>
                 <span class="label" lid="jobSubmissionFastaExp.label"></span> [<a class="label" lid="exemplaryFastaFileDownloadLink.label" href="examples.zip"></a>]
             </div>
+        </div>
+        <div id="projectShowBox" class="centerEverythingWrapper" style="width: 61.8%; display: none">
+            
         </div>
 
         <!-- Main content end -->
@@ -292,7 +306,7 @@
                 function uploadShortcuts() {
                     console.log("INFO: Uploading new shortcuts!");
                     reader = new FileReader();
-                    var files = files = document.getElementById('uploadShortcutsFileField').files;
+                    var files = document.getElementById('uploadShortcutsFileField').files;
                     for (var i = 0, f; f = files[i]; i++) {
                         reader.onload = function(data) {
                             console.log("INFO: shortcut data: " + data.target.result);
@@ -305,21 +319,86 @@
                 function addNewSequencesToProject() {
                     // show the calculation panel
                     $("#calculationOverlay").show();
-                    // check the data that was given!
+                    // get the data that was given!
+                    var files = document.getElementById("faAlign").files;
+                    if(files.length == 0) {
+                        var dialog = $("#genericInfoDialog");
+                        dialog.dialog('option', 'title', languageDicts[language]["dict"]["needAlignments.label"]);
+                        $("#genericInfoDialogContent").text(languageDicts[language]["dict"]["needAlignments.text.label"]);
+                        dialog.dialog("open");
+                        $("#calculationOverlay").hide();
+                        return;
+                    }
                     project["projectName"] = document.getElementById("jobname").value;
-/*
-                    var w = new Worker("scripts/MJAlgoWorker.js")
-w.addEventListener("message", function(e) {
-          alert(e.data);
-      }, false);
-w.postMessage({"epsilon": 0, "seqs": [{"name": "A", "seq":"00000"}, {"name": "A", "seq":"00010"}, {"name": "A", "seq":"10000"}]})
-*/
-console.log(jobName);
-//                    $("#submitNewSequencesDiv").hide();
-                    // TODO
+                    project["epsilon"] = $( "#epsilon" ).spinner( "value" );
+                    project["upperLowerCase"] = document.getElementById("ignoreUpperLower").checked;
+                    project["submissionDate"] = Date.now();
+                    project["browser"] = navigator;
+                    project["faFiles"] = new Array(files.length);
+                    for (var i = 0; i < files.length; i++) {
+                        var reader = new FileReader();
+                        reader.file = files[i];
+                        reader.fileId = i;
+                        reader.onload = function(data) {
+                            // add data to project
+                            project["faFiles"][this.fileId] = {
+                                "filename" : this.file.name,
+                                "data" : data.target.result
+                            }
+                            // check whether to call the worker
+                            var toCall = true;
+                            for(var i = 0; i < project["faFiles"].length; i++) {
+                                if(project["faFiles"] == undefined) {
+                                    toCall = false;
+                                    break;
+                                }
+                            }
+                            // call the worker if nec.
+                            if(toCall) {
+                                worker.addEventListener("message", function(e) {
+                                    project = e.data;
+                                    showProject();
+                                    $("#calculationOverlay").hide();
+                                }, false);
+                                worker.postMessage(project);
+                            }
+                        };
+                        reader.readAsText(files[i]);
+                    }
                 }
-                function loadProject() { console.log("loading"); } // TODO
-                function saveProject() { console.log("save"); } // TODO
+                function loadProject() {
+                    var dialog = $("#genericInfoDialog");
+                    dialog.dialog('option', 'title', languageDicts[language]["dict"]["loadProject.label"]);
+                    $("#genericInfoDialogContent").html("<input type='file'>");
+                    dialog.dialog("open");
+                    showProject();
+                    // terminate the maybe existing worker
+/*
+                    worker.terminate();
+                    worker = new Worker("scripts/worker.js");
+*/
+                } // TODO
+                function saveProject() {
+                    var projectJson = JSON.stringify(project);
+                    download("application/json", "project.json", projectJson);
+                }
+                function showProject() {
+                    if(isEmptyDict(project)) {
+                        $("#projectShowBox").hide();
+                        $("#saveProjectDiv").addClass("ui-state-disabled");
+                        $("#jobSubmissionButton").removeClass("ui-state-disabled");
+                        $("#submitNewSequencesDiv").show();
+                        document.title = "HaplowebMaker";
+                    } else {
+                        // ok, show the project
+                        $("#projectShowBox").show();
+                        $("#saveProjectDiv").removeClass("ui-state-disabled");
+                        $("#jobSubmissionButton").addClass("ui-state-disabled");
+                        $("#submitNewSequencesDiv").hide();
+                        document.title = ((project["projectName"] == null || project["projectName"] == "") ? languageDicts[language]["dict"]["emptyProjectName"] : project["projectName"]) + " - HaplowebMaker";
+
+                    }
+                } // TODO
             </script>
         </div>
         <a name="bottom"></a>

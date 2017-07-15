@@ -3,6 +3,7 @@
   "lang_long" : "Deutsch",
   "flag_path" : "deFlag.svg",
   "dict" : {
+    "emptyProjectName" : "Unbenannt",
     "searchbarplaceholdertext" : "Suchen",
     "buttonSave" : "Speichern",
     "buttonCancel" : "Abbrechen",
@@ -53,6 +54,8 @@
     "jobSubmissionAdvancedSettingsMJFasta.label" : "Groß- und Kleinschreibung ignorieren",
     "jobSubmissionAdvancedSettingsMJFasta.title" : "Wenn dieser Parameter aktiviert ist, wird nicht zwischen Groß- und Kleinbuchstaben in den Namen und in den Sequenzen unterschieden",
     "jobSubmissionAdvancedSettingsMJEpsilon.label" : "Epsilon",
-    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "Der epsilon Parameter des Median Joining Algorithmus (siehe Bandelt et al.)"
+    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "Der epsilon Parameter des Median Joining Algorithmus (siehe Bandelt et al.)",
+    "needAlignments.label" : "Fehlende Daten",
+    "needAlignments.text.label" : "Bitte laden Sie mindestens ein FASTA Alignment file hoch!"
   }
 }

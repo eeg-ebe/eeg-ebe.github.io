@@ -3,6 +3,7 @@
   "lang_long" : "Français",
   "flag_path" : "frFlag.svg",
   "dict" : {
+    "emptyProjectName" : "Résultat",
     "searchbarplaceholdertext" : "Recherche",
     "buttonSave" : "Enregistrer",
     "buttonCancel" : "Annuler",
@@ -53,6 +54,8 @@
     "jobSubmissionAdvancedSettingsMJFasta.label" : "Ne pas distinguer les lettres majuscules et minuscules",
     "jobSubmissionAdvancedSettingsMJFasta.title" : "Si ce paramètre est active ce programme ne va pas distunger les lettres majuscules et minuscules dans les noms et sequences",
     "jobSubmissionAdvancedSettingsMJEpsilon.label" : "Epsilon",
-    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "Le paramètre epsilon du median joining algorithm (voir Bandelt et al.)"
+    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "Le paramètre epsilon du median joining algorithm (voir Bandelt et al.)",
+    "needAlignments.label" : "Données manquantes",
+    "needAlignments.text.label" : "Veuillez fournir au moins un fichier d'alignement FASTA!"
   }
 }

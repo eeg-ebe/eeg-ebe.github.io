@@ -3,6 +3,7 @@
   "lang_long" : "English",
   "flag_path" : "enFlag.svg",
   "dict" : {
+    "emptyProjectName" : "Result",
     "searchbarplaceholdertext" : "Search",
     "buttonSave" : "Save",
     "buttonCancel" : "Cancel",
@@ -53,6 +54,8 @@
     "jobSubmissionAdvancedSettingsMJFasta.label" : "Ignore upper and lower case",
     "jobSubmissionAdvancedSettingsMJFasta.title" : "If this parameter is activated this program will not differenciate upper- and lowercase characters in the names and sequences",
     "jobSubmissionAdvancedSettingsMJEpsilon.label" : "Epsilon",
-    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "The epsilon parameter of the median joining algorithmus (see Bandelt et al.)"
+    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "The epsilon parameter of the median joining algorithmus (see Bandelt et al.)",
+    "needAlignments.label" : "Missing data",
+    "needAlignments.text.label" : "Please provide at least one FASTA alignment file!"
   }
 }
