@@ -367,18 +367,26 @@
                         reader.readAsText(files[i]);
                     }
                 }
+                function changeProjectByUpload() {
+                    console.log("INFO: Uploading project!");
+                    reader = new FileReader();
+                    var files = document.getElementById('projectUploadFileField').files;
+                    for (var i = 0, f; f = files[i]; i++) {
+                        reader.onload = function(data) {
+                            console.log("INFO: project data: " + data.target.result);
+                            project = JSON.parse(data.target.result);
+                            $( "#genericInfoDialog" ).dialog("close");
+                            showProject();
+                        };
+                        reader.readAsText(f);
+                    }
+                }
                 function loadProject() {
                     var dialog = $("#genericInfoDialog");
                     dialog.dialog('option', 'title', languageDicts[language]["dict"]["loadProject.label"]);
-                    $("#genericInfoDialogContent").html("<input type='file'>");
+                    $("#genericInfoDialogContent").html("<input type='file' id='projectUploadFileField' onchange='javascript: changeProjectByUpload()'>");
                     dialog.dialog("open");
-                    showProject();
-                    // terminate the maybe existing worker
-/*
-                    worker.terminate();
-                    worker = new Worker("scripts/worker.js");
-*/
-                } // TODO
+                }
                 function saveProject() {
                     var projectJson = JSON.stringify(project);
                     download("application/json", "project.json", projectJson);
@@ -392,11 +400,18 @@
                         document.title = "HaplowebMaker";
                     } else {
                         // ok, show the project
+                        // generalized content
                         $("#projectShowBox").show();
-                        $("#saveProjectDiv").removeClass("ui-state-disabled");
+                        if(project['progress'] === 100) {  // save is only accessible if calculation finished
+                            $("#saveProjectDiv").removeClass("ui-state-disabled");
+                        } else {
+                            $("#saveProjectDiv").addClass("ui-state-disabled");
+                        }
                         $("#jobSubmissionButton").addClass("ui-state-disabled");
                         $("#submitNewSequencesDiv").hide();
+                        // title
                         document.title = ((project["projectName"] == null || project["projectName"] == "") ? languageDicts[language]["dict"]["emptyProjectName"] : project["projectName"]) + " - HaplowebMaker";
+                        // html
 
                     }
                 } // TODO
