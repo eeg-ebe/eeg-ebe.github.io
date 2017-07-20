@@ -29,6 +29,21 @@ String.prototype.format = function(args) {
     result.push(this.substr(p));
     return result.join("");
 }
+String.prototype.escape = function() {
+    var entityMap = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '/': '&#x2F;',
+        '`': '&#x60;',
+        '=': '&#x3D;'
+    };
+    return this.replace(/[&<>"'`=\/]/g, function (s) {
+        return entityMap[s];
+    });
+}
 
 function loadLanguage(name, uri) {
     $.getJSON("languages/" + uri, function(data) {
@@ -63,7 +78,7 @@ function setLanguage(lang) {
     if(isEmptyDict(project)) {
         document.title = "HaplowebMaker";
     } else {
-        document.title = ((project["projectName"] == undefined || project["projectName"] == null || project["projectName"] == "") ?
+        document.title = ((typeof project["projectName"] === "undefined" || project["projectName"] == null || project["projectName"] == "") ?
             languageDicts[language]["dict"]["emptyProjectName"] : project["projectName"]) + " - HaplowebMaker";
     }
 }
@@ -129,4 +144,8 @@ function download(mime, filename, filecontent) {
 
 function isEmptyDict(obj) {
   return Object.keys(obj).length === 0;
+}
+
+function generateNotification(ui, icon, labelid) {
+    return "<div class='ui-widget'><div class='ui-state-" + ui + " ui-corner-all' style='margin-top: 5px; padding: 0 .7em;'><p style='margin: 7px'><span class='ui-icon ui-icon-" + icon + "' style='float: left; margin-right: .3em;'></span><strong id='notificationText' class='label' lid='" + labelid + "'></strong></p></div></div>";
 }

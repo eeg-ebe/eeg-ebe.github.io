@@ -56,6 +56,13 @@
     "jobSubmissionAdvancedSettingsMJEpsilon.label" : "Epsilon",
     "jobSubmissionAdvancedSettingsMJEpsilon.title" : "Le paramètre epsilon du median joining algorithm (voir Bandelt et al.)",
     "needAlignments.label" : "Données manquantes",
-    "needAlignments.text.label" : "Veuillez fournir au moins un fichier d'alignement FASTA!"
+    "needAlignments.text.label" : "Veuillez fournir au moins un fichier d'alignement FASTA!",
+    "jobname.title" : "L'indicateur du calcul",
+    "jobname.rename.title" : "Renommer le calcul",
+    "askForNewJobName.label" : "S.v.p veuillez donner le nouvel nom du calcul:",
+    "haplowebmakerIsStillBeta.text" : "HaplowebMaker est encore Beta - veuillez utiliser les résultats avec prudence!",
+    "joboverview.title" : "Résume du calcul",
+    "overviewboxtitle.label" : "Résume",
+    "jumpToOverviewFiles.title" : "Sautez vers les fichiers connecte avec tout le calcul"
   }
 }

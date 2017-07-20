@@ -56,6 +56,13 @@
     "jobSubmissionAdvancedSettingsMJEpsilon.label" : "Epsilon",
     "jobSubmissionAdvancedSettingsMJEpsilon.title" : "Der epsilon Parameter des Median Joining Algorithmus (siehe Bandelt et al.)",
     "needAlignments.label" : "Fehlende Daten",
-    "needAlignments.text.label" : "Bitte laden Sie mindestens ein FASTA Alignment file hoch!"
+    "needAlignments.text.label" : "Bitte laden Sie mindestens ein FASTA Alignment file hoch!",
+    "jobname.title" : "Die Bezeichnung dieses Jobs",
+    "jobname.rename.title" : "Diesen Job umbenennen",
+    "askForNewJobName.label" : "Bitte geben Sie die neue Jobbezeichnung ein:",
+    "haplowebmakerIsStillBeta.text" : "HaplowebMaker ist noch Beta - bitte die Resultate mit Vorsicht benutzen!",
+    "joboverview.title" : "Übersicht über diesen Job",
+    "overviewboxtitle.label" : "Übersicht",
+    "jumpToOverviewFiles.title" : "Zu den Dateien springen, die mit dem kompletten Job assoziiert werden"
   }
 }

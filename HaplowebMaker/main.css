@@ -124,3 +124,24 @@ body {
 .advancedSettings {
     display: none;
 }
+
+#jobNameH1 {
+    float: left;
+    margin: 1px;
+}
+#jobNameLine {
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+#editJobNameButton {
+    margin: 1px;
+}
+#sortable {
+    overflow: hidden;
+    padding-bottom: 12px;
+}
+.floater {
+    margin: 15px 7px -3px 0px;
+    padding: 0.4em 1em;
+    float: left
+}

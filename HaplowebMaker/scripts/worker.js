@@ -17,8 +17,8 @@ Printer = function () {
 self.addEventListener('message', function(e) {
     var project = e.data;
     // create first data in project
-    
-
+    self.postMessage(project);
+/*
     var m = new mj_MJAlgo();
     for(var i = 0; i < e.data["seqs"].length; i++) {
         var seq = e.data["seqs"][i];
@@ -29,4 +29,5 @@ self.addEventListener('message', function(e) {
     var p = new Printer();
     m.finalizeNetwork().printTxt(p);
     self.postMessage(project);
+*/
 }, false);

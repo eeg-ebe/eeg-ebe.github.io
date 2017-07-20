@@ -110,7 +110,7 @@
                     <span class="label tooltip" lid="documentation.label" tid="documentation.title"></span>
                 </div>
                 <ul>
-                    <!-- TODO: documentation-->
+                    <!-- TODO: documentation, impressum -->
                     <li>
                         <div class="shortcut" shortcut="cite" onclick="javascript: showCite();">
                             <span class="ui-icon ui-icon-star"></span>
@@ -188,7 +188,7 @@
                 <span class="label" lid="jobSubmissionFastaExp.label"></span> [<a class="label" lid="exemplaryFastaFileDownloadLink.label" href="examples.zip"></a>]
             </div>
         </div>
-        <div id="projectShowBox" class="centerEverythingWrapper" style="width: 61.8%; display: none">
+        <div id="projectShowBox" style="display: none; padding: 5px">
             
         </div>
 
@@ -330,12 +330,21 @@
                         $("#calculationOverlay").hide();
                         return;
                     }
+                    project["notifications"] = [ { "ui" : "highlight", "icon" : "info", "text" : "haplowebmakerIsStillBeta.text" } ];
                     project["projectName"] = document.getElementById("jobname").value;
                     project["epsilon"] = $( "#epsilon" ).spinner( "value" );
                     project["upperLowerCase"] = document.getElementById("ignoreUpperLower").checked;
                     project["submissionDate"] = Date.now();
-                    project["browser"] = navigator;
+                    project["browser"] = {
+                        "code name" : navigator.appCodeName,
+                        "browser name" : navigator.appName,
+                        "version" : navigator.appVersion,
+                        "browser language" : navigator.language,
+                        "website language" : language,
+                        "platform" : navigator.platform
+                    };
                     project["faFiles"] = new Array(files.length);
+                    project["progress"] = 0;
                     for (var i = 0; i < files.length; i++) {
                         var reader = new FileReader();
                         reader.file = files[i];
@@ -381,6 +390,12 @@
                         reader.readAsText(f);
                     }
                 }
+                function renameJob() {
+                    var oldName = (typeof project["projectName"] === "undefined" || project["projectName"] == null || project["projectName"] == "") ? "" : project["projectName"];
+                    var newName = prompt(languageDicts[language]["dict"]["askForNewJobName.label"], oldName);
+                    project["projectName"] = newName;
+                    showProject();
+                }
                 function loadProject() {
                     var dialog = $("#genericInfoDialog");
                     dialog.dialog('option', 'title', languageDicts[language]["dict"]["loadProject.label"]);
@@ -402,17 +417,40 @@
                         // ok, show the project
                         // generalized content
                         $("#projectShowBox").show();
-                        if(project['progress'] === 100) {  // save is only accessible if calculation finished
+                        if(project["progress"] === 100) {  // save is only accessible if calculation finished
                             $("#saveProjectDiv").removeClass("ui-state-disabled");
                         } else {
                             $("#saveProjectDiv").addClass("ui-state-disabled");
                         }
                         $("#jobSubmissionButton").addClass("ui-state-disabled");
                         $("#submitNewSequencesDiv").hide();
-                        // title
-                        document.title = ((project["projectName"] == null || project["projectName"] == "") ? languageDicts[language]["dict"]["emptyProjectName"] : project["projectName"]) + " - HaplowebMaker";
-                        // html
+                        // title ... will be set by the setLanguage function
+                        // html -> jobname
+                        var jobname = null;
+                        if(typeof project["projectName"] === "undefined" || project["projectName"] == null || project["projectName"] == "") {
+                            jobname = "<span class='label' lid='emptyProjectName'></span>";
+                        } else {
+                            jobname = project["projectName"].escape();
+                        }
+                        var html = "<div id='jobNameLine' class='tooltip' tid='jobname.title'><h1 id='jobNameH1'>" + jobname + "</h1>&nbsp;&nbsp;&nbsp;<button id='editJobNameButton' onclick='javascript:renameJob();' class='ui-button ui-widget ui-corner-all tooltip' tid='jobname.rename.title'><span class='ui-icon ui-icon-pencil'></span></button></div>";
+                        // html -> notification
+                        for(var i = 0; i < project["notifications"].length; i++) {
+                            var not = project["notifications"][i];
+                            html += generateNotification(not["ui"], not["icon"], not["text"]);
+                        }
+                        // html -> overview
 
+                        // apply html
+                        $("#projectShowBox").html(html);
+                        setLanguage(language);                        
+                        /*
+                    project["projectName"] = document.getElementById("jobname").value;
+                    project["epsilon"] = $( "#epsilon" ).spinner( "value" );
+                    project["upperLowerCase"] = document.getElementById("ignoreUpperLower").checked;
+                    project["submissionDate"] = Date.now();
+                    project["browser"] = navigator;
+                    project["faFiles"] = new Array(files.length);
+*/
                     }
                 } // TODO
             </script>
