@@ -18,5 +18,10 @@
         "name" : "HaXe",
         "urls" : [ "http://haxe.org/", "https://github.com/HaxeFoundation/haxe" ],
         "license" : "https://haxe.org/foundation/open-source.html"
+    },
+    {
+        "name" : "momentjs",
+        "urls" : [ "http://momentjs.com/", "https://github.com/moment/moment/" ],
+        "license" : "https://github.com/moment/moment/blob/develop/LICENSE"
     }
 ]

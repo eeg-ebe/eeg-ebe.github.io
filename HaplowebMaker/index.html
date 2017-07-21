@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="main.css"/>
         <link rel="stylesheet" href="external/jquery-ui.min.css"/>
         <script src="external/jquery.js"></script>
+        <script src="external/moment.min.js"></script>
         <script src="external/jquery-ui.min.js"></script>
         <script src="scripts/util.js"></script>
         <script>
@@ -39,13 +40,18 @@
             project = {};
             // the worker
             worker = new Worker("scripts/worker.js");
+            // some settings
+            timeformat = 'YYYY-MM-DD, HH:mm:ss:SSS';
+            if(typeof urlParams["timeformat"] != "undefined") {
+                timeformat = urlParams["timeformat"];
+            }
         </script>
     </head>
     <body>
         <a name="top"></a>
-        <div id="calculationOverlay" class="ui-widget-overlay ui-front" style="z-index: 18">
+        <div id="calculationOverlay" class="ui-widget-overlay ui-front">
             <div class="centerEverythingWrapper">
-                <img src="images/loading.gif" style="z-index:105"/>
+                <img src="images/loading.gif" class="ui-front"/>
             </div>
         </div>
         <div id="banner">
@@ -138,7 +144,7 @@
             </li>
         </ul>
         <a href="https://github.com/eeg-ebe/eeg-ebe.github.io">
-            <img style="z-index: 25; position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png">
+            <img style="z-index: 51; position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png">
         </a>
 
         <!-- Main content start -->
@@ -188,7 +194,7 @@
                 <span class="label" lid="jobSubmissionFastaExp.label"></span> [<a class="label" lid="exemplaryFastaFileDownloadLink.label" href="examples.zip"></a>]
             </div>
         </div>
-        <div id="projectShowBox" style="display: none; padding: 5px">
+        <div id="projectShowBox" style="display: none; padding: 15px">
             
         </div>
 
@@ -353,12 +359,13 @@
                             // add data to project
                             project["faFiles"][this.fileId] = {
                                 "filename" : this.file.name,
-                                "data" : data.target.result
+                                "data" : data.target.result,
+                                "status" : "inqueuestatus.label"
                             }
                             // check whether to call the worker
                             var toCall = true;
                             for(var i = 0; i < project["faFiles"].length; i++) {
-                                if(project["faFiles"] == undefined) {
+                                if(project["faFiles"] == undefined || project["faFiles"][i] == null) {
                                     toCall = false;
                                     break;
                                 }
@@ -394,6 +401,12 @@
                     var oldName = (typeof project["projectName"] === "undefined" || project["projectName"] == null || project["projectName"] == "") ? "" : project["projectName"];
                     var newName = prompt(languageDicts[language]["dict"]["askForNewJobName.label"], oldName);
                     project["projectName"] = newName;
+                    showProject();
+                }
+                function renameAlignment(nr) {
+                    var oldName = project["faFiles"][nr]["filename"];
+                    var newName = prompt(languageDicts[language]["dict"]["askForNewAlignmentName.label"], oldName);
+                    project["faFiles"][nr]["filename"] = newName;
                     showProject();
                 }
                 function loadProject() {
@@ -432,22 +445,72 @@
                         } else {
                             jobname = project["projectName"].escape();
                         }
-                        var html = "<div id='jobNameLine' class='tooltip' tid='jobname.title'><h1 id='jobNameH1'>" + jobname + "</h1>&nbsp;&nbsp;&nbsp;<button id='editJobNameButton' onclick='javascript:renameJob();' class='ui-button ui-widget ui-corner-all tooltip' tid='jobname.rename.title'><span class='ui-icon ui-icon-pencil'></span></button></div>";
+                        var html = "<div id='jobNameLine' class='tooltip' tid='jobname.title'><h1 id='jobNameH1'>" + jobname + "</h1>&nbsp;&nbsp;&nbsp;<button id='editJobNameButton' onclick='javascript:renameJob();' class='actionRequiresCompletion ui-button ui-widget ui-corner-all tooltip' tid='jobname.rename.title'><span class='ui-icon ui-icon-pencil'></span></button></div>";
                         // html -> notification
                         for(var i = 0; i < project["notifications"].length; i++) {
                             var not = project["notifications"][i];
                             html += generateNotification(not["ui"], not["icon"], not["text"]);
                         }
-                        // html -> overview
-
+                        // html -> overview + elements
+                        html += "<div id='sortable'>";
+                        html += "<a name='overview'></a><div class='tooltip overview ui-corner-all ui-widget ui-widget-content ui-draggable ui-resizable floater' tid='joboverview.title'><div class='ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix' style='padding: 0.4em 1em; cursor: auto'><span class='ui-dialog-title'><span class='ui-icon ui-icon-home'></span> <span class='label' lid='overviewboxtitle.label'></span></span><a href='#overviewfiles' onclick=\"javascript:$('.overviewfiles').effect('highlight', {color: 'red'}, 1750);\" class='tooltip' tid='jumpToOverviewFiles.title'><span class='ui-icon ui-icon-arrowreturnthick-1-s'></span><span class='label' lid='jumpToOverviewFiles.label'></span></a></div><div id='dialog' class='ui-dialog-content ui-widget-content' style='padding: 0.4em 1em;'><table><tr class='tooltip' tid='jobname.title'><td><b class='label' lid='jobname.label'></b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick='javascript:renameJob();' class='actionRequiresCompletion ui-button ui-widget ui-corner-all tooltip' tid='jobname.rename.title'><span class='ui-icon ui-icon-pencil'></span></button></td><td>&nbsp;&nbsp;&nbsp;</td><td id='jobnameText' class='right'>";
+                        html += jobname;
+                        html += "</td></tr><tr class='tooltip' tid='uploadtime.title'><td><b class='label' lid='uploadtime.label'></b></td><td></td><td class='right'>";
+                        html += moment(project["submissionDate"]).format(timeformat).escape();
+                        html += "</td></tr><tr class='tooltip' tid='nrUploadedFiles.title'><td><b class='label' lid='nrUploadedFiles.label'></b></td><td></td><td class='right'>";
+                        html += project["faFiles"].length;
+                        html += "</td></tr><tr class='tooltip' tid='jobcalculationProcess.title'><td><b class='label' lid='jobcalculationProcess.label'></b></td><td></td><td class='right'>";
+                        if(project["progress"] === 100) {
+                            html += "<span class='label' lid='jobcalculationProcess.finished.label'></span>";
+                        } else {
+                            html += "<div id='progressbar' style='position: relative'><div id='progressbarLabel'><span>" + project["progress"] + "%</span></div></div>";
+                        }
+//epsilon, browser info, description, upperLowerCase
+                        html += "</td></tr></table></div></div>";
+                        for(var i = 0; i < project["faFiles"].length; i++) {
+                            var name = project["faFiles"][i]["filename"].escape();
+                            var status = project["faFiles"][i]["status"];
+                            html += "<a name='alig";
+                            html += i;
+                            html += "'></a><div class='alig";
+                            html += i;
+                            html += " ui-corner-all ui-widget ui-widget-content ui-draggable ui-resizable floater tooltip' tid='fileContentView.title' ta0='";
+                            html += name;
+                            html += "'><div class='ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix' style='padding: 0.4em 1em; font-size: 125%; cursor: auto'><span class='ui-dialog-title'><span class='ui-icon ui-icon-script'></span> ";
+                            html += name;
+                            html += "</span><a href='#alig";
+                            html += i;
+                            html += "files' onclick='javascript:$('.alig";
+                            html += i;
+                            html += "files').effect('highlight', {color: 'red'}, 1750);' class='tooltip' tid='jumpAssociatedAlignmentFiles.title'><span class='ui-icon ui-icon-arrowreturnthick-1-s'></span><span class='label' lid='jumpToAlignementFiles.label'></span></a></div><div id='dialog' class='ui-dialog-content ui-widget-content' style='padding: 0.4em 1em;'><table><tr class='tooltip' tid='overviewboxesfilename.title'><td><b class='label' lid='overviewboxesfilename.label'></b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick='javascript:renameAlignment(";
+                            html += i;
+                            html += ");' class='actionRequiresCompletion ui-button ui-widget ui-corner-all'><span class='ui-icon ui-icon-pencil'></span></button></td><td>&nbsp;&nbsp;&nbsp;</td><td id='alig%sText' class='right'>";
+                            html += name;
+                            html += "</td></tr><tr class='tooltip' tid='calculationstatus.title'><td><b class='label' lid='calculationstatus.label'></b></td><td></td><td class='right aligStatusMsg  label' lid='";
+                            html += status;
+                            html += "'></td></tr>";
+//Size, Hash, nr. lines, nr. sequences, nr. indiv., sequence characters usage, k-mer, nr. differenciating positions, histogram of nr. seqs per ffr ..., time (start, end, used), nr. ffrs, nr. med vect, (graph attrs. like degree distribution, ...), description, sound
+                            html += "</table></div></div>";
+                        }
+                        html += "</div>"; // this is the end of the div with the id sortable
+                        // html -> file table
+                        html += "<p></p><table id='fileTable'><tr class='header'><td class='left'>Name</td><td class='left'>Actions</td><td class='middle'>Description</td><td class='middle'>Hash</td><td class='right'>Size</td></tr></table>";
                         // apply html
                         $("#projectShowBox").html(html);
-                        setLanguage(language);                        
+                        // do missing needed actions
+                        setLanguage(language);
+                        $( "#sortable" ).sortable({ handle: ".ui-dialog-title" });
+                        if(project["progress"] !== 100) {
+                            $('#progressbar').progressbar({value:project["progress"]});
+                            $('#progressbar').find('.ui-progressbar-value').addClass('activeProgressbar').removeClass('ui-widget-header');
+                            $('#progressbarLabel').addClass('activeProgressbarLabel');
+                            $('.actionRequiresCompletion').addClass('ui-state-disabled');
+                        }
                         /*
                     project["projectName"] = document.getElementById("jobname").value;
                     project["epsilon"] = $( "#epsilon" ).spinner( "value" );
                     project["upperLowerCase"] = document.getElementById("ignoreUpperLower").checked;
-                    project["submissionDate"] = Date.now();
+                    project["submissionDate"] = Date.getTime();
                     project["browser"] = navigator;
                     project["faFiles"] = new Array(files.length);
 */
