@@ -17,7 +17,28 @@ Printer = function () {
 self.addEventListener('message', function(e) {
     var project = e.data;
     // create first data in project
-    self.postMessage(project);
+    self.postMessage([
+        {
+            "key" : ["progress"],
+            "val" : 0
+        }
+    ]);
+    for(var i = 0; i < e.data["seqs"].length; i++) {
+        
+    }
+        {
+            "key" : ["faFiles", 0, "status"],
+            "val" : "running.label"
+        },
+        {
+            "key" : ["faFiles", 0, "filename"],
+            "val" : "yeah"
+        },
+        {
+            "key" : ["calculationEndDate"],
+            "val" : Date.now()
+        }
+    ]);
 /*
     var m = new mj_MJAlgo();
     for(var i = 0; i < e.data["seqs"].length; i++) {

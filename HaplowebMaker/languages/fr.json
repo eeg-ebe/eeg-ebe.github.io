@@ -69,6 +69,8 @@
     "jumpToOverviewFiles.title" : "Sautez vers les fichiers connecte avec tout le calcul",
     "uploadtime.label" : "Moment du soumission",
     "uploadtime.title" : "Le Moment ou les calculations ont commencé",
+    "endtime.label" : "Moment du fin",
+    "endtime.title" : "Le moment les calculations ont fini",
     "nrUploadedFiles.label" : "Fichiers soumis",
     "nrUploadedFiles.title" : "Le nombre des fichiers soumis par l'utilisateur",
     "jobcalculationProcess.label" : "Progrès",

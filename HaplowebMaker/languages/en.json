@@ -69,6 +69,8 @@
     "jumpToOverviewFiles.title" : "Jump to the files that are associated with the complete job.",
     "uploadtime.label" : "Starting time",
     "uploadtime.title" : "The time when calculations of this job have been launched",
+    "endtime.label" : "Ending time",
+    "endtime.title" : "The time when the calculations of this job have been finished",
     "nrUploadedFiles.label" : "Uploaded files",
     "nrUploadedFiles.title" : "The number of files that have been uploaded",
     "jobcalculationProcess.label" : "Calculation process",

@@ -341,6 +341,7 @@
                     project["epsilon"] = $( "#epsilon" ).spinner( "value" );
                     project["upperLowerCase"] = document.getElementById("ignoreUpperLower").checked;
                     project["submissionDate"] = Date.now();
+                    project["calculationEndDate"] = null;
                     project["browser"] = {
                         "code name" : navigator.appCodeName,
                         "browser name" : navigator.appName,
@@ -373,7 +374,17 @@
                             // call the worker if nec.
                             if(toCall) {
                                 worker.addEventListener("message", function(e) {
-                                    project = e.data;
+                                    console.log("INFO: Message from worker: ");
+                                    for(var k = 0; k < e.data.length; k++) {
+                                        var key = e.data[k]["key"];
+                                        var val = e.data[k]["val"];
+                                        console.log("INFO: +", key, val);
+                                        var obj = project;
+                                        for(var keyi = 0; keyi < key.length - 1; keyi++) {
+                                            obj = obj[key[keyi]];
+                                        }
+                                        obj[key[key.length - 1]] = val;
+                                    }
                                     showProject();
                                     $("#calculationOverlay").hide();
                                 }, false);
@@ -445,7 +456,7 @@
                         } else {
                             jobname = project["projectName"].escape();
                         }
-                        var html = "<div id='jobNameLine' class='tooltip' tid='jobname.title'><h1 id='jobNameH1'>" + jobname + "</h1>&nbsp;&nbsp;&nbsp;<button id='editJobNameButton' onclick='javascript:renameJob();' class='actionRequiresCompletion ui-button ui-widget ui-corner-all tooltip' tid='jobname.rename.title'><span class='ui-icon ui-icon-pencil'></span></button></div>";
+                        var html = "<div id='jobNameLine' class='tooltip' tid='jobname.title'><h1 id='jobNameH1'>" + jobname + "</h1>&nbsp;&nbsp;&nbsp;<button id='editJobNameButton' onclick='javascript:renameJob();' class='ui-button ui-widget ui-corner-all tooltip' tid='jobname.rename.title'><span class='ui-icon ui-icon-pencil'></span></button></div>";
                         // html -> notification
                         for(var i = 0; i < project["notifications"].length; i++) {
                             var not = project["notifications"][i];
@@ -453,10 +464,12 @@
                         }
                         // html -> overview + elements
                         html += "<div id='sortable'>";
-                        html += "<a name='overview'></a><div class='tooltip overview ui-corner-all ui-widget ui-widget-content ui-draggable ui-resizable floater' tid='joboverview.title'><div class='ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix' style='padding: 0.4em 1em; cursor: auto'><span class='ui-dialog-title'><span class='ui-icon ui-icon-home'></span> <span class='label' lid='overviewboxtitle.label'></span></span><a href='#overviewfiles' onclick=\"javascript:$('.overviewfiles').effect('highlight', {color: 'red'}, 1750);\" class='tooltip' tid='jumpToOverviewFiles.title'><span class='ui-icon ui-icon-arrowreturnthick-1-s'></span><span class='label' lid='jumpToOverviewFiles.label'></span></a></div><div id='dialog' class='ui-dialog-content ui-widget-content' style='padding: 0.4em 1em;'><table><tr class='tooltip' tid='jobname.title'><td><b class='label' lid='jobname.label'></b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick='javascript:renameJob();' class='actionRequiresCompletion ui-button ui-widget ui-corner-all tooltip' tid='jobname.rename.title'><span class='ui-icon ui-icon-pencil'></span></button></td><td>&nbsp;&nbsp;&nbsp;</td><td id='jobnameText' class='right'>";
+                        html += "<a name='overview'></a><div class='tooltip overview ui-corner-all ui-widget ui-widget-content ui-draggable ui-resizable floater' tid='joboverview.title'><div class='ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix' style='padding: 0.4em 1em; cursor: auto'><span class='ui-dialog-title'><span class='ui-icon ui-icon-home'></span> <span class='label' lid='overviewboxtitle.label'></span></span><a href='#overviewfiles' onclick=\"javascript:$('.overviewfiles').effect('highlight', {color: 'red'}, 1750);\" class='tooltip' tid='jumpToOverviewFiles.title'><span class='ui-icon ui-icon-arrowreturnthick-1-s'></span><span class='label' lid='jumpToOverviewFiles.label'></span></a></div><div id='dialog' class='ui-dialog-content ui-widget-content' style='padding: 0.4em 1em;'><table style='width:100%'><tr class='tooltip' tid='jobname.title'><td><b class='label' lid='jobname.label'></b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick='javascript:renameJob();' class='ui-button ui-widget ui-corner-all tooltip' tid='jobname.rename.title'><span class='ui-icon ui-icon-pencil'></span></button></td><td>&nbsp;&nbsp;&nbsp;</td><td id='jobnameText' class='right'>";
                         html += jobname;
                         html += "</td></tr><tr class='tooltip' tid='uploadtime.title'><td><b class='label' lid='uploadtime.label'></b></td><td></td><td class='right'>";
                         html += moment(project["submissionDate"]).format(timeformat).escape();
+                        html += "</td></tr><tr class='tooltip' tid='endtime.title'><td><b class='label' lid='endtime.label'></b></td><td></td><td class='right'>";
+                        html += (project["calculationEndDate"] == null) ? "<span>" : moment(project["calculationEndDate"]).format(timeformat).escape();
                         html += "</td></tr><tr class='tooltip' tid='nrUploadedFiles.title'><td><b class='label' lid='nrUploadedFiles.label'></b></td><td></td><td class='right'>";
                         html += project["faFiles"].length;
                         html += "</td></tr><tr class='tooltip' tid='jobcalculationProcess.title'><td><b class='label' lid='jobcalculationProcess.label'></b></td><td></td><td class='right'>";
@@ -482,9 +495,9 @@
                             html += i;
                             html += "files' onclick='javascript:$('.alig";
                             html += i;
-                            html += "files').effect('highlight', {color: 'red'}, 1750);' class='tooltip' tid='jumpAssociatedAlignmentFiles.title'><span class='ui-icon ui-icon-arrowreturnthick-1-s'></span><span class='label' lid='jumpToAlignementFiles.label'></span></a></div><div id='dialog' class='ui-dialog-content ui-widget-content' style='padding: 0.4em 1em;'><table><tr class='tooltip' tid='overviewboxesfilename.title'><td><b class='label' lid='overviewboxesfilename.label'></b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick='javascript:renameAlignment(";
+                            html += "files').effect('highlight', {color: 'red'}, 1750);' class='tooltip' tid='jumpAssociatedAlignmentFiles.title'><span class='ui-icon ui-icon-arrowreturnthick-1-s'></span><span class='label' lid='jumpToAlignementFiles.label'></span></a></div><div id='dialog' class='ui-dialog-content ui-widget-content' style='padding: 0.4em 1em;'><table style='width:100%'><tr class='tooltip' tid='overviewboxesfilename.title'><td><b class='label' lid='overviewboxesfilename.label'></b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick='javascript:renameAlignment(";
                             html += i;
-                            html += ");' class='actionRequiresCompletion ui-button ui-widget ui-corner-all'><span class='ui-icon ui-icon-pencil'></span></button></td><td>&nbsp;&nbsp;&nbsp;</td><td id='alig%sText' class='right'>";
+                            html += ");' class='ui-button ui-widget ui-corner-all'><span class='ui-icon ui-icon-pencil'></span></button></td><td>&nbsp;&nbsp;&nbsp;</td><td id='alig%sText' class='right'>";
                             html += name;
                             html += "</td></tr><tr class='tooltip' tid='calculationstatus.title'><td><b class='label' lid='calculationstatus.label'></b></td><td></td><td class='right aligStatusMsg  label' lid='";
                             html += status;
@@ -499,8 +512,8 @@
                         $("#projectShowBox").html(html);
                         // do missing needed actions
                         setLanguage(language);
-                        $( "#sortable" ).sortable({ handle: ".ui-dialog-title" });
                         if(project["progress"] !== 100) {
+                            $( "#sortable" ).sortable({ handle: ".ui-dialog-title" });
                             $('#progressbar').progressbar({value:project["progress"]});
                             $('#progressbar').find('.ui-progressbar-value').addClass('activeProgressbar').removeClass('ui-widget-header');
                             $('#progressbarLabel').addClass('activeProgressbarLabel');
