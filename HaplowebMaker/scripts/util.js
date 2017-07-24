@@ -44,6 +44,30 @@ String.prototype.escape = function() {
         return entityMap[s];
     });
 }
+String.prototype.escapeZip = function() {
+    var entityMap = {
+        '/': '(x47)',
+        '\\': '(x92)',
+        "?": '(x63)',
+        "%": '(x37)',
+        "*": '(x42)',
+        ":": '(x58)',
+        '|': '(x124)',
+        '<': '(x60)',
+        ">": '(x62)',
+        '`': '(x96)',
+        '#': '(x35)',
+        '&': '(x38)',
+        '{': '(x123)',
+        '}': '(x125)',
+        '$': '(x36)',
+        '!': '(x33)',
+        '@': '(x64)'
+    };
+    return this.replace(/[&<>"'`=\/]/g, function (s) {
+        return entityMap[s];
+    });
+}
 
 function loadLanguage(name, uri) {
     $.getJSON("languages/" + uri, function(data) {
@@ -152,4 +176,18 @@ function generateNotification(ui, icon, labelid) {
 
 function missing(val) {
     return val == undefined || val == null;
+}
+
+function view(mime, data) {
+    var b64 = window.btoa(data);
+    $("body").append($("<a target='_blank' id='viewLink' href-lang='" + mime + "' href='data:" + mime + ";base64,\n"+b64+"' title='visualization' style='display:none'>View/a>"));
+    document.getElementById('viewLink').click();
+    $("#viewLink").remove();
+}
+
+function showVizualization(data) {
+    var b64 = window.btoa(data);
+    $("body").append($("<a target='_blank' id='vizualizationLink' href-lang='image/svg+xml' href='data:image/svg+xml;base64,\n"+b64+"' title='visualization' style='display:none'>Show vizualization</a>"));
+    document.getElementById('vizualizationLink').click();
+    $("#vizualizationLink").remove();
 }

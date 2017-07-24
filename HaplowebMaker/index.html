@@ -7,9 +7,11 @@
         <title>HaplowebMaker</title>
         <link rel="stylesheet" href="main.css"/>
         <link rel="stylesheet" href="external/jquery-ui.min.css"/>
+        <script src="external/FileSaver.min.js"></script>
         <script src="external/jquery.js"></script>
         <script src="external/moment.min.js"></script>
         <script src="external/jquery-ui.min.js"></script>
+        <script src="external/jszip.js"></script>
         <script src="scripts/util.js"></script>
         <script>
             // load shortcuts
@@ -45,10 +47,18 @@
             if(typeof urlParams["timeformat"] != "undefined") {
                 timeformat = urlParams["timeformat"];
             }
+            colorSamePos = 'blue';
+            if(typeof urlParams["colorSamePos"] != "undefined") {
+                colorSamePos = urlParams["colorSamePos"];
+            }
+            colorDifPos = 'yellow';
+            if(typeof urlParams["colorDifPos"] != "undefined") {
+                colorDifPos = urlParams["colorDifPos"];
+            }
         </script>
     </head>
     <body>
-        <a name="top"></a>
+        <a name="top" class="anchor"></a>
         <div id="calculationOverlay" class="ui-widget-overlay ui-front">
             <div class="centerEverythingWrapper">
                 <img src="images/loading.gif" class="ui-front"/>
@@ -227,6 +237,19 @@
             <a id="scrollUpLink" href="#top"></a>
             <a id="scrollDownLink" href="#bottom"></a>
             <script>
+                function visualizeIntPos(i) {
+                    var positions = project["faFiles"][i]["intPos"], seqLen = project["faFiles"][i]["seqLen"];
+                    var imgWidth = seqLen * 16;
+                    console.log(positions, seqLen);
+                    var data = "<svg version='1.1' baseProfile='full' width='" + imgWidth + "' height='10' xmlns='http://www.w3.org/2000/svg'><rect x='0' y='0' width='" + imgWidth + "' height='10' style='fill:" + colorSamePos + "'/>";
+                    var current = positions.h;
+                    while(current != null && current != undefined) {
+                        data += "<rect x='" + (current.item * 16) + "' y='0' width='16' height='10' fill='" + colorDifPos + "'/>";
+                        current = current.next;
+                    }
+                    data += "</svg>";
+                    showVizualization(data);
+                }
                 function showCite() {
                     $("#calculationOverlay").show();
                     $.getJSON("cite.json", function(data) {
@@ -464,7 +487,7 @@
                         }
                         // html -> overview + elements
                         html += "<div id='sortable'>";
-                        html += "<a name='overview'></a><div class='tooltip overview ui-corner-all ui-widget ui-widget-content ui-draggable ui-resizable floater' tid='joboverview.title'><div class='ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix' style='padding: 0.4em 1em; cursor: auto'><span class='ui-dialog-title'><span class='ui-icon ui-icon-home'></span> <span class='label' lid='overviewboxtitle.label'></span></span><a href='#overviewfiles' onclick=\"javascript:$('.overviewfiles').effect('highlight', {color: 'red'}, 1750);\" class='tooltip' tid='jumpToOverviewFiles.title'><span class='ui-icon ui-icon-arrowreturnthick-1-s'></span><span class='label' lid='jumpToOverviewFiles.label'></span></a></div><div id='dialog' class='ui-dialog-content ui-widget-content' style='padding: 0.4em 1em;'><table style='width:100%'><tr class='tooltip' tid='jobname.title'><td><b class='label' lid='jobname.label'></b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick='javascript:renameJob();' class='ui-button ui-widget ui-corner-all tooltip' tid='jobname.rename.title'><span class='ui-icon ui-icon-pencil'></span></button></td><td>&nbsp;&nbsp;&nbsp;</td><td id='jobnameText' class='right'>";
+                        html += "<div class='tooltip overview ui-corner-all ui-widget ui-widget-content ui-draggable ui-resizable floater' tid='joboverview.title'><a name='overview' class='anchor'></a><div class='ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix' style='padding: 0.4em 1em; cursor: auto'><span class='ui-dialog-title'><span class='ui-icon ui-icon-home'></span> <span class='label' lid='overviewboxtitle.label'></span></span><a href='#overviewfiles' onclick=\"javascript:$('.overviewfiles').effect('highlight', {color: 'red'}, 1750);\" class='tooltip' tid='jumpToOverviewFiles.title'><span class='ui-icon ui-icon-arrowreturnthick-1-s'></span><span class='label' lid='jumpToOverviewFiles.label'></span></a></div><div id='dialog' class='ui-dialog-content ui-widget-content' style='padding: 0.4em 1em;'><table style='width:100%'><tr class='tooltip' tid='jobname.title'><td><b class='label' lid='jobname.label'></b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick='javascript:renameJob();' class='ui-button ui-widget ui-corner-all tooltip' tid='jobname.rename.title'><span class='ui-icon ui-icon-pencil'></span></button></td><td>&nbsp;&nbsp;&nbsp;</td><td id='jobnameText' class='right'>";
                         html += jobname;
                         html += "</td></tr><tr class='tooltip' tid='uploadtime.title'><td><b class='label' lid='uploadtime.label'></b></td><td></td><td class='right'>";
                         html += moment(project["submissionDate"]).format(timeformat).escape();
@@ -483,31 +506,44 @@
                         for(var i = 0; i < project["faFiles"].length; i++) {
                             var name = project["faFiles"][i]["filename"].escape();
                             var status = project["faFiles"][i]["status"];
-                            html += "<a name='alig";
-                            html += i;
-                            html += "'></a><div class='alig";
+                            html += "<div class='alig";
                             html += i;
                             html += " ui-corner-all ui-widget ui-widget-content ui-draggable ui-resizable floater tooltip' tid='fileContentView.title' ta0='";
                             html += name;
-                            html += "'><div class='ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix' style='padding: 0.4em 1em; font-size: 125%; cursor: auto'><span class='ui-dialog-title'><span class='ui-icon ui-icon-script'></span> ";
+                            html += "'><a name='alig";
+                            html += i;
+                            html += "' class='anchor'></a><div class='ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix' style='padding: 0.4em 1em; font-size: 125%; cursor: auto'><span class='ui-dialog-title'><span class='ui-icon ui-icon-script'></span> ";
                             html += name;
                             html += "</span><a href='#alig";
                             html += i;
-                            html += "files' onclick='javascript:$('.alig";
+                            html += "files' onclick=\"javascript:$('.alig";
                             html += i;
-                            html += "files').effect('highlight', {color: 'red'}, 1750);' class='tooltip' tid='jumpAssociatedAlignmentFiles.title'><span class='ui-icon ui-icon-arrowreturnthick-1-s'></span><span class='label' lid='jumpToAlignementFiles.label'></span></a></div><div id='dialog' class='ui-dialog-content ui-widget-content' style='padding: 0.4em 1em;'><table style='width:100%'><tr class='tooltip' tid='overviewboxesfilename.title'><td><b class='label' lid='overviewboxesfilename.label'></b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick='javascript:renameAlignment(";
+                            html += "files').effect('highlight', {color: 'red'}, 1750);\" class='tooltip' tid='jumpAssociatedAlignmentFiles.title'><span class='ui-icon ui-icon-arrowreturnthick-1-s'></span><span class='label' lid='jumpToAlignementFiles.label'></span></a></div><div id='dialog' class='ui-dialog-content ui-widget-content' style='padding: 0.4em 1em;'><table style='width:100%'><tr class='tooltip' tid='overviewboxesfilename.title'><td><b class='label' lid='overviewboxesfilename.label'></b>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick='javascript:renameAlignment(";
                             html += i;
                             html += ");' class='ui-button ui-widget ui-corner-all'><span class='ui-icon ui-icon-pencil'></span></button></td><td>&nbsp;&nbsp;&nbsp;</td><td id='alig%sText' class='right'>";
                             html += name;
-                            html += "</td></tr><tr class='tooltip' tid='calculationstatus.title'><td><b class='label' lid='calculationstatus.label'></b></td><td></td><td class='right aligStatusMsg label' lid='";
-                            html += status;
-                            html += "'></td></tr><tr class='tooltip' tid='nrSequencesInFile.title'><td><b class='label' lid='nrSequencesInFile.label'></b></td><td></td><td class='right'>";
+                            html += "</td></tr><tr class='tooltip' tid='calculationstatus.title'><td><b class='label' lid='calculationstatus.label'></b></td><td></td><td class='right'>";
+                            if(missing(project["faFiles"][i]["statusDescription"])) {
+                                html += "<span class='label' lid='";
+                                html += status;
+                                html += "'></span>";
+                            } else {
+                                html += "<a href='#' onclick='javascript: alert(\"" + project["faFiles"][i]["statusDescription"].escape() + "\")'>";
+                                html += "<span class='label' lid='";
+                                html += status;
+                                html += "'></span></a>";
+                            }
+                            html += "</td></tr><tr class='tooltip' tid='nrSequencesInFile.title'><td><b class='label' lid='nrSequencesInFile.label'></b></td><td></td><td class='right'>";
                             html += (missing(project["faFiles"][i]["nrSeqs"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["nrSeqs"];
                             html += "</td></tr><tr class='tooltip' tid='nrDifSequencesInFile.title'><td><b class='label' lid='nrDifSequencesInFile.label'></b></td><td></td><td class='right'>";
                             html += (missing(project["faFiles"][i]["nrDifSeqs"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["nrDifSeqs"];
                             html += "</td></tr><tr class='tooltip' tid='seqLen.title'><td><b class='label' lid='seqLen.label'></b></td><td></td><td class='right'>";
                             html += (missing(project["faFiles"][i]["seqLen"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["seqLen"];
-                            html += "</td></tr><tr class='tooltip' tid='intPos.title'><td><b class='label' lid='intPos.label'></b></td><td></td><td class='right'>";
+                            html += "</td></tr><tr class='tooltip' tid='intPos.title'><td><b class='label' lid='intPos.label'></b>&nbsp;&nbsp;&nbsp;&nbsp;<button tid='visualize' onclick='javascript:visualizeIntPos(";
+                            html += i;
+                            html += ");' class='tooltip ";
+                            html += (missing(project["faFiles"][i]["intPos"]) || missing(project["faFiles"][i]["seqLen"])) ? "ui-state-disabled " : "";
+                            html += "ui-button ui-widget ui-corner-all'><span class='ui-icon ui-icon-image'></span></button></td><td></td><td class='right'>";
                             html += (missing(project["faFiles"][i]["intPos"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["intPos"].length;
                             html += "</td></tr><tr class='tooltip' tid='nbffrs.title'><td><b class='label' lid='nbffrs.label'></b></td><td></td><td class='right'>";
                             html += (missing(project["faFiles"][i]["ffrs"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["ffrs"];
@@ -516,31 +552,86 @@
                         }
                         html += "</div>"; // this is the end of the div with the id sortable
                         // html -> file table
-                        html += "<p></p><table id='fileTable'><tr class='header'><td class='left'>Name</td><td class='left'>Actions</td><td class='middle'>Description</td><td class='middle'>Hash</td><td class='right'>Size</td></tr></table>";
+                        html += "<p></p><table id='fileTable'><tr class='header'><td class='left' class='label' lid='fileTableHeaderName.label'>Name</td><td class='left label' lid='fileTableHeaderAction.label'></td><td class='middle label' lid='fileTableHeaderDesc.label'></td></tr>";
+                        var even = true;
+                        html += "<tr class='" + ((even) ? "even" : "odd") + " overviewfiles'>";
+                        html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
+                        html += "<span class='label' lid='allFilesZip.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadEverything();'><span class='ui-icon ui-icon-disk";
+                        html += (project["progress"] === 100) ? "" : " ui-state-disabled";
+                        html += "'></span></button></td><td class='middle label' lid='allFilesZipDesc.label'></td></tr>";
+                        even = !even;
+                        for(var i = 0; i < project["faFiles"].length; i++) {
+                            var name = project["faFiles"][i]["filename"].escape();
+                            html += "<tr class='" + ((even) ? "even" : "odd") + " alig" + i + "files'>";
+                            html += "<td class='left'><a name='alig" + i + "files' class='anchor'></a><a href='#alig" + i +"' onclick='javascript:$(\".alig" + i + "\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpAligOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
+                            html += name;
+                            html += "</td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonView' onclick='javascript:viewAlign(" + i + ")'><span class='ui-icon ui-icon-newwin'></span></button><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadAlign(" + i + ")'><span class='ui-icon ui-icon-disk'></span></button>";
+                            html += "</td><td class='middle label' lid='originalFaFileDesc.label'></td></tr>";
+                            even = !even;
+                            html += "<tr class='" + ((even) ? "even" : "odd") + " alig" + i + "files'>";
+                            html += "<td class='left'><a name='alig" + i + "files' class='anchor'></a><a href='#alig" + i +"' onclick='javascript:$(\".alig" + i + "\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpAligOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
+                            html += name + ".haploweb";
+                            html += "</td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["mj"])) ? " ui-state-disabled" : "") + "' tid='buttonView' onclick='javascript:viewHaploweb(" + i + ")'><span class='ui-icon ui-icon-newwin'></span></button><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["mj"])) ? " ui-state-disabled" : "") + "' tid='buttonDownload' onclick='javascript:downloadHaploweb(" + i + ")'><span class='ui-icon ui-icon-disk'></span></button>";
+                            html += "</td><td class='middle label' lid='haplowebTxtFileDesc.label'></td></tr>";
+                            even = !even;
+                            html += "<tr class='" + ((even) ? "even" : "odd") + " alig" + i + "files'>";
+                            html += "<td class='left'><a name='alig" + i + "files' class='anchor'></a><a href='#alig" + i +"' onclick='javascript:$(\".alig" + i + "\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpAligOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
+                            html += name + ".tsv";
+                            html += "</td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["mj"])) ? " ui-state-disabled" : "") + "' tid='buttonView' onclick='javascript:viewFFR(" + i + ")'><span class='ui-icon ui-icon-newwin'></span></button><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["mj"])) ? " ui-state-disabled" : "") + "' tid='buttonDownload' onclick='javascript:downloadFFR(" + i + ")'><span class='ui-icon ui-icon-disk'></span></button>";
+                            html += "</td><td class='middle label' lid='ffrTxtFileDesc.label'></td></tr>";
+                        }
+                        html += "</table>"; // end file table
                         // apply html
                         $("#projectShowBox").html(html);
                         // do missing needed actions
                         setLanguage(language);
+//                        $( "#sortable" ).sortable({ handle: ".ui-dialog-title" });
                         if(project["progress"] !== 100) {
-                            $( "#sortable" ).sortable({ handle: ".ui-dialog-title" });
                             $('#progressbar').progressbar({value:project["progress"]});
                             $('#progressbar').find('.ui-progressbar-value').addClass('activeProgressbar').removeClass('ui-widget-header');
                             $('#progressbarLabel').addClass('activeProgressbarLabel');
                             $('.actionRequiresCompletion').addClass('ui-state-disabled');
                         }
-                        /*
-                    project["projectName"] = document.getElementById("jobname").value;
-                    project["epsilon"] = $( "#epsilon" ).spinner( "value" );
-                    project["upperLowerCase"] = document.getElementById("ignoreUpperLower").checked;
-                    project["submissionDate"] = Date.getTime();
-                    project["browser"] = navigator;
-                    project["faFiles"] = new Array(files.length);
-*/
                     }
                 } // TODO
+                function downloadEverything() {
+                    $("#calculationOverlay").show();
+                    var zip = new JSZip();
+                    for(var i = 0; i < project["faFiles"].length; i++) {
+                        var name = project["faFiles"][i]["filename"].escapeZip();
+                        zip.file(name, project["faFiles"][i]["data"]);
+                        zip.file(name + ".haploweb", project["faFiles"][i]["mj"]);
+                    }
+                    zip.generateAsync({type:"blob"}).then(function(content) { saveAs(content, "all.zip"); $("#calculationOverlay").hide(); });
+                } // TODO
+                function viewAlign(i) {
+                    view("text/plain", project["faFiles"][i]["data"]);
+                }
+                function downloadAlign(i) {
+                    download("application/fasta", project["faFiles"][i]["filename"], project["faFiles"][i]["data"]);
+                }
+                function viewHaploweb(i) {
+                    view("text/plain", project["faFiles"][i]["mj"]);
+                }
+                function downloadHaploweb(i) {
+                    download("text/haploweb", project["faFiles"][i]["filename"] + ".haploweb", project["faFiles"][i]["mj"]);
+                }
+                function generateFFRList(i, f) {
+                    f("Hello World");
+                } // TODO
+                function viewFFR(i) {
+                    generateFFRList(i, function(txt) {
+                        view("text/plain", txt);
+                    });
+                }
+                function downloadFFR(i) {
+                    generateFFRList(i, function(txt) {
+                        download("text/ffrs", project["faFiles"][i]["filename"] + ".tsv", txt);
+                    });
+                }
             </script>
         </div>
-        <a name="bottom"></a>
+        <a name="bottom" class="anchor"></a>
         <script>
             // complete DOM loaded? Then set the DOM's text
             setLanguage(language);

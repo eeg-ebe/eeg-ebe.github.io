@@ -9,7 +9,9 @@
     "buttonCancel" : "Annuler",
     "buttonOk" : "Ok",
     "buttonDownload" : "Télécharger",
+    "buttonView" : "Regarder",
     "unknown" : "?",
+    "visualize" : "Visualiser",
     "configureShortcuts.warningdialog.label" : "Raccourci ambigu",
     "shortcutConfigurationWarningDialogText.label" : "Erreur: Le raccourci '{2}' ne peut pas être utiliser pour l'opération '{0}' et pour l'opération '{1}' en même temps!",
     "openMainToolsToolbox.label" : "Ouvrir la boîte à outils",
@@ -44,7 +46,7 @@
     "jobSubmissionJobName.title" : "Un identifiant facultatif pour le calcul!",
     "jobSubmissionJobName.label" : "Nom du calcul(*):",
     "jobSubmissionFasta.title" : "Veuillez télécharger un alignement FASTA dans lequel les noms des séquences de l'individu XXX sont sous la forme XXX_* (Où * peut être un nombre, une lettre ou un caractère arbitraire que vous utilisez pour distinguer les différents haplotypes trouvés en commun chez un individu donné)",
-    "jobSubmissionFasta.label" : "Fasta alignment(s)(**):",
+    "jobSubmissionFasta.label" : "Alignment(s) de FASTA(**):",
     "jobSubmissionButton.label" : "Soumettez le calcul",
     "jobSubmissionButton.title" : "Soumettez le calcul",
     "jobSubmissionJobNameExp.label" : "(*) Un identifiant facultatif pour le calcul!",
@@ -97,6 +99,18 @@
     "intPos.label" : "Positions différents",
     "intPos.title" : "Le nombre de positions dans l'alignment ou au moins deux séquences sont différents",
     "nbffrs.label" : "Nombre FFRs",
-    "nbffrs.title" : "Les nombres des FFRs dans ce fichier"
+    "nbffrs.title" : "Les nombres des FFRs dans ce fichier",
+    "fileTableHeaderName.label" : "Nom",
+    "fileTableHeaderAction.label" : "Actions",
+    "fileTableHeaderDesc.label" : "Description",
+    "fileTableHeaderHash.label" : "Hash",
+    "fileTableHeaderSize.label" : "Tail",
+    "jumpOverview.title" : "Vers le résume",
+    "allFilesZip.label" : "Tous",
+    "allFilesZipDesc.label" : "Fichier comprime qui contines tous les données",
+    "jumpAligOverview.title" : "Vers le résume du fichier",
+    "originalFaFileDesc.label" : "Le fichier original d'alignement FASTA",
+    "haplowebTxtFileDesc.label" : "Représentation textuelle du haploweb",
+    "ffrTxtFileDesc.label" : "Représentation textuelle des FFRs"
   }
 }

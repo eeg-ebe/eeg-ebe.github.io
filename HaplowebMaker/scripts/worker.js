@@ -70,7 +70,7 @@ function calculateFaFile(project, i) {
         setFileVal(i, "status", "okstatus.label");
     } catch(e) {
         setFileVal(i, "status", "failed.label");
-        setFileVal(i, "failedReason", e.message);
+        setFileVal(i, "statusDescription", e.message);
         stepsDone = (i+1) * 3;
         setProgress(stepsDone, stepsToDO);
     }

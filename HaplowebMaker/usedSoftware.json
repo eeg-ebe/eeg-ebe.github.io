@@ -10,9 +10,9 @@
         "license" : "https://github.com/jquery/jqueryui.com/blob/master/LICENSE.txt"
     },
     {
-        "name" : "pako.js",
-        "urls" : [ "https://github.com/nodeca/pako" ],
-        "license" : "https://github.com/nodeca/pako/blob/master/LICENSE"
+        "name" : "JSZip",
+        "urls" : [ "https://stuk.github.io/jszip/", "https://github.com/Stuk/jszip" ],
+        "license" : "https://github.com/Stuk/jszip/blob/master/LICENSE.markdown"
     },
     {
         "name" : "HaXe",
@@ -23,5 +23,10 @@
         "name" : "momentjs",
         "urls" : [ "http://momentjs.com/", "https://github.com/moment/moment/" ],
         "license" : "https://github.com/moment/moment/blob/develop/LICENSE"
+    },
+    {
+        "name" : "FileSaver.js",
+        "urls" : [ "https://github.com/eligrey/FileSaver.js/" ],
+        "license" : "https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md"
     }
 ]
