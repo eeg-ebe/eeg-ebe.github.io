@@ -9,6 +9,7 @@
     "buttonCancel" : "Abbrechen",
     "buttonOk" : "Ok",
     "buttonDownload" : "Herunterladen",
+    "unknown" : "?",
     "configureShortcuts.warningdialog.label" : "Doppeldeutige Tastenkombination",
     "shortcutConfigurationWarningDialogText.label" : "Fehler: Die Tastenkombination '{2}' kann nicht gleichzeitig für die Aktion '{0}' und die Aktion '{1}' verwendet werden!",
     "openMainToolsToolbox.label" : "Werkzeugbox öffnen",
@@ -86,6 +87,16 @@
     "running.label" : "Wird berechnet",
     "failed.label" : "Fehlgeschlagen",
     "calculationstatus.label" : "Status",
-    "calculationstatus.title" : "Berechnungsstatus dieser Datei"
+    "calculationstatus.title" : "Berechnungsstatus dieser Datei",
+    "nrSequencesInFile.label" : "Anzahl Sequenzen",
+    "nrSequencesInFile.title" : "Die Anzahl an Sequenzen in dieser Datei",
+    "nrDifSequencesInFile.label" : "Anzahl unt. Sequenzen",
+    "nrDifSequencesInFile.title" : "Die Anzahl an unterschiedlichen Sequenzen in dieser Datei",
+    "seqLen.label" : "Sequenzlänge",
+    "seqLen.title" : "Die Länge jeder Sequenz im Alignment",
+    "intPos.label" : "Anzahl unterschdl. Positionen",
+    "intPos.title" : "Die Anzahl Positionen im Alignment, wo sich mindestens zwei Sequenzen unterscheiden",
+    "nbffrs.label" : "Anzahl FFRs",
+    "nbffrs.title" : "Die Anzahl an FFRs (field for recombination) in dieser Datei"
   }
 }

@@ -149,3 +149,7 @@ function isEmptyDict(obj) {
 function generateNotification(ui, icon, labelid) {
     return "<div class='ui-widget'><div class='ui-state-" + ui + " ui-corner-all' style='margin-top: 5px; padding: 0 .7em;'><p style='margin: 7px'><span class='ui-icon ui-icon-" + icon + "' style='float: left; margin-right: .3em;'></span><strong id='notificationText' class='label' lid='" + labelid + "'></strong></p></div></div>";
 }
+
+function missing(val) {
+    return val == undefined || val == null;
+}

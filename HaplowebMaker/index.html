@@ -469,7 +469,7 @@
                         html += "</td></tr><tr class='tooltip' tid='uploadtime.title'><td><b class='label' lid='uploadtime.label'></b></td><td></td><td class='right'>";
                         html += moment(project["submissionDate"]).format(timeformat).escape();
                         html += "</td></tr><tr class='tooltip' tid='endtime.title'><td><b class='label' lid='endtime.label'></b></td><td></td><td class='right'>";
-                        html += (project["calculationEndDate"] == null) ? "<span>" : moment(project["calculationEndDate"]).format(timeformat).escape();
+                        html += (project["calculationEndDate"] == null) ? "<span class='label' lid='unknown'></span>" : moment(project["calculationEndDate"]).format(timeformat).escape();
                         html += "</td></tr><tr class='tooltip' tid='nrUploadedFiles.title'><td><b class='label' lid='nrUploadedFiles.label'></b></td><td></td><td class='right'>";
                         html += project["faFiles"].length;
                         html += "</td></tr><tr class='tooltip' tid='jobcalculationProcess.title'><td><b class='label' lid='jobcalculationProcess.label'></b></td><td></td><td class='right'>";
@@ -499,11 +499,20 @@
                             html += i;
                             html += ");' class='ui-button ui-widget ui-corner-all'><span class='ui-icon ui-icon-pencil'></span></button></td><td>&nbsp;&nbsp;&nbsp;</td><td id='alig%sText' class='right'>";
                             html += name;
-                            html += "</td></tr><tr class='tooltip' tid='calculationstatus.title'><td><b class='label' lid='calculationstatus.label'></b></td><td></td><td class='right aligStatusMsg  label' lid='";
+                            html += "</td></tr><tr class='tooltip' tid='calculationstatus.title'><td><b class='label' lid='calculationstatus.label'></b></td><td></td><td class='right aligStatusMsg label' lid='";
                             html += status;
-                            html += "'></td></tr>";
+                            html += "'></td></tr><tr class='tooltip' tid='nrSequencesInFile.title'><td><b class='label' lid='nrSequencesInFile.label'></b></td><td></td><td class='right'>";
+                            html += (missing(project["faFiles"][i]["nrSeqs"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["nrSeqs"];
+                            html += "</td></tr><tr class='tooltip' tid='nrDifSequencesInFile.title'><td><b class='label' lid='nrDifSequencesInFile.label'></b></td><td></td><td class='right'>";
+                            html += (missing(project["faFiles"][i]["nrDifSeqs"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["nrDifSeqs"];
+                            html += "</td></tr><tr class='tooltip' tid='seqLen.title'><td><b class='label' lid='seqLen.label'></b></td><td></td><td class='right'>";
+                            html += (missing(project["faFiles"][i]["seqLen"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["seqLen"];
+                            html += "</td></tr><tr class='tooltip' tid='intPos.title'><td><b class='label' lid='intPos.label'></b></td><td></td><td class='right'>";
+                            html += (missing(project["faFiles"][i]["intPos"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["intPos"].length;
+                            html += "</td></tr><tr class='tooltip' tid='nbffrs.title'><td><b class='label' lid='nbffrs.label'></b></td><td></td><td class='right'>";
+                            html += (missing(project["faFiles"][i]["ffrs"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["ffrs"];
 //Size, Hash, nr. lines, nr. sequences, nr. indiv., sequence characters usage, k-mer, nr. differenciating positions, histogram of nr. seqs per ffr ..., time (start, end, used), nr. ffrs, nr. med vect, (graph attrs. like degree distribution, ...), description, sound
-                            html += "</table></div></div>";
+                            html += "</td></tr></table></div></div>";
                         }
                         html += "</div>"; // this is the end of the div with the id sortable
                         // html -> file table

@@ -9,6 +9,7 @@
     "buttonCancel" : "Cancel",
     "buttonOk" : "Ok",
     "buttonDownload" : "Download",
+    "unknown" : "?",
     "configureShortcuts.warningdialog.label" : "Ambiguous shortcut",
     "shortcutConfigurationWarningDialogText.label" : "Error: The shortcut '{2}' cannot be used for action '{0}' and action '{1}' simultanously!",
     "openMainToolsToolbox.label" : "Open basic tools box",
@@ -82,10 +83,20 @@
     "overviewboxesfilename.label" : "Filename",
     "askForNewAlignmentName.label" : "Please insert the new name:",
     "inqueuestatus.label" : "In queue",
-    "okstatus.label" : "Prêt",
+    "okstatus.label" : "Ready",
     "running.label" : "En calculation",
     "failed.label" : "Failed",
     "calculationstatus.label" : "Status",
-    "calculationstatus.title" : "This files calculation status"
+    "calculationstatus.title" : "This files calculation status",
+    "nrSequencesInFile.label" : "Number of sequences",
+    "nrSequencesInFile.title" : "The number of sequences in this file",
+    "nrDifSequencesInFile.label" : "Nb of different sequences",
+    "nrDifSequencesInFile.title" : "The number of different sequences in this file",
+    "seqLen.label" : "Sequenzlength",
+    "seqLen.title" : "The length of each sequence in the alignment",
+    "intPos.label" : "Nb diff. positions",
+    "intPos.title" : "The number of positions in the alignment where at least two sequences differ",
+    "nbffrs.label" : "Nb. FFRs",
+    "nbffrs.title" : "The number of FFRs in this file"
   }
 }

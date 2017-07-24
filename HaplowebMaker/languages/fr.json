@@ -9,6 +9,7 @@
     "buttonCancel" : "Annuler",
     "buttonOk" : "Ok",
     "buttonDownload" : "Télécharger",
+    "unknown" : "?",
     "configureShortcuts.warningdialog.label" : "Raccourci ambigu",
     "shortcutConfigurationWarningDialogText.label" : "Erreur: Le raccourci '{2}' ne peut pas être utiliser pour l'opération '{0}' et pour l'opération '{1}' en même temps!",
     "openMainToolsToolbox.label" : "Ouvrir la boîte à outils",
@@ -82,10 +83,20 @@
     "overviewboxesfilename.label" : "Nom du fichier",
     "askForNewAlignmentName.label" : "S.v.p veuillez donner le nouvel nom du fichier",
     "inqueuestatus.label" : "En circuit d'attente",
-    "okstatus.label" : "Ready",
+    "okstatus.label" : "Prêt",
     "running.label" : "En calculation",
     "failed.label" : "Échouer",
     "calculationstatus.label" : "Statut",
-    "calculationstatus.title" : "Statut du calcul"
+    "calculationstatus.title" : "Statut du calcul",
+    "nrSequencesInFile.label" : "Nombre de séquences",
+    "nrSequencesInFile.label" : "Le nombre de séquences dans ce fichier",
+    "nrDifSequencesInFile.label" : "Nombre des séquences différents",
+    "nrDifSequencesInFile.title" : "Le nombre de séquences différents dans ce fichier",
+    "seqLen.label" : "Longeur des séquences",
+    "seqLen.title" : "La longeur de chaque séquence dans l'alignement",
+    "intPos.label" : "Positions différents",
+    "intPos.title" : "Le nombre de positions dans l'alignment ou au moins deux séquences sont différents",
+    "nbffrs.label" : "Nombre FFRs",
+    "nbffrs.title" : "Les nombres des FFRs dans ce fichier"
   }
 }
