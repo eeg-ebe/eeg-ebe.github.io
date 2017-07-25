@@ -1309,7 +1309,8 @@ mj_Link.prototype = {
 var mj_MJAlgo = function() {
 	this.seqs = new mj_Seqs();
 	this.rdeltas = new List();
-	this.nrSeqs = 0;
+	this.seqCount = 0;
+	this.nextSpId = 0;
 };
 $hxClasses["mj.MJAlgo"] = mj_MJAlgo;
 mj_MJAlgo.__name__ = ["mj","MJAlgo"];
@@ -1317,10 +1318,10 @@ mj_MJAlgo.main = function() {
 };
 mj_MJAlgo.prototype = {
 	seqs: null
-	,nrSeqs: null
 	,weights: null
 	,rweights: null
 	,rdeltas: null
+	,seqCount: null
 	,nextSpId: null
 	,distStr: function(s1,s2) {
 		var result = 0.0;
@@ -1335,8 +1336,8 @@ mj_MJAlgo.prototype = {
 		return result;
 	}
 	,addSequence: function(name,seq) {
-		this.nrSeqs++;
 		this.seqs.addSample(name,seq);
+		this.seqCount++;
 	}
 	,finishedAddingSequences: function() {
 		if(this.seqs.size == 0) {
@@ -2805,7 +2806,6 @@ mj_MJAlgo.prototype = {
 			}
 			current = current.next;
 		}
-		this.nextSpId = 0;
 		var l3 = new List();
 		current = this.seqs.first;
 		while(current != null && current.isSample) {
@@ -2836,13 +2836,13 @@ mj_MJAlgo.prototype = {
 		return this.seqs;
 	}
 	,getNrSeqs: function() {
-		return this.nrSeqs;
-	}
-	,getSeqLength: function() {
-		return this.seqs.origSeqLen;
+		return this.seqCount;
 	}
 	,getNrDifSeqs: function() {
 		return this.seqs.size;
+	}
+	,getSeqLength: function() {
+		return this.seqs.origSeqLen;
 	}
 	,getNrInterestingPositions: function() {
 		return this.seqs.ipos;
@@ -3015,7 +3015,7 @@ mj_Seq.getIndIdentifier = function(s) {
 	if(s != null) {
 		var pos = s.lastIndexOf("_");
 		if(pos != -1) {
-			result = HxOverrides.substr(s,0,pos + 1);
+			result = HxOverrides.substr(s,0,pos);
 		}
 	}
 	return result;
@@ -3029,7 +3029,7 @@ mj_Seq.createSample = function(id,name,seq) {
 		if(name != null) {
 			var pos = name.lastIndexOf("_");
 			if(pos != -1) {
-				result1 = HxOverrides.substr(name,0,pos + 1);
+				result1 = HxOverrides.substr(name,0,pos);
 			}
 		}
 		var indId = result1;
@@ -3114,7 +3114,7 @@ mj_Seq.prototype = {
 			if(s != null) {
 				var pos = s.lastIndexOf("_");
 				if(pos != -1) {
-					result = HxOverrides.substr(s,0,pos + 1);
+					result = HxOverrides.substr(s,0,pos);
 				}
 			}
 			var indId = result;
@@ -3398,7 +3398,7 @@ mj_Seqs.prototype = {
 					if(name != null) {
 						var pos1 = name.lastIndexOf("_");
 						if(pos1 != -1) {
-							result1 = HxOverrides.substr(name,0,pos1 + 1);
+							result1 = HxOverrides.substr(name,0,pos1);
 						}
 					}
 					var indId = result1;
@@ -3430,7 +3430,7 @@ mj_Seqs.prototype = {
 			if(name != null) {
 				var pos2 = name.lastIndexOf("_");
 				if(pos2 != -1) {
-					result4 = HxOverrides.substr(name,0,pos2 + 1);
+					result4 = HxOverrides.substr(name,0,pos2);
 				}
 			}
 			var indId1 = result4;

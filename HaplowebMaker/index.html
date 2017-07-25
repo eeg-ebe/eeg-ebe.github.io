@@ -7,12 +7,23 @@
         <title>HaplowebMaker</title>
         <link rel="stylesheet" href="main.css"/>
         <link rel="stylesheet" href="external/jquery-ui.min.css"/>
+<!--
+        <script>
+            window.onerror = function(msg, url, line, col, error) {
+                var extra = !col ? '' : '\ncolumn: ' + col;
+                extra += !error ? '' : '\nerror: ' + error;
+                extra += !navigator.userAgent ? '' : "\nUserAgent: " + navigator.userAgent;
+                alert("Ooops, this should not happen!\n\nAn unexpected error occured!\nPlease report the following information to the authors of this program, so that this error can get fixed:\n\nError: " + msg + "\nurl: " + url + "\nline: " + line + extra);
+            }
+        </script>
+-->
         <script src="external/FileSaver.min.js"></script>
         <script src="external/jquery.js"></script>
         <script src="external/moment.min.js"></script>
         <script src="external/jquery-ui.min.js"></script>
         <script src="external/jszip.js"></script>
         <script src="scripts/util.js"></script>
+        <script src="scripts/LstExtractor.js"></script>
         <script>
             // load shortcuts
             shortcuts = {};
@@ -601,6 +612,7 @@
                         var name = project["faFiles"][i]["filename"].escapeZip();
                         zip.file(name, project["faFiles"][i]["data"]);
                         zip.file(name + ".haploweb", project["faFiles"][i]["mj"]);
+                        zip.file(name + ".tsv", generateFFRListByParams(i, true, true, true, false));
                     }
                     zip.generateAsync({type:"blob"}).then(function(content) { saveAs(content, "all.zip"); $("#calculationOverlay").hide(); });
                 } // TODO
@@ -616,8 +628,26 @@
                 function downloadHaploweb(i) {
                     download("text/haploweb", project["faFiles"][i]["filename"] + ".haploweb", project["faFiles"][i]["mj"]);
                 }
+                function generateFFRListByParams(i, onlyInd, sort, sortAlpha, outputSet) {
+                    Printer = function () {
+                        this.indent = "  ";
+                        this.newline = "\n";
+                        this.countingOffset = 1;
+                        this.l = [];
+                        this.printString = function (s) {
+                            this.l.push(s);
+                        };
+                        this.close = function () {};
+                        this.toText = function () {
+                            return this.l.join("");
+                        }
+                    }
+                    var p = new Printer();
+                    LstExtractor.extract(p, project["faFiles"][i]["mj"], onlyInd, sort, sortAlpha, outputSet);
+                    return p.toText();
+                }
                 function generateFFRList(i, f) {
-                    f("Hello World");
+                    f(generateFFRListByParams(i, true, true, true, false));
                 } // TODO
                 function viewFFR(i) {
                     generateFFRList(i, function(txt) {
