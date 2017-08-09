@@ -590,6 +590,13 @@
                             html += name + ".tsv";
                             html += "</td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["mj"])) ? " ui-state-disabled" : "") + "' tid='buttonView' onclick='javascript:viewFFR(" + i + ")'><span class='ui-icon ui-icon-newwin'></span></button><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["mj"])) ? " ui-state-disabled" : "") + "' tid='buttonDownload' onclick='javascript:downloadFFR(" + i + ")'><span class='ui-icon ui-icon-disk'></span></button>";
                             html += "</td><td class='middle label' lid='ffrTxtFileDesc.label'></td></tr>";
+                            even = !even;
+                            html += "<tr class='" + ((even) ? "even" : "odd") + " alig" + i + "files'>";
+                            html += "<td class='eft'><a name='alig" + i + "files' class='anchor'></a><a href='#alig" + i +"' onclick='javascript:$(\".alig" + i + "\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpAligOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
+                            html += name + ".svg";
+                            html += "</td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["svg"])) ? " ui-state-disabled" : "") + "' tid='buttonView' onclick='javascript:viewSVG(" + i + ")'><span class='ui-icon ui-icon-newwin'></span></button><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["svg"])) ? " ui-state-disabled" : "") + "' tid='buttonDownload' onclick='javascript:downloadSVG(" + i + ")'><span class='ui-icon ui-icon-disk'></span></button>";
+                            html += "</td><td class='middle label' lid='svgTxtFileDesc.label'></td></tr>";
+                            even = !even;
                         }
                         html += "</table>"; // end file table
                         // apply html
@@ -613,6 +620,7 @@
                         zip.file(name, project["faFiles"][i]["data"]);
                         zip.file(name + ".haploweb", project["faFiles"][i]["mj"]);
                         zip.file(name + ".tsv", generateFFRListByParams(i, true, true, true, false));
+                        zip.file(name + ".svg", project["faFiles"][i]["svg"]);
                     }
                     zip.generateAsync({type:"blob"}).then(function(content) { saveAs(content, "all.zip"); $("#calculationOverlay").hide(); });
                 } // TODO
@@ -647,7 +655,8 @@
                     return p.toText();
                 }
                 function generateFFRList(i, f) {
-                    f(generateFFRListByParams(i, true, true, true, false));
+                    var onlyInd=true, sort=true, sortAlpha=true, outputSet=false;
+                    f(generateFFRListByParams(i, onlyInd, sort, sortAlpha, outputSet));
                 } // TODO
                 function viewFFR(i) {
                     generateFFRList(i, function(txt) {
@@ -658,6 +667,12 @@
                     generateFFRList(i, function(txt) {
                         download("text/ffrs", project["faFiles"][i]["filename"] + ".tsv", txt);
                     });
+                }
+                function viewSVG(i) {
+                    view("image/svg+xml", project["faFiles"][i]["svg"]);
+                }
+                function downloadSVG(i) {
+                    download("text/plain", project["faFiles"][i]["filename"] + ".svg", project["faFiles"][i]["svg"]);
                 }
             </script>
         </div>

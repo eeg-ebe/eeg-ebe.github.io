@@ -1,4 +1,4 @@
-self.importScripts("FastaParsing.js", "MJAlgo.js");
+self.importScripts("FastaParsing.js", "MJAlgo.js", "Drawing.js");
 
 Printer = function () {
     this.indent = "  ";
@@ -55,6 +55,7 @@ function calculateFaFile(project, i) {
         m.runMJ(project["epsilon"]);
         var p = new Printer();
         m.finalizeNetwork().printTxt(p);
+        var netTxt = p.toText();
         setFileVal(i, "mj", p.toText());
         setFileVal(i, "nrSeqs", m.getNrSeqs());
         setFileVal(i, "nrDifSeqs", m.getNrDifSeqs());
@@ -64,7 +65,12 @@ function calculateFaFile(project, i) {
         setProgress(++stepsDone, stepsToDO);
         setFileVal(i, "endMJ", Date.now());
         // end of mj - now draw
-// TODO
+        var g = new draw_Graph(parsing_MJNetParser.parseNet(netTxt));
+        g.forceDirectedMethod(true, 0.6, 0.5, 500.0, 0.1, 0.1, 10000);
+        g.centerPos();
+//        g.stretch(0.1);
+        g.assignLinkPos();
+        setFileVal(i, "svg", g.getSvgCode());
         setFileVal(i, "endDraw", Date.now());
         // end of drawing - end of this file
         setFileVal(i, "status", "okstatus.label");

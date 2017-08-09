@@ -86,7 +86,7 @@
     "askForNewAlignmentName.label" : "Please insert the new name:",
     "inqueuestatus.label" : "In queue",
     "okstatus.label" : "Ready",
-    "running.label" : "En calculation",
+    "running.label" : "Calculating",
     "failed.label" : "Failed",
     "calculationstatus.label" : "Status",
     "calculationstatus.title" : "This files calculation status",
@@ -111,6 +111,7 @@
     "jumpAligOverview.title" : "Jump to overview",
     "originalFaFileDesc.label" : "The original file containing the FASTA alignment",
     "haplowebTxtFileDesc.label" : "A textual representation of the calculated haploweb",
-    "ffrTxtFileDesc.label" : "Textual representation about the FFRs"
+    "ffrTxtFileDesc.label" : "Textual representation about the FFRs",
+    "svgTxtFileDesc.label" : "Haploweb as SVG graphic"
   }
 }

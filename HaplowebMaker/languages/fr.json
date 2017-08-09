@@ -111,6 +111,7 @@
     "jumpAligOverview.title" : "Vers le résume du fichier",
     "originalFaFileDesc.label" : "Le fichier original d'alignement FASTA",
     "haplowebTxtFileDesc.label" : "Représentation textuelle du haploweb",
-    "ffrTxtFileDesc.label" : "Représentation textuelle des FFRs"
+    "ffrTxtFileDesc.label" : "Représentation textuelle des FFRs",
+    "svgTxtFileDesc.label" : "Haploweb comme graphique SVG"
   }
 }
