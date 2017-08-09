@@ -15,10 +15,12 @@ Printer = function () {
 }
 
 function setProgress(stepsDone, stepsToDo) {
+    var progress = Math.floor(stepsDone / stepsToDo * 100);
+    progress = Math.min(99, progress);
     self.postMessage([
         {
             "key" : ["progress"],
-            "val" : Math.floor(stepsDone / stepsToDo * 100)
+            "val" : progress
         }
     ]);
 }
@@ -89,11 +91,16 @@ self.addEventListener('message', function(e) {
     stepsDone = 0;
     // do every file
     for(var i = 0; i < project["faFiles"].length; i++) {
-        stepsDone = calculateFaFile(project, i);
+        calculateFaFile(project, i);
     }
     // do coma
 // TODO
     // safe end time
     self.postMessage([{ "key" : ["calculationEndDate"], "val" : Date.now() }]);
-    setProgress(100, 100); // in any case - here is the end
+    self.postMessage([
+        {
+            "key" : ["progress"],
+            "val" : 100
+        }
+    ]);
 }, false);
