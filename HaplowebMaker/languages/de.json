@@ -112,6 +112,8 @@
     "originalFaFileDesc.label" : "Die originale FASTA-Alignement-Datei",
     "haplowebTxtFileDesc.label" : "Textuelle Representation des Haplowebs",
     "ffrTxtFileDesc.label" : "Textuelle Representation der FFRs",
-    "svgTxtFileDesc.label" : "Haploweb als SVG Graphik"
+    "svgTxtFileDesc.label" : "Haploweb als SVG Graphik",
+    "buttonEditSvg" : "SVG bearbeiten",
+    "editSvg.title" : "'{0}' bearbeiten"
   }
 }

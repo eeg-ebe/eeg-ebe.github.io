@@ -72,6 +72,7 @@ function calculateFaFile(project, i) {
         g.centerPos();
 //        g.stretch(0.1);
         g.assignLinkPos();
+        setFileVal(i, "graphstyle", g.saveStyle());
         setFileVal(i, "svg", g.getSvgCode());
         setFileVal(i, "endDraw", Date.now());
         // end of drawing - end of this file

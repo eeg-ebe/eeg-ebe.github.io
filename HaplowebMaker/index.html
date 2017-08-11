@@ -24,6 +24,7 @@
         <script src="external/jszip.js"></script>
         <script src="scripts/util.js"></script>
         <script src="scripts/LstExtractor.js"></script>
+        <script src="scripts/Drawing.js"></script>
         <script>
             // load shortcuts
             shortcuts = {};
@@ -243,11 +244,32 @@
             </p>
             <div id="shortcutConfigurationDialogContent"></div>
         </div>
+        <div id="editSVGDialog"><!-- TODO -->
+            <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();"></button>
+            <button onclick="javascript: currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();"></button>
+            <button onclick="javascript: currentGraphEdit.stretch(0.5); currentGraphEdit.assignLinkPos(); updateSVG();"></button>
+            <button onclick="javascript: currentGraphEdit.stretch(2.0); currentGraphEdit.assignLinkPos(); updateSVG();"></button>
+            <div>
+                <span id="svgDisplay"></span>
+            </div>
+        </div>
         <div id="invisibleHelperObjects">
             <a id="newInstanceLink" target="_blank"></a>
             <a id="scrollUpLink" href="#top"></a>
             <a id="scrollDownLink" href="#bottom"></a>
             <script>
+                function force() {
+                    var tE = currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, false);
+                    currentGraphEdit.centerPos();
+                    currentGraphEdit.assignLinkPos();
+                    updateSVG();
+                    if(tE > 0.5) {
+                        window.setTimeout(force, 10);
+                    }
+                }
+                function updateSVG() {
+                    $("#svgDisplay").html(currentGraphEdit.getSvgCode());
+                }
                 function visualizeIntPos(i) {
                     var positions = project["faFiles"][i]["intPos"], seqLen = project["faFiles"][i]["seqLen"];
                     var imgWidth = seqLen * 16;
@@ -594,7 +616,7 @@
                             html += "<tr class='" + ((even) ? "even" : "odd") + " alig" + i + "files'>";
                             html += "<td class='eft'><a name='alig" + i + "files' class='anchor'></a><a href='#alig" + i +"' onclick='javascript:$(\".alig" + i + "\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpAligOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
                             html += name + ".svg";
-                            html += "</td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["svg"])) ? " ui-state-disabled" : "") + "' tid='buttonView' onclick='javascript:viewSVG(" + i + ")'><span class='ui-icon ui-icon-newwin'></span></button><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["svg"])) ? " ui-state-disabled" : "") + "' tid='buttonDownload' onclick='javascript:downloadSVG(" + i + ")'><span class='ui-icon ui-icon-disk'></span></button>";
+                            html += "</td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["svg"])) ? " ui-state-disabled" : "") + "' tid='buttonView' onclick='javascript:viewSVG(" + i + ")'><span class='ui-icon ui-icon-newwin'></span></button><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["svg"])) ? " ui-state-disabled" : "") + "' tid='buttonDownload' onclick='javascript:downloadSVG(" + i + ")'><span class='ui-icon ui-icon-disk'></span><button class='ui-button ui-widget ui-corner-all tooltip" + ((missing(project["faFiles"][i]["svg"]) || missing(project["faFiles"][i]["graphstyle"])) ? " ui-state-disabled" : "") + "' tid='buttonEditSvg' onclick='javascript:editSVG(" + i + ")'><span class='ui-icon ui-icon-pencil'></span></button>";
                             html += "</td><td class='middle label' lid='svgTxtFileDesc.label'></td></tr>";
                             even = !even;
                         }
@@ -674,6 +696,12 @@
                 function downloadSVG(i) {
                     download("text/plain", project["faFiles"][i]["filename"] + ".svg", project["faFiles"][i]["svg"]);
                 }
+                function editSVG(i) {
+                    currentGraphEdit = new draw_Graph(parsing_MJNetParser.parseNet(project["faFiles"][i]["mj"]));
+                    currentGraphEdit.loadStyle(project["faFiles"][i]["graphstyle"]);
+                    editSVGId = i;
+                    $( "#editSVGDialog" ).dialog("open");
+                }
             </script>
         </div>
         <a name="bottom" class="anchor"></a>
@@ -683,6 +711,40 @@
             // tooltip & other jquery-ui objects
             $( document ).tooltip();
             $( '#mainToolsToolbox' ).menu();
+            $( '#editSVGDialog' ).dialog({
+                modal: true,
+                autoOpen: false,
+                width: document.documentElement.clientWidth - 10,
+                height: document.documentElement.clientHeight - 10,
+                open: function() {
+                    $(".dialogSaveButton").text(languageDicts[language]["dict"]["buttonSave"]);
+                    $(".dialogCancelButton").text(languageDicts[language]["dict"]["buttonCancel"]);
+                    var dialog = $("#editSVGDialog");
+                    dialog.dialog('option', 'title', languageDicts[language]["dict"]["editSvg.title"].format([project["faFiles"][editSVGId]["filename"].escape()]));
+                    $("#svgDisplay").html(currentGraphEdit.getSvgCode());
+                    dialog.dialog("open");
+                },
+                buttons: [{
+                        "text" : languageDicts[language]["dict"]["buttonSave"],
+                        "class" : "dialogSaveButton",
+                        "click" : function() {
+                            project["faFiles"][editSVGId]["graphstyle"] = currentGraphEdit.saveStyle();
+                            project["faFiles"][editSVGId]["svg"] = currentGraphEdit.getSvgCode();
+                            $( '#editSVGDialog' ).dialog( "close" );
+                        }
+                    }, {
+                        "text" : languageDicts[language]["dict"]["buttonCancel"],
+                        "class" : "dialogCancelButton",
+                        "click" : function() {
+                            $( '#editSVGDialog' ).dialog( "close" );
+                        }
+                    }
+                ],
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }                
+            });
             $( "#shortcutConfigurationWarningDialog" ).dialog({
                 modal: true,
                 autoOpen: false,
