@@ -245,12 +245,19 @@
             <div id="shortcutConfigurationDialogContent"></div>
         </div>
         <div id="editSVGDialog"><!-- TODO -->
-            <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();"></button>
-            <button onclick="javascript: currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();"></button>
-            <button onclick="javascript: currentGraphEdit.stretch(0.5); currentGraphEdit.assignLinkPos(); updateSVG();"></button>
-            <button onclick="javascript: currentGraphEdit.stretch(2.0); currentGraphEdit.assignLinkPos(); updateSVG();"></button>
+            <button onclick="javascript: currentGraphEdit.drawCircles = !currentGraphEdit.drawCircles; updateSVG();">Toggle circle vis</button>
+            <button onclick="javascript: currentGraphEdit.drawCons = !currentGraphEdit.drawCons; updateSVG();">Toggle line vis</button>
+            <button onclick="javascript: currentGraphEdit.drawCurves = !currentGraphEdit.drawCurves; updateSVG();">Toggle curve vis</button>
+            <button onclick="javascript: currentGraphEdit.drawBezierPoints = !currentGraphEdit.drawBezierPoints; updateSVG();">Toggle Bézier vis</button>
+            <button onclick="javascript: currentGraphEdit.drawCenter = !currentGraphEdit.drawCenter; updateSVG();">Toggle center vis</button>
+            <button onclick="javascript: currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle vis</button>
+            <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
+            <button onclick="javascript: currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
+            <button onclick="javascript: currentGraphEdit.stretch(0.5); updateSVG();">Stretch--</button>
+            <button onclick="javascript: currentGraphEdit.stretch(2.0); updateSVG();">Stretch++</button>
+            <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves</button>
             <div>
-                <span id="svgDisplay"></span>
+                <span id="svgDisplay" style="margin: 0; padding: 0"></span>
             </div>
         </div>
         <div id="invisibleHelperObjects">
@@ -267,8 +274,36 @@
                         window.setTimeout(force, 10);
                     }
                 }
+                function getClickX(event) {
+                    var offset = $("#svgDisplay svg").offset();
+                    var x = event.pageX - offset.left;
+                    return x;
+                }
+                function getClickY(event) {
+                    var offset = $("#svgDisplay svg").offset();
+                    var y = event.pageY - offset.top;
+                    return y;
+                }
                 function updateSVG() {
                     $("#svgDisplay").html(currentGraphEdit.getSvgCode());
+                    var svg = $("#svgDisplay svg");
+                    $(svg).mousemove(function(event) {
+                        if(selectedObj != null) {
+                            selectedObj.xPos = initObjX + getClickX(event) - initX;
+                            selectedObj.yPos = initObjY + getClickY(event) - initY;
+                            updateSVG();
+                        }
+                    });
+                    $(svg).mouseup(function(event) {
+                        selectedObj = null;
+                    });
+                    $(svg).mousedown(function(event) {
+                        initX = getClickX(event);
+                        initY = getClickY(event);
+                        selectedObj = currentGraphEdit.getNearestO(initX, initY);
+                        initObjX = selectedObj.xPos;
+                        initObjY = selectedObj.yPos;
+                    });
                 }
                 function visualizeIntPos(i) {
                     var positions = project["faFiles"][i]["intPos"], seqLen = project["faFiles"][i]["seqLen"];
@@ -721,7 +756,8 @@
                     $(".dialogCancelButton").text(languageDicts[language]["dict"]["buttonCancel"]);
                     var dialog = $("#editSVGDialog");
                     dialog.dialog('option', 'title', languageDicts[language]["dict"]["editSvg.title"].format([project["faFiles"][editSVGId]["filename"].escape()]));
-                    $("#svgDisplay").html(currentGraphEdit.getSvgCode());
+                    updateSVG();
+                    selectedObj = null;
                     dialog.dialog("open");
                 },
                 buttons: [{

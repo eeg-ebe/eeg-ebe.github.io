@@ -723,7 +723,8 @@ Type.enumIndex = function(e) {
 Type.allEnums = function(e) {
 	return e.__empty_constructs__;
 };
-var draw_Connection = function(n1,n2,l) {
+var draw_Connection = function(id,n1,n2,l) {
+	this.id = id;
 	this.n1 = n1;
 	this.n2 = n2;
 	this.l = l;
@@ -740,7 +741,8 @@ var draw_Connection = function(n1,n2,l) {
 $hxClasses["draw.Connection"] = draw_Connection;
 draw_Connection.__name__ = ["draw","Connection"];
 draw_Connection.prototype = {
-	n1: null
+	id: null
+	,n1: null
 	,n2: null
 	,l: null
 	,expLength: null
@@ -998,7 +1000,25 @@ draw_Drawer.main = function() {
 	var net = result;
 	var g_nodes;
 	var g_links;
+	var g_drawCurves;
+	var g_drawCons;
+	var g_drawCircles;
+	var g_drawCenter;
+	var g_drawBezierPoints;
+	var g_drawAngles;
 	var g_cons;
+	g_drawCircles = true;
+	g_drawCons = true;
+	g_drawCurves = true;
+	g_drawBezierPoints = false;
+	g_drawCenter = false;
+	g_drawAngles = false;
+	g_drawCircles = true;
+	g_drawCons = true;
+	g_drawCurves = true;
+	g_drawBezierPoints = false;
+	g_drawCenter = false;
+	g_drawAngles = false;
 	g_nodes = new List();
 	g_cons = new List();
 	g_links = new List();
@@ -1009,6 +1029,7 @@ draw_Drawer.main = function() {
 		var e = val;
 		g_nodes.add(new draw_NodePos(e));
 	}
+	var nextConId = 0;
 	var _g_head1 = g_nodes.h;
 	while(_g_head1 != null) {
 		var val1 = _g_head1.item;
@@ -1026,7 +1047,7 @@ draw_Drawer.main = function() {
 					_g_head3 = _g_head3.next;
 					var con = val3;
 					if(con.first == node1.node.id) {
-						g_cons.add(new draw_Connection(node1,node2,con.second));
+						g_cons.add(new draw_Connection(nextConId++,node1,node2,con.second));
 						break;
 					}
 				}
@@ -1349,325 +1370,432 @@ draw_Drawer.main = function() {
 	result5.add("<svg version='1.1' baseProfile='full' width='" + width);
 	result5.add("' height='" + height);
 	result5.add("' viewBox='" + (minX - 15) + "," + (minY - 15) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
-	var _g_head27 = g_cons.h;
-	while(_g_head27 != null) {
-		var val27 = _g_head27.item;
-		_g_head27 = _g_head27.next;
-		var con3 = val27;
-		var result6 = new List();
-		result6.add("<line x1='");
-		result6.add(con3.n1.xPos + "' y1='");
-		result6.add(con3.n1.yPos + "' x2='");
-		result6.add(con3.n2.xPos + "' y2='");
-		result6.add(con3.n2.yPos + "' stroke='");
-		result6.add(con3.strokeColor + "' stroke-width='");
-		result6.add(con3.strokeWidth + "' ");
-		if(!con3.dashedArray.isEmpty()) {
-			result6.add("stroke-dasharray='");
-			result6.add(con3.dashedArray.join(","));
-			result6.add("' ");
-		}
-		result6.add("/>");
-		if(con3.drawMutsByLine || con3.drawMutsByText || con3.drawMutsByDots) {
-			var vX2 = con3.n1.xPos - con3.n2.xPos;
-			var vY2 = con3.n1.yPos - con3.n2.yPos;
-			var vL = Math.sqrt(vX2 * vX2 + vY2 * vY2);
-			var eVX = vX2 / vL;
-			var eVY = vY2 / vL;
-			var startX = con3.n2.xPos + eVX * con3.n2.radius;
-			var startY = con3.n2.yPos + eVY * con3.n2.radius;
-			var endX = con3.n2.xPos + vX2 - eVX * con3.n1.radius;
-			var endY = con3.n2.yPos + vY2 - eVY * con3.n1.radius;
-			vX2 = (endX - startX) / (con3.l.length + 1);
-			vY2 = (endY - startY) / (con3.l.length + 1);
-			var iii = 0;
-			var _g_head28 = con3.l.h;
-			while(_g_head28 != null) {
-				var val28 = _g_head28.item;
-				_g_head28 = _g_head28.next;
-				var text = val28;
-				++iii;
-				var x1 = startX + vX2 * iii;
-				var y1 = startY + vY2 * iii;
-				if(con3.drawMutsByDots) {
-					result6.add("<circle cx='");
-					result6.add(x1 + "' cy='");
-					result6.add(y1 + "' r='");
-					result6.add(con3.drawMutsDotsSize + " fill='");
-					result6.add(con3.drawMutsDotsColor);
-					if(!con3.drawMutsDotsDashedArray.isEmpty()) {
-						result6.add(" stroke-dasharray='");
-						result6.add(con3.drawMutsDotsDashedArray.join(","));
-						result6.add("'");
+	if(g_drawCons) {
+		var _g_head27 = g_cons.h;
+		while(_g_head27 != null) {
+			var val27 = _g_head27.item;
+			_g_head27 = _g_head27.next;
+			var con3 = val27;
+			var result6 = new List();
+			result6.add("<line x1='");
+			result6.add(con3.n1.xPos + "' y1='");
+			result6.add(con3.n1.yPos + "' x2='");
+			result6.add(con3.n2.xPos + "' y2='");
+			result6.add(con3.n2.yPos + "' stroke='");
+			result6.add(con3.strokeColor + "' stroke-width='");
+			result6.add(con3.strokeWidth + "' ");
+			if(!con3.dashedArray.isEmpty()) {
+				result6.add("stroke-dasharray='");
+				result6.add(con3.dashedArray.join(","));
+				result6.add("' ");
+			}
+			result6.add("/>");
+			if(con3.drawMutsByLine || con3.drawMutsByText || con3.drawMutsByDots) {
+				var vX2 = con3.n1.xPos - con3.n2.xPos;
+				var vY2 = con3.n1.yPos - con3.n2.yPos;
+				var vL = Math.sqrt(vX2 * vX2 + vY2 * vY2);
+				var eVX = vX2 / vL;
+				var eVY = vY2 / vL;
+				var startX = con3.n2.xPos + eVX * con3.n2.radius;
+				var startY = con3.n2.yPos + eVY * con3.n2.radius;
+				var endX = con3.n2.xPos + vX2 - eVX * con3.n1.radius;
+				var endY = con3.n2.yPos + vY2 - eVY * con3.n1.radius;
+				vX2 = (endX - startX) / (con3.l.length + 1);
+				vY2 = (endY - startY) / (con3.l.length + 1);
+				var iii = 0;
+				var _g_head28 = con3.l.h;
+				while(_g_head28 != null) {
+					var val28 = _g_head28.item;
+					_g_head28 = _g_head28.next;
+					var text = val28;
+					++iii;
+					var x1 = startX + vX2 * iii;
+					var y1 = startY + vY2 * iii;
+					if(con3.drawMutsByDots) {
+						result6.add("<circle cx='");
+						result6.add(x1 + "' cy='");
+						result6.add(y1 + "' r='");
+						result6.add(con3.drawMutsDotsSize + " fill='");
+						result6.add(con3.drawMutsDotsColor);
+						if(!con3.drawMutsDotsDashedArray.isEmpty()) {
+							result6.add(" stroke-dasharray='");
+							result6.add(con3.drawMutsDotsDashedArray.join(","));
+							result6.add("'");
+						}
+						result6.add("/>");
 					}
-					result6.add("/>");
-				}
-				if(con3.drawMutsByLine) {
-					var x11 = x1 - eVY * con3.drawMutsLineLen;
-					var y11 = y1 + eVX * con3.drawMutsLineLen;
-					var x2 = x1 + eVY * con3.drawMutsLineLen;
-					var y2 = y1 - eVX * con3.drawMutsLineLen;
-					result6.add("<line x1='");
-					result6.add(x11 + "' y1='");
-					result6.add(y11 + "' x2='");
-					result6.add(x2 + "' y2='");
-					result6.add(y2 + "' stroke='");
-					result6.add(con3.drawMutsLineStrokeColor + "' stroke-width='");
-					result6.add(con3.drawMutsLineWidth + "'");
-					if(!con3.drawMutsLineDashedArray.isEmpty()) {
-						result6.add(" stroke-dasharray='");
-						result6.add(con3.drawMutsLineDashedArray.join(","));
-						result6.add("'");
+					if(con3.drawMutsByLine) {
+						var x11 = x1 - eVY * con3.drawMutsLineLen;
+						var y11 = y1 + eVX * con3.drawMutsLineLen;
+						var x2 = x1 + eVY * con3.drawMutsLineLen;
+						var y2 = y1 - eVX * con3.drawMutsLineLen;
+						result6.add("<line x1='");
+						result6.add(x11 + "' y1='");
+						result6.add(y11 + "' x2='");
+						result6.add(x2 + "' y2='");
+						result6.add(y2 + "' stroke='");
+						result6.add(con3.drawMutsLineStrokeColor + "' stroke-width='");
+						result6.add(con3.drawMutsLineWidth + "'");
+						if(!con3.drawMutsLineDashedArray.isEmpty()) {
+							result6.add(" stroke-dasharray='");
+							result6.add(con3.drawMutsLineDashedArray.join(","));
+							result6.add("'");
+						}
+						result6.add("/>");
 					}
-					result6.add("/>");
-				}
-				if(con3.drawMutsByText) {
-					result6.add("<text x='");
-					result6.add(x1 + con3.drawMutsTextPX + "' y='");
-					result6.add(y1 + con3.drawMutsTextSize / 2 + con3.drawMutsTextPY + "' fill='");
-					result6.add(con3.drawMutsTextColor + "' font-family='");
-					result6.add(con3.drawMutsTextFont + "' font-size='");
-					result6.add(con3.drawMutsTextSize + "'");
-					result6.add(">" + text + "</text>");
+					if(con3.drawMutsByText) {
+						result6.add("<text x='");
+						result6.add(x1 + con3.drawMutsTextPX + "' y='");
+						result6.add(y1 + con3.drawMutsTextSize / 2 + con3.drawMutsTextPY + "' fill='");
+						result6.add(con3.drawMutsTextColor + "' font-family='");
+						result6.add(con3.drawMutsTextFont + "' font-size='");
+						result6.add(con3.drawMutsTextSize + "'");
+						result6.add(">" + text + "</text>");
+					}
 				}
 			}
+			result5.add(result6.join(""));
 		}
-		result5.add(result6.join(""));
 	}
-	result5.add("<g fill='none'>");
-	var _g_head29 = g_links.h;
-	while(_g_head29 != null) {
-		var val29 = _g_head29.item;
-		_g_head29 = _g_head29.next;
-		var link3 = val29;
-		var result7 = new List();
-		result7.add("<path d='M");
-		result7.add(link3.n1.xPos + " ");
-		result7.add(link3.n1.yPos + " Q");
-		result7.add(" " + (2 * link3.xPos - (link3.n1.xPos + link3.n2.xPos) / 2));
-		result7.add(" " + (2 * link3.yPos - (link3.n1.yPos + link3.n2.yPos) / 2));
-		result7.add(" " + link3.n2.xPos);
-		result7.add(" " + link3.n2.yPos);
-		result7.add("' stroke='");
-		result7.add(link3.strokeColor);
-		result7.add("' stroke-width='");
-		result7.add(link3.strokeWidth + "' ");
-		if(!link3.dashedArray.isEmpty()) {
-			result7.add("stroke-dasharray='");
-			result7.add(link3.dashedArray.join(","));
-			result7.add("' ");
-		}
-		result7.add("/>");
-		result5.add(result7.join(""));
-	}
-	result5.add("</g>");
-	var _g_head30 = g_nodes.h;
-	while(_g_head30 != null) {
-		var val30 = _g_head30.item;
-		_g_head30 = _g_head30.next;
-		var node18 = val30;
-		var result8 = new List();
-		node18.pie = node18.pie.filter(function(t) {
-			if(t.first != null && t.first != "") {
-				return t.second > 0;
-			} else {
-				return false;
+	if(g_drawCurves) {
+		result5.add("<g fill='none'>");
+		var _g_head29 = g_links.h;
+		while(_g_head29 != null) {
+			var val29 = _g_head29.item;
+			_g_head29 = _g_head29.next;
+			var link3 = val29;
+			var result7 = new List();
+			result7.add("<path d='M");
+			result7.add(link3.n1.xPos + " ");
+			result7.add(link3.n1.yPos + " Q");
+			result7.add(" " + (2 * link3.xPos - (link3.n1.xPos + link3.n2.xPos) / 2));
+			result7.add(" " + (2 * link3.yPos - (link3.n1.yPos + link3.n2.yPos) / 2));
+			result7.add(" " + link3.n2.xPos);
+			result7.add(" " + link3.n2.yPos);
+			result7.add("' stroke='");
+			result7.add(link3.strokeColor);
+			result7.add("' stroke-width='");
+			result7.add(link3.strokeWidth + "' ");
+			if(!link3.dashedArray.isEmpty()) {
+				result7.add("stroke-dasharray='");
+				result7.add(link3.dashedArray.join(","));
+				result7.add("' ");
 			}
-		});
-		var needArcs = false;
-		result8.add("<circle id='");
-		result8.add("n" + node18.node.id);
-		result8.add("' ");
-		result8.add("stroke='");
-		result8.add(node18.strokeColor);
-		result8.add("' ");
-		result8.add("stroke-width='");
-		result8.add("" + node18.strokeWidth);
-		result8.add("' ");
-		if(!node18.dashedArray.isEmpty()) {
-			result8.add("stroke-dasharray='");
-			result8.add(node18.dashedArray.join(","));
+			result7.add("/>");
+			result5.add(result7.join(""));
+		}
+		result5.add("</g>");
+	}
+	if(g_drawCircles) {
+		var _g_head30 = g_nodes.h;
+		while(_g_head30 != null) {
+			var val30 = _g_head30.item;
+			_g_head30 = _g_head30.next;
+			var node18 = val30;
+			var result8 = new List();
+			node18.pie = node18.pie.filter(function(t) {
+				if(t.first != null && t.first != "") {
+					return t.second > 0;
+				} else {
+					return false;
+				}
+			});
+			var needArcs = false;
+			result8.add("<circle id='");
+			result8.add("n" + node18.node.id);
 			result8.add("' ");
-		}
-		result8.add("cx='");
-		result8.add("" + node18.xPos);
-		result8.add("' ");
-		result8.add("cy='");
-		result8.add("" + node18.yPos);
-		result8.add("' ");
-		result8.add("r='");
-		result8.add("" + node18.radius);
-		result8.add("' ");
-		if(node18.pie.isEmpty()) {
-			result8.add("fill='");
-			result8.add("blue");
-		} else if(node18.pie.length == 1) {
-			result8.add("fill='");
-			result8.add(node18.pie.first().first);
-		} else {
-			needArcs = true;
-		}
-		result8.add("' ");
-		result8.add("/>");
-		if(needArcs) {
-			var summe = 0;
-			var _g_head31 = node18.pie.h;
-			while(_g_head31 != null) {
-				var val31 = _g_head31.item;
-				_g_head31 = _g_head31.next;
-				var p = val31;
-				summe += p.second;
+			result8.add("stroke='");
+			result8.add(node18.strokeColor);
+			result8.add("' ");
+			result8.add("stroke-width='");
+			result8.add("" + node18.strokeWidth);
+			result8.add("' ");
+			if(!node18.dashedArray.isEmpty()) {
+				result8.add("stroke-dasharray='");
+				result8.add(node18.dashedArray.join(","));
+				result8.add("' ");
 			}
-			var cs = 0;
-			var _g_head32 = node18.pie.h;
-			while(_g_head32 != null) {
-				var val32 = _g_head32.item;
-				_g_head32 = _g_head32.next;
-				var p1 = val32;
-				var color = p1.first;
-				var perc = p1.second / summe;
-				var pX1 = Math.sin(cs / summe * 2 * Math.PI) * node18.radius + node18.xPos;
-				var pY1 = -Math.cos(cs / summe * 2 * Math.PI) * node18.radius + node18.xPos;
-				cs += p1.second;
-				var pX2 = Math.sin(cs / summe * 2 * Math.PI) * node18.radius + node18.xPos;
-				var pY2 = -Math.cos(cs / summe * 2 * Math.PI) * node18.radius + node18.xPos;
-				var arcFlag = perc < 0.5 ? 0 : 1;
-				result8.add("<path fill='" + color + "' d='M" + node18.xPos + "," + node18.yPos + " L" + pX1 + "," + pY1 + " A" + node18.radius + "," + node18.radius + " 1 " + arcFlag + ",1 " + pX2 + ", " + pY2 + " z'/>");
+			result8.add("cx='");
+			result8.add("" + node18.xPos);
+			result8.add("' ");
+			result8.add("cy='");
+			result8.add("" + node18.yPos);
+			result8.add("' ");
+			result8.add("r='");
+			result8.add("" + node18.radius);
+			result8.add("' ");
+			if(node18.pie.isEmpty()) {
+				result8.add("fill='");
+				result8.add("blue");
+			} else if(node18.pie.length == 1) {
+				result8.add("fill='");
+				result8.add(node18.pie.first().first);
+			} else {
+				needArcs = true;
+			}
+			result8.add("' ");
+			result8.add("/>");
+			if(needArcs) {
+				var summe = 0;
+				var _g_head31 = node18.pie.h;
+				while(_g_head31 != null) {
+					var val31 = _g_head31.item;
+					_g_head31 = _g_head31.next;
+					var p = val31;
+					summe += p.second;
+				}
+				var cs = 0;
+				var _g_head32 = node18.pie.h;
+				while(_g_head32 != null) {
+					var val32 = _g_head32.item;
+					_g_head32 = _g_head32.next;
+					var p1 = val32;
+					var color = p1.first;
+					var perc = p1.second / summe;
+					var pX1 = Math.sin(cs / summe * 2 * Math.PI) * node18.radius + node18.xPos;
+					var pY1 = -Math.cos(cs / summe * 2 * Math.PI) * node18.radius + node18.xPos;
+					cs += p1.second;
+					var pX2 = Math.sin(cs / summe * 2 * Math.PI) * node18.radius + node18.xPos;
+					var pY2 = -Math.cos(cs / summe * 2 * Math.PI) * node18.radius + node18.xPos;
+					var arcFlag = perc < 0.5 ? 0 : 1;
+					result8.add("<path fill='" + color + "' d='M" + node18.xPos + "," + node18.yPos + " L" + pX1 + "," + pY1 + " A" + node18.radius + "," + node18.radius + " 1 " + arcFlag + ",1 " + pX2 + ", " + pY2 + " z'/>");
+				}
+			}
+			result5.add(result8.join(""));
+		}
+	}
+	if(g_drawAngles) {
+		var _g_head33 = g_cons.h;
+		while(_g_head33 != null) {
+			var val33 = _g_head33.item;
+			_g_head33 = _g_head33.next;
+			var c1 = val33;
+			var _g_head34 = g_cons.h;
+			while(_g_head34 != null) {
+				var val34 = _g_head34.item;
+				_g_head34 = _g_head34.next;
+				var c2 = val34;
+				if(c1.id > c2.id) {
+					var nA = null;
+					var nB = null;
+					var nC = null;
+					if(c1.n1 == c2.n1) {
+						nA = c1.n2;
+						nB = c2.n2;
+						nC = c1.n1;
+					} else if(c1.n1 == c2.n2) {
+						nA = c1.n2;
+						nB = c2.n1;
+						nC = c1.n1;
+					} else if(c1.n2 == c2.n1) {
+						nA = c1.n1;
+						nB = c2.n2;
+						nC = c1.n2;
+					} else if(c1.n2 == c2.n2) {
+						nA = c1.n1;
+						nB = c2.n1;
+						nC = c1.n2;
+					}
+					if(nC != null) {
+						var v1X = nA.xPos - nC.xPos;
+						var v1Y = nA.yPos - nC.yPos;
+						var v2X = nB.xPos - nC.xPos;
+						var v2Y = nB.yPos - nC.yPos;
+						var l11 = Math.sqrt(v1X * v1X + v1Y * v1Y);
+						var l21 = Math.sqrt(v2X * v2X + v2Y * v2Y);
+						var c = v1X * v2X + v1Y * v2Y;
+						var wXV = v1X / l11 + v2X / l21;
+						var wYV = v1Y / l11 + v2Y / l21;
+						var wL = Math.sqrt(wXV * wXV + wYV * wYV);
+						var xx = nC.xPos + wXV / wL * (nC.radius + 20);
+						var yy = nC.yPos + wYV / wL * (nC.radius + 20);
+						var txt = HxOverrides.substr("" + Math.acos(c / (l11 * l21)) * 360 / (2 * Math.PI),0,6);
+						result5.add("<text x='" + xx + "' y='" + yy + "' text-anchor='middle'>" + txt + "</text>");
+					}
+				}
 			}
 		}
-		result5.add(result8.join(""));
+	}
+	if(g_drawBezierPoints) {
+		var _g_head35 = g_links.h;
+		while(_g_head35 != null) {
+			var val35 = _g_head35.item;
+			_g_head35 = _g_head35.next;
+			var link4 = val35;
+			result5.add("<circle cx='" + link4.xPos + "' cy='" + link4.yPos + "' r='5' fill='" + link4.strokeColor + "' />");
+		}
+	}
+	if(g_drawCenter) {
+		var rx3 = 0;
+		var _g_head36 = g_nodes.h;
+		while(_g_head36 != null) {
+			var val36 = _g_head36.item;
+			_g_head36 = _g_head36.next;
+			var node19 = val36;
+			rx3 += node19.xPos;
+		}
+		var x3 = rx3 / g_nodes.length;
+		var ry3 = 0;
+		var _g_head37 = g_nodes.h;
+		while(_g_head37 != null) {
+			var val37 = _g_head37.item;
+			_g_head37 = _g_head37.next;
+			var node20 = val37;
+			ry3 += node20.yPos;
+		}
+		var y3 = ry3 / g_nodes.length;
+		result5.add("<line x1='" + x3 + "' y1='" + minY + "' x2='" + x3 + "' y2='" + maxY + "' stroke='green' stroke-dasharray='3 3' />");
+		result5.add("<line x1='" + minX + "' y1='" + y3 + "' x2='" + maxX + "' y2='" + y3 + "' stroke='green' stroke-dasharray='3 3' />");
+		var rx4 = 0;
+		var _g_head38 = g_nodes.h;
+		while(_g_head38 != null) {
+			var val38 = _g_head38.item;
+			_g_head38 = _g_head38.next;
+			var node22 = val38;
+			rx4 += node22.xPos;
+		}
+		var tmp2 = "<circle cx='" + rx4 / g_nodes.length + "' cy='";
+		var ry4 = 0;
+		var _g_head39 = g_nodes.h;
+		while(_g_head39 != null) {
+			var val39 = _g_head39.item;
+			_g_head39 = _g_head39.next;
+			var node23 = val39;
+			ry4 += node23.yPos;
+		}
+		result5.add(tmp2 + ry4 / g_nodes.length + "' r='5' fill='green' />");
 	}
 	result5.add("</svg>");
 	var s1 = result5.join("");
 	haxe_Log.trace(s1,{ fileName : "StdOutPrinter.hx", lineNumber : 15, className : "util.StdOutPrinter", methodName : "printString"});
-	var rx3 = 0;
-	var _g_head33 = g_nodes.h;
-	while(_g_head33 != null) {
-		var val33 = _g_head33.item;
-		_g_head33 = _g_head33.next;
-		var node19 = val33;
-		rx3 += node19.xPos;
-	}
-	var cx3 = rx3 / g_nodes.length;
-	var ry3 = 0;
-	var _g_head34 = g_nodes.h;
-	while(_g_head34 != null) {
-		var val34 = _g_head34.item;
-		_g_head34 = _g_head34.next;
-		var node20 = val34;
-		ry3 += node20.yPos;
-	}
-	var cy3 = ry3 / g_nodes.length;
-	var _g_head35 = g_nodes.h;
-	while(_g_head35 != null) {
-		var val35 = _g_head35.item;
-		_g_head35 = _g_head35.next;
-		var node22 = val35;
-		node22.xPos -= cx3;
-		node22.yPos -= cy3;
-	}
-	var rx4 = 0;
-	var _g_head36 = g_nodes.h;
-	while(_g_head36 != null) {
-		var val36 = _g_head36.item;
-		_g_head36 = _g_head36.next;
-		var node23 = val36;
-		rx4 += node23.xPos;
-	}
-	var cx4 = rx4 / g_nodes.length;
-	var ry4 = 0;
-	var _g_head37 = g_nodes.h;
-	while(_g_head37 != null) {
-		var val37 = _g_head37.item;
-		_g_head37 = _g_head37.next;
-		var node24 = val37;
-		ry4 += node24.yPos;
-	}
-	var cy4 = ry4 / g_nodes.length;
-	var _g_head38 = g_nodes.h;
-	while(_g_head38 != null) {
-		var val38 = _g_head38.item;
-		_g_head38 = _g_head38.next;
-		var node25 = val38;
-		var vX3 = node25.xPos - cx4;
-		var vY3 = node25.yPos - cy4;
-		vX3 = vX3 * Math.cos(0.1) - vY3 * Math.sin(0.1);
-		vY3 = vX3 * Math.sin(0.1) + vY3 * Math.cos(0.1);
-		node25.xPos = cx4 + vX3;
-		node25.yPos = cy4 + vY3;
-	}
 	var rx5 = 0;
-	var _g_head39 = g_nodes.h;
-	while(_g_head39 != null) {
-		var val39 = _g_head39.item;
-		_g_head39 = _g_head39.next;
-		var node26 = val39;
-		rx5 += node26.xPos;
-	}
-	var cx5 = rx5 / g_nodes.length;
-	var ry5 = 0;
 	var _g_head40 = g_nodes.h;
 	while(_g_head40 != null) {
 		var val40 = _g_head40.item;
 		_g_head40 = _g_head40.next;
-		var node27 = val40;
-		ry5 += node27.yPos;
+		var node24 = val40;
+		rx5 += node24.xPos;
 	}
-	var cy5 = ry5 / g_nodes.length;
+	var cx3 = rx5 / g_nodes.length;
+	var ry5 = 0;
 	var _g_head41 = g_nodes.h;
 	while(_g_head41 != null) {
 		var val41 = _g_head41.item;
 		_g_head41 = _g_head41.next;
-		var node28 = val41;
-		node28.xPos -= cx5;
-		node28.yPos -= cy5;
+		var node25 = val41;
+		ry5 += node25.yPos;
 	}
-	var l3 = new List();
-	var _g_head42 = g_links.h;
+	var cy3 = ry5 / g_nodes.length;
+	var _g_head42 = g_nodes.h;
 	while(_g_head42 != null) {
 		var val42 = _g_head42.item;
 		_g_head42 = _g_head42.next;
-		var link4 = val42;
-		link4.xPos = NaN;
-		link4.yPos = NaN;
-		var vX4 = link4.n1.xPos - link4.n2.xPos;
-		var vY4 = link4.n1.yPos - link4.n2.yPos;
+		var node26 = val42;
+		node26.xPos -= cx3;
+		node26.yPos -= cy3;
+	}
+	var rx6 = 0;
+	var _g_head43 = g_nodes.h;
+	while(_g_head43 != null) {
+		var val43 = _g_head43.item;
+		_g_head43 = _g_head43.next;
+		var node27 = val43;
+		rx6 += node27.xPos;
+	}
+	var cx4 = rx6 / g_nodes.length;
+	var ry6 = 0;
+	var _g_head44 = g_nodes.h;
+	while(_g_head44 != null) {
+		var val44 = _g_head44.item;
+		_g_head44 = _g_head44.next;
+		var node28 = val44;
+		ry6 += node28.yPos;
+	}
+	var cy4 = ry6 / g_nodes.length;
+	var _g_head45 = g_nodes.h;
+	while(_g_head45 != null) {
+		var val45 = _g_head45.item;
+		_g_head45 = _g_head45.next;
+		var node29 = val45;
+		var vX3 = node29.xPos - cx4;
+		var vY3 = node29.yPos - cy4;
+		vX3 = vX3 * Math.cos(0.1) - vY3 * Math.sin(0.1);
+		vY3 = vX3 * Math.sin(0.1) + vY3 * Math.cos(0.1);
+		node29.xPos = cx4 + vX3;
+		node29.yPos = cy4 + vY3;
+	}
+	var rx7 = 0;
+	var _g_head46 = g_nodes.h;
+	while(_g_head46 != null) {
+		var val46 = _g_head46.item;
+		_g_head46 = _g_head46.next;
+		var node30 = val46;
+		rx7 += node30.xPos;
+	}
+	var cx5 = rx7 / g_nodes.length;
+	var ry7 = 0;
+	var _g_head47 = g_nodes.h;
+	while(_g_head47 != null) {
+		var val47 = _g_head47.item;
+		_g_head47 = _g_head47.next;
+		var node31 = val47;
+		ry7 += node31.yPos;
+	}
+	var cy5 = ry7 / g_nodes.length;
+	var _g_head48 = g_nodes.h;
+	while(_g_head48 != null) {
+		var val48 = _g_head48.item;
+		_g_head48 = _g_head48.next;
+		var node32 = val48;
+		node32.xPos -= cx5;
+		node32.yPos -= cy5;
+	}
+	var l3 = new List();
+	var _g_head49 = g_links.h;
+	while(_g_head49 != null) {
+		var val49 = _g_head49.item;
+		_g_head49 = _g_head49.next;
+		var link5 = val49;
+		link5.xPos = NaN;
+		link5.yPos = NaN;
+		var vX4 = link5.n1.xPos - link5.n2.xPos;
+		var vY4 = link5.n1.yPos - link5.n2.yPos;
 		var vrX1 = -vY4 / 8;
 		var vrY1 = vX4 / 8;
-		var mX1 = link4.n2.xPos + vX4 / 2;
-		var mY1 = link4.n2.yPos + vY4 / 2;
-		link4.x1 = mX1 - vrX1;
-		link4.y1 = mY1 - vrY1;
-		link4.x2 = mX1 + vrX1;
-		link4.y2 = mY1 + vrY1;
-		link4.e1 = 0;
-		link4.e2 = 0;
-		var _g_head43 = g_nodes.h;
-		while(_g_head43 != null) {
-			var val43 = _g_head43.item;
-			_g_head43 = _g_head43.next;
-			var node29 = val43;
-			var dX2 = node29.xPos - link4.x1;
-			var dY2 = node29.yPos - link4.y1;
-			link4.e1 += 1 / Math.sqrt(dX2 * dX2 + dY2 * dY2);
-			var dX3 = node29.xPos - link4.x2;
-			var dY3 = node29.yPos - link4.y2;
-			link4.e2 += 1 / Math.sqrt(dX3 * dX3 + dY3 * dY3);
+		var mX1 = link5.n2.xPos + vX4 / 2;
+		var mY1 = link5.n2.yPos + vY4 / 2;
+		link5.x1 = mX1 - vrX1;
+		link5.y1 = mY1 - vrY1;
+		link5.x2 = mX1 + vrX1;
+		link5.y2 = mY1 + vrY1;
+		link5.e1 = 0;
+		link5.e2 = 0;
+		var _g_head50 = g_nodes.h;
+		while(_g_head50 != null) {
+			var val50 = _g_head50.item;
+			_g_head50 = _g_head50.next;
+			var node33 = val50;
+			var dX2 = node33.xPos - link5.x1;
+			var dY2 = node33.yPos - link5.y1;
+			link5.e1 += 1 / Math.sqrt(dX2 * dX2 + dY2 * dY2);
+			var dX3 = node33.xPos - link5.x2;
+			var dY3 = node33.yPos - link5.y2;
+			link5.e2 += 1 / Math.sqrt(dX3 * dX3 + dY3 * dY3);
 		}
-		l3.add(link4);
+		l3.add(link5);
 	}
 	while(!l3.isEmpty()) {
 		var bestEDiff1 = -1.0;
 		var bestLink1 = null;
-		var _g_head44 = l3.h;
-		while(_g_head44 != null) {
-			var val44 = _g_head44.item;
-			_g_head44 = _g_head44.next;
-			var link5 = val44;
-			var eDiff1 = Math.abs(link5.e1 - link5.e2);
+		var _g_head51 = l3.h;
+		while(_g_head51 != null) {
+			var val51 = _g_head51.item;
+			_g_head51 = _g_head51.next;
+			var link6 = val51;
+			var eDiff1 = Math.abs(link6.e1 - link6.e2);
 			if(eDiff1 > bestEDiff1 || bestEDiff1 == -1) {
 				bestEDiff1 = eDiff1;
-				bestLink1 = link5;
+				bestLink1 = link6;
 			}
 		}
 		bestLink1.xPos = bestLink1.e1 < bestLink1.e2 ? bestLink1.x1 : bestLink1.x2;
@@ -1683,47 +1811,47 @@ draw_Drawer.main = function() {
 	var maxY1 = -Infinity;
 	var minX1 = Infinity;
 	var minY1 = Infinity;
-	var _g_head45 = g_nodes.h;
-	while(_g_head45 != null) {
-		var val45 = _g_head45.item;
-		_g_head45 = _g_head45.next;
-		var node30 = val45;
-		maxX1 = Math.max(maxX1,node30.xPos + node30.radius);
-		maxY1 = Math.max(maxY1,node30.yPos + node30.radius);
-		minX1 = Math.min(minX1,node30.xPos - node30.radius);
-		minY1 = Math.min(minY1,node30.yPos - node30.radius);
+	var _g_head52 = g_nodes.h;
+	while(_g_head52 != null) {
+		var val52 = _g_head52.item;
+		_g_head52 = _g_head52.next;
+		var node34 = val52;
+		maxX1 = Math.max(maxX1,node34.xPos + node34.radius);
+		maxY1 = Math.max(maxY1,node34.yPos + node34.radius);
+		minX1 = Math.min(minX1,node34.xPos - node34.radius);
+		minY1 = Math.min(minY1,node34.yPos - node34.radius);
 	}
-	var _g_head46 = g_links.h;
-	while(_g_head46 != null) {
-		var val46 = _g_head46.item;
-		_g_head46 = _g_head46.next;
-		var link6 = val46;
+	var _g_head53 = g_links.h;
+	while(_g_head53 != null) {
+		var val53 = _g_head53.item;
+		_g_head53 = _g_head53.next;
+		var link7 = val53;
 		var tMax2 = 0;
-		var bX1 = 2 * link6.xPos - (link6.n1.xPos + link6.n2.xPos) / 2;
-		if(2 * bX1 - link6.n1.xPos - link6.n2.xPos != 0) {
-			tMax2 = (bX1 - link6.n1.xPos) / (2 * bX1 - link6.n1.xPos - link6.n2.xPos);
+		var bX1 = 2 * link7.xPos - (link7.n1.xPos + link7.n2.xPos) / 2;
+		if(2 * bX1 - link7.n1.xPos - link7.n2.xPos != 0) {
+			tMax2 = (bX1 - link7.n1.xPos) / (2 * bX1 - link7.n1.xPos - link7.n2.xPos);
 		}
 		if(0 <= tMax2 && tMax2 <= 1) {
 			tMax2 = tMax2;
 		} else {
 			tMax2 = 0;
 		}
-		var x3 = (1 - tMax2) * ((1 - tMax2) * link6.n1.xPos + tMax2 * bX1) + tMax2 * ((1 - tMax2) * bX1 + tMax2 * link6.n2.xPos);
+		var x4 = (1 - tMax2) * ((1 - tMax2) * link7.n1.xPos + tMax2 * bX1) + tMax2 * ((1 - tMax2) * bX1 + tMax2 * link7.n2.xPos);
 		var tMax3 = 0;
-		var bY1 = 2 * link6.yPos - (link6.n1.yPos + link6.n2.yPos) / 2;
-		if(2 * bY1 - link6.n1.yPos - link6.n2.yPos != 0) {
-			tMax3 = (bY1 - link6.n1.yPos) / (2 * bY1 - link6.n1.yPos - link6.n2.yPos);
+		var bY1 = 2 * link7.yPos - (link7.n1.yPos + link7.n2.yPos) / 2;
+		if(2 * bY1 - link7.n1.yPos - link7.n2.yPos != 0) {
+			tMax3 = (bY1 - link7.n1.yPos) / (2 * bY1 - link7.n1.yPos - link7.n2.yPos);
 		}
 		if(0 <= tMax3 && tMax3 <= 1) {
 			tMax3 = tMax3;
 		} else {
 			tMax3 = 0;
 		}
-		var y3 = (1 - tMax3) * ((1 - tMax3) * link6.n1.yPos + tMax3 * bY1) + tMax3 * ((1 - tMax3) * bY1 + tMax3 * link6.n2.yPos);
-		maxX1 = Math.max(maxX1,x3);
-		maxY1 = Math.max(maxY1,y3);
-		minX1 = Math.min(minX1,x3);
-		minY1 = Math.min(minY1,y3);
+		var y4 = (1 - tMax3) * ((1 - tMax3) * link7.n1.yPos + tMax3 * bY1) + tMax3 * ((1 - tMax3) * bY1 + tMax3 * link7.n2.yPos);
+		maxX1 = Math.max(maxX1,x4);
+		maxY1 = Math.max(maxY1,y4);
+		minX1 = Math.min(minX1,x4);
+		minY1 = Math.min(minY1,y4);
 	}
 	var width1 = maxX1 - minX1 + 30;
 	var height1 = maxY1 - minY1 + 30;
@@ -1731,199 +1859,318 @@ draw_Drawer.main = function() {
 	result9.add("<svg version='1.1' baseProfile='full' width='" + width1);
 	result9.add("' height='" + height1);
 	result9.add("' viewBox='" + (minX1 - 15) + "," + (minY1 - 15) + "," + width1 + "," + height1 + "' xmlns='http://www.w3.org/2000/svg'>");
-	var _g_head47 = g_cons.h;
-	while(_g_head47 != null) {
-		var val47 = _g_head47.item;
-		_g_head47 = _g_head47.next;
-		var con4 = val47;
-		var result10 = new List();
-		result10.add("<line x1='");
-		result10.add(con4.n1.xPos + "' y1='");
-		result10.add(con4.n1.yPos + "' x2='");
-		result10.add(con4.n2.xPos + "' y2='");
-		result10.add(con4.n2.yPos + "' stroke='");
-		result10.add(con4.strokeColor + "' stroke-width='");
-		result10.add(con4.strokeWidth + "' ");
-		if(!con4.dashedArray.isEmpty()) {
-			result10.add("stroke-dasharray='");
-			result10.add(con4.dashedArray.join(","));
-			result10.add("' ");
-		}
-		result10.add("/>");
-		if(con4.drawMutsByLine || con4.drawMutsByText || con4.drawMutsByDots) {
-			var vX5 = con4.n1.xPos - con4.n2.xPos;
-			var vY5 = con4.n1.yPos - con4.n2.yPos;
-			var vL1 = Math.sqrt(vX5 * vX5 + vY5 * vY5);
-			var eVX1 = vX5 / vL1;
-			var eVY1 = vY5 / vL1;
-			var startX1 = con4.n2.xPos + eVX1 * con4.n2.radius;
-			var startY1 = con4.n2.yPos + eVY1 * con4.n2.radius;
-			var endX1 = con4.n2.xPos + vX5 - eVX1 * con4.n1.radius;
-			var endY1 = con4.n2.yPos + vY5 - eVY1 * con4.n1.radius;
-			vX5 = (endX1 - startX1) / (con4.l.length + 1);
-			vY5 = (endY1 - startY1) / (con4.l.length + 1);
-			var iii1 = 0;
-			var _g_head48 = con4.l.h;
-			while(_g_head48 != null) {
-				var val48 = _g_head48.item;
-				_g_head48 = _g_head48.next;
-				var text1 = val48;
-				++iii1;
-				var x4 = startX1 + vX5 * iii1;
-				var y4 = startY1 + vY5 * iii1;
-				if(con4.drawMutsByDots) {
-					result10.add("<circle cx='");
-					result10.add(x4 + "' cy='");
-					result10.add(y4 + "' r='");
-					result10.add(con4.drawMutsDotsSize + " fill='");
-					result10.add(con4.drawMutsDotsColor);
-					if(!con4.drawMutsDotsDashedArray.isEmpty()) {
-						result10.add(" stroke-dasharray='");
-						result10.add(con4.drawMutsDotsDashedArray.join(","));
-						result10.add("'");
+	if(g_drawCons) {
+		var _g_head54 = g_cons.h;
+		while(_g_head54 != null) {
+			var val54 = _g_head54.item;
+			_g_head54 = _g_head54.next;
+			var con4 = val54;
+			var result10 = new List();
+			result10.add("<line x1='");
+			result10.add(con4.n1.xPos + "' y1='");
+			result10.add(con4.n1.yPos + "' x2='");
+			result10.add(con4.n2.xPos + "' y2='");
+			result10.add(con4.n2.yPos + "' stroke='");
+			result10.add(con4.strokeColor + "' stroke-width='");
+			result10.add(con4.strokeWidth + "' ");
+			if(!con4.dashedArray.isEmpty()) {
+				result10.add("stroke-dasharray='");
+				result10.add(con4.dashedArray.join(","));
+				result10.add("' ");
+			}
+			result10.add("/>");
+			if(con4.drawMutsByLine || con4.drawMutsByText || con4.drawMutsByDots) {
+				var vX5 = con4.n1.xPos - con4.n2.xPos;
+				var vY5 = con4.n1.yPos - con4.n2.yPos;
+				var vL1 = Math.sqrt(vX5 * vX5 + vY5 * vY5);
+				var eVX1 = vX5 / vL1;
+				var eVY1 = vY5 / vL1;
+				var startX1 = con4.n2.xPos + eVX1 * con4.n2.radius;
+				var startY1 = con4.n2.yPos + eVY1 * con4.n2.radius;
+				var endX1 = con4.n2.xPos + vX5 - eVX1 * con4.n1.radius;
+				var endY1 = con4.n2.yPos + vY5 - eVY1 * con4.n1.radius;
+				vX5 = (endX1 - startX1) / (con4.l.length + 1);
+				vY5 = (endY1 - startY1) / (con4.l.length + 1);
+				var iii1 = 0;
+				var _g_head55 = con4.l.h;
+				while(_g_head55 != null) {
+					var val55 = _g_head55.item;
+					_g_head55 = _g_head55.next;
+					var text1 = val55;
+					++iii1;
+					var x5 = startX1 + vX5 * iii1;
+					var y5 = startY1 + vY5 * iii1;
+					if(con4.drawMutsByDots) {
+						result10.add("<circle cx='");
+						result10.add(x5 + "' cy='");
+						result10.add(y5 + "' r='");
+						result10.add(con4.drawMutsDotsSize + " fill='");
+						result10.add(con4.drawMutsDotsColor);
+						if(!con4.drawMutsDotsDashedArray.isEmpty()) {
+							result10.add(" stroke-dasharray='");
+							result10.add(con4.drawMutsDotsDashedArray.join(","));
+							result10.add("'");
+						}
+						result10.add("/>");
 					}
-					result10.add("/>");
-				}
-				if(con4.drawMutsByLine) {
-					var x12 = x4 - eVY1 * con4.drawMutsLineLen;
-					var y12 = y4 + eVX1 * con4.drawMutsLineLen;
-					var x21 = x4 + eVY1 * con4.drawMutsLineLen;
-					var y21 = y4 - eVX1 * con4.drawMutsLineLen;
-					result10.add("<line x1='");
-					result10.add(x12 + "' y1='");
-					result10.add(y12 + "' x2='");
-					result10.add(x21 + "' y2='");
-					result10.add(y21 + "' stroke='");
-					result10.add(con4.drawMutsLineStrokeColor + "' stroke-width='");
-					result10.add(con4.drawMutsLineWidth + "'");
-					if(!con4.drawMutsLineDashedArray.isEmpty()) {
-						result10.add(" stroke-dasharray='");
-						result10.add(con4.drawMutsLineDashedArray.join(","));
-						result10.add("'");
+					if(con4.drawMutsByLine) {
+						var x12 = x5 - eVY1 * con4.drawMutsLineLen;
+						var y12 = y5 + eVX1 * con4.drawMutsLineLen;
+						var x21 = x5 + eVY1 * con4.drawMutsLineLen;
+						var y21 = y5 - eVX1 * con4.drawMutsLineLen;
+						result10.add("<line x1='");
+						result10.add(x12 + "' y1='");
+						result10.add(y12 + "' x2='");
+						result10.add(x21 + "' y2='");
+						result10.add(y21 + "' stroke='");
+						result10.add(con4.drawMutsLineStrokeColor + "' stroke-width='");
+						result10.add(con4.drawMutsLineWidth + "'");
+						if(!con4.drawMutsLineDashedArray.isEmpty()) {
+							result10.add(" stroke-dasharray='");
+							result10.add(con4.drawMutsLineDashedArray.join(","));
+							result10.add("'");
+						}
+						result10.add("/>");
 					}
-					result10.add("/>");
-				}
-				if(con4.drawMutsByText) {
-					result10.add("<text x='");
-					result10.add(x4 + con4.drawMutsTextPX + "' y='");
-					result10.add(y4 + con4.drawMutsTextSize / 2 + con4.drawMutsTextPY + "' fill='");
-					result10.add(con4.drawMutsTextColor + "' font-family='");
-					result10.add(con4.drawMutsTextFont + "' font-size='");
-					result10.add(con4.drawMutsTextSize + "'");
-					result10.add(">" + text1 + "</text>");
+					if(con4.drawMutsByText) {
+						result10.add("<text x='");
+						result10.add(x5 + con4.drawMutsTextPX + "' y='");
+						result10.add(y5 + con4.drawMutsTextSize / 2 + con4.drawMutsTextPY + "' fill='");
+						result10.add(con4.drawMutsTextColor + "' font-family='");
+						result10.add(con4.drawMutsTextFont + "' font-size='");
+						result10.add(con4.drawMutsTextSize + "'");
+						result10.add(">" + text1 + "</text>");
+					}
 				}
 			}
+			result9.add(result10.join(""));
 		}
-		result9.add(result10.join(""));
 	}
-	result9.add("<g fill='none'>");
-	var _g_head49 = g_links.h;
-	while(_g_head49 != null) {
-		var val49 = _g_head49.item;
-		_g_head49 = _g_head49.next;
-		var link7 = val49;
-		var result11 = new List();
-		result11.add("<path d='M");
-		result11.add(link7.n1.xPos + " ");
-		result11.add(link7.n1.yPos + " Q");
-		result11.add(" " + (2 * link7.xPos - (link7.n1.xPos + link7.n2.xPos) / 2));
-		result11.add(" " + (2 * link7.yPos - (link7.n1.yPos + link7.n2.yPos) / 2));
-		result11.add(" " + link7.n2.xPos);
-		result11.add(" " + link7.n2.yPos);
-		result11.add("' stroke='");
-		result11.add(link7.strokeColor);
-		result11.add("' stroke-width='");
-		result11.add(link7.strokeWidth + "' ");
-		if(!link7.dashedArray.isEmpty()) {
-			result11.add("stroke-dasharray='");
-			result11.add(link7.dashedArray.join(","));
-			result11.add("' ");
-		}
-		result11.add("/>");
-		result9.add(result11.join(""));
-	}
-	result9.add("</g>");
-	var _g_head50 = g_nodes.h;
-	while(_g_head50 != null) {
-		var val50 = _g_head50.item;
-		_g_head50 = _g_head50.next;
-		var node31 = val50;
-		var result12 = new List();
-		node31.pie = node31.pie.filter(function(t1) {
-			if(t1.first != null && t1.first != "") {
-				return t1.second > 0;
-			} else {
-				return false;
+	if(g_drawCurves) {
+		result9.add("<g fill='none'>");
+		var _g_head56 = g_links.h;
+		while(_g_head56 != null) {
+			var val56 = _g_head56.item;
+			_g_head56 = _g_head56.next;
+			var link8 = val56;
+			var result11 = new List();
+			result11.add("<path d='M");
+			result11.add(link8.n1.xPos + " ");
+			result11.add(link8.n1.yPos + " Q");
+			result11.add(" " + (2 * link8.xPos - (link8.n1.xPos + link8.n2.xPos) / 2));
+			result11.add(" " + (2 * link8.yPos - (link8.n1.yPos + link8.n2.yPos) / 2));
+			result11.add(" " + link8.n2.xPos);
+			result11.add(" " + link8.n2.yPos);
+			result11.add("' stroke='");
+			result11.add(link8.strokeColor);
+			result11.add("' stroke-width='");
+			result11.add(link8.strokeWidth + "' ");
+			if(!link8.dashedArray.isEmpty()) {
+				result11.add("stroke-dasharray='");
+				result11.add(link8.dashedArray.join(","));
+				result11.add("' ");
 			}
-		});
-		var needArcs1 = false;
-		result12.add("<circle id='");
-		result12.add("n" + node31.node.id);
-		result12.add("' ");
-		result12.add("stroke='");
-		result12.add(node31.strokeColor);
-		result12.add("' ");
-		result12.add("stroke-width='");
-		result12.add("" + node31.strokeWidth);
-		result12.add("' ");
-		if(!node31.dashedArray.isEmpty()) {
-			result12.add("stroke-dasharray='");
-			result12.add(node31.dashedArray.join(","));
+			result11.add("/>");
+			result9.add(result11.join(""));
+		}
+		result9.add("</g>");
+	}
+	if(g_drawCircles) {
+		var _g_head57 = g_nodes.h;
+		while(_g_head57 != null) {
+			var val57 = _g_head57.item;
+			_g_head57 = _g_head57.next;
+			var node35 = val57;
+			var result12 = new List();
+			node35.pie = node35.pie.filter(function(t1) {
+				if(t1.first != null && t1.first != "") {
+					return t1.second > 0;
+				} else {
+					return false;
+				}
+			});
+			var needArcs1 = false;
+			result12.add("<circle id='");
+			result12.add("n" + node35.node.id);
 			result12.add("' ");
-		}
-		result12.add("cx='");
-		result12.add("" + node31.xPos);
-		result12.add("' ");
-		result12.add("cy='");
-		result12.add("" + node31.yPos);
-		result12.add("' ");
-		result12.add("r='");
-		result12.add("" + node31.radius);
-		result12.add("' ");
-		if(node31.pie.isEmpty()) {
-			result12.add("fill='");
-			result12.add("blue");
-		} else if(node31.pie.length == 1) {
-			result12.add("fill='");
-			result12.add(node31.pie.first().first);
-		} else {
-			needArcs1 = true;
-		}
-		result12.add("' ");
-		result12.add("/>");
-		if(needArcs1) {
-			var summe1 = 0;
-			var _g_head51 = node31.pie.h;
-			while(_g_head51 != null) {
-				var val51 = _g_head51.item;
-				_g_head51 = _g_head51.next;
-				var p2 = val51;
-				summe1 += p2.second;
+			result12.add("stroke='");
+			result12.add(node35.strokeColor);
+			result12.add("' ");
+			result12.add("stroke-width='");
+			result12.add("" + node35.strokeWidth);
+			result12.add("' ");
+			if(!node35.dashedArray.isEmpty()) {
+				result12.add("stroke-dasharray='");
+				result12.add(node35.dashedArray.join(","));
+				result12.add("' ");
 			}
-			var cs1 = 0;
-			var _g_head52 = node31.pie.h;
-			while(_g_head52 != null) {
-				var val52 = _g_head52.item;
-				_g_head52 = _g_head52.next;
-				var p3 = val52;
-				var color1 = p3.first;
-				var perc1 = p3.second / summe1;
-				var pX11 = Math.sin(cs1 / summe1 * 2 * Math.PI) * node31.radius + node31.xPos;
-				var pY11 = -Math.cos(cs1 / summe1 * 2 * Math.PI) * node31.radius + node31.xPos;
-				cs1 += p3.second;
-				var pX21 = Math.sin(cs1 / summe1 * 2 * Math.PI) * node31.radius + node31.xPos;
-				var pY21 = -Math.cos(cs1 / summe1 * 2 * Math.PI) * node31.radius + node31.xPos;
-				var arcFlag1 = perc1 < 0.5 ? 0 : 1;
-				result12.add("<path fill='" + color1 + "' d='M" + node31.xPos + "," + node31.yPos + " L" + pX11 + "," + pY11 + " A" + node31.radius + "," + node31.radius + " 1 " + arcFlag1 + ",1 " + pX21 + ", " + pY21 + " z'/>");
+			result12.add("cx='");
+			result12.add("" + node35.xPos);
+			result12.add("' ");
+			result12.add("cy='");
+			result12.add("" + node35.yPos);
+			result12.add("' ");
+			result12.add("r='");
+			result12.add("" + node35.radius);
+			result12.add("' ");
+			if(node35.pie.isEmpty()) {
+				result12.add("fill='");
+				result12.add("blue");
+			} else if(node35.pie.length == 1) {
+				result12.add("fill='");
+				result12.add(node35.pie.first().first);
+			} else {
+				needArcs1 = true;
+			}
+			result12.add("' ");
+			result12.add("/>");
+			if(needArcs1) {
+				var summe1 = 0;
+				var _g_head58 = node35.pie.h;
+				while(_g_head58 != null) {
+					var val58 = _g_head58.item;
+					_g_head58 = _g_head58.next;
+					var p2 = val58;
+					summe1 += p2.second;
+				}
+				var cs1 = 0;
+				var _g_head59 = node35.pie.h;
+				while(_g_head59 != null) {
+					var val59 = _g_head59.item;
+					_g_head59 = _g_head59.next;
+					var p3 = val59;
+					var color1 = p3.first;
+					var perc1 = p3.second / summe1;
+					var pX11 = Math.sin(cs1 / summe1 * 2 * Math.PI) * node35.radius + node35.xPos;
+					var pY11 = -Math.cos(cs1 / summe1 * 2 * Math.PI) * node35.radius + node35.xPos;
+					cs1 += p3.second;
+					var pX21 = Math.sin(cs1 / summe1 * 2 * Math.PI) * node35.radius + node35.xPos;
+					var pY21 = -Math.cos(cs1 / summe1 * 2 * Math.PI) * node35.radius + node35.xPos;
+					var arcFlag1 = perc1 < 0.5 ? 0 : 1;
+					result12.add("<path fill='" + color1 + "' d='M" + node35.xPos + "," + node35.yPos + " L" + pX11 + "," + pY11 + " A" + node35.radius + "," + node35.radius + " 1 " + arcFlag1 + ",1 " + pX21 + ", " + pY21 + " z'/>");
+				}
+			}
+			result9.add(result12.join(""));
+		}
+	}
+	if(g_drawAngles) {
+		var _g_head60 = g_cons.h;
+		while(_g_head60 != null) {
+			var val60 = _g_head60.item;
+			_g_head60 = _g_head60.next;
+			var c11 = val60;
+			var _g_head61 = g_cons.h;
+			while(_g_head61 != null) {
+				var val61 = _g_head61.item;
+				_g_head61 = _g_head61.next;
+				var c21 = val61;
+				if(c11.id > c21.id) {
+					var nA1 = null;
+					var nB1 = null;
+					var nC1 = null;
+					if(c11.n1 == c21.n1) {
+						nA1 = c11.n2;
+						nB1 = c21.n2;
+						nC1 = c11.n1;
+					} else if(c11.n1 == c21.n2) {
+						nA1 = c11.n2;
+						nB1 = c21.n1;
+						nC1 = c11.n1;
+					} else if(c11.n2 == c21.n1) {
+						nA1 = c11.n1;
+						nB1 = c21.n2;
+						nC1 = c11.n2;
+					} else if(c11.n2 == c21.n2) {
+						nA1 = c11.n1;
+						nB1 = c21.n1;
+						nC1 = c11.n2;
+					}
+					if(nC1 != null) {
+						var v1X1 = nA1.xPos - nC1.xPos;
+						var v1Y1 = nA1.yPos - nC1.yPos;
+						var v2X1 = nB1.xPos - nC1.xPos;
+						var v2Y1 = nB1.yPos - nC1.yPos;
+						var l12 = Math.sqrt(v1X1 * v1X1 + v1Y1 * v1Y1);
+						var l22 = Math.sqrt(v2X1 * v2X1 + v2Y1 * v2Y1);
+						var c3 = v1X1 * v2X1 + v1Y1 * v2Y1;
+						var wXV1 = v1X1 / l12 + v2X1 / l22;
+						var wYV1 = v1Y1 / l12 + v2Y1 / l22;
+						var wL1 = Math.sqrt(wXV1 * wXV1 + wYV1 * wYV1);
+						var xx1 = nC1.xPos + wXV1 / wL1 * (nC1.radius + 20);
+						var yy1 = nC1.yPos + wYV1 / wL1 * (nC1.radius + 20);
+						var txt1 = HxOverrides.substr("" + Math.acos(c3 / (l12 * l22)) * 360 / (2 * Math.PI),0,6);
+						result9.add("<text x='" + xx1 + "' y='" + yy1 + "' text-anchor='middle'>" + txt1 + "</text>");
+					}
+				}
 			}
 		}
-		result9.add(result12.join(""));
+	}
+	if(g_drawBezierPoints) {
+		var _g_head62 = g_links.h;
+		while(_g_head62 != null) {
+			var val62 = _g_head62.item;
+			_g_head62 = _g_head62.next;
+			var link9 = val62;
+			result9.add("<circle cx='" + link9.xPos + "' cy='" + link9.yPos + "' r='5' fill='" + link9.strokeColor + "' />");
+		}
+	}
+	if(g_drawCenter) {
+		var rx8 = 0;
+		var _g_head63 = g_nodes.h;
+		while(_g_head63 != null) {
+			var val63 = _g_head63.item;
+			_g_head63 = _g_head63.next;
+			var node36 = val63;
+			rx8 += node36.xPos;
+		}
+		var x6 = rx8 / g_nodes.length;
+		var ry8 = 0;
+		var _g_head64 = g_nodes.h;
+		while(_g_head64 != null) {
+			var val64 = _g_head64.item;
+			_g_head64 = _g_head64.next;
+			var node37 = val64;
+			ry8 += node37.yPos;
+		}
+		var y6 = ry8 / g_nodes.length;
+		result9.add("<line x1='" + x6 + "' y1='" + minY1 + "' x2='" + x6 + "' y2='" + maxY1 + "' stroke='green' stroke-dasharray='3 3' />");
+		result9.add("<line x1='" + minX1 + "' y1='" + y6 + "' x2='" + maxX1 + "' y2='" + y6 + "' stroke='green' stroke-dasharray='3 3' />");
+		var rx9 = 0;
+		var _g_head65 = g_nodes.h;
+		while(_g_head65 != null) {
+			var val65 = _g_head65.item;
+			_g_head65 = _g_head65.next;
+			var node38 = val65;
+			rx9 += node38.xPos;
+		}
+		var tmp3 = "<circle cx='" + rx9 / g_nodes.length + "' cy='";
+		var ry9 = 0;
+		var _g_head66 = g_nodes.h;
+		while(_g_head66 != null) {
+			var val66 = _g_head66.item;
+			_g_head66 = _g_head66.next;
+			var node39 = val66;
+			ry9 += node39.yPos;
+		}
+		result9.add(tmp3 + ry9 / g_nodes.length + "' r='5' fill='green' />");
 	}
 	result9.add("</svg>");
 	var s2 = result9.join("");
 	haxe_Log.trace(s2,{ fileName : "StdOutPrinter.hx", lineNumber : 15, className : "util.StdOutPrinter", methodName : "printString"});
 };
 var draw_Graph = function(l) {
+	this.drawAngles = false;
+	this.drawCenter = false;
+	this.drawBezierPoints = false;
+	this.drawCurves = true;
+	this.drawCons = true;
+	this.drawCircles = true;
+	this.drawCircles = true;
+	this.drawCons = true;
+	this.drawCurves = true;
+	this.drawBezierPoints = false;
+	this.drawCenter = false;
+	this.drawAngles = false;
 	this.nodes = new List();
 	this.cons = new List();
 	this.links = new List();
@@ -1934,6 +2181,7 @@ var draw_Graph = function(l) {
 		var e = val;
 		this.nodes.add(new draw_NodePos(e));
 	}
+	var nextConId = 0;
 	var _g_head1 = this.nodes.h;
 	while(_g_head1 != null) {
 		var val1 = _g_head1.item;
@@ -1951,7 +2199,7 @@ var draw_Graph = function(l) {
 					_g_head3 = _g_head3.next;
 					var con = val3;
 					if(con.first == node1.node.id) {
-						this.cons.add(new draw_Connection(node1,node2,con.second));
+						this.cons.add(new draw_Connection(nextConId++,node1,node2,con.second));
 						break;
 					}
 				}
@@ -1982,6 +2230,149 @@ draw_Graph.prototype = {
 	nodes: null
 	,cons: null
 	,links: null
+	,drawCircles: null
+	,drawCons: null
+	,drawCurves: null
+	,drawBezierPoints: null
+	,drawCenter: null
+	,drawAngles: null
+	,assignMutsLines: function(drawMutsByLine,drawMutsLineStrokeColor,drawMutsLineWidth,drawMutsLineLen,drawMutsLineDashedArray) {
+		var drawMutsLineDashedArray_ = new List();
+		var _g = 0;
+		while(_g < drawMutsLineDashedArray.length) {
+			var e = drawMutsLineDashedArray[_g];
+			++_g;
+			drawMutsLineDashedArray_.add(e);
+		}
+		var _g_head = this.cons.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var con = val;
+			con.drawMutsByLine = drawMutsByLine;
+			con.drawMutsLineStrokeColor = drawMutsLineStrokeColor;
+			con.drawMutsLineWidth = drawMutsLineWidth;
+			con.drawMutsLineLen = drawMutsLineLen;
+			con.drawMutsLineDashedArray = drawMutsLineDashedArray_;
+		}
+	}
+	,assignMutsText: function(drawMutsByText,drawMutsTextFont,drawMutsTextSize,drawMutsTextColor,drawMutsTextPX,drawMutsTextPY) {
+		var _g_head = this.cons.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var con = val;
+			con.drawMutsByText = drawMutsByText;
+			con.drawMutsTextFont = drawMutsTextFont;
+			con.drawMutsTextSize = drawMutsTextSize;
+			con.drawMutsTextColor = drawMutsTextColor;
+			con.drawMutsTextPX = drawMutsTextPX;
+			con.drawMutsTextPY = drawMutsTextPY;
+		}
+	}
+	,assignButsByDots: function(drawMutsByDots,drawMutsDotsSize,drawMutsDotsColor,drawMutsDotsDashedArray) {
+		var drawMutsDotsDashedArray_ = new List();
+		var _g = 0;
+		while(_g < drawMutsDotsDashedArray.length) {
+			var e = drawMutsDotsDashedArray[_g];
+			++_g;
+			drawMutsDotsDashedArray_.add(e);
+		}
+		var _g_head = this.cons.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var con = val;
+			con.drawMutsByDots = drawMutsByDots;
+			con.drawMutsDotsSize = drawMutsDotsSize;
+			con.drawMutsDotsColor = drawMutsDotsColor;
+			con.drawMutsDotsDashedArray = drawMutsDotsDashedArray_;
+		}
+	}
+	,getNearestO: function(x,y) {
+		var maxX = -Infinity;
+		var maxY = -Infinity;
+		var minX = Infinity;
+		var minY = Infinity;
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			maxX = Math.max(maxX,node.xPos + node.radius);
+			maxY = Math.max(maxY,node.yPos + node.radius);
+			minX = Math.min(minX,node.xPos - node.radius);
+			minY = Math.min(minY,node.yPos - node.radius);
+		}
+		var _g_head1 = this.links.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var link = val1;
+			var tMax = 0;
+			var bX = 2 * link.xPos - (link.n1.xPos + link.n2.xPos) / 2;
+			if(2 * bX - link.n1.xPos - link.n2.xPos != 0) {
+				tMax = (bX - link.n1.xPos) / (2 * bX - link.n1.xPos - link.n2.xPos);
+			}
+			if(0 <= tMax && tMax <= 1) {
+				tMax = tMax;
+			} else {
+				tMax = 0;
+			}
+			var x1 = (1 - tMax) * ((1 - tMax) * link.n1.xPos + tMax * bX) + tMax * ((1 - tMax) * bX + tMax * link.n2.xPos);
+			var tMax1 = 0;
+			var bY = 2 * link.yPos - (link.n1.yPos + link.n2.yPos) / 2;
+			if(2 * bY - link.n1.yPos - link.n2.yPos != 0) {
+				tMax1 = (bY - link.n1.yPos) / (2 * bY - link.n1.yPos - link.n2.yPos);
+			}
+			if(0 <= tMax1 && tMax1 <= 1) {
+				tMax1 = tMax1;
+			} else {
+				tMax1 = 0;
+			}
+			var y1 = (1 - tMax1) * ((1 - tMax1) * link.n1.yPos + tMax1 * bY) + tMax1 * ((1 - tMax1) * bY + tMax1 * link.n2.yPos);
+			maxX = Math.max(maxX,x1);
+			maxY = Math.max(maxY,y1);
+			minX = Math.min(minX,x1);
+			minY = Math.min(minY,y1);
+		}
+		x = x + minX - 15;
+		y = y + minY - 15;
+		var result = null;
+		var best = Infinity;
+		var d = 0;
+		if(this.drawCircles) {
+			var _g_head2 = this.nodes.h;
+			while(_g_head2 != null) {
+				var val2 = _g_head2.item;
+				_g_head2 = _g_head2.next;
+				var o = val2;
+				var dX = x - o.xPos;
+				var dY = y - o.yPos;
+				d = Math.sqrt(dX * dX + dY * dY);
+				if(d < best) {
+					best = d;
+					result = o;
+				}
+			}
+		}
+		if(this.drawBezierPoints) {
+			var _g_head3 = this.links.h;
+			while(_g_head3 != null) {
+				var val3 = _g_head3.item;
+				_g_head3 = _g_head3.next;
+				var o1 = val3;
+				var dX1 = x - o1.xPos;
+				var dY1 = y - o1.yPos;
+				d = Math.sqrt(dX1 * dX1 + dY1 * dY1);
+				if(d < best) {
+					best = d;
+					result = o1;
+				}
+			}
+		}
+		return result;
+	}
 	,pieToTxt: function(pie) {
 		var result = new List();
 		var _g_head = pie.h;
@@ -1995,15 +2386,23 @@ draw_Graph.prototype = {
 	}
 	,saveStyle: function() {
 		var result = new List();
+		var n = new List();
+		n.add(this.drawCircles ? "1" : "0");
+		n.add(this.drawCons ? "1" : "0");
+		n.add(this.drawCurves ? "1" : "0");
+		n.add(this.drawBezierPoints ? "1" : "0");
+		n.add(this.drawCenter ? "1" : "0");
+		n.add(this.drawAngles ? "1" : "0");
+		result.add(n.join("\x02"));
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
 			var node = val;
-			var n = new List();
-			n.add("" + node.xPos);
-			n.add("" + node.yPos);
-			n.add("" + node.radius);
+			var n1 = new List();
+			n1.add("" + node.xPos);
+			n1.add("" + node.yPos);
+			n1.add("" + node.radius);
 			var pie = node.pie;
 			var result1 = new List();
 			var _g_head1 = pie.h;
@@ -2013,51 +2412,51 @@ draw_Graph.prototype = {
 				var p = val1;
 				result1.add(p.first + "\x01" + p.second);
 			}
-			n.add(result1.join("\x03"));
-			n.add(node.strokeColor);
-			n.add("" + node.strokeWidth);
-			n.add(node.dashedArray.join("|"));
-			result.add(n.join("\x02"));
+			n1.add(result1.join("\x03"));
+			n1.add(node.strokeColor);
+			n1.add("" + node.strokeWidth);
+			n1.add(node.dashedArray.join("|"));
+			result.add(n1.join("\x02"));
 		}
 		var _g_head2 = this.cons.h;
 		while(_g_head2 != null) {
 			var val2 = _g_head2.item;
 			_g_head2 = _g_head2.next;
 			var con = val2;
-			var n1 = new List();
-			n1.add(con.strokeColor);
-			n1.add("" + con.strokeWidth);
-			n1.add(con.dashedArray.join("|"));
-			n1.add(con.drawMutsByLine ? "1" : "0");
-			n1.add(con.drawMutsLineStrokeColor);
-			n1.add("" + con.drawMutsLineWidth);
-			n1.add("" + con.drawMutsLineLen);
-			n1.add("" + con.drawMutsLineDashedArray.join("|"));
-			n1.add(con.drawMutsByText ? "1" : "0");
-			n1.add(con.drawMutsTextFont);
-			n1.add("" + con.drawMutsTextSize);
-			n1.add(con.drawMutsTextColor);
-			n1.add("" + con.drawMutsTextPX);
-			n1.add("" + con.drawMutsTextPY);
-			n1.add(con.drawMutsByDots ? "1" : "0");
-			n1.add("" + con.drawMutsDotsSize);
-			n1.add(con.drawMutsDotsColor);
-			n1.add(con.drawMutsDotsDashedArray.join("|"));
-			result.add(n1.join("\x02"));
+			var n2 = new List();
+			n2.add(con.strokeColor);
+			n2.add("" + con.strokeWidth);
+			n2.add(con.dashedArray.join("|"));
+			n2.add(con.drawMutsByLine ? "1" : "0");
+			n2.add(con.drawMutsLineStrokeColor);
+			n2.add("" + con.drawMutsLineWidth);
+			n2.add("" + con.drawMutsLineLen);
+			n2.add("" + con.drawMutsLineDashedArray.join("|"));
+			n2.add(con.drawMutsByText ? "1" : "0");
+			n2.add(con.drawMutsTextFont);
+			n2.add("" + con.drawMutsTextSize);
+			n2.add(con.drawMutsTextColor);
+			n2.add("" + con.drawMutsTextPX);
+			n2.add("" + con.drawMutsTextPY);
+			n2.add(con.drawMutsByDots ? "1" : "0");
+			n2.add("" + con.drawMutsDotsSize);
+			n2.add(con.drawMutsDotsColor);
+			n2.add(con.drawMutsDotsDashedArray.join("|"));
+			result.add(n2.join("\x02"));
 		}
 		var _g_head3 = this.links.h;
 		while(_g_head3 != null) {
 			var val3 = _g_head3.item;
 			_g_head3 = _g_head3.next;
 			var link = val3;
-			var n2 = new List();
-			n2.add("" + link.w);
-			n2.add(link.strokeColor);
-			n2.add("" + link.strokeWidth);
-			n2.add(link.dashedArray.join("|"));
-			n2.add("" + link.xPos);
-			n2.add("" + link.yPos);
-			result.add(n2.join("\x02"));
+			var n3 = new List();
+			n3.add("" + link.w);
+			n3.add(link.strokeColor);
+			n3.add("" + link.strokeWidth);
+			n3.add(link.dashedArray.join("|"));
+			n3.add("" + link.xPos);
+			n3.add("" + link.yPos);
+			result.add(n3.join("\x02"));
 		}
 		return result.join("\n");
 	}
@@ -2082,18 +2481,25 @@ draw_Graph.prototype = {
 			++_g;
 			lines.add(line);
 		}
+		var attrs = lines.pop().split("\x02");
+		this.drawCircles = attrs[0] == "1";
+		this.drawCons = attrs[1] == "1";
+		this.drawCurves = attrs[2] == "1";
+		this.drawBezierPoints = attrs[3] == "1";
+		this.drawCenter = attrs[4] == "1";
+		this.drawAngles = attrs[5] == "1";
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
 			var node = val;
-			var attrs = lines.pop().split("\x02");
-			node.xPos = parseFloat(attrs[0]);
-			node.yPos = parseFloat(attrs[1]);
-			node.radius = parseFloat(attrs[2]);
+			var attrs1 = lines.pop().split("\x02");
+			node.xPos = parseFloat(attrs1[0]);
+			node.yPos = parseFloat(attrs1[1]);
+			node.radius = parseFloat(attrs1[2]);
 			var result = new List();
 			var _g2 = 0;
-			var _g11 = attrs[3].split("\x03");
+			var _g11 = attrs1[3].split("\x03");
 			while(_g2 < _g11.length) {
 				var p = _g11[_g2];
 				++_g2;
@@ -2101,11 +2507,11 @@ draw_Graph.prototype = {
 				result.add(new util_Pair(d[0],Std.parseInt(d[1])));
 			}
 			node.pie = result;
-			node.strokeColor = attrs[4];
-			node.strokeWidth = parseFloat(attrs[5]);
+			node.strokeColor = attrs1[4];
+			node.strokeWidth = parseFloat(attrs1[5]);
 			node.dashedArray = new List();
 			var _g3 = 0;
-			var _g12 = attrs[6].split("|");
+			var _g12 = attrs1[6].split("|");
 			while(_g3 < _g12.length) {
 				var f = _g12[_g3];
 				++_g3;
@@ -2117,41 +2523,41 @@ draw_Graph.prototype = {
 			var val1 = _g_head1.item;
 			_g_head1 = _g_head1.next;
 			var con = val1;
-			var attrs1 = lines.pop().split("\x02");
-			con.strokeColor = attrs1[0];
-			con.strokeWidth = parseFloat(attrs1[1]);
+			var attrs2 = lines.pop().split("\x02");
+			con.strokeColor = attrs2[0];
+			con.strokeWidth = parseFloat(attrs2[1]);
 			con.dashedArray = new List();
 			var _g4 = 0;
-			var _g13 = attrs1[2].split("|");
+			var _g13 = attrs2[2].split("|");
 			while(_g4 < _g13.length) {
 				var f1 = _g13[_g4];
 				++_g4;
 				con.dashedArray.add(parseFloat(f1));
 			}
-			con.drawMutsByLine = attrs1[3] == "1";
-			con.drawMutsLineStrokeColor = attrs1[4];
-			con.drawMutsLineWidth = parseFloat(attrs1[5]);
-			con.drawMutsLineLen = parseFloat(attrs1[6]);
+			con.drawMutsByLine = attrs2[3] == "1";
+			con.drawMutsLineStrokeColor = attrs2[4];
+			con.drawMutsLineWidth = parseFloat(attrs2[5]);
+			con.drawMutsLineLen = parseFloat(attrs2[6]);
 			con.drawMutsLineDashedArray = new List();
 			var _g5 = 0;
-			var _g14 = attrs1[7].split("|");
+			var _g14 = attrs2[7].split("|");
 			while(_g5 < _g14.length) {
 				var f2 = _g14[_g5];
 				++_g5;
 				con.drawMutsLineDashedArray.add(parseFloat(f2));
 			}
-			con.drawMutsByText = attrs1[8] == "1";
-			con.drawMutsTextFont = attrs1[9];
-			con.drawMutsTextSize = parseFloat(attrs1[10]);
-			con.drawMutsTextColor = attrs1[11];
-			con.drawMutsTextPX = parseFloat(attrs1[12]);
-			con.drawMutsTextPY = parseFloat(attrs1[13]);
-			con.drawMutsByDots = attrs1[14] == "1";
-			con.drawMutsDotsSize = parseFloat(attrs1[15]);
-			con.drawMutsDotsColor = attrs1[16];
+			con.drawMutsByText = attrs2[8] == "1";
+			con.drawMutsTextFont = attrs2[9];
+			con.drawMutsTextSize = parseFloat(attrs2[10]);
+			con.drawMutsTextColor = attrs2[11];
+			con.drawMutsTextPX = parseFloat(attrs2[12]);
+			con.drawMutsTextPY = parseFloat(attrs2[13]);
+			con.drawMutsByDots = attrs2[14] == "1";
+			con.drawMutsDotsSize = parseFloat(attrs2[15]);
+			con.drawMutsDotsColor = attrs2[16];
 			con.drawMutsDotsDashedArray = new List();
 			var _g6 = 0;
-			var _g15 = attrs1[17].split("|");
+			var _g15 = attrs2[17].split("|");
 			while(_g6 < _g15.length) {
 				var f3 = _g15[_g6];
 				++_g6;
@@ -2163,20 +2569,20 @@ draw_Graph.prototype = {
 			var val2 = _g_head2.item;
 			_g_head2 = _g_head2.next;
 			var link = val2;
-			var attrs2 = lines.pop().split("\x02");
-			link.w = parseFloat(attrs2[0]);
-			link.strokeColor = attrs2[1];
-			link.strokeWidth = parseFloat(attrs2[2]);
+			var attrs3 = lines.pop().split("\x02");
+			link.w = parseFloat(attrs3[0]);
+			link.strokeColor = attrs3[1];
+			link.strokeWidth = parseFloat(attrs3[2]);
 			link.dashedArray = new List();
 			var _g7 = 0;
-			var _g16 = attrs2[3].split("|");
+			var _g16 = attrs3[3].split("|");
 			while(_g7 < _g16.length) {
 				var f4 = _g16[_g7];
 				++_g7;
 				link.dashedArray.add(parseFloat(f4));
 			}
-			link.xPos = parseFloat(attrs2[4]);
-			link.yPos = parseFloat(attrs2[5]);
+			link.xPos = parseFloat(attrs3[4]);
+			link.yPos = parseFloat(attrs3[5]);
 		}
 	}
 	,getSvgCode: function() {
@@ -2232,193 +2638,300 @@ draw_Graph.prototype = {
 		result.add("<svg version='1.1' baseProfile='full' width='" + width);
 		result.add("' height='" + height);
 		result.add("' viewBox='" + (minX - 15) + "," + (minY - 15) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
-		var _g_head2 = this.cons.h;
-		while(_g_head2 != null) {
-			var val2 = _g_head2.item;
-			_g_head2 = _g_head2.next;
-			var con = val2;
-			var result1 = new List();
-			result1.add("<line x1='");
-			result1.add(con.n1.xPos + "' y1='");
-			result1.add(con.n1.yPos + "' x2='");
-			result1.add(con.n2.xPos + "' y2='");
-			result1.add(con.n2.yPos + "' stroke='");
-			result1.add(con.strokeColor + "' stroke-width='");
-			result1.add(con.strokeWidth + "' ");
-			if(!con.dashedArray.isEmpty()) {
-				result1.add("stroke-dasharray='");
-				result1.add(con.dashedArray.join(","));
-				result1.add("' ");
-			}
-			result1.add("/>");
-			if(con.drawMutsByLine || con.drawMutsByText || con.drawMutsByDots) {
-				var vX = con.n1.xPos - con.n2.xPos;
-				var vY = con.n1.yPos - con.n2.yPos;
-				var vL = Math.sqrt(vX * vX + vY * vY);
-				var eVX = vX / vL;
-				var eVY = vY / vL;
-				var startX = con.n2.xPos + eVX * con.n2.radius;
-				var startY = con.n2.yPos + eVY * con.n2.radius;
-				var endX = con.n2.xPos + vX - eVX * con.n1.radius;
-				var endY = con.n2.yPos + vY - eVY * con.n1.radius;
-				vX = (endX - startX) / (con.l.length + 1);
-				vY = (endY - startY) / (con.l.length + 1);
-				var iii = 0;
-				var _g_head3 = con.l.h;
-				while(_g_head3 != null) {
-					var val3 = _g_head3.item;
-					_g_head3 = _g_head3.next;
-					var text = val3;
-					++iii;
-					var x1 = startX + vX * iii;
-					var y1 = startY + vY * iii;
-					if(con.drawMutsByDots) {
-						result1.add("<circle cx='");
-						result1.add(x1 + "' cy='");
-						result1.add(y1 + "' r='");
-						result1.add(con.drawMutsDotsSize + " fill='");
-						result1.add(con.drawMutsDotsColor);
-						if(!con.drawMutsDotsDashedArray.isEmpty()) {
-							result1.add(" stroke-dasharray='");
-							result1.add(con.drawMutsDotsDashedArray.join(","));
-							result1.add("'");
+		if(this.drawCons) {
+			var _g_head2 = this.cons.h;
+			while(_g_head2 != null) {
+				var val2 = _g_head2.item;
+				_g_head2 = _g_head2.next;
+				var con = val2;
+				var result1 = new List();
+				result1.add("<line x1='");
+				result1.add(con.n1.xPos + "' y1='");
+				result1.add(con.n1.yPos + "' x2='");
+				result1.add(con.n2.xPos + "' y2='");
+				result1.add(con.n2.yPos + "' stroke='");
+				result1.add(con.strokeColor + "' stroke-width='");
+				result1.add(con.strokeWidth + "' ");
+				if(!con.dashedArray.isEmpty()) {
+					result1.add("stroke-dasharray='");
+					result1.add(con.dashedArray.join(","));
+					result1.add("' ");
+				}
+				result1.add("/>");
+				if(con.drawMutsByLine || con.drawMutsByText || con.drawMutsByDots) {
+					var vX = con.n1.xPos - con.n2.xPos;
+					var vY = con.n1.yPos - con.n2.yPos;
+					var vL = Math.sqrt(vX * vX + vY * vY);
+					var eVX = vX / vL;
+					var eVY = vY / vL;
+					var startX = con.n2.xPos + eVX * con.n2.radius;
+					var startY = con.n2.yPos + eVY * con.n2.radius;
+					var endX = con.n2.xPos + vX - eVX * con.n1.radius;
+					var endY = con.n2.yPos + vY - eVY * con.n1.radius;
+					vX = (endX - startX) / (con.l.length + 1);
+					vY = (endY - startY) / (con.l.length + 1);
+					var iii = 0;
+					var _g_head3 = con.l.h;
+					while(_g_head3 != null) {
+						var val3 = _g_head3.item;
+						_g_head3 = _g_head3.next;
+						var text = val3;
+						++iii;
+						var x1 = startX + vX * iii;
+						var y1 = startY + vY * iii;
+						if(con.drawMutsByDots) {
+							result1.add("<circle cx='");
+							result1.add(x1 + "' cy='");
+							result1.add(y1 + "' r='");
+							result1.add(con.drawMutsDotsSize + " fill='");
+							result1.add(con.drawMutsDotsColor);
+							if(!con.drawMutsDotsDashedArray.isEmpty()) {
+								result1.add(" stroke-dasharray='");
+								result1.add(con.drawMutsDotsDashedArray.join(","));
+								result1.add("'");
+							}
+							result1.add("/>");
 						}
-						result1.add("/>");
-					}
-					if(con.drawMutsByLine) {
-						var x11 = x1 - eVY * con.drawMutsLineLen;
-						var y11 = y1 + eVX * con.drawMutsLineLen;
-						var x2 = x1 + eVY * con.drawMutsLineLen;
-						var y2 = y1 - eVX * con.drawMutsLineLen;
-						result1.add("<line x1='");
-						result1.add(x11 + "' y1='");
-						result1.add(y11 + "' x2='");
-						result1.add(x2 + "' y2='");
-						result1.add(y2 + "' stroke='");
-						result1.add(con.drawMutsLineStrokeColor + "' stroke-width='");
-						result1.add(con.drawMutsLineWidth + "'");
-						if(!con.drawMutsLineDashedArray.isEmpty()) {
-							result1.add(" stroke-dasharray='");
-							result1.add(con.drawMutsLineDashedArray.join(","));
-							result1.add("'");
+						if(con.drawMutsByLine) {
+							var x11 = x1 - eVY * con.drawMutsLineLen;
+							var y11 = y1 + eVX * con.drawMutsLineLen;
+							var x2 = x1 + eVY * con.drawMutsLineLen;
+							var y2 = y1 - eVX * con.drawMutsLineLen;
+							result1.add("<line x1='");
+							result1.add(x11 + "' y1='");
+							result1.add(y11 + "' x2='");
+							result1.add(x2 + "' y2='");
+							result1.add(y2 + "' stroke='");
+							result1.add(con.drawMutsLineStrokeColor + "' stroke-width='");
+							result1.add(con.drawMutsLineWidth + "'");
+							if(!con.drawMutsLineDashedArray.isEmpty()) {
+								result1.add(" stroke-dasharray='");
+								result1.add(con.drawMutsLineDashedArray.join(","));
+								result1.add("'");
+							}
+							result1.add("/>");
 						}
-						result1.add("/>");
-					}
-					if(con.drawMutsByText) {
-						result1.add("<text x='");
-						result1.add(x1 + con.drawMutsTextPX + "' y='");
-						result1.add(y1 + con.drawMutsTextSize / 2 + con.drawMutsTextPY + "' fill='");
-						result1.add(con.drawMutsTextColor + "' font-family='");
-						result1.add(con.drawMutsTextFont + "' font-size='");
-						result1.add(con.drawMutsTextSize + "'");
-						result1.add(">" + text + "</text>");
+						if(con.drawMutsByText) {
+							result1.add("<text x='");
+							result1.add(x1 + con.drawMutsTextPX + "' y='");
+							result1.add(y1 + con.drawMutsTextSize / 2 + con.drawMutsTextPY + "' fill='");
+							result1.add(con.drawMutsTextColor + "' font-family='");
+							result1.add(con.drawMutsTextFont + "' font-size='");
+							result1.add(con.drawMutsTextSize + "'");
+							result1.add(">" + text + "</text>");
+						}
 					}
 				}
+				result.add(result1.join(""));
 			}
-			result.add(result1.join(""));
 		}
-		result.add("<g fill='none'>");
-		var _g_head4 = this.links.h;
-		while(_g_head4 != null) {
-			var val4 = _g_head4.item;
-			_g_head4 = _g_head4.next;
-			var link1 = val4;
-			var result2 = new List();
-			result2.add("<path d='M");
-			result2.add(link1.n1.xPos + " ");
-			result2.add(link1.n1.yPos + " Q");
-			result2.add(" " + (2 * link1.xPos - (link1.n1.xPos + link1.n2.xPos) / 2));
-			result2.add(" " + (2 * link1.yPos - (link1.n1.yPos + link1.n2.yPos) / 2));
-			result2.add(" " + link1.n2.xPos);
-			result2.add(" " + link1.n2.yPos);
-			result2.add("' stroke='");
-			result2.add(link1.strokeColor);
-			result2.add("' stroke-width='");
-			result2.add(link1.strokeWidth + "' ");
-			if(!link1.dashedArray.isEmpty()) {
-				result2.add("stroke-dasharray='");
-				result2.add(link1.dashedArray.join(","));
-				result2.add("' ");
-			}
-			result2.add("/>");
-			result.add(result2.join(""));
-		}
-		result.add("</g>");
-		var _g_head5 = this.nodes.h;
-		while(_g_head5 != null) {
-			var val5 = _g_head5.item;
-			_g_head5 = _g_head5.next;
-			var node1 = val5;
-			var result3 = new List();
-			node1.pie = node1.pie.filter(function(t) {
-				if(t.first != null && t.first != "") {
-					return t.second > 0;
-				} else {
-					return false;
+		if(this.drawCurves) {
+			result.add("<g fill='none'>");
+			var _g_head4 = this.links.h;
+			while(_g_head4 != null) {
+				var val4 = _g_head4.item;
+				_g_head4 = _g_head4.next;
+				var link1 = val4;
+				var result2 = new List();
+				result2.add("<path d='M");
+				result2.add(link1.n1.xPos + " ");
+				result2.add(link1.n1.yPos + " Q");
+				result2.add(" " + (2 * link1.xPos - (link1.n1.xPos + link1.n2.xPos) / 2));
+				result2.add(" " + (2 * link1.yPos - (link1.n1.yPos + link1.n2.yPos) / 2));
+				result2.add(" " + link1.n2.xPos);
+				result2.add(" " + link1.n2.yPos);
+				result2.add("' stroke='");
+				result2.add(link1.strokeColor);
+				result2.add("' stroke-width='");
+				result2.add(link1.strokeWidth + "' ");
+				if(!link1.dashedArray.isEmpty()) {
+					result2.add("stroke-dasharray='");
+					result2.add(link1.dashedArray.join(","));
+					result2.add("' ");
 				}
-			});
-			var needArcs = false;
-			result3.add("<circle id='");
-			result3.add("n" + node1.node.id);
-			result3.add("' ");
-			result3.add("stroke='");
-			result3.add(node1.strokeColor);
-			result3.add("' ");
-			result3.add("stroke-width='");
-			result3.add("" + node1.strokeWidth);
-			result3.add("' ");
-			if(!node1.dashedArray.isEmpty()) {
-				result3.add("stroke-dasharray='");
-				result3.add(node1.dashedArray.join(","));
+				result2.add("/>");
+				result.add(result2.join(""));
+			}
+			result.add("</g>");
+		}
+		if(this.drawCircles) {
+			var _g_head5 = this.nodes.h;
+			while(_g_head5 != null) {
+				var val5 = _g_head5.item;
+				_g_head5 = _g_head5.next;
+				var node1 = val5;
+				var result3 = new List();
+				node1.pie = node1.pie.filter(function(t) {
+					if(t.first != null && t.first != "") {
+						return t.second > 0;
+					} else {
+						return false;
+					}
+				});
+				var needArcs = false;
+				result3.add("<circle id='");
+				result3.add("n" + node1.node.id);
 				result3.add("' ");
-			}
-			result3.add("cx='");
-			result3.add("" + node1.xPos);
-			result3.add("' ");
-			result3.add("cy='");
-			result3.add("" + node1.yPos);
-			result3.add("' ");
-			result3.add("r='");
-			result3.add("" + node1.radius);
-			result3.add("' ");
-			if(node1.pie.isEmpty()) {
-				result3.add("fill='");
-				result3.add("blue");
-			} else if(node1.pie.length == 1) {
-				result3.add("fill='");
-				result3.add(node1.pie.first().first);
-			} else {
-				needArcs = true;
-			}
-			result3.add("' ");
-			result3.add("/>");
-			if(needArcs) {
-				var summe = 0;
-				var _g_head6 = node1.pie.h;
-				while(_g_head6 != null) {
-					var val6 = _g_head6.item;
-					_g_head6 = _g_head6.next;
-					var p = val6;
-					summe += p.second;
+				result3.add("stroke='");
+				result3.add(node1.strokeColor);
+				result3.add("' ");
+				result3.add("stroke-width='");
+				result3.add("" + node1.strokeWidth);
+				result3.add("' ");
+				if(!node1.dashedArray.isEmpty()) {
+					result3.add("stroke-dasharray='");
+					result3.add(node1.dashedArray.join(","));
+					result3.add("' ");
 				}
-				var cs = 0;
-				var _g_head7 = node1.pie.h;
-				while(_g_head7 != null) {
-					var val7 = _g_head7.item;
-					_g_head7 = _g_head7.next;
-					var p1 = val7;
-					var color = p1.first;
-					var perc = p1.second / summe;
-					var pX1 = Math.sin(cs / summe * 2 * Math.PI) * node1.radius + node1.xPos;
-					var pY1 = -Math.cos(cs / summe * 2 * Math.PI) * node1.radius + node1.xPos;
-					cs += p1.second;
-					var pX2 = Math.sin(cs / summe * 2 * Math.PI) * node1.radius + node1.xPos;
-					var pY2 = -Math.cos(cs / summe * 2 * Math.PI) * node1.radius + node1.xPos;
-					var arcFlag = perc < 0.5 ? 0 : 1;
-					result3.add("<path fill='" + color + "' d='M" + node1.xPos + "," + node1.yPos + " L" + pX1 + "," + pY1 + " A" + node1.radius + "," + node1.radius + " 1 " + arcFlag + ",1 " + pX2 + ", " + pY2 + " z'/>");
+				result3.add("cx='");
+				result3.add("" + node1.xPos);
+				result3.add("' ");
+				result3.add("cy='");
+				result3.add("" + node1.yPos);
+				result3.add("' ");
+				result3.add("r='");
+				result3.add("" + node1.radius);
+				result3.add("' ");
+				if(node1.pie.isEmpty()) {
+					result3.add("fill='");
+					result3.add("blue");
+				} else if(node1.pie.length == 1) {
+					result3.add("fill='");
+					result3.add(node1.pie.first().first);
+				} else {
+					needArcs = true;
+				}
+				result3.add("' ");
+				result3.add("/>");
+				if(needArcs) {
+					var summe = 0;
+					var _g_head6 = node1.pie.h;
+					while(_g_head6 != null) {
+						var val6 = _g_head6.item;
+						_g_head6 = _g_head6.next;
+						var p = val6;
+						summe += p.second;
+					}
+					var cs = 0;
+					var _g_head7 = node1.pie.h;
+					while(_g_head7 != null) {
+						var val7 = _g_head7.item;
+						_g_head7 = _g_head7.next;
+						var p1 = val7;
+						var color = p1.first;
+						var perc = p1.second / summe;
+						var pX1 = Math.sin(cs / summe * 2 * Math.PI) * node1.radius + node1.xPos;
+						var pY1 = -Math.cos(cs / summe * 2 * Math.PI) * node1.radius + node1.xPos;
+						cs += p1.second;
+						var pX2 = Math.sin(cs / summe * 2 * Math.PI) * node1.radius + node1.xPos;
+						var pY2 = -Math.cos(cs / summe * 2 * Math.PI) * node1.radius + node1.xPos;
+						var arcFlag = perc < 0.5 ? 0 : 1;
+						result3.add("<path fill='" + color + "' d='M" + node1.xPos + "," + node1.yPos + " L" + pX1 + "," + pY1 + " A" + node1.radius + "," + node1.radius + " 1 " + arcFlag + ",1 " + pX2 + ", " + pY2 + " z'/>");
+					}
+				}
+				result.add(result3.join(""));
+			}
+		}
+		if(this.drawAngles) {
+			var _g_head8 = this.cons.h;
+			while(_g_head8 != null) {
+				var val8 = _g_head8.item;
+				_g_head8 = _g_head8.next;
+				var c1 = val8;
+				var _g_head9 = this.cons.h;
+				while(_g_head9 != null) {
+					var val9 = _g_head9.item;
+					_g_head9 = _g_head9.next;
+					var c2 = val9;
+					if(c1.id > c2.id) {
+						var nA = null;
+						var nB = null;
+						var nC = null;
+						if(c1.n1 == c2.n1) {
+							nA = c1.n2;
+							nB = c2.n2;
+							nC = c1.n1;
+						} else if(c1.n1 == c2.n2) {
+							nA = c1.n2;
+							nB = c2.n1;
+							nC = c1.n1;
+						} else if(c1.n2 == c2.n1) {
+							nA = c1.n1;
+							nB = c2.n2;
+							nC = c1.n2;
+						} else if(c1.n2 == c2.n2) {
+							nA = c1.n1;
+							nB = c2.n1;
+							nC = c1.n2;
+						}
+						if(nC != null) {
+							var v1X = nA.xPos - nC.xPos;
+							var v1Y = nA.yPos - nC.yPos;
+							var v2X = nB.xPos - nC.xPos;
+							var v2Y = nB.yPos - nC.yPos;
+							var l1 = Math.sqrt(v1X * v1X + v1Y * v1Y);
+							var l2 = Math.sqrt(v2X * v2X + v2Y * v2Y);
+							var c = v1X * v2X + v1Y * v2Y;
+							var wXV = v1X / l1 + v2X / l2;
+							var wYV = v1Y / l1 + v2Y / l2;
+							var wL = Math.sqrt(wXV * wXV + wYV * wYV);
+							var xx = nC.xPos + wXV / wL * (nC.radius + 20);
+							var yy = nC.yPos + wYV / wL * (nC.radius + 20);
+							var txt = HxOverrides.substr("" + Math.acos(c / (l1 * l2)) * 360 / (2 * Math.PI),0,6);
+							result.add("<text x='" + xx + "' y='" + yy + "' text-anchor='middle'>" + txt + "</text>");
+						}
+					}
 				}
 			}
-			result.add(result3.join(""));
+		}
+		if(this.drawBezierPoints) {
+			var _g_head10 = this.links.h;
+			while(_g_head10 != null) {
+				var val10 = _g_head10.item;
+				_g_head10 = _g_head10.next;
+				var link2 = val10;
+				result.add("<circle cx='" + link2.xPos + "' cy='" + link2.yPos + "' r='5' fill='" + link2.strokeColor + "' />");
+			}
+		}
+		if(this.drawCenter) {
+			var rx = 0;
+			var _g_head11 = this.nodes.h;
+			while(_g_head11 != null) {
+				var val11 = _g_head11.item;
+				_g_head11 = _g_head11.next;
+				var node2 = val11;
+				rx += node2.xPos;
+			}
+			var x3 = rx / this.nodes.length;
+			var ry = 0;
+			var _g_head12 = this.nodes.h;
+			while(_g_head12 != null) {
+				var val12 = _g_head12.item;
+				_g_head12 = _g_head12.next;
+				var node3 = val12;
+				ry += node3.yPos;
+			}
+			var y3 = ry / this.nodes.length;
+			result.add("<line x1='" + x3 + "' y1='" + minY + "' x2='" + x3 + "' y2='" + maxY + "' stroke='green' stroke-dasharray='3 3' />");
+			result.add("<line x1='" + minX + "' y1='" + y3 + "' x2='" + maxX + "' y2='" + y3 + "' stroke='green' stroke-dasharray='3 3' />");
+			var rx1 = 0;
+			var _g_head13 = this.nodes.h;
+			while(_g_head13 != null) {
+				var val13 = _g_head13.item;
+				_g_head13 = _g_head13.next;
+				var node4 = val13;
+				rx1 += node4.xPos;
+			}
+			var tmp = "<circle cx='" + rx1 / this.nodes.length + "' cy='";
+			var ry1 = 0;
+			var _g_head14 = this.nodes.h;
+			while(_g_head14 != null) {
+				var val14 = _g_head14.item;
+				_g_head14 = _g_head14.next;
+				var node5 = val14;
+				ry1 += node5.yPos;
+			}
+			result.add(tmp + ry1 / this.nodes.length + "' r='5' fill='green' />");
 		}
 		result.add("</svg>");
 		return result.join("");
@@ -2725,8 +3238,6 @@ draw_Graph.prototype = {
 			node8.yPos -= cy2;
 		}
 	}
-	,approxAlgo: function() {
-	}
 	,fluct: function() {
 		return 10 * Math.random() * (Math.random() > 0.5 ? 1 : -1);
 	}
@@ -2889,203 +3400,6 @@ draw_Graph.prototype = {
 			}
 		}
 		return tE;
-	}
-	,slsSearch: function() {
-		var _g = 0;
-		while(_g < 1) {
-			var i = _g++;
-			var result = false;
-			var result1 = 0;
-			var _g_head = this.nodes.h;
-			while(_g_head != null) {
-				var val = _g_head.item;
-				_g_head = _g_head.next;
-				var node1 = val;
-				var _g_head1 = this.nodes.h;
-				while(_g_head1 != null) {
-					var val1 = _g_head1.item;
-					_g_head1 = _g_head1.next;
-					var node2 = val1;
-					if(node1.node.id > node2.node.id) {
-						var dX = node1.xPos - node2.xPos;
-						var dY = node1.yPos - node2.yPos;
-						result1 += 1.0 / Math.sqrt(dX * dX + dY * dY);
-					}
-				}
-			}
-			var _g_head2 = this.cons.h;
-			while(_g_head2 != null) {
-				var val2 = _g_head2.item;
-				_g_head2 = _g_head2.next;
-				var con = val2;
-				var expDist = con.expLength;
-				var dX1 = con.n1.xPos - con.n2.xPos;
-				var dY1 = con.n1.yPos - con.n2.yPos;
-				var rDist = Math.sqrt(dX1 * dX1 + dY1 * dY1);
-				var diff = expDist - rDist;
-				result1 += diff * diff;
-			}
-			var minEnergy = result1;
-			var _g_head3 = this.nodes.h;
-			while(_g_head3 != null) {
-				var val3 = _g_head3.item;
-				_g_head3 = _g_head3.next;
-				var node = val3;
-				var xPos = node.xPos;
-				var yPos = node.yPos;
-				var better = true;
-				while(better) {
-					better = false;
-					var _g1 = -1;
-					while(_g1 < 2) {
-						var dx = _g1++;
-						var _g11 = -1;
-						while(_g11 < 2) {
-							var dy = _g11++;
-							node.xPos = xPos + dx;
-							node.yPos = yPos + dy;
-							var result2 = 0;
-							var _g_head4 = this.nodes.h;
-							while(_g_head4 != null) {
-								var val4 = _g_head4.item;
-								_g_head4 = _g_head4.next;
-								var node11 = val4;
-								var _g_head5 = this.nodes.h;
-								while(_g_head5 != null) {
-									var val5 = _g_head5.item;
-									_g_head5 = _g_head5.next;
-									var node21 = val5;
-									if(node11.node.id > node21.node.id) {
-										var dX2 = node11.xPos - node21.xPos;
-										var dY2 = node11.yPos - node21.yPos;
-										result2 += 1.0 / Math.sqrt(dX2 * dX2 + dY2 * dY2);
-									}
-								}
-							}
-							var _g_head6 = this.cons.h;
-							while(_g_head6 != null) {
-								var val6 = _g_head6.item;
-								_g_head6 = _g_head6.next;
-								var con1 = val6;
-								var expDist1 = con1.expLength;
-								var dX3 = con1.n1.xPos - con1.n2.xPos;
-								var dY3 = con1.n1.yPos - con1.n2.yPos;
-								var rDist1 = Math.sqrt(dX3 * dX3 + dY3 * dY3);
-								var diff1 = expDist1 - rDist1;
-								result2 += diff1 * diff1;
-							}
-							var newEn = result2;
-							if(newEn < minEnergy) {
-								better = true;
-								result = true;
-								minEnergy = newEn;
-								xPos = node.xPos;
-								yPos = node.yPos;
-							}
-						}
-					}
-				}
-				node.xPos = xPos;
-				node.yPos = yPos;
-			}
-		}
-	}
-	,sls1Step: function() {
-		var result = false;
-		var result1 = 0;
-		var _g_head = this.nodes.h;
-		while(_g_head != null) {
-			var val = _g_head.item;
-			_g_head = _g_head.next;
-			var node1 = val;
-			var _g_head1 = this.nodes.h;
-			while(_g_head1 != null) {
-				var val1 = _g_head1.item;
-				_g_head1 = _g_head1.next;
-				var node2 = val1;
-				if(node1.node.id > node2.node.id) {
-					var dX = node1.xPos - node2.xPos;
-					var dY = node1.yPos - node2.yPos;
-					result1 += 1.0 / Math.sqrt(dX * dX + dY * dY);
-				}
-			}
-		}
-		var _g_head2 = this.cons.h;
-		while(_g_head2 != null) {
-			var val2 = _g_head2.item;
-			_g_head2 = _g_head2.next;
-			var con = val2;
-			var expDist = con.expLength;
-			var dX1 = con.n1.xPos - con.n2.xPos;
-			var dY1 = con.n1.yPos - con.n2.yPos;
-			var rDist = Math.sqrt(dX1 * dX1 + dY1 * dY1);
-			var diff = expDist - rDist;
-			result1 += diff * diff;
-		}
-		var minEnergy = result1;
-		var _g_head3 = this.nodes.h;
-		while(_g_head3 != null) {
-			var val3 = _g_head3.item;
-			_g_head3 = _g_head3.next;
-			var node = val3;
-			var xPos = node.xPos;
-			var yPos = node.yPos;
-			var better = true;
-			while(better) {
-				better = false;
-				var _g = -1;
-				while(_g < 2) {
-					var dx = _g++;
-					var _g1 = -1;
-					while(_g1 < 2) {
-						var dy = _g1++;
-						node.xPos = xPos + dx;
-						node.yPos = yPos + dy;
-						var result2 = 0;
-						var _g_head4 = this.nodes.h;
-						while(_g_head4 != null) {
-							var val4 = _g_head4.item;
-							_g_head4 = _g_head4.next;
-							var node11 = val4;
-							var _g_head5 = this.nodes.h;
-							while(_g_head5 != null) {
-								var val5 = _g_head5.item;
-								_g_head5 = _g_head5.next;
-								var node21 = val5;
-								if(node11.node.id > node21.node.id) {
-									var dX2 = node11.xPos - node21.xPos;
-									var dY2 = node11.yPos - node21.yPos;
-									result2 += 1.0 / Math.sqrt(dX2 * dX2 + dY2 * dY2);
-								}
-							}
-						}
-						var _g_head6 = this.cons.h;
-						while(_g_head6 != null) {
-							var val6 = _g_head6.item;
-							_g_head6 = _g_head6.next;
-							var con1 = val6;
-							var expDist1 = con1.expLength;
-							var dX3 = con1.n1.xPos - con1.n2.xPos;
-							var dY3 = con1.n1.yPos - con1.n2.yPos;
-							var rDist1 = Math.sqrt(dX3 * dX3 + dY3 * dY3);
-							var diff1 = expDist1 - rDist1;
-							result2 += diff1 * diff1;
-						}
-						var newEn = result2;
-						if(newEn < minEnergy) {
-							better = true;
-							result = true;
-							minEnergy = newEn;
-							xPos = node.xPos;
-							yPos = node.yPos;
-						}
-					}
-				}
-			}
-			node.xPos = xPos;
-			node.yPos = yPos;
-		}
-		return result;
 	}
 	,calculateEnergy: function() {
 		var result = 0;
