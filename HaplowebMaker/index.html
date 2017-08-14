@@ -251,10 +251,13 @@
             <button onclick="javascript: currentGraphEdit.drawBezierPoints = !currentGraphEdit.drawBezierPoints; updateSVG();">Toggle Bézier vis</button>
             <button onclick="javascript: currentGraphEdit.drawCenter = !currentGraphEdit.drawCenter; updateSVG();">Toggle center vis</button>
             <button onclick="javascript: currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle vis</button>
+            <br>
             <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
             <button onclick="javascript: currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
-            <button onclick="javascript: currentGraphEdit.stretch(0.5); updateSVG();">Stretch--</button>
-            <button onclick="javascript: currentGraphEdit.stretch(2.0); updateSVG();">Stretch++</button>
+            <button onclick="javascript: currentGraphEdit.stretch(9/10); updateSVG();">Stretch--</button>
+            <button onclick="javascript: var f=parseFloat(prompt('Please insert stretching factor: (float)')); currentGraphEdit.stretch(f); updateSVG();">Stretch?</button>
+            <button onclick="javascript: currentGraphEdit.stretch(10/9); updateSVG();">Stretch++</button>
+<!--            <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();">Rot angle</button>-->
             <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves</button>
             <div>
                 <span id="svgDisplay" style="margin: 0; padding: 0"></span>
@@ -284,26 +287,30 @@
                     var y = event.pageY - offset.top;
                     return y;
                 }
+                function editMouseMove(event) {
+                    if(selectedObj != null) {
+                        selectedObj.set_xPos(initObjX + getClickX(event) - initX);
+                        selectedObj.set_yPos(initObjY + getClickY(event) - initY);
+                        updateSVG();
+                    }
+                }
+                function editMouseUp(event) {
+                    selectedObj = null;
+                }
+                function editMouseDown(event) {
+                    initX = getClickX(event);
+                    initY = getClickY(event);
+                    selectedObj = currentGraphEdit.getNearestO(initX, initY);
+                    initObjX = selectedObj.xPos;
+                    initObjY = selectedObj.yPos;
+                }
                 function updateSVG() {
-                    $("#svgDisplay").html(currentGraphEdit.getSvgCode());
-                    var svg = $("#svgDisplay svg");
-                    $(svg).mousemove(function(event) {
-                        if(selectedObj != null) {
-                            selectedObj.xPos = initObjX + getClickX(event) - initX;
-                            selectedObj.yPos = initObjY + getClickY(event) - initY;
-                            updateSVG();
-                        }
-                    });
-                    $(svg).mouseup(function(event) {
-                        selectedObj = null;
-                    });
-                    $(svg).mousedown(function(event) {
-                        initX = getClickX(event);
-                        initY = getClickY(event);
-                        selectedObj = currentGraphEdit.getNearestO(initX, initY);
-                        initObjX = selectedObj.xPos;
-                        initObjY = selectedObj.yPos;
-                    });
+                    var svgDisp = document.getElementById("svgDisplay");
+                    svgDisp.innerHTML = currentGraphEdit.getSvgCode();
+                    var svg = svgDisp.childNodes[0];
+                    svg.addEventListener("mousemove", editMouseMove);
+                    svg.addEventListener("mouseup", editMouseUp);
+                    svg.addEventListener("mousedown", editMouseDown);
                 }
                 function visualizeIntPos(i) {
                     var positions = project["faFiles"][i]["intPos"], seqLen = project["faFiles"][i]["seqLen"];
@@ -749,8 +756,8 @@
             $( '#editSVGDialog' ).dialog({
                 modal: true,
                 autoOpen: false,
-                width: document.documentElement.clientWidth - 10,
-                height: document.documentElement.clientHeight - 10,
+                width:  window.innerWidth  - 10,
+                height: window.innerHeight - 10,
                 open: function() {
                     $(".dialogSaveButton").text(languageDicts[language]["dict"]["buttonSave"]);
                     $(".dialogCancelButton").text(languageDicts[language]["dict"]["buttonCancel"]);
@@ -759,6 +766,8 @@
                     updateSVG();
                     selectedObj = null;
                     dialog.dialog("open");
+                    $("#ViewModalPopupDiv1").dialog("option", "width",  window.innerWidth  - 10);
+                    $("#ViewModalPopupDiv1").dialog("option", "height", window.innerHeight - 10);
                 },
                 buttons: [{
                         "text" : languageDicts[language]["dict"]["buttonSave"],
