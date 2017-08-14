@@ -258,6 +258,7 @@
             <button onclick="javascript: var f=parseFloat(prompt('Please insert stretching factor: (float)')); currentGraphEdit.stretch(f); updateSVG();">Stretch?</button>
             <button onclick="javascript: currentGraphEdit.stretch(10/9); updateSVG();">Stretch++</button>
             <button onclick="javascript: exportEditSVG('image/png');">Export png</button>
+            <button onclick="javascript: exportEditSVGasSVG();">Export svg</button>
 <!--            <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();">Rot angle</button>-->
             <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves</button>
             <div>
@@ -291,6 +292,9 @@
                         window.open(myCanvas.toDataURL(mime), '_blank');
                     };
                     source.src = url;
+                }
+                function exportEditSVGasSVG() {
+                    view("image/svg+xml", currentGraphEdit.getSvgCode());
                 }
                 function force() {
                     var tE = currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, false);
