@@ -245,24 +245,28 @@
             <div id="shortcutConfigurationDialogContent"></div>
         </div>
         <div id="editSVGDialog"><!-- TODO -->
-            <button onclick="javascript: currentGraphEdit.drawCircles = !currentGraphEdit.drawCircles; updateSVG();">Toggle circle vis</button>
-            <button onclick="javascript: currentGraphEdit.drawCons = !currentGraphEdit.drawCons; updateSVG();">Toggle line vis</button>
-            <button onclick="javascript: currentGraphEdit.drawCurves = !currentGraphEdit.drawCurves; updateSVG();">Toggle curve vis</button>
-            <button onclick="javascript: currentGraphEdit.drawBezierPoints = !currentGraphEdit.drawBezierPoints; updateSVG();">Toggle Bézier vis</button>
-            <button onclick="javascript: currentGraphEdit.drawCenter = !currentGraphEdit.drawCenter; updateSVG();">Toggle center vis</button>
-            <button onclick="javascript: currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle vis</button>
-            <br>
-            <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
-            <button onclick="javascript: currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
-            <button onclick="javascript: currentGraphEdit.stretch(9/10); updateSVG();">Stretch--</button>
-            <button onclick="javascript: var f=parseFloat(prompt('Please insert stretching factor: (float)')); currentGraphEdit.stretch(f); updateSVG();">Stretch?</button>
-            <button onclick="javascript: currentGraphEdit.stretch(10/9); updateSVG();">Stretch++</button>
-            <button onclick="javascript: exportEditSVG('image/png');">Export png</button>
-            <button onclick="javascript: exportEditSVGasSVG();">Export svg</button>
+            <div id="editSVGDialogDim" style="overlow:hidden">
+                <div>
+                    <button onclick="javascript: currentGraphEdit.drawCircles = !currentGraphEdit.drawCircles; updateSVG();">Toggle circle vis</button>
+                    <button onclick="javascript: currentGraphEdit.drawCons = !currentGraphEdit.drawCons; updateSVG();">Toggle line vis</button>
+                    <button onclick="javascript: currentGraphEdit.drawCurves = !currentGraphEdit.drawCurves; updateSVG();">Toggle curve vis</button>
+                    <button onclick="javascript: currentGraphEdit.drawBezierPoints = !currentGraphEdit.drawBezierPoints; updateSVG();">Toggle Bézier vis</button>
+                    <button onclick="javascript: currentGraphEdit.drawCenter = !currentGraphEdit.drawCenter; updateSVG();">Toggle center vis</button>
+                    <button onclick="javascript: currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle vis</button>
+                    <br>
+                    <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
+                    <button onclick="javascript: currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
+                    <button onclick="javascript: currentGraphEdit.stretch(9/10); updateSVG();">Stretch--</button>
+                    <button onclick="javascript: var f=parseFloat(prompt('Please insert stretching factor: (float)')); currentGraphEdit.stretch(f); updateSVG();">Stretch?</button>
+                    <button onclick="javascript: currentGraphEdit.stretch(10/9); updateSVG();">Stretch++</button>
+                    <button onclick="javascript: exportEditSVG('image/png');">Export png</button>
+                    <button onclick="javascript: exportEditSVGasSVG();">Export svg</button>
 <!--            <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();">Rot angle</button>-->
-            <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves</button>
-            <div>
-                <span id="svgDisplay" style="margin: 0; padding: 0"></span>
+                    <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves</button>
+                </div>
+                <div>
+                    <span id="svgDisplay" style="margin: 0; padding: 0"></span>
+                </div>
             </div>
         </div>
         <div id="invisibleHelperObjects">
@@ -785,7 +789,6 @@
                 modal: true,
                 autoOpen: false,
                 width:  window.innerWidth  - 10,
-                height: window.innerHeight - 10,
                 open: function() {
                     $(".dialogSaveButton").text(languageDicts[language]["dict"]["buttonSave"]);
                     $(".dialogCancelButton").text(languageDicts[language]["dict"]["buttonCancel"]);
@@ -794,8 +797,9 @@
                     updateSVG();
                     selectedObj = null;
                     dialog.dialog("open");
-                    $("#ViewModalPopupDiv1").dialog("option", "width",  window.innerWidth  - 10);
-                    $("#ViewModalPopupDiv1").dialog("option", "height", window.innerHeight - 10);
+                    $("#editSVGDialog").dialog("option", "width",  window.innerWidth  - 10);
+                    var h = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 10, $("#editSVGDialogDim").height() + 10);
+                    $("#editSVGDialog").dialog("option", "height", h);
                 },
                 buttons: [{
                         "text" : languageDicts[language]["dict"]["buttonSave"],
