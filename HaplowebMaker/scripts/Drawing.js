@@ -955,7 +955,7 @@ draw_Drawer.main = function() {
 		}
 		if(indents == 2 && HxOverrides.substr(line_,0,"ID".length) == "ID") {
 			currentNode.id = Std.parseInt(line_.split(" ")[1]);
-		} else if(indents == 2 && HxOverrides.substr(line_,0,"SPECIES_ID".length) == "SPECIES_ID") {
+		} else if(indents == 2 && HxOverrides.substr(line_,0,"FFR_ID".length) == "FFR_ID") {
 			currentNode.spId = Std.parseInt(line_.split(" ")[1]);
 		} else if(indents == 2 && HxOverrides.substr(line_,0,"SEQUENCE".length) == "SEQUENCE") {
 			currentNode.seq = line_.split(" ")[1];
@@ -4234,7 +4234,7 @@ parsing_MJNetParser.parseNet = function(fileContent) {
 		}
 		if(indents == 2 && HxOverrides.substr(line_,0,"ID".length) == "ID") {
 			currentNode.id = Std.parseInt(line_.split(" ")[1]);
-		} else if(indents == 2 && HxOverrides.substr(line_,0,"SPECIES_ID".length) == "SPECIES_ID") {
+		} else if(indents == 2 && HxOverrides.substr(line_,0,"FFR_ID".length) == "FFR_ID") {
 			currentNode.spId = Std.parseInt(line_.split(" ")[1]);
 		} else if(indents == 2 && HxOverrides.substr(line_,0,"SEQUENCE".length) == "SEQUENCE") {
 			currentNode.seq = line_.split(" ")[1];
