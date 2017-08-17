@@ -804,10 +804,10 @@ draw_Connection.prototype = {
 					result.add("<circle cx='");
 					result.add(x + "' cy='");
 					result.add(y + "' r='");
-					result.add(this.drawMutsDotsSize + " fill='");
+					result.add(this.drawMutsDotsSize + "' fill='");
 					result.add(this.drawMutsDotsColor);
 					if(!this.drawMutsDotsDashedArray.isEmpty()) {
-						result.add(" stroke-dasharray='");
+						result.add("' stroke-dasharray='");
 						result.add(this.drawMutsDotsDashedArray.join(","));
 						result.add("'");
 					}
@@ -1431,10 +1431,10 @@ draw_Drawer.main = function() {
 						result6.add("<circle cx='");
 						result6.add(x1 + "' cy='");
 						result6.add(y1 + "' r='");
-						result6.add(con3.drawMutsDotsSize + " fill='");
+						result6.add(con3.drawMutsDotsSize + "' fill='");
 						result6.add(con3.drawMutsDotsColor);
 						if(!con3.drawMutsDotsDashedArray.isEmpty()) {
-							result6.add(" stroke-dasharray='");
+							result6.add("' stroke-dasharray='");
 							result6.add(con3.drawMutsDotsDashedArray.join(","));
 							result6.add("'");
 						}
@@ -1946,10 +1946,10 @@ draw_Drawer.main = function() {
 						result10.add("<circle cx='");
 						result10.add(x5 + "' cy='");
 						result10.add(y5 + "' r='");
-						result10.add(con4.drawMutsDotsSize + " fill='");
+						result10.add(con4.drawMutsDotsSize + "' fill='");
 						result10.add(con4.drawMutsDotsColor);
 						if(!con4.drawMutsDotsDashedArray.isEmpty()) {
-							result10.add(" stroke-dasharray='");
+							result10.add("' stroke-dasharray='");
 							result10.add(con4.drawMutsDotsDashedArray.join(","));
 							result10.add("'");
 						}
@@ -2745,10 +2745,10 @@ draw_Graph.prototype = {
 							result1.add("<circle cx='");
 							result1.add(x1 + "' cy='");
 							result1.add(y1 + "' r='");
-							result1.add(con.drawMutsDotsSize + " fill='");
+							result1.add(con.drawMutsDotsSize + "' fill='");
 							result1.add(con.drawMutsDotsColor);
 							if(!con.drawMutsDotsDashedArray.isEmpty()) {
-								result1.add(" stroke-dasharray='");
+								result1.add("' stroke-dasharray='");
 								result1.add(con.drawMutsDotsDashedArray.join(","));
 								result1.add("'");
 							}

@@ -261,8 +261,42 @@
                     <button onclick="javascript: currentGraphEdit.stretch(10/9); updateSVG();">Stretch++</button>
                     <button onclick="javascript: exportEditSVG('image/png');">Export png</button>
                     <button onclick="javascript: exportEditSVGasSVG();">Export svg</button>
-<!--            <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();">Rot angle</button>-->
                     <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves</button>
+                    <br>
+                    <span>Muts by dots:</span>
+                    <input type="checkbox" name="drawMutsByLineChkbx" id="drawMutsByLineChkbx" autocomplete="off" />
+                    <input type="color" name="drawMutsLineStrokeColor" id="drawMutsLineStrokeColor" value="#000000" autocomplete="off" />
+                    <input type="text" name="drawMutsLineStrokeWidth" id="drawMutsLineStrokeWidth" value="3" autocomplete="off" />
+                    <input type="text" name="drawMutsLineStrokeSize" id="drawMutsLineStrokeSize" value="10" autocomplete="off" />
+                    <input type="text" name="drawMutsLineStrokeArr" id="drawMutsLineStrokeArr" value="" autocomplete="off" />
+                    <button onclick="javascript: assignMutsLines();">Change</button>
+                    <br>
+                    <span>Muts by text:</span>
+                    <input type="checkbox" name="drawMutsByTextChkbx" id="drawMutsByTextChkbx" autocomplete="off" />
+                    <select name="drawMutsByTextFont" id="drawMutsByTextFont">
+                        <option value="Georgia">Georgia</option>
+                        <option value="Times">Times</option>
+                        <option value="Palatino">Palatino</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Impact">Impact</option>
+                        <option value="Tahoma">Tahoma</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Lucida Console">Lucida Console</option>
+                    </select>
+                    <input type="text" name="drawMutsTextSize" id="drawMutsTextSize" value="20" autocomplete="off" />
+                    <input type="color" name="drawMutsTextColor" id="drawMutsTextColor" value="#000000" autocomplete="off" />
+                    <input type="text" name="drawMutsTextPX" id="drawMutsTextPX" value="0" autocomplete="off" />
+                    <input type="text" name="drawMutsTextPY" id="drawMutsTextPY" value="0" autocomplete="off" />
+                    <button onclick="javascript: assignMutsText();">Change</button>
+                    <br>
+                    <span>Muts by dots:</span>
+                    <input type="checkbox" name="drawMutsByDotChkbx" id="drawMutsByDotChkbx" autocomplete="off" />
+                    <input type="text" name="drawMutsDotSize" id="drawMutsDotSize" value="12" autocomplete="off" />
+                    <input type="color" name="drawMutsDotColor" id="drawMutsDotColor" value="#000000" autocomplete="off" />
+                    <input type="text" name="drawMutsDotStrokeArr" id="drawMutsDotStrokeArr" value="" autocomplete="off" />
+                    <button onclick="javascript: assignMutsByDot();">Change</button>
+<!--            <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();">Rot angle</button>-->
                 </div>
                 <div>
                     <span id="svgDisplay" style="margin: 0; padding: 0"></span>
@@ -274,6 +308,41 @@
             <a id="scrollUpLink" href="#top"></a>
             <a id="scrollDownLink" href="#bottom"></a>
             <script>
+                function assignMutsByDot() {
+                    var chkd = document.getElementById("drawMutsByDotChkbx").checked;
+                    var size = parseFloat(document.getElementById("drawMutsDotSize").value);
+                    var color = document.getElementById("drawMutsDotColor").value;
+                    var arr = [];
+                    var txt = document.getElementById("drawMutsDotStrokeArr").value.split(" ");
+                    for(var i = 0; i < txt.length; i++) {
+                        arr.push(parseFloat(txt[i]));
+                    }
+                    currentGraphEdit.assignButsByDots(chkd, size, color, arr);
+                    updateSVG();
+                }
+                function assignMutsText() {
+                    var chkd = document.getElementById("drawMutsByTextChkbx").checked;
+                    var font = document.getElementById("drawMutsByTextFont").value;
+                    var size = parseFloat(document.getElementById("drawMutsTextSize").value);
+                    var color = document.getElementById("drawMutsTextColor").value;
+                    var px = parseFloat(document.getElementById("drawMutsTextPX").value);
+                    var py = parseFloat(document.getElementById("drawMutsTextPY").value);
+                    currentGraphEdit.assignMutsText(chkd, font, size, color, px, py);
+                    updateSVG();
+                }
+                function assignMutsLines() {
+                    var chkd = document.getElementById("drawMutsByLineChkbx").checked;
+                    var color = document.getElementById("drawMutsLineStrokeColor").value;
+                    var width = parseFloat(document.getElementById("drawMutsLineStrokeWidth").value);
+                    var size = parseFloat(document.getElementById("drawMutsLineStrokeSize").value);
+                    var arr = [];
+                    var txt = document.getElementById("drawMutsLineStrokeArr").value.split(" ");
+                    for(var i = 0; i < txt.length; i++) {
+                        arr.push(parseFloat(txt[i]));
+                    }
+                    currentGraphEdit.assignMutsLines(chkd, color, width, size, arr);
+                    updateSVG();
+                }
                 function exportEditSVG(mime) {
                     // get the svg code as Blob
                     var svg = document.createElement('svg');
