@@ -45,7 +45,7 @@
     "shortcutValue.label" : "Valeur",
     "jobSubmissionJobName.title" : "Identifiant facultatif",
     "jobSubmissionJobName.label" : "Nom de la session de travail (*):",
-    "jobSubmissionFasta.title" : "Dans le(s) fichier(s) FASTA, les identifiants des séquences de l'individu XXX doivent être de la forme XXX_* (où * peut être n'importe quel caractère)".
+    "jobSubmissionFasta.title" : "Dans le(s) fichier(s) FASTA, les identifiants des séquences de l'individu XXX doivent être de la forme XXX_* (où * peut être n'importe quel caractère)",
     "jobSubmissionFasta.label" : "Fichier(s) FASTA (**):",
     "jobSubmissionButton.label" : "Soumettre le calcul",
     "jobSubmissionButton.title" : "Soumettre le calcul",
