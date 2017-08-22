@@ -57,8 +57,7 @@
     "jobSubmissionAdvancedSettingsMJFasta.label" : "Ne pas distinguer lettres majuscules et minuscules",
     "jobSubmissionAdvancedSettingsMJFasta.title" : "Si cette case est cochée, le programme ne distingue pas les lettres majuscules et minuscules dans les noms et séquences",
     "jobSubmissionAdvancedSettingsMJEpsilon.label" : "Epsilon",
-    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "Paramètre epsilon du median joining algorithm (Bandelt, Forster & Röhl (1999) Median-joining networks for inferring intraspecific phylogenies. Molecular Biology and Evolution 16:37-48
-)",
+    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "Paramètre epsilon du median joining algorithm (Bandelt, Forster & Röhl (1999) Median-joining networks for inferring intraspecific phylogenies. Molecular Biology and Evolution 16:37-48)",
     "needAlignments.label" : "Données non détectées",
     "needAlignments.text.label" : "Merci de charger au moins un fichier de séquences",
     "jobname.label" : "Nom de la session de travail",
