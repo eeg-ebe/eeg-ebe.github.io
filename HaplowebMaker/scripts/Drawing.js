@@ -1738,6 +1738,8 @@ draw_Drawer.main = function() {
 		ry6 += node28.yPos;
 	}
 	var cy4 = ry6 / g_nodes.length;
+	var cosA = Math.cos(0.1);
+	var sinA = Math.sin(0.1);
 	var _g_head45 = g_nodes.h;
 	while(_g_head45 != null) {
 		var val45 = _g_head45.item;
@@ -1745,8 +1747,8 @@ draw_Drawer.main = function() {
 		var node29 = val45;
 		var vX3 = node29.xPos - cx4;
 		var vY3 = node29.yPos - cy4;
-		vX3 = vX3 * Math.cos(0.1) - vY3 * Math.sin(0.1);
-		vY3 = vX3 * Math.sin(0.1) + vY3 * Math.cos(0.1);
+		vX3 = vX3 * cosA - vY3 * sinA;
+		vY3 = vX3 * sinA + vY3 * cosA;
 		node29.valid = false;
 		node29.xPos = cx4 + vX3;
 		node29.valid = false;
@@ -1759,8 +1761,8 @@ draw_Drawer.main = function() {
 		var link5 = val46;
 		var vX4 = link5.xPos - cx4;
 		var vY4 = link5.yPos - cy4;
-		vX4 = vX4 * Math.cos(0.1) - vY4 * Math.sin(0.1);
-		vY4 = vX4 * Math.sin(0.1) + vY4 * Math.cos(0.1);
+		vX4 = vX4 * cosA - vY4 * sinA;
+		vY4 = vX4 * sinA + vY4 * cosA;
 		link5.xPos = cx4 + vX4;
 		link5.yPos = cy4 + vY4;
 	}
@@ -3242,6 +3244,18 @@ draw_Graph.prototype = {
 			node5.yPos = cy1 + vY;
 		}
 	}
+	,mult_radius: function(v) {
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			if(node.node.type == parsing_SEQ_$TYPE.SAMPLED_SEQUENCE) {
+				node.valid = false;
+				node.radius *= v;
+			}
+		}
+	}
 	,rotate: function(angle) {
 		var rx = 0;
 		var _g_head = this.nodes.h;
@@ -3289,6 +3303,8 @@ draw_Graph.prototype = {
 			ry1 += node4.yPos;
 		}
 		var cy1 = ry1 / this.nodes.length;
+		var cosA = Math.cos(angle);
+		var sinA = Math.sin(angle);
 		var _g_head5 = this.nodes.h;
 		while(_g_head5 != null) {
 			var val5 = _g_head5.item;
@@ -3296,8 +3312,8 @@ draw_Graph.prototype = {
 			var node5 = val5;
 			var vX = node5.xPos - cx1;
 			var vY = node5.yPos - cy1;
-			vX = vX * Math.cos(angle) - vY * Math.sin(angle);
-			vY = vX * Math.sin(angle) + vY * Math.cos(angle);
+			vX = vX * cosA - vY * sinA;
+			vY = vX * sinA + vY * cosA;
 			node5.valid = false;
 			node5.xPos = cx1 + vX;
 			node5.valid = false;
@@ -3310,8 +3326,8 @@ draw_Graph.prototype = {
 			var link = val6;
 			var vX1 = link.xPos - cx1;
 			var vY1 = link.yPos - cy1;
-			vX1 = vX1 * Math.cos(angle) - vY1 * Math.sin(angle);
-			vY1 = vX1 * Math.sin(angle) + vY1 * Math.cos(angle);
+			vX1 = vX1 * cosA - vY1 * sinA;
+			vY1 = vX1 * sinA + vY1 * cosA;
 			link.xPos = cx1 + vX1;
 			link.yPos = cy1 + vY1;
 		}
@@ -3680,6 +3696,10 @@ draw_NodePos.prototype = {
 	,set_yPos: function(n) {
 		this.valid = false;
 		this.yPos = n;
+	}
+	,mult_radius: function(v) {
+		this.valid = false;
+		this.radius = v * this.radius;
 	}
 	,set_radius: function(n) {
 		this.valid = false;
