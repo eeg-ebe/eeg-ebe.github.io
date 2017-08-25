@@ -3234,6 +3234,54 @@ draw_Graph.prototype = {
 			}
 		}
 	}
+	,mirrorX: function() {
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			var vX = -node.xPos;
+			var vY = node.yPos;
+			node.valid = false;
+			node.xPos = vX;
+			node.valid = false;
+			node.yPos = vY;
+		}
+		var _g_head1 = this.links.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var link = val1;
+			var vX1 = -link.xPos;
+			var vY1 = link.yPos;
+			link.xPos = vX1;
+			link.yPos = vY1;
+		}
+	}
+	,mirrorY: function() {
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			var vX = node.xPos;
+			var vY = -node.yPos;
+			node.valid = false;
+			node.xPos = vX;
+			node.valid = false;
+			node.yPos = vY;
+		}
+		var _g_head1 = this.links.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var link = val1;
+			var vX1 = link.xPos;
+			var vY1 = -link.yPos;
+			link.xPos = vX1;
+			link.yPos = vY1;
+		}
+	}
 	,rotateP90: function() {
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {

@@ -268,6 +268,8 @@
                     <button onclick="javascript: currentGraphEdit.rotateN90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s"></span></button>
                     <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); if(isNaN(f)) { /*TODO*/ } else {currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();}">Rot angle</button>
                     <button onclick="javascript: currentGraphEdit.rotateP90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s mirror"></span></button>
+                    <button onclick="javascript: currentGraphEdit.mirrorX(); updateSVG();">Mirror X</span></button>
+                    <button onclick="javascript: currentGraphEdit.mirrorY(); updateSVG();">Mirror Y</span></button>
                     <br>
                     <span>Muts by dots:</span>
                     <input type="checkbox" name="drawMutsByLineChkbx" id="drawMutsByLineChkbx" autocomplete="off" />
