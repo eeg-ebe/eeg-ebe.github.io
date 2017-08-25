@@ -264,7 +264,9 @@
                     <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves</button>
                     <button onclick="javascript: currentGraphEdit.mult_radius(10/9); updateSVG();">Circles ++</button>
                     <button onclick="javascript: currentGraphEdit.mult_radius(9/10); updateSVG();">Circles --</button>
+                    <br>
                     <button onclick="javascript: currentGraphEdit.rotateN90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s"></span></button>
+                    <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); if(isNaN(f)) { /*TODO*/ } else {currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();}">Rot angle</button>
                     <button onclick="javascript: currentGraphEdit.rotateP90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s mirror"></span></button>
                     <br>
                     <span>Muts by dots:</span>
@@ -300,7 +302,6 @@
                     <input type="color" name="drawMutsDotColor" id="drawMutsDotColor" value="#000000" autocomplete="off" />
                     <input type="text" name="drawMutsDotStrokeArr" id="drawMutsDotStrokeArr" value="" autocomplete="off" />
                     <button onclick="javascript: assignMutsByDot();">Change</button>
-<!--            <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();">Rot angle</button>-->
                 </div>
                 <div>
                     <span id="svgDisplay" style="margin: 0; padding: 0"></span>
