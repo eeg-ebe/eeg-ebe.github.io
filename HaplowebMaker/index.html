@@ -255,7 +255,8 @@
                     <button onclick="javascript: currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle vis</button>
                     <br>
                     <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
-                    <button onclick="javascript: currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
+                    <button onclick="javascript: stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
+                    <button onclick="javascript: stopForce=true">Stop force</button>
                     <button onclick="javascript: currentGraphEdit.stretch(9/10); updateSVG();">Stretch--</button>
                     <button onclick="javascript: var f=parseFloat(prompt('Please insert stretching factor: (float)')); currentGraphEdit.stretch(f); updateSVG();">Stretch?</button>
                     <button onclick="javascript: currentGraphEdit.stretch(10/9); updateSVG();">Stretch++</button>
@@ -381,7 +382,7 @@
                     currentGraphEdit.centerPos();
                     currentGraphEdit.assignLinkPos();
                     updateSVG();
-                    if(tE > 0.5) {
+                    if(tE > 0.5 && !stopForce) {
                         window.setTimeout(force, 10);
                     }
                 }
