@@ -875,7 +875,7 @@
                     selectedObj = null;
                     dialog.dialog("open");
                     $("#editSVGDialog").dialog("option", "width",  window.innerWidth  - 10);
-                    var h = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 10, $("#editSVGDialogDim").height() + 10);
+                    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); //Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 10, $("#editSVGDialogDim").height() + 10);
                     $("#editSVGDialog").dialog("option", "height", h);
                 },
                 buttons: [{
