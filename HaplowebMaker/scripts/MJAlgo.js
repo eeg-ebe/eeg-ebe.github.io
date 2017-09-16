@@ -3011,7 +3011,7 @@ mj_Seq.calcHash = function(s) {
 	return result;
 };
 mj_Seq.getIndIdentifier = function(s) {
-	var result = null;
+	var result = s;
 	if(s != null) {
 		var pos = s.lastIndexOf("_");
 		if(pos != -1) {
@@ -3025,7 +3025,7 @@ mj_Seq.createSample = function(id,name,seq) {
 	result.id = id;
 	if(name != null && name != "") {
 		result.names.add(name);
-		var result1 = null;
+		var result1 = name;
 		if(name != null) {
 			var pos = name.lastIndexOf("_");
 			if(pos != -1) {
@@ -3110,7 +3110,7 @@ mj_Seq.prototype = {
 	,addName: function(s) {
 		if(s != null && s != "") {
 			this.names.add(s);
-			var result = null;
+			var result = s;
 			if(s != null) {
 				var pos = s.lastIndexOf("_");
 				if(pos != -1) {
@@ -3394,7 +3394,7 @@ mj_Seqs.prototype = {
 			if(s.origSeq == seq) {
 				if(name != null && name != "") {
 					s.names.add(name);
-					var result1 = null;
+					var result1 = name;
 					if(name != null) {
 						var pos1 = name.lastIndexOf("_");
 						if(pos1 != -1) {
@@ -3426,7 +3426,7 @@ mj_Seqs.prototype = {
 		result3.id = id;
 		if(name != null && name != "") {
 			result3.names.add(name);
-			var result4 = null;
+			var result4 = name;
 			if(name != null) {
 				var pos2 = name.lastIndexOf("_");
 				if(pos2 != -1) {
@@ -3734,6 +3734,19 @@ mj_Seqs.prototype = {
 					printer.printString(name);
 					printer.printString(printer.newline);
 				}
+				printer.printString(printer.indent);
+				printer.printString("NAMESX");
+				printer.printString(printer.newline);
+				var _g_head1 = c.indNames.h;
+				while(_g_head1 != null) {
+					var val1 = _g_head1.item;
+					_g_head1 = _g_head1.next;
+					var name1 = val1;
+					printer.printString(printer.indent);
+					printer.printString(printer.indent);
+					printer.printString(name1);
+					printer.printString(printer.newline);
+				}
 			}
 			if(c.connectedTo != null && c.nrConnections > 0) {
 				printer.printString(printer.indent);
@@ -3761,11 +3774,11 @@ mj_Seqs.prototype = {
 				printer.printString(printer.indent);
 				printer.printString("LINKED_TO ");
 				printer.printString(printer.newline);
-				var _g_head1 = c.linkedTo.h;
-				while(_g_head1 != null) {
-					var val1 = _g_head1.item;
-					_g_head1 = _g_head1.next;
-					var link = val1;
+				var _g_head2 = c.linkedTo.h;
+				while(_g_head2 != null) {
+					var val2 = _g_head2.item;
+					_g_head2 = _g_head2.next;
+					var link = val2;
 					printer.printString(printer.indent);
 					printer.printString(printer.indent);
 					printer.printString("ID " + link.to.id + " COUNT " + link.names.length);
