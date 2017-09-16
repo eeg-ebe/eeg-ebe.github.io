@@ -3734,19 +3734,6 @@ mj_Seqs.prototype = {
 					printer.printString(name);
 					printer.printString(printer.newline);
 				}
-				printer.printString(printer.indent);
-				printer.printString("NAMESX");
-				printer.printString(printer.newline);
-				var _g_head1 = c.indNames.h;
-				while(_g_head1 != null) {
-					var val1 = _g_head1.item;
-					_g_head1 = _g_head1.next;
-					var name1 = val1;
-					printer.printString(printer.indent);
-					printer.printString(printer.indent);
-					printer.printString(name1);
-					printer.printString(printer.newline);
-				}
 			}
 			if(c.connectedTo != null && c.nrConnections > 0) {
 				printer.printString(printer.indent);
@@ -3774,11 +3761,11 @@ mj_Seqs.prototype = {
 				printer.printString(printer.indent);
 				printer.printString("LINKED_TO ");
 				printer.printString(printer.newline);
-				var _g_head2 = c.linkedTo.h;
-				while(_g_head2 != null) {
-					var val2 = _g_head2.item;
-					_g_head2 = _g_head2.next;
-					var link = val2;
+				var _g_head1 = c.linkedTo.h;
+				while(_g_head1 != null) {
+					var val1 = _g_head1.item;
+					_g_head1 = _g_head1.next;
+					var link = val1;
 					printer.printString(printer.indent);
 					printer.printString(printer.indent);
 					printer.printString("ID " + link.to.id + " COUNT " + link.names.length);
