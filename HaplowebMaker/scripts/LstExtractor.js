@@ -471,7 +471,7 @@ LstExtractor.extract = function(p,s,onlyInd,sort,sortAlpha,outputSet) {
 			var n = val1;
 			var name;
 			if(onlyInd) {
-				var result5 = null;
+				var result5 = n;
 				if(n != null) {
 					var pos = n.lastIndexOf("_");
 					if(pos != -1) {
@@ -1677,7 +1677,7 @@ mj_Seq.calcHash = function(s) {
 	return result;
 };
 mj_Seq.getIndIdentifier = function(s) {
-	var result = null;
+	var result = s;
 	if(s != null) {
 		var pos = s.lastIndexOf("_");
 		if(pos != -1) {
@@ -1691,7 +1691,7 @@ mj_Seq.createSample = function(id,name,seq) {
 	result.id = id;
 	if(name != null && name != "") {
 		result.names.add(name);
-		var result1 = null;
+		var result1 = name;
 		if(name != null) {
 			var pos = name.lastIndexOf("_");
 			if(pos != -1) {
@@ -1776,7 +1776,7 @@ mj_Seq.prototype = {
 	,addName: function(s) {
 		if(s != null && s != "") {
 			this.names.add(s);
-			var result = null;
+			var result = s;
 			if(s != null) {
 				var pos = s.lastIndexOf("_");
 				if(pos != -1) {
