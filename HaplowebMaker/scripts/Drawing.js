@@ -1328,6 +1328,18 @@ draw_Drawer.main = function() {
 		bestLink.xPos = bestLink.e1 < bestLink.e2 ? bestLink.x1 : bestLink.x2;
 		bestLink.yPos = bestLink.e1 < bestLink.e2 ? bestLink.y1 : bestLink.y2;
 		l2.remove(bestLink);
+		var _g_head25 = l2.h;
+		while(_g_head25 != null) {
+			var val25 = _g_head25.item;
+			_g_head25 = _g_head25.next;
+			var link2 = val25;
+			var dX2 = bestLink.xPos - link2.x1;
+			var dY2 = bestLink.yPos - link2.y1;
+			link2.e1 += 1 / Math.sqrt(dX2 * dX2 + dY2 * dY2);
+			var dX3 = bestLink.xPos - link2.x2;
+			var dY3 = bestLink.yPos - link2.y2;
+			link2.e2 += 1 / Math.sqrt(dX3 * dX3 + dY3 * dY3);
+		}
 	}
 	var _this_newline;
 	var _this_indent;
@@ -1340,43 +1352,43 @@ draw_Drawer.main = function() {
 	var maxY = -Infinity;
 	var minX = Infinity;
 	var minY = Infinity;
-	var _g_head25 = g_nodes.h;
-	while(_g_head25 != null) {
-		var val25 = _g_head25.item;
-		_g_head25 = _g_head25.next;
-		var node17 = val25;
+	var _g_head26 = g_nodes.h;
+	while(_g_head26 != null) {
+		var val26 = _g_head26.item;
+		_g_head26 = _g_head26.next;
+		var node17 = val26;
 		maxX = Math.max(maxX,node17.xPos + node17.radius);
 		maxY = Math.max(maxY,node17.yPos + node17.radius);
 		minX = Math.min(minX,node17.xPos - node17.radius);
 		minY = Math.min(minY,node17.yPos - node17.radius);
 	}
-	var _g_head26 = g_links.h;
-	while(_g_head26 != null) {
-		var val26 = _g_head26.item;
-		_g_head26 = _g_head26.next;
-		var link2 = val26;
+	var _g_head27 = g_links.h;
+	while(_g_head27 != null) {
+		var val27 = _g_head27.item;
+		_g_head27 = _g_head27.next;
+		var link3 = val27;
 		var tMax = 0;
-		var bX = 2 * link2.xPos - (link2.n1.xPos + link2.n2.xPos) / 2;
-		if(2 * bX - link2.n1.xPos - link2.n2.xPos != 0) {
-			tMax = (bX - link2.n1.xPos) / (2 * bX - link2.n1.xPos - link2.n2.xPos);
+		var bX = 2 * link3.xPos - (link3.n1.xPos + link3.n2.xPos) / 2;
+		if(2 * bX - link3.n1.xPos - link3.n2.xPos != 0) {
+			tMax = (bX - link3.n1.xPos) / (2 * bX - link3.n1.xPos - link3.n2.xPos);
 		}
 		if(0 <= tMax && tMax <= 1) {
 			tMax = tMax;
 		} else {
 			tMax = 0;
 		}
-		var x = (1 - tMax) * ((1 - tMax) * link2.n1.xPos + tMax * bX) + tMax * ((1 - tMax) * bX + tMax * link2.n2.xPos);
+		var x = (1 - tMax) * ((1 - tMax) * link3.n1.xPos + tMax * bX) + tMax * ((1 - tMax) * bX + tMax * link3.n2.xPos);
 		var tMax1 = 0;
-		var bY = 2 * link2.yPos - (link2.n1.yPos + link2.n2.yPos) / 2;
-		if(2 * bY - link2.n1.yPos - link2.n2.yPos != 0) {
-			tMax1 = (bY - link2.n1.yPos) / (2 * bY - link2.n1.yPos - link2.n2.yPos);
+		var bY = 2 * link3.yPos - (link3.n1.yPos + link3.n2.yPos) / 2;
+		if(2 * bY - link3.n1.yPos - link3.n2.yPos != 0) {
+			tMax1 = (bY - link3.n1.yPos) / (2 * bY - link3.n1.yPos - link3.n2.yPos);
 		}
 		if(0 <= tMax1 && tMax1 <= 1) {
 			tMax1 = tMax1;
 		} else {
 			tMax1 = 0;
 		}
-		var y = (1 - tMax1) * ((1 - tMax1) * link2.n1.yPos + tMax1 * bY) + tMax1 * ((1 - tMax1) * bY + tMax1 * link2.n2.yPos);
+		var y = (1 - tMax1) * ((1 - tMax1) * link3.n1.yPos + tMax1 * bY) + tMax1 * ((1 - tMax1) * bY + tMax1 * link3.n2.yPos);
 		maxX = Math.max(maxX,x);
 		maxY = Math.max(maxY,y);
 		minX = Math.min(minX,x);
@@ -1400,11 +1412,11 @@ draw_Drawer.main = function() {
 	result5.add("' height='" + oh);
 	result5.add("' viewBox='" + (minX - 15) + "," + (minY - 15) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
 	if(g_drawCons) {
-		var _g_head27 = g_cons.h;
-		while(_g_head27 != null) {
-			var val27 = _g_head27.item;
-			_g_head27 = _g_head27.next;
-			var con3 = val27;
+		var _g_head28 = g_cons.h;
+		while(_g_head28 != null) {
+			var val28 = _g_head28.item;
+			_g_head28 = _g_head28.next;
+			var con3 = val28;
 			var result6 = new List();
 			result6.add("<line x1='");
 			result6.add(con3.n1.xPos + "' y1='");
@@ -1432,11 +1444,11 @@ draw_Drawer.main = function() {
 				vX2 = (endX - startX) / (con3.l.length + 1);
 				vY2 = (endY - startY) / (con3.l.length + 1);
 				var iii = 0;
-				var _g_head28 = con3.l.h;
-				while(_g_head28 != null) {
-					var val28 = _g_head28.item;
-					_g_head28 = _g_head28.next;
-					var text = val28;
+				var _g_head29 = con3.l.h;
+				while(_g_head29 != null) {
+					var val29 = _g_head29.item;
+					_g_head29 = _g_head29.next;
+					var text = val29;
 					++iii;
 					var x1 = startX + vX2 * iii;
 					var y1 = startY + vY2 * iii;
@@ -1488,26 +1500,26 @@ draw_Drawer.main = function() {
 	}
 	if(g_drawCurves) {
 		result5.add("<g fill='none'>");
-		var _g_head29 = g_links.h;
-		while(_g_head29 != null) {
-			var val29 = _g_head29.item;
-			_g_head29 = _g_head29.next;
-			var link3 = val29;
+		var _g_head30 = g_links.h;
+		while(_g_head30 != null) {
+			var val30 = _g_head30.item;
+			_g_head30 = _g_head30.next;
+			var link4 = val30;
 			var result7 = new List();
 			result7.add("<path d='M");
-			result7.add(link3.n1.xPos + " ");
-			result7.add(link3.n1.yPos + " Q");
-			result7.add(" " + (2 * link3.xPos - (link3.n1.xPos + link3.n2.xPos) / 2));
-			result7.add(" " + (2 * link3.yPos - (link3.n1.yPos + link3.n2.yPos) / 2));
-			result7.add(" " + link3.n2.xPos);
-			result7.add(" " + link3.n2.yPos);
+			result7.add(link4.n1.xPos + " ");
+			result7.add(link4.n1.yPos + " Q");
+			result7.add(" " + (2 * link4.xPos - (link4.n1.xPos + link4.n2.xPos) / 2));
+			result7.add(" " + (2 * link4.yPos - (link4.n1.yPos + link4.n2.yPos) / 2));
+			result7.add(" " + link4.n2.xPos);
+			result7.add(" " + link4.n2.yPos);
 			result7.add("' stroke='");
-			result7.add(link3.strokeColor);
+			result7.add(link4.strokeColor);
 			result7.add("' stroke-width='");
-			result7.add(link3.strokeWidth + "' ");
-			if(!link3.dashedArray.isEmpty()) {
+			result7.add(link4.strokeWidth + "' ");
+			if(!link4.dashedArray.isEmpty()) {
 				result7.add("stroke-dasharray='");
-				result7.add(link3.dashedArray.join(","));
+				result7.add(link4.dashedArray.join(","));
 				result7.add("' ");
 			}
 			result7.add("/>");
@@ -1516,11 +1528,11 @@ draw_Drawer.main = function() {
 		result5.add("</g>");
 	}
 	if(g_drawCircles) {
-		var _g_head30 = g_nodes.h;
-		while(_g_head30 != null) {
-			var val30 = _g_head30.item;
-			_g_head30 = _g_head30.next;
-			var node18 = val30;
+		var _g_head31 = g_nodes.h;
+		while(_g_head31 != null) {
+			var val31 = _g_head31.item;
+			_g_head31 = _g_head31.next;
+			var node18 = val31;
 			var tmp2;
 			if(node18.valid) {
 				tmp2 = node18.svg;
@@ -1570,19 +1582,19 @@ draw_Drawer.main = function() {
 				result8.add("/>");
 				if(needArcs) {
 					var summe = 0;
-					var _g_head31 = node18.pie.h;
-					while(_g_head31 != null) {
-						var val31 = _g_head31.item;
-						_g_head31 = _g_head31.next;
-						var p = val31;
-						summe += p.second;
-					}
-					var cs = 0;
 					var _g_head32 = node18.pie.h;
 					while(_g_head32 != null) {
 						var val32 = _g_head32.item;
 						_g_head32 = _g_head32.next;
-						var p1 = val32;
+						var p = val32;
+						summe += p.second;
+					}
+					var cs = 0;
+					var _g_head33 = node18.pie.h;
+					while(_g_head33 != null) {
+						var val33 = _g_head33.item;
+						_g_head33 = _g_head33.next;
+						var p1 = val33;
 						var color = p1.first;
 						var perc = p1.second / summe;
 						var pX1 = Math.sin(cs / summe * 2 * Math.PI) * node18.radius + node18.xPos;
@@ -1602,16 +1614,16 @@ draw_Drawer.main = function() {
 		}
 	}
 	if(g_drawAngles) {
-		var _g_head33 = g_cons.h;
-		while(_g_head33 != null) {
-			var val33 = _g_head33.item;
-			_g_head33 = _g_head33.next;
-			var c1 = val33;
-			var _g_head34 = g_cons.h;
-			while(_g_head34 != null) {
-				var val34 = _g_head34.item;
-				_g_head34 = _g_head34.next;
-				var c2 = val34;
+		var _g_head34 = g_cons.h;
+		while(_g_head34 != null) {
+			var val34 = _g_head34.item;
+			_g_head34 = _g_head34.next;
+			var c1 = val34;
+			var _g_head35 = g_cons.h;
+			while(_g_head35 != null) {
+				var val35 = _g_head35.item;
+				_g_head35 = _g_head35.next;
+				var c2 = val35;
 				if(c1.id > c2.id) {
 					var nA = null;
 					var nB = null;
@@ -1654,50 +1666,50 @@ draw_Drawer.main = function() {
 		}
 	}
 	if(g_drawBezierPoints) {
-		var _g_head35 = g_links.h;
-		while(_g_head35 != null) {
-			var val35 = _g_head35.item;
-			_g_head35 = _g_head35.next;
-			var link4 = val35;
-			result5.add("<circle cx='" + link4.xPos + "' cy='" + link4.yPos + "' r='5' fill='" + link4.strokeColor + "' />");
+		var _g_head36 = g_links.h;
+		while(_g_head36 != null) {
+			var val36 = _g_head36.item;
+			_g_head36 = _g_head36.next;
+			var link5 = val36;
+			result5.add("<circle cx='" + link5.xPos + "' cy='" + link5.yPos + "' r='5' fill='" + link5.strokeColor + "' />");
 		}
 	}
 	if(g_drawCenter) {
 		var rx3 = 0;
-		var _g_head36 = g_nodes.h;
-		while(_g_head36 != null) {
-			var val36 = _g_head36.item;
-			_g_head36 = _g_head36.next;
-			var node19 = val36;
-			rx3 += node19.xPos;
-		}
-		var x3 = rx3 / g_nodes.length;
-		var ry3 = 0;
 		var _g_head37 = g_nodes.h;
 		while(_g_head37 != null) {
 			var val37 = _g_head37.item;
 			_g_head37 = _g_head37.next;
-			var node20 = val37;
+			var node19 = val37;
+			rx3 += node19.xPos;
+		}
+		var x3 = rx3 / g_nodes.length;
+		var ry3 = 0;
+		var _g_head38 = g_nodes.h;
+		while(_g_head38 != null) {
+			var val38 = _g_head38.item;
+			_g_head38 = _g_head38.next;
+			var node20 = val38;
 			ry3 += node20.yPos;
 		}
 		var y3 = ry3 / g_nodes.length;
 		result5.add("<line x1='" + x3 + "' y1='" + minY + "' x2='" + x3 + "' y2='" + maxY + "' stroke='green' stroke-dasharray='3 3' />");
 		result5.add("<line x1='" + minX + "' y1='" + y3 + "' x2='" + maxX + "' y2='" + y3 + "' stroke='green' stroke-dasharray='3 3' />");
 		var rx4 = 0;
-		var _g_head38 = g_nodes.h;
-		while(_g_head38 != null) {
-			var val38 = _g_head38.item;
-			_g_head38 = _g_head38.next;
-			var node22 = val38;
-			rx4 += node22.xPos;
-		}
-		var tmp3 = "<circle cx='" + rx4 / g_nodes.length + "' cy='";
-		var ry4 = 0;
 		var _g_head39 = g_nodes.h;
 		while(_g_head39 != null) {
 			var val39 = _g_head39.item;
 			_g_head39 = _g_head39.next;
-			var node23 = val39;
+			var node22 = val39;
+			rx4 += node22.xPos;
+		}
+		var tmp3 = "<circle cx='" + rx4 / g_nodes.length + "' cy='";
+		var ry4 = 0;
+		var _g_head40 = g_nodes.h;
+		while(_g_head40 != null) {
+			var val40 = _g_head40.item;
+			_g_head40 = _g_head40.next;
+			var node23 = val40;
 			ry4 += node23.yPos;
 		}
 		result5.add(tmp3 + ry4 / g_nodes.length + "' r='5' fill='green' />");
@@ -1706,156 +1718,148 @@ draw_Drawer.main = function() {
 	var s1 = result5.join("");
 	haxe_Log.trace(s1,{ fileName : "StdOutPrinter.hx", lineNumber : 15, className : "util.StdOutPrinter", methodName : "printString"});
 	var rx5 = 0;
-	var _g_head40 = g_nodes.h;
-	while(_g_head40 != null) {
-		var val40 = _g_head40.item;
-		_g_head40 = _g_head40.next;
-		var node24 = val40;
-		rx5 += node24.xPos;
-	}
-	var cx3 = rx5 / g_nodes.length;
-	var ry5 = 0;
 	var _g_head41 = g_nodes.h;
 	while(_g_head41 != null) {
 		var val41 = _g_head41.item;
 		_g_head41 = _g_head41.next;
-		var node25 = val41;
-		ry5 += node25.yPos;
+		var node24 = val41;
+		rx5 += node24.xPos;
 	}
-	var cy3 = ry5 / g_nodes.length;
+	var cx3 = rx5 / g_nodes.length;
+	var ry5 = 0;
 	var _g_head42 = g_nodes.h;
 	while(_g_head42 != null) {
 		var val42 = _g_head42.item;
 		_g_head42 = _g_head42.next;
-		var node26 = val42;
+		var node25 = val42;
+		ry5 += node25.yPos;
+	}
+	var cy3 = ry5 / g_nodes.length;
+	var _g_head43 = g_nodes.h;
+	while(_g_head43 != null) {
+		var val43 = _g_head43.item;
+		_g_head43 = _g_head43.next;
+		var node26 = val43;
 		node26.valid = false;
 		node26.xPos -= cx3;
 		node26.valid = false;
 		node26.yPos -= cy3;
 	}
-	var rx6 = 0;
-	var _g_head43 = g_nodes.h;
-	while(_g_head43 != null) {
-		var val43 = _g_head43.item;
-		_g_head43 = _g_head43.next;
-		var node27 = val43;
-		rx6 += node27.xPos;
-	}
-	var cx4 = rx6 / g_nodes.length;
-	var ry6 = 0;
+	var cosA = Math.cos(0.1);
+	var sinA = Math.sin(0.1);
 	var _g_head44 = g_nodes.h;
 	while(_g_head44 != null) {
 		var val44 = _g_head44.item;
 		_g_head44 = _g_head44.next;
-		var node28 = val44;
-		ry6 += node28.yPos;
+		var node27 = val44;
+		var vX3 = node27.xPos * cosA - node27.yPos * sinA;
+		var vY3 = node27.xPos * sinA + node27.yPos * cosA;
+		node27.valid = false;
+		node27.xPos = vX3;
+		node27.valid = false;
+		node27.yPos = vY3;
 	}
-	var cy4 = ry6 / g_nodes.length;
-	var _g_head45 = g_nodes.h;
+	var _g_head45 = g_links.h;
 	while(_g_head45 != null) {
 		var val45 = _g_head45.item;
 		_g_head45 = _g_head45.next;
-		var node29 = val45;
-		var vX3 = node29.xPos - cx4;
-		var vY3 = node29.yPos - cy4;
-		vX3 = vX3 * Math.cos(0.1) - vY3 * Math.sin(0.1);
-		vY3 = vX3 * Math.sin(0.1) + vY3 * Math.cos(0.1);
-		node29.valid = false;
-		node29.xPos = cx4 + vX3;
-		node29.valid = false;
-		node29.yPos = cy4 + vY3;
+		var link6 = val45;
+		var vX4 = link6.xPos * cosA - link6.yPos * sinA;
+		var vY4 = link6.xPos * sinA + link6.yPos * cosA;
+		link6.xPos = vX4;
+		link6.yPos = vY4;
 	}
-	var _g_head46 = g_links.h;
+	var rx6 = 0;
+	var _g_head46 = g_nodes.h;
 	while(_g_head46 != null) {
 		var val46 = _g_head46.item;
 		_g_head46 = _g_head46.next;
-		var link5 = val46;
-		var vX4 = link5.xPos - cx4;
-		var vY4 = link5.yPos - cy4;
-		vX4 = vX4 * Math.cos(0.1) - vY4 * Math.sin(0.1);
-		vY4 = vX4 * Math.sin(0.1) + vY4 * Math.cos(0.1);
-		link5.xPos = cx4 + vX4;
-		link5.yPos = cy4 + vY4;
+		var node28 = val46;
+		rx6 += node28.xPos;
 	}
-	var rx7 = 0;
+	var cx4 = rx6 / g_nodes.length;
+	var ry6 = 0;
 	var _g_head47 = g_nodes.h;
 	while(_g_head47 != null) {
 		var val47 = _g_head47.item;
 		_g_head47 = _g_head47.next;
-		var node30 = val47;
-		rx7 += node30.xPos;
+		var node29 = val47;
+		ry6 += node29.yPos;
 	}
-	var cx5 = rx7 / g_nodes.length;
-	var ry7 = 0;
+	var cy4 = ry6 / g_nodes.length;
 	var _g_head48 = g_nodes.h;
 	while(_g_head48 != null) {
 		var val48 = _g_head48.item;
 		_g_head48 = _g_head48.next;
-		var node31 = val48;
-		ry7 += node31.yPos;
+		var node30 = val48;
+		node30.valid = false;
+		node30.xPos -= cx4;
+		node30.valid = false;
+		node30.yPos -= cy4;
 	}
-	var cy5 = ry7 / g_nodes.length;
-	var _g_head49 = g_nodes.h;
+	var l3 = new List();
+	var _g_head49 = g_links.h;
 	while(_g_head49 != null) {
 		var val49 = _g_head49.item;
 		_g_head49 = _g_head49.next;
-		var node32 = val49;
-		node32.valid = false;
-		node32.xPos -= cx5;
-		node32.valid = false;
-		node32.yPos -= cy5;
-	}
-	var l3 = new List();
-	var _g_head50 = g_links.h;
-	while(_g_head50 != null) {
-		var val50 = _g_head50.item;
-		_g_head50 = _g_head50.next;
-		var link6 = val50;
-		link6.xPos = NaN;
-		link6.yPos = NaN;
-		var vX5 = link6.n1.xPos - link6.n2.xPos;
-		var vY5 = link6.n1.yPos - link6.n2.yPos;
+		var link7 = val49;
+		link7.xPos = NaN;
+		link7.yPos = NaN;
+		var vX5 = link7.n1.xPos - link7.n2.xPos;
+		var vY5 = link7.n1.yPos - link7.n2.yPos;
 		var vrX1 = -vY5 / 8;
 		var vrY1 = vX5 / 8;
-		var mX1 = link6.n2.xPos + vX5 / 2;
-		var mY1 = link6.n2.yPos + vY5 / 2;
-		link6.x1 = mX1 - vrX1;
-		link6.y1 = mY1 - vrY1;
-		link6.x2 = mX1 + vrX1;
-		link6.y2 = mY1 + vrY1;
-		link6.e1 = 0;
-		link6.e2 = 0;
-		var _g_head51 = g_nodes.h;
-		while(_g_head51 != null) {
-			var val51 = _g_head51.item;
-			_g_head51 = _g_head51.next;
-			var node33 = val51;
-			var dX2 = node33.xPos - link6.x1;
-			var dY2 = node33.yPos - link6.y1;
-			link6.e1 += 1 / Math.sqrt(dX2 * dX2 + dY2 * dY2);
-			var dX3 = node33.xPos - link6.x2;
-			var dY3 = node33.yPos - link6.y2;
-			link6.e2 += 1 / Math.sqrt(dX3 * dX3 + dY3 * dY3);
+		var mX1 = link7.n2.xPos + vX5 / 2;
+		var mY1 = link7.n2.yPos + vY5 / 2;
+		link7.x1 = mX1 - vrX1;
+		link7.y1 = mY1 - vrY1;
+		link7.x2 = mX1 + vrX1;
+		link7.y2 = mY1 + vrY1;
+		link7.e1 = 0;
+		link7.e2 = 0;
+		var _g_head50 = g_nodes.h;
+		while(_g_head50 != null) {
+			var val50 = _g_head50.item;
+			_g_head50 = _g_head50.next;
+			var node31 = val50;
+			var dX4 = node31.xPos - link7.x1;
+			var dY4 = node31.yPos - link7.y1;
+			link7.e1 += 1 / Math.sqrt(dX4 * dX4 + dY4 * dY4);
+			var dX5 = node31.xPos - link7.x2;
+			var dY5 = node31.yPos - link7.y2;
+			link7.e2 += 1 / Math.sqrt(dX5 * dX5 + dY5 * dY5);
 		}
-		l3.add(link6);
+		l3.add(link7);
 	}
 	while(!l3.isEmpty()) {
 		var bestEDiff1 = -1.0;
 		var bestLink1 = null;
-		var _g_head52 = l3.h;
-		while(_g_head52 != null) {
-			var val52 = _g_head52.item;
-			_g_head52 = _g_head52.next;
-			var link7 = val52;
-			var eDiff1 = Math.abs(link7.e1 - link7.e2);
+		var _g_head51 = l3.h;
+		while(_g_head51 != null) {
+			var val51 = _g_head51.item;
+			_g_head51 = _g_head51.next;
+			var link8 = val51;
+			var eDiff1 = Math.abs(link8.e1 - link8.e2);
 			if(eDiff1 > bestEDiff1 || bestEDiff1 == -1) {
 				bestEDiff1 = eDiff1;
-				bestLink1 = link7;
+				bestLink1 = link8;
 			}
 		}
 		bestLink1.xPos = bestLink1.e1 < bestLink1.e2 ? bestLink1.x1 : bestLink1.x2;
 		bestLink1.yPos = bestLink1.e1 < bestLink1.e2 ? bestLink1.y1 : bestLink1.y2;
 		l3.remove(bestLink1);
+		var _g_head52 = l3.h;
+		while(_g_head52 != null) {
+			var val52 = _g_head52.item;
+			_g_head52 = _g_head52.next;
+			var link9 = val52;
+			var dX6 = bestLink1.xPos - link9.x1;
+			var dY6 = bestLink1.yPos - link9.y1;
+			link9.e1 += 1 / Math.sqrt(dX6 * dX6 + dY6 * dY6);
+			var dX7 = bestLink1.xPos - link9.x2;
+			var dY7 = bestLink1.yPos - link9.y2;
+			link9.e2 += 1 / Math.sqrt(dX7 * dX7 + dY7 * dY7);
+		}
 	}
 	var _this_newline1;
 	var _this_indent1;
@@ -1872,39 +1876,39 @@ draw_Drawer.main = function() {
 	while(_g_head53 != null) {
 		var val53 = _g_head53.item;
 		_g_head53 = _g_head53.next;
-		var node34 = val53;
-		maxX1 = Math.max(maxX1,node34.xPos + node34.radius);
-		maxY1 = Math.max(maxY1,node34.yPos + node34.radius);
-		minX1 = Math.min(minX1,node34.xPos - node34.radius);
-		minY1 = Math.min(minY1,node34.yPos - node34.radius);
+		var node32 = val53;
+		maxX1 = Math.max(maxX1,node32.xPos + node32.radius);
+		maxY1 = Math.max(maxY1,node32.yPos + node32.radius);
+		minX1 = Math.min(minX1,node32.xPos - node32.radius);
+		minY1 = Math.min(minY1,node32.yPos - node32.radius);
 	}
 	var _g_head54 = g_links.h;
 	while(_g_head54 != null) {
 		var val54 = _g_head54.item;
 		_g_head54 = _g_head54.next;
-		var link8 = val54;
+		var link10 = val54;
 		var tMax2 = 0;
-		var bX1 = 2 * link8.xPos - (link8.n1.xPos + link8.n2.xPos) / 2;
-		if(2 * bX1 - link8.n1.xPos - link8.n2.xPos != 0) {
-			tMax2 = (bX1 - link8.n1.xPos) / (2 * bX1 - link8.n1.xPos - link8.n2.xPos);
+		var bX1 = 2 * link10.xPos - (link10.n1.xPos + link10.n2.xPos) / 2;
+		if(2 * bX1 - link10.n1.xPos - link10.n2.xPos != 0) {
+			tMax2 = (bX1 - link10.n1.xPos) / (2 * bX1 - link10.n1.xPos - link10.n2.xPos);
 		}
 		if(0 <= tMax2 && tMax2 <= 1) {
 			tMax2 = tMax2;
 		} else {
 			tMax2 = 0;
 		}
-		var x4 = (1 - tMax2) * ((1 - tMax2) * link8.n1.xPos + tMax2 * bX1) + tMax2 * ((1 - tMax2) * bX1 + tMax2 * link8.n2.xPos);
+		var x4 = (1 - tMax2) * ((1 - tMax2) * link10.n1.xPos + tMax2 * bX1) + tMax2 * ((1 - tMax2) * bX1 + tMax2 * link10.n2.xPos);
 		var tMax3 = 0;
-		var bY1 = 2 * link8.yPos - (link8.n1.yPos + link8.n2.yPos) / 2;
-		if(2 * bY1 - link8.n1.yPos - link8.n2.yPos != 0) {
-			tMax3 = (bY1 - link8.n1.yPos) / (2 * bY1 - link8.n1.yPos - link8.n2.yPos);
+		var bY1 = 2 * link10.yPos - (link10.n1.yPos + link10.n2.yPos) / 2;
+		if(2 * bY1 - link10.n1.yPos - link10.n2.yPos != 0) {
+			tMax3 = (bY1 - link10.n1.yPos) / (2 * bY1 - link10.n1.yPos - link10.n2.yPos);
 		}
 		if(0 <= tMax3 && tMax3 <= 1) {
 			tMax3 = tMax3;
 		} else {
 			tMax3 = 0;
 		}
-		var y4 = (1 - tMax3) * ((1 - tMax3) * link8.n1.yPos + tMax3 * bY1) + tMax3 * ((1 - tMax3) * bY1 + tMax3 * link8.n2.yPos);
+		var y4 = (1 - tMax3) * ((1 - tMax3) * link10.n1.yPos + tMax3 * bY1) + tMax3 * ((1 - tMax3) * bY1 + tMax3 * link10.n2.yPos);
 		maxX1 = Math.max(maxX1,x4);
 		maxY1 = Math.max(maxY1,y4);
 		minX1 = Math.min(minX1,x4);
@@ -2020,22 +2024,22 @@ draw_Drawer.main = function() {
 		while(_g_head57 != null) {
 			var val57 = _g_head57.item;
 			_g_head57 = _g_head57.next;
-			var link9 = val57;
+			var link11 = val57;
 			var result11 = new List();
 			result11.add("<path d='M");
-			result11.add(link9.n1.xPos + " ");
-			result11.add(link9.n1.yPos + " Q");
-			result11.add(" " + (2 * link9.xPos - (link9.n1.xPos + link9.n2.xPos) / 2));
-			result11.add(" " + (2 * link9.yPos - (link9.n1.yPos + link9.n2.yPos) / 2));
-			result11.add(" " + link9.n2.xPos);
-			result11.add(" " + link9.n2.yPos);
+			result11.add(link11.n1.xPos + " ");
+			result11.add(link11.n1.yPos + " Q");
+			result11.add(" " + (2 * link11.xPos - (link11.n1.xPos + link11.n2.xPos) / 2));
+			result11.add(" " + (2 * link11.yPos - (link11.n1.yPos + link11.n2.yPos) / 2));
+			result11.add(" " + link11.n2.xPos);
+			result11.add(" " + link11.n2.yPos);
 			result11.add("' stroke='");
-			result11.add(link9.strokeColor);
+			result11.add(link11.strokeColor);
 			result11.add("' stroke-width='");
-			result11.add(link9.strokeWidth + "' ");
-			if(!link9.dashedArray.isEmpty()) {
+			result11.add(link11.strokeWidth + "' ");
+			if(!link11.dashedArray.isEmpty()) {
 				result11.add("stroke-dasharray='");
-				result11.add(link9.dashedArray.join(","));
+				result11.add(link11.dashedArray.join(","));
 				result11.add("' ");
 			}
 			result11.add("/>");
@@ -2048,13 +2052,13 @@ draw_Drawer.main = function() {
 		while(_g_head58 != null) {
 			var val58 = _g_head58.item;
 			_g_head58 = _g_head58.next;
-			var node35 = val58;
+			var node33 = val58;
 			var tmp4;
-			if(node35.valid) {
-				tmp4 = node35.svg;
+			if(node33.valid) {
+				tmp4 = node33.svg;
 			} else {
 				var result12 = new List();
-				node35.pie = node35.pie.filter(function(t1) {
+				node33.pie = node33.pie.filter(function(t1) {
 					if(t1.first != null && t1.first != "") {
 						return t1.second > 0;
 					} else {
@@ -2063,34 +2067,34 @@ draw_Drawer.main = function() {
 				});
 				var needArcs1 = false;
 				result12.add("<circle id='");
-				result12.add("n" + node35.node.id);
+				result12.add("n" + node33.node.id);
 				result12.add("' ");
 				result12.add("stroke='");
-				result12.add(node35.strokeColor);
+				result12.add(node33.strokeColor);
 				result12.add("' ");
 				result12.add("stroke-width='");
-				result12.add("" + node35.strokeWidth);
+				result12.add("" + node33.strokeWidth);
 				result12.add("' ");
-				if(!node35.dashedArray.isEmpty()) {
+				if(!node33.dashedArray.isEmpty()) {
 					result12.add("stroke-dasharray='");
-					result12.add(node35.dashedArray.join(","));
+					result12.add(node33.dashedArray.join(","));
 					result12.add("' ");
 				}
 				result12.add("cx='");
-				result12.add("" + node35.xPos);
+				result12.add("" + node33.xPos);
 				result12.add("' ");
 				result12.add("cy='");
-				result12.add("" + node35.yPos);
+				result12.add("" + node33.yPos);
 				result12.add("' ");
 				result12.add("r='");
-				result12.add("" + node35.radius);
+				result12.add("" + node33.radius);
 				result12.add("' ");
-				if(node35.pie.isEmpty()) {
+				if(node33.pie.isEmpty()) {
 					result12.add("fill='");
 					result12.add("blue");
-				} else if(node35.pie.length == 1) {
+				} else if(node33.pie.length == 1) {
 					result12.add("fill='");
-					result12.add(node35.pie.first().first);
+					result12.add(node33.pie.first().first);
 				} else {
 					needArcs1 = true;
 				}
@@ -2098,7 +2102,7 @@ draw_Drawer.main = function() {
 				result12.add("/>");
 				if(needArcs1) {
 					var summe1 = 0;
-					var _g_head59 = node35.pie.h;
+					var _g_head59 = node33.pie.h;
 					while(_g_head59 != null) {
 						var val59 = _g_head59.item;
 						_g_head59 = _g_head59.next;
@@ -2106,25 +2110,25 @@ draw_Drawer.main = function() {
 						summe1 += p2.second;
 					}
 					var cs1 = 0;
-					var _g_head60 = node35.pie.h;
+					var _g_head60 = node33.pie.h;
 					while(_g_head60 != null) {
 						var val60 = _g_head60.item;
 						_g_head60 = _g_head60.next;
 						var p3 = val60;
 						var color1 = p3.first;
 						var perc1 = p3.second / summe1;
-						var pX11 = Math.sin(cs1 / summe1 * 2 * Math.PI) * node35.radius + node35.xPos;
-						var pY11 = -Math.cos(cs1 / summe1 * 2 * Math.PI) * node35.radius + node35.xPos;
+						var pX11 = Math.sin(cs1 / summe1 * 2 * Math.PI) * node33.radius + node33.xPos;
+						var pY11 = -Math.cos(cs1 / summe1 * 2 * Math.PI) * node33.radius + node33.xPos;
 						cs1 += p3.second;
-						var pX21 = Math.sin(cs1 / summe1 * 2 * Math.PI) * node35.radius + node35.xPos;
-						var pY21 = -Math.cos(cs1 / summe1 * 2 * Math.PI) * node35.radius + node35.xPos;
+						var pX21 = Math.sin(cs1 / summe1 * 2 * Math.PI) * node33.radius + node33.xPos;
+						var pY21 = -Math.cos(cs1 / summe1 * 2 * Math.PI) * node33.radius + node33.xPos;
 						var arcFlag1 = perc1 < 0.5 ? 0 : 1;
-						result12.add("<path fill='" + color1 + "' d='M" + node35.xPos + "," + node35.yPos + " L" + pX11 + "," + pY11 + " A" + node35.radius + "," + node35.radius + " 1 " + arcFlag1 + ",1 " + pX21 + ", " + pY21 + " z'/>");
+						result12.add("<path fill='" + color1 + "' d='M" + node33.xPos + "," + node33.yPos + " L" + pX11 + "," + pY11 + " A" + node33.radius + "," + node33.radius + " 1 " + arcFlag1 + ",1 " + pX21 + ", " + pY21 + " z'/>");
 					}
 				}
-				node35.svg = result12.join("");
-				node35.valid = true;
-				tmp4 = node35.svg;
+				node33.svg = result12.join("");
+				node33.valid = true;
+				tmp4 = node33.svg;
 			}
 			result9.add(tmp4);
 		}
@@ -2186,49 +2190,49 @@ draw_Drawer.main = function() {
 		while(_g_head63 != null) {
 			var val63 = _g_head63.item;
 			_g_head63 = _g_head63.next;
-			var link10 = val63;
-			result9.add("<circle cx='" + link10.xPos + "' cy='" + link10.yPos + "' r='5' fill='" + link10.strokeColor + "' />");
+			var link12 = val63;
+			result9.add("<circle cx='" + link12.xPos + "' cy='" + link12.yPos + "' r='5' fill='" + link12.strokeColor + "' />");
 		}
 	}
 	if(g_drawCenter) {
-		var rx8 = 0;
+		var rx7 = 0;
 		var _g_head64 = g_nodes.h;
 		while(_g_head64 != null) {
 			var val64 = _g_head64.item;
 			_g_head64 = _g_head64.next;
-			var node36 = val64;
-			rx8 += node36.xPos;
+			var node34 = val64;
+			rx7 += node34.xPos;
 		}
-		var x6 = rx8 / g_nodes.length;
-		var ry8 = 0;
+		var x6 = rx7 / g_nodes.length;
+		var ry7 = 0;
 		var _g_head65 = g_nodes.h;
 		while(_g_head65 != null) {
 			var val65 = _g_head65.item;
 			_g_head65 = _g_head65.next;
-			var node37 = val65;
-			ry8 += node37.yPos;
+			var node35 = val65;
+			ry7 += node35.yPos;
 		}
-		var y6 = ry8 / g_nodes.length;
+		var y6 = ry7 / g_nodes.length;
 		result9.add("<line x1='" + x6 + "' y1='" + minY1 + "' x2='" + x6 + "' y2='" + maxY1 + "' stroke='green' stroke-dasharray='3 3' />");
 		result9.add("<line x1='" + minX1 + "' y1='" + y6 + "' x2='" + maxX1 + "' y2='" + y6 + "' stroke='green' stroke-dasharray='3 3' />");
-		var rx9 = 0;
+		var rx8 = 0;
 		var _g_head66 = g_nodes.h;
 		while(_g_head66 != null) {
 			var val66 = _g_head66.item;
 			_g_head66 = _g_head66.next;
-			var node38 = val66;
-			rx9 += node38.xPos;
+			var node36 = val66;
+			rx8 += node36.xPos;
 		}
-		var tmp5 = "<circle cx='" + rx9 / g_nodes.length + "' cy='";
-		var ry9 = 0;
+		var tmp5 = "<circle cx='" + rx8 / g_nodes.length + "' cy='";
+		var ry8 = 0;
 		var _g_head67 = g_nodes.h;
 		while(_g_head67 != null) {
 			var val67 = _g_head67.item;
 			_g_head67 = _g_head67.next;
-			var node39 = val67;
-			ry9 += node39.yPos;
+			var node37 = val67;
+			ry8 += node37.yPos;
 		}
-		result9.add(tmp5 + ry9 / g_nodes.length + "' r='5' fill='green' />");
+		result9.add(tmp5 + ry8 / g_nodes.length + "' r='5' fill='green' />");
 	}
 	result9.add("</svg>");
 	var s2 = result9.join("");
@@ -3101,6 +3105,18 @@ draw_Graph.prototype = {
 			bestLink.xPos = bestLink.e1 < bestLink.e2 ? bestLink.x1 : bestLink.x2;
 			bestLink.yPos = bestLink.e1 < bestLink.e2 ? bestLink.y1 : bestLink.y2;
 			l.remove(bestLink);
+			var _g_head3 = l.h;
+			while(_g_head3 != null) {
+				var val3 = _g_head3.item;
+				_g_head3 = _g_head3.next;
+				var link2 = val3;
+				var dX2 = bestLink.xPos - link2.x1;
+				var dY2 = bestLink.yPos - link2.y1;
+				link2.e1 += 1 / Math.sqrt(dX2 * dX2 + dY2 * dY2);
+				var dX3 = bestLink.xPos - link2.x2;
+				var dY3 = bestLink.yPos - link2.y2;
+				link2.e2 += 1 / Math.sqrt(dX3 * dX3 + dY3 * dY3);
+			}
 		}
 	}
 	,assignRandomNodePos: function() {
@@ -3285,6 +3301,114 @@ draw_Graph.prototype = {
 			node5.yPos = cy1 + vY;
 		}
 	}
+	,mult_radius: function(v) {
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			if(node.node.type == parsing_SEQ_$TYPE.SAMPLED_SEQUENCE) {
+				node.valid = false;
+				node.radius *= v;
+			}
+		}
+	}
+	,mirrorX: function() {
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			var vX = -node.xPos;
+			var vY = node.yPos;
+			node.valid = false;
+			node.xPos = vX;
+			node.valid = false;
+			node.yPos = vY;
+		}
+		var _g_head1 = this.links.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var link = val1;
+			var vX1 = -link.xPos;
+			var vY1 = link.yPos;
+			link.xPos = vX1;
+			link.yPos = vY1;
+		}
+	}
+	,mirrorY: function() {
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			var vX = node.xPos;
+			var vY = -node.yPos;
+			node.valid = false;
+			node.xPos = vX;
+			node.valid = false;
+			node.yPos = vY;
+		}
+		var _g_head1 = this.links.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var link = val1;
+			var vX1 = link.xPos;
+			var vY1 = -link.yPos;
+			link.xPos = vX1;
+			link.yPos = vY1;
+		}
+	}
+	,rotateP90: function() {
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			var vX = -node.yPos;
+			var vY = node.xPos;
+			node.valid = false;
+			node.xPos = vX;
+			node.valid = false;
+			node.yPos = vY;
+		}
+		var _g_head1 = this.links.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var link = val1;
+			var vX1 = -link.yPos;
+			var vY1 = link.xPos;
+			link.xPos = vX1;
+			link.yPos = vY1;
+		}
+	}
+	,rotateN90: function() {
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			var vX = node.yPos;
+			var vY = -node.xPos;
+			node.valid = false;
+			node.xPos = vX;
+			node.valid = false;
+			node.yPos = vY;
+		}
+		var _g_head1 = this.links.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var link = val1;
+			var vX1 = link.yPos;
+			var vY1 = -link.xPos;
+			link.xPos = vX1;
+			link.yPos = vY1;
+		}
+	}
 	,rotate: function(angle) {
 		var rx = 0;
 		var _g_head = this.nodes.h;
@@ -3314,77 +3438,57 @@ draw_Graph.prototype = {
 			node2.valid = false;
 			node2.yPos -= cy;
 		}
-		var rx1 = 0;
+		var cosA = Math.cos(angle);
+		var sinA = Math.sin(angle);
 		var _g_head3 = this.nodes.h;
 		while(_g_head3 != null) {
 			var val3 = _g_head3.item;
 			_g_head3 = _g_head3.next;
 			var node3 = val3;
-			rx1 += node3.xPos;
+			var vX = node3.xPos * cosA - node3.yPos * sinA;
+			var vY = node3.xPos * sinA + node3.yPos * cosA;
+			node3.valid = false;
+			node3.xPos = vX;
+			node3.valid = false;
+			node3.yPos = vY;
 		}
-		var cx1 = rx1 / this.nodes.length;
-		var ry1 = 0;
-		var _g_head4 = this.nodes.h;
+		var _g_head4 = this.links.h;
 		while(_g_head4 != null) {
 			var val4 = _g_head4.item;
 			_g_head4 = _g_head4.next;
-			var node4 = val4;
-			ry1 += node4.yPos;
+			var link = val4;
+			var vX1 = link.xPos * cosA - link.yPos * sinA;
+			var vY1 = link.xPos * sinA + link.yPos * cosA;
+			link.xPos = vX1;
+			link.yPos = vY1;
 		}
-		var cy1 = ry1 / this.nodes.length;
+		var rx1 = 0;
 		var _g_head5 = this.nodes.h;
 		while(_g_head5 != null) {
 			var val5 = _g_head5.item;
 			_g_head5 = _g_head5.next;
-			var node5 = val5;
-			var vX = node5.xPos - cx1;
-			var vY = node5.yPos - cy1;
-			vX = vX * Math.cos(angle) - vY * Math.sin(angle);
-			vY = vX * Math.sin(angle) + vY * Math.cos(angle);
-			node5.valid = false;
-			node5.xPos = cx1 + vX;
-			node5.valid = false;
-			node5.yPos = cy1 + vY;
+			var node4 = val5;
+			rx1 += node4.xPos;
 		}
-		var _g_head6 = this.links.h;
+		var cx1 = rx1 / this.nodes.length;
+		var ry1 = 0;
+		var _g_head6 = this.nodes.h;
 		while(_g_head6 != null) {
 			var val6 = _g_head6.item;
 			_g_head6 = _g_head6.next;
-			var link = val6;
-			var vX1 = link.xPos - cx1;
-			var vY1 = link.yPos - cy1;
-			vX1 = vX1 * Math.cos(angle) - vY1 * Math.sin(angle);
-			vY1 = vX1 * Math.sin(angle) + vY1 * Math.cos(angle);
-			link.xPos = cx1 + vX1;
-			link.yPos = cy1 + vY1;
+			var node5 = val6;
+			ry1 += node5.yPos;
 		}
-		var rx2 = 0;
+		var cy1 = ry1 / this.nodes.length;
 		var _g_head7 = this.nodes.h;
 		while(_g_head7 != null) {
 			var val7 = _g_head7.item;
 			_g_head7 = _g_head7.next;
 			var node6 = val7;
-			rx2 += node6.xPos;
-		}
-		var cx2 = rx2 / this.nodes.length;
-		var ry2 = 0;
-		var _g_head8 = this.nodes.h;
-		while(_g_head8 != null) {
-			var val8 = _g_head8.item;
-			_g_head8 = _g_head8.next;
-			var node7 = val8;
-			ry2 += node7.yPos;
-		}
-		var cy2 = ry2 / this.nodes.length;
-		var _g_head9 = this.nodes.h;
-		while(_g_head9 != null) {
-			var val9 = _g_head9.item;
-			_g_head9 = _g_head9.next;
-			var node8 = val9;
-			node8.valid = false;
-			node8.xPos -= cx2;
-			node8.valid = false;
-			node8.yPos -= cy2;
+			node6.valid = false;
+			node6.xPos -= cx1;
+			node6.valid = false;
+			node6.yPos -= cy1;
 		}
 	}
 	,fluct: function() {
@@ -3723,6 +3827,10 @@ draw_NodePos.prototype = {
 	,set_yPos: function(n) {
 		this.valid = false;
 		this.yPos = n;
+	}
+	,mult_radius: function(v) {
+		this.valid = false;
+		this.radius = v * this.radius;
 	}
 	,set_radius: function(n) {
 		this.valid = false;

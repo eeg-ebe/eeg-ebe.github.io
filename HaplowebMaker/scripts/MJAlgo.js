@@ -3011,7 +3011,7 @@ mj_Seq.calcHash = function(s) {
 	return result;
 };
 mj_Seq.getIndIdentifier = function(s) {
-	var result = null;
+	var result = s;
 	if(s != null) {
 		var pos = s.lastIndexOf("_");
 		if(pos != -1) {
@@ -3025,7 +3025,7 @@ mj_Seq.createSample = function(id,name,seq) {
 	result.id = id;
 	if(name != null && name != "") {
 		result.names.add(name);
-		var result1 = null;
+		var result1 = name;
 		if(name != null) {
 			var pos = name.lastIndexOf("_");
 			if(pos != -1) {
@@ -3110,7 +3110,7 @@ mj_Seq.prototype = {
 	,addName: function(s) {
 		if(s != null && s != "") {
 			this.names.add(s);
-			var result = null;
+			var result = s;
 			if(s != null) {
 				var pos = s.lastIndexOf("_");
 				if(pos != -1) {
@@ -3394,7 +3394,7 @@ mj_Seqs.prototype = {
 			if(s.origSeq == seq) {
 				if(name != null && name != "") {
 					s.names.add(name);
-					var result1 = null;
+					var result1 = name;
 					if(name != null) {
 						var pos1 = name.lastIndexOf("_");
 						if(pos1 != -1) {
@@ -3426,7 +3426,7 @@ mj_Seqs.prototype = {
 		result3.id = id;
 		if(name != null && name != "") {
 			result3.names.add(name);
-			var result4 = null;
+			var result4 = name;
 			if(name != null) {
 				var pos2 = name.lastIndexOf("_");
 				if(pos2 != -1) {

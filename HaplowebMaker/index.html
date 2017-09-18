@@ -166,7 +166,7 @@
             </li>
         </ul>
         <a href="https://github.com/eeg-ebe/eeg-ebe.github.io">
-            <img style="z-index: 51; position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png">
+            <img style="z-index: 51; position: absolute; top: 0; right: 0; border: 0;" src="images/fork.png" alt="Fork me on GitHub" />
         </a>
 
         <!-- Main content start -->
@@ -255,15 +255,24 @@
                     <button onclick="javascript: currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle vis</button>
                     <br>
                     <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
-                    <button onclick="javascript: currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
+                    <button onclick="javascript: stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
+                    <button onclick="javascript: stopForce=true">Stop force</button>
                     <button onclick="javascript: currentGraphEdit.stretch(9/10); updateSVG();">Stretch--</button>
                     <button onclick="javascript: var f=parseFloat(prompt('Please insert stretching factor: (float)')); currentGraphEdit.stretch(f); updateSVG();">Stretch?</button>
                     <button onclick="javascript: currentGraphEdit.stretch(10/9); updateSVG();">Stretch++</button>
                     <button onclick="javascript: exportEditSVG('image/png');">Export png</button>
                     <button onclick="javascript: exportEditSVGasSVG();">Export svg</button>
                     <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves</button>
+                    <button onclick="javascript: currentGraphEdit.mult_radius(10/9); updateSVG();">Circles ++</button>
+                    <button onclick="javascript: currentGraphEdit.mult_radius(9/10); updateSVG();">Circles --</button>
                     <br>
-                    <span>Muts by dots:</span>
+                    <button onclick="javascript: currentGraphEdit.rotateN90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s"></span></button>
+                    <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); if(isNaN(f)) { /*TODO*/ } else {currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();}">Rot angle</button>
+                    <button onclick="javascript: currentGraphEdit.rotateP90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s mirror"></span></button>
+                    <button onclick="javascript: currentGraphEdit.mirrorX(); updateSVG();">Mirror X</span></button>
+                    <button onclick="javascript: currentGraphEdit.mirrorY(); updateSVG();">Mirror Y</span></button>
+                    <br>
+                    <span>Muts by lines:</span>
                     <input type="checkbox" name="drawMutsByLineChkbx" id="drawMutsByLineChkbx" autocomplete="off" />
                     <input type="color" name="drawMutsLineStrokeColor" id="drawMutsLineStrokeColor" value="#000000" autocomplete="off" />
                     <input type="text" name="drawMutsLineStrokeWidth" id="drawMutsLineStrokeWidth" value="3" autocomplete="off" />
@@ -296,7 +305,6 @@
                     <input type="color" name="drawMutsDotColor" id="drawMutsDotColor" value="#000000" autocomplete="off" />
                     <input type="text" name="drawMutsDotStrokeArr" id="drawMutsDotStrokeArr" value="" autocomplete="off" />
                     <button onclick="javascript: assignMutsByDot();">Change</button>
-<!--            <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();">Rot angle</button>-->
                 </div>
                 <div>
                     <span id="svgDisplay" style="margin: 0; padding: 0"></span>
@@ -374,7 +382,7 @@
                     currentGraphEdit.centerPos();
                     currentGraphEdit.assignLinkPos();
                     updateSVG();
-                    if(tE > 0.5) {
+                    if(tE > 0.5 && !stopForce) {
                         window.setTimeout(force, 10);
                     }
                 }
@@ -728,7 +736,7 @@
                         }
                         html += "</div>"; // this is the end of the div with the id sortable
                         // html -> file table
-                        html += "<p></p><table id='fileTable'><tr class='header'><td class='left' class='label' lid='fileTableHeaderName.label'>Name</td><td class='left label' lid='fileTableHeaderAction.label'></td><td class='middle label' lid='fileTableHeaderDesc.label'></td></tr>";
+                        html += "<p></p><table id='fileTable'><tr class='header'><td class='left label' lid='fileTableHeaderName.label'></td><td class='left label' lid='fileTableHeaderAction.label'></td><td class='middle label' lid='fileTableHeaderDesc.label'></td></tr>";
                         var even = true;
                         html += "<tr class='" + ((even) ? "even" : "odd") + " overviewfiles'>";
                         html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
@@ -867,7 +875,7 @@
                     selectedObj = null;
                     dialog.dialog("open");
                     $("#editSVGDialog").dialog("option", "width",  window.innerWidth  - 10);
-                    var h = Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 10, $("#editSVGDialogDim").height() + 10);
+                    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); //Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 10, $("#editSVGDialogDim").height() + 10);
                     $("#editSVGDialog").dialog("option", "height", h);
                 },
                 buttons: [{
