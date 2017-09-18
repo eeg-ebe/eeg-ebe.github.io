@@ -246,7 +246,7 @@
         </div>
         <div id="editSVGDialog"><!-- TODO -->
             <div id="editSVGDialogDim" style="overlow:hidden">
-                <div>
+                <div id="toolboxBar">
                     <button onclick="javascript: currentGraphEdit.drawCircles = !currentGraphEdit.drawCircles; updateSVG();">Toggle circle vis</button>
                     <button onclick="javascript: currentGraphEdit.drawCons = !currentGraphEdit.drawCons; updateSVG();">Toggle line vis</button>
                     <button onclick="javascript: currentGraphEdit.drawCurves = !currentGraphEdit.drawCurves; updateSVG();">Toggle curve vis</button>
@@ -415,7 +415,10 @@
                 }
                 function updateSVG() {
                     var svgDisp = document.getElementById("svgDisplay");
-                    svgDisp.innerHTML = currentGraphEdit.getSvgCode($("#editSVGDialog").dialog("option", "width"), $("#editSVGDialog").dialog("option", "height"));
+                    var dialog = document.getElementById("editSVGDialog");
+                    var w = dialog.clientWidth;
+                    var h = dialog.clientHeight - document.getElementById("toolboxBar").clientHeight;
+                    svgDisp.innerHTML = currentGraphEdit.getSvgCode( w, h );
                     var svg = svgDisp.childNodes[0];
                     svg.addEventListener("mousemove", editMouseMove);
                     svg.addEventListener("mouseup", editMouseUp);
@@ -877,6 +880,7 @@
                     $("#editSVGDialog").dialog("option", "width",  window.innerWidth  - 10);
                     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); //Math.min(Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 10, $("#editSVGDialogDim").height() + 10);
                     $("#editSVGDialog").dialog("option", "height", h);
+                    updateSVG();
                 },
                 buttons: [{
                         "text" : languageDicts[language]["dict"]["buttonSave"],
