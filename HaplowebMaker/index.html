@@ -390,12 +390,12 @@
                 function getClickX(event) {
                     var offset = $("#svgDisplay svg").offset();
                     var x = event.pageX - offset.left;
-                    return x;
+                    return x / currentGraphEdit.lastStretchFact;
                 }
                 function getClickY(event) {
                     var offset = $("#svgDisplay svg").offset();
                     var y = event.pageY - offset.top;
-                    return y;
+                    return y / currentGraphEdit.lastStretchFact;
                 }
                 function editMouseMove(event) {
                     if(selectedObj != null) {
