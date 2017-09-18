@@ -257,9 +257,10 @@
                     <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
                     <button onclick="javascript: stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
                     <button onclick="javascript: stopForce=true">Stop force</button>
-                    <button onclick="javascript: currentGraphEdit.stretch(9/10); updateSVG();">Stretch--</button>
-                    <button onclick="javascript: var f=parseFloat(prompt('Please insert stretching factor: (float)')); currentGraphEdit.stretch(f); updateSVG();">Stretch?</button>
-                    <button onclick="javascript: currentGraphEdit.stretch(10/9); updateSVG();">Stretch++</button>
+                    <button onclick="javascript: currentGraphEditstretch *= 9/10; updateSVG();">Stretch--</button>
+                    <button onclick="javascript: var f=parseFloat(prompt('Please insert stretching factor: (float)')); currentGraphEditstretch *= f; updateSVG();">Stretch?</button>
+                    <button onclick="javascript: currentGraphEditstretch *= 10/9; updateSVG();">Stretch++</button>
+                    <button onclick="javascript: currentGraphEditstretch = 1; updateSVG();">Reset stretch</button>
                     <button onclick="javascript: exportEditSVG('image/png');">Export png</button>
                     <button onclick="javascript: exportEditSVGasSVG();">Export svg</button>
                     <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves</button>
@@ -418,7 +419,7 @@
                     var dialog = document.getElementById("editSVGDialog");
                     var w = dialog.clientWidth;
                     var h = dialog.clientHeight - document.getElementById("toolboxBar").clientHeight;
-                    svgDisp.innerHTML = currentGraphEdit.getSvgCode( w, h );
+                    svgDisp.innerHTML = currentGraphEdit.getSvgCode( w * currentGraphEditstretch, h * currentGraphEditstretch );
                     var svg = svgDisp.childNodes[0];
                     svg.addEventListener("mousemove", editMouseMove);
                     svg.addEventListener("mouseup", editMouseUp);
@@ -852,6 +853,7 @@
                 }
                 function editSVG(i) {
                     currentGraphEdit = new draw_Graph(parsing_MJNetParser.parseNet(project["faFiles"][i]["mj"]));
+                    currentGraphEditstretch = 1;
                     currentGraphEdit.loadStyle(project["faFiles"][i]["graphstyle"]);
                     editSVGId = i;
                     $( "#editSVGDialog" ).dialog("open");
