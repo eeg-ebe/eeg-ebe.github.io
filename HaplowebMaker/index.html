@@ -407,7 +407,7 @@
                 }
                 function updateSVG() {
                     var svgDisp = document.getElementById("svgDisplay");
-                    svgDisp.innerHTML = currentGraphEdit.getSvgCode();
+                    svgDisp.innerHTML = currentGraphEdit.getSvgCode($("#editSVGDialog").dialog("option", "width"), $("#editSVGDialog").dialog("option", "height"));
                     var svg = svgDisp.childNodes[0];
                     svg.addEventListener("mousemove", editMouseMove);
                     svg.addEventListener("mouseup", editMouseUp);

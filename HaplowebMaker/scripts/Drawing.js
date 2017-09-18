@@ -1334,6 +1334,8 @@ draw_Drawer.main = function() {
 	var _this_countingOffset = 1;
 	_this_newline = "\n";
 	_this_indent = "  ";
+	var ow = -1;
+	var oh = -1;
 	var maxX = -Infinity;
 	var maxY = -Infinity;
 	var minX = Infinity;
@@ -1382,9 +1384,20 @@ draw_Drawer.main = function() {
 	}
 	var width = maxX - minX + 30;
 	var height = maxY - minY + 30;
+	var f1 = ow / width;
+	if(ow == -1) {
+		f1 = 1;
+	}
+	var f2 = oh / height;
+	if(oh == -1) {
+		f2 = 1;
+	}
+	var f = Math.min(f1,f2);
+	ow = width * f;
+	oh = height * f;
 	var result5 = new List();
-	result5.add("<svg version='1.1' baseProfile='full' width='" + width);
-	result5.add("' height='" + height);
+	result5.add("<svg version='1.1' baseProfile='full' width='" + ow);
+	result5.add("' height='" + oh);
 	result5.add("' viewBox='" + (minX - 15) + "," + (minY - 15) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
 	if(g_drawCons) {
 		var _g_head27 = g_cons.h;
@@ -1849,6 +1862,8 @@ draw_Drawer.main = function() {
 	var _this_countingOffset1 = 1;
 	_this_newline1 = "\n";
 	_this_indent1 = "  ";
+	var ow1 = -1;
+	var oh1 = -1;
 	var maxX1 = -Infinity;
 	var maxY1 = -Infinity;
 	var minX1 = Infinity;
@@ -1897,9 +1912,20 @@ draw_Drawer.main = function() {
 	}
 	var width1 = maxX1 - minX1 + 30;
 	var height1 = maxY1 - minY1 + 30;
+	var f11 = ow1 / width1;
+	if(ow1 == -1) {
+		f11 = 1;
+	}
+	var f21 = oh1 / height1;
+	if(oh1 == -1) {
+		f21 = 1;
+	}
+	var f3 = Math.min(f11,f21);
+	ow1 = width1 * f3;
+	oh1 = height1 * f3;
 	var result9 = new List();
-	result9.add("<svg version='1.1' baseProfile='full' width='" + width1);
-	result9.add("' height='" + height1);
+	result9.add("<svg version='1.1' baseProfile='full' width='" + ow1);
+	result9.add("' height='" + oh1);
 	result9.add("' viewBox='" + (minX1 - 15) + "," + (minY1 - 15) + "," + width1 + "," + height1 + "' xmlns='http://www.w3.org/2000/svg'>");
 	if(g_drawCons) {
 		var _g_head55 = g_cons.h;
@@ -2647,7 +2673,13 @@ draw_Graph.prototype = {
 			link.yPos = parseFloat(attrs3[5]);
 		}
 	}
-	,getSvgCode: function() {
+	,getSvgCode: function(ow,oh) {
+		if(oh == null) {
+			oh = -1;
+		}
+		if(ow == null) {
+			ow = -1;
+		}
 		var maxX = -Infinity;
 		var maxY = -Infinity;
 		var minX = Infinity;
@@ -2696,9 +2728,20 @@ draw_Graph.prototype = {
 		}
 		var width = maxX - minX + 30;
 		var height = maxY - minY + 30;
+		var f1 = ow / width;
+		if(ow == -1) {
+			f1 = 1;
+		}
+		var f2 = oh / height;
+		if(oh == -1) {
+			f2 = 1;
+		}
+		var f = Math.min(f1,f2);
+		ow = width * f;
+		oh = height * f;
 		var result = new List();
-		result.add("<svg version='1.1' baseProfile='full' width='" + width);
-		result.add("' height='" + height);
+		result.add("<svg version='1.1' baseProfile='full' width='" + ow);
+		result.add("' height='" + oh);
 		result.add("' viewBox='" + (minX - 15) + "," + (minY - 15) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
 		if(this.drawCons) {
 			var _g_head2 = this.cons.h;
