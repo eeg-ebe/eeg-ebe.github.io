@@ -257,10 +257,10 @@
                     <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
                     <button onclick="javascript: stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
                     <button onclick="javascript: stopForce=true">Stop force</button>
-                    <button onclick="javascript: currentGraphEditstretch *= 9/10; updateSVG();">Stretch--</button>
-                    <button onclick="javascript: var f=parseFloat(prompt('Please insert stretching factor: (float)')); currentGraphEditstretch *= f; updateSVG();">Stretch?</button>
-                    <button onclick="javascript: currentGraphEditstretch *= 10/9; updateSVG();">Stretch++</button>
-                    <button onclick="javascript: currentGraphEditstretch = 1; updateSVG();">Reset stretch</button>
+                    <button onclick="javascript: currentGraphEditstretch *= 9/10; updateSVG();">Zoom out</button>
+                    <button onclick="javascript: var f=parseFloat(prompt('Please insert zooming factor: (float)')); currentGraphEditstretch *= f; updateSVG();">Zoom?</button>
+                    <button onclick="javascript: currentGraphEditstretch *= 10/9; updateSVG();">Zoom in</button>
+                    <button onclick="javascript: currentGraphEditstretch = 1; updateSVG();">Reset zoom</button>
                     <button onclick="javascript: exportEditSVG('image/png');">Export png</button>
                     <button onclick="javascript: exportEditSVGasSVG();">Export svg</button>
                     <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves</button>
