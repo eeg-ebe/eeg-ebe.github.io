@@ -254,11 +254,12 @@
                     <button onclick="javascript: currentGraphEdit.drawCenter = !currentGraphEdit.drawCenter; updateSVG();">Toggle center vis</button>
                     <button onclick="javascript: currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle vis</button>
                     <br>
+                    <button onclick="javascript: currentGraphEditstretch = 1; currentGraphEdit.assignRandomNodePos(); stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Restart</button>
                     <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
                     <button onclick="javascript: stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
                     <button onclick="javascript: stopForce=true">Stop force</button>
                     <button onclick="javascript: currentGraphEditstretch *= 9/10; updateSVG();">Zoom out</button>
-                    <button onclick="javascript: var f=parseFloat(prompt('Please insert zooming factor: (float)')); if(isNaN(f)) { alert('Illegal input'); } else { currentGraphEditstretch *= f; updateSVG(); }">Zoom?</button>
+                    <button onclick="javascript: var f=parseFloat(prompt('Please insert zooming factor: (float)').trim()); if(isNaN(f)) { alert('Illegal input'); } else { currentGraphEditstretch *= f; updateSVG(); }">Zoom?</button>
                     <button onclick="javascript: currentGraphEditstretch *= 10/9; updateSVG();">Zoom in</button>
                     <button onclick="javascript: currentGraphEditstretch = 1; updateSVG();">Reset zoom</button>
                     <button onclick="javascript: exportEditSVG('image/png');">Export png</button>
