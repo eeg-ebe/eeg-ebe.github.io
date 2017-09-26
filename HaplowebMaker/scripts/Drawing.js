@@ -1286,6 +1286,7 @@ draw_Drawer.main = function() {
 		var link = val22;
 		link.xPos = NaN;
 		link.yPos = NaN;
+		link.setByUser = false;
 		var vX1 = link.n1.xPos - link.n2.xPos;
 		var vY1 = link.n1.yPos - link.n2.yPos;
 		var vrX = -vY1 / 8;
@@ -1672,7 +1673,7 @@ draw_Drawer.main = function() {
 			var val36 = _g_head36.item;
 			_g_head36 = _g_head36.next;
 			var link5 = val36;
-			result5.add("<circle cx='" + link5.xPos + "' cy='" + link5.yPos + "' r='5' fill='" + link5.strokeColor + "' />");
+			result5.add("<circle cx='" + link5.xPos + "' cy='" + link5.yPos + "' r='5' fill='" + link5.strokeColor + "' stroke='" + (link5.setByUser ? "black" : "red") + "' />");
 		}
 	}
 	if(g_drawCenter) {
@@ -1806,6 +1807,7 @@ draw_Drawer.main = function() {
 		var link7 = val49;
 		link7.xPos = NaN;
 		link7.yPos = NaN;
+		link7.setByUser = false;
 		var vX5 = link7.n1.xPos - link7.n2.xPos;
 		var vY5 = link7.n1.yPos - link7.n2.yPos;
 		var vrX1 = -vY5 / 8;
@@ -2192,7 +2194,7 @@ draw_Drawer.main = function() {
 			var val63 = _g_head63.item;
 			_g_head63 = _g_head63.next;
 			var link12 = val63;
-			result9.add("<circle cx='" + link12.xPos + "' cy='" + link12.yPos + "' r='5' fill='" + link12.strokeColor + "' />");
+			result9.add("<circle cx='" + link12.xPos + "' cy='" + link12.yPos + "' r='5' fill='" + link12.strokeColor + "' stroke='" + (link12.setByUser ? "black" : "red") + "' />");
 		}
 	}
 	if(g_drawCenter) {
@@ -3009,7 +3011,7 @@ draw_Graph.prototype = {
 				var val10 = _g_head10.item;
 				_g_head10 = _g_head10.next;
 				var link2 = val10;
-				result.add("<circle cx='" + link2.xPos + "' cy='" + link2.yPos + "' r='5' fill='" + link2.strokeColor + "' />");
+				result.add("<circle cx='" + link2.xPos + "' cy='" + link2.yPos + "' r='5' fill='" + link2.strokeColor + "' stroke='" + (link2.setByUser ? "black" : "red") + "' />");
 			}
 		}
 		if(this.drawCenter) {
@@ -3055,49 +3057,73 @@ draw_Graph.prototype = {
 		result.add("</svg>");
 		return result.join("");
 	}
-	,assignLinkPos: function() {
+	,assignLinkPos: function(overwriteUser) {
+		if(overwriteUser == null) {
+			overwriteUser = true;
+		}
 		var l = new List();
 		var _g_head = this.links.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
 			var link = val;
-			link.xPos = NaN;
-			link.yPos = NaN;
-			var vX = link.n1.xPos - link.n2.xPos;
-			var vY = link.n1.yPos - link.n2.yPos;
-			var vrX = -vY / 8;
-			var vrY = vX / 8;
-			var mX = link.n2.xPos + vX / 2;
-			var mY = link.n2.yPos + vY / 2;
-			link.x1 = mX - vrX;
-			link.y1 = mY - vrY;
-			link.x2 = mX + vrX;
-			link.y2 = mY + vrY;
-			link.e1 = 0;
-			link.e2 = 0;
-			var _g_head1 = this.nodes.h;
-			while(_g_head1 != null) {
-				var val1 = _g_head1.item;
-				_g_head1 = _g_head1.next;
-				var node = val1;
-				var dX = node.xPos - link.x1;
-				var dY = node.yPos - link.y1;
-				link.e1 += 1 / Math.sqrt(dX * dX + dY * dY);
-				var dX1 = node.xPos - link.x2;
-				var dY1 = node.yPos - link.y2;
-				link.e2 += 1 / Math.sqrt(dX1 * dX1 + dY1 * dY1);
+			if(!overwriteUser && link.setByUser) {
+				continue;
+			} else {
+				link.xPos = NaN;
+				link.yPos = NaN;
+				link.setByUser = false;
+				var vX = link.n1.xPos - link.n2.xPos;
+				var vY = link.n1.yPos - link.n2.yPos;
+				var vrX = -vY / 8;
+				var vrY = vX / 8;
+				var mX = link.n2.xPos + vX / 2;
+				var mY = link.n2.yPos + vY / 2;
+				link.x1 = mX - vrX;
+				link.y1 = mY - vrY;
+				link.x2 = mX + vrX;
+				link.y2 = mY + vrY;
+				link.e1 = 0;
+				link.e2 = 0;
+				var _g_head1 = this.nodes.h;
+				while(_g_head1 != null) {
+					var val1 = _g_head1.item;
+					_g_head1 = _g_head1.next;
+					var node = val1;
+					var dX = node.xPos - link.x1;
+					var dY = node.yPos - link.y1;
+					link.e1 += 1 / Math.sqrt(dX * dX + dY * dY);
+					var dX1 = node.xPos - link.x2;
+					var dY1 = node.yPos - link.y2;
+					link.e2 += 1 / Math.sqrt(dX1 * dX1 + dY1 * dY1);
+				}
+				if(!overwriteUser) {
+					var _g_head2 = this.links.h;
+					while(_g_head2 != null) {
+						var val2 = _g_head2.item;
+						_g_head2 = _g_head2.next;
+						var link2 = val2;
+						if(link2.setByUser) {
+							var dX2 = link2.xPos - link.x1;
+							var dY2 = link2.yPos - link.y1;
+							link.e1 += 1 / Math.sqrt(dX2 * dX2 + dY2 * dY2);
+							var dX3 = link2.xPos - link.x2;
+							var dY3 = link2.yPos - link.y2;
+							link.e2 += 1 / Math.sqrt(dX3 * dX3 + dY3 * dY3);
+						}
+					}
+				}
+				l.add(link);
 			}
-			l.add(link);
 		}
 		while(!l.isEmpty()) {
 			var bestEDiff = -1.0;
 			var bestLink = null;
-			var _g_head2 = l.h;
-			while(_g_head2 != null) {
-				var val2 = _g_head2.item;
-				_g_head2 = _g_head2.next;
-				var link1 = val2;
+			var _g_head3 = l.h;
+			while(_g_head3 != null) {
+				var val3 = _g_head3.item;
+				_g_head3 = _g_head3.next;
+				var link1 = val3;
 				var eDiff = Math.abs(link1.e1 - link1.e2);
 				if(eDiff > bestEDiff || bestEDiff == -1) {
 					bestEDiff = eDiff;
@@ -3107,17 +3133,17 @@ draw_Graph.prototype = {
 			bestLink.xPos = bestLink.e1 < bestLink.e2 ? bestLink.x1 : bestLink.x2;
 			bestLink.yPos = bestLink.e1 < bestLink.e2 ? bestLink.y1 : bestLink.y2;
 			l.remove(bestLink);
-			var _g_head3 = l.h;
-			while(_g_head3 != null) {
-				var val3 = _g_head3.item;
-				_g_head3 = _g_head3.next;
-				var link2 = val3;
-				var dX2 = bestLink.xPos - link2.x1;
-				var dY2 = bestLink.yPos - link2.y1;
-				link2.e1 += 1 / Math.sqrt(dX2 * dX2 + dY2 * dY2);
-				var dX3 = bestLink.xPos - link2.x2;
-				var dY3 = bestLink.yPos - link2.y2;
-				link2.e2 += 1 / Math.sqrt(dX3 * dX3 + dY3 * dY3);
+			var _g_head4 = l.h;
+			while(_g_head4 != null) {
+				var val4 = _g_head4.item;
+				_g_head4 = _g_head4.next;
+				var link3 = val4;
+				var dX4 = bestLink.xPos - link3.x1;
+				var dY4 = bestLink.yPos - link3.y1;
+				link3.e1 += 1 / Math.sqrt(dX4 * dX4 + dY4 * dY4);
+				var dX5 = bestLink.xPos - link3.x2;
+				var dY5 = bestLink.yPos - link3.y2;
+				link3.e2 += 1 / Math.sqrt(dX5 * dX5 + dY5 * dY5);
 			}
 		}
 	}
@@ -3712,6 +3738,7 @@ var draw_Link = function(n1,n2,w) {
 	this.strokeColor = "blue";
 	this.strokeWidth = w;
 	this.dashedArray = new List();
+	this.setByUser = false;
 };
 $hxClasses["draw.Link"] = draw_Link;
 draw_Link.__name__ = ["draw","Link"];
@@ -3730,6 +3757,7 @@ draw_Link.prototype = {
 	,y2: null
 	,e1: null
 	,e2: null
+	,setByUser: null
 	,set_xPos: function(n) {
 		this.xPos = n;
 	}

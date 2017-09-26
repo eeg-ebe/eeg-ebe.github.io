@@ -264,7 +264,8 @@
                     <button onclick="javascript: currentGraphEditstretch = 1; updateSVG();">Reset zoom</button>
                     <button onclick="javascript: exportEditSVG('image/png');">Export png</button>
                     <button onclick="javascript: exportEditSVGasSVG();">Export svg</button>
-                    <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves</button>
+                    <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves (force)</button>
+                    <button onclick="javascript: currentGraphEdit.assignLinkPos(false); updateSVG();">Recalc curves (weak)</button>
                     <button onclick="javascript: currentGraphEdit.mult_radius(10/9); updateSVG();">Circles ++</button>
                     <button onclick="javascript: currentGraphEdit.mult_radius(9/10); updateSVG();">Circles --</button>
                     <br>
@@ -406,6 +407,9 @@
                     }
                 }
                 function editMouseUp(event) {
+                    if('setByUser' in selectedObj) {
+                        selectedObj.setByUser = true;
+                    }
                     selectedObj = null;
                 }
                 function editMouseDown(event) {
