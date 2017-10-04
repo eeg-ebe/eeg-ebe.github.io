@@ -114,6 +114,8 @@
     "ffrTxtFileDesc.label" : "Textuelle Representation der FFRs",
     "svgTxtFileDesc.label" : "Haploweb als SVG Graphik",
     "buttonEditSvg" : "SVG bearbeiten",
-    "editSvg.title" : "'{0}' bearbeiten"
+    "editSvg.title" : "'{0}' bearbeiten",
+    "nbinds.title" : "Die Anzahl an Individuen",
+    "nbinds.label" : "Anzahl Individuen"
   }
 }

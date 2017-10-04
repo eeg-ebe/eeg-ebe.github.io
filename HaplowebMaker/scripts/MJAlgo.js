@@ -2850,6 +2850,35 @@ mj_MJAlgo.prototype = {
 	,getNrFFRs: function() {
 		return this.nextSpId;
 	}
+	,countIndiv: function() {
+		var l = new List();
+		var current = this.seqs.first;
+		var inLst = false;
+		while(current != null && current.isSample) {
+			var _g_head = current.indNames.h;
+			while(_g_head != null) {
+				var val = _g_head.item;
+				_g_head = _g_head.next;
+				var indName = val;
+				inLst = false;
+				var _g_head1 = l.h;
+				while(_g_head1 != null) {
+					var val1 = _g_head1.item;
+					_g_head1 = _g_head1.next;
+					var name = val1;
+					if(name == indName) {
+						inLst = true;
+						break;
+					}
+				}
+				if(!inLst) {
+					l.add(indName);
+				}
+			}
+			current = current.next;
+		}
+		return l.length;
+	}
 	,__class__: mj_MJAlgo
 };
 var mj_Median = function(s1,s2,s3,w) {

@@ -64,6 +64,7 @@ function calculateFaFile(project, i) {
         setFileVal(i, "seqLen", m.getSeqLength());
         setFileVal(i, "intPos", m.getNrInterestingPositions());
         setFileVal(i, "ffrs", m.getNrFFRs());
+        setFileVal(i, "inds", m.countIndiv());
         setProgress(++stepsDone, stepsToDO);
         setFileVal(i, "endMJ", Date.now());
         // end of mj - now draw
