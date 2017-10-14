@@ -3042,7 +3042,7 @@ mj_Seq.calcHash = function(s) {
 mj_Seq.getIndIdentifier = function(s) {
 	var result = s;
 	if(s != null) {
-		var pos = s.lastIndexOf("_");
+		var pos = s.lastIndexOf(mj_Seq.delimiter);
 		if(pos != -1) {
 			result = HxOverrides.substr(s,0,pos);
 		}
@@ -3056,7 +3056,7 @@ mj_Seq.createSample = function(id,name,seq) {
 		result.names.add(name);
 		var result1 = name;
 		if(name != null) {
-			var pos = name.lastIndexOf("_");
+			var pos = name.lastIndexOf(mj_Seq.delimiter);
 			if(pos != -1) {
 				result1 = HxOverrides.substr(name,0,pos);
 			}
@@ -3141,7 +3141,7 @@ mj_Seq.prototype = {
 			this.names.add(s);
 			var result = s;
 			if(s != null) {
-				var pos = s.lastIndexOf("_");
+				var pos = s.lastIndexOf(mj_Seq.delimiter);
 				if(pos != -1) {
 					result = HxOverrides.substr(s,0,pos);
 				}
@@ -3425,7 +3425,7 @@ mj_Seqs.prototype = {
 					s.names.add(name);
 					var result1 = name;
 					if(name != null) {
-						var pos1 = name.lastIndexOf("_");
+						var pos1 = name.lastIndexOf(mj_Seq.delimiter);
 						if(pos1 != -1) {
 							result1 = HxOverrides.substr(name,0,pos1);
 						}
@@ -3457,7 +3457,7 @@ mj_Seqs.prototype = {
 			result3.names.add(name);
 			var result4 = name;
 			if(name != null) {
-				var pos2 = name.lastIndexOf("_");
+				var pos2 = name.lastIndexOf(mj_Seq.delimiter);
 				if(pos2 != -1) {
 					result4 = HxOverrides.substr(name,0,pos2);
 				}
@@ -3922,3 +3922,4 @@ var Enum = { };
 var Void = $hxClasses["Void"] = { __ename__ : ["Void"]};
 js_Boot.__toStr = ({ }).toString;
 mj_MJAlgo.version = "1.0.1";
+mj_Seq.delimiter = "_";

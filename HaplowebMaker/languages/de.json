@@ -116,6 +116,8 @@
     "buttonEditSvg" : "SVG bearbeiten",
     "editSvg.title" : "'{0}' bearbeiten",
     "nbinds.title" : "Die Anzahl an Individuen",
-    "nbinds.label" : "Anzahl Individuen"
+    "nbinds.label" : "Anzahl Individuen",
+    "jobSubmissionAdvancedSettingsDelimiter.title" : "Das in den Sequenznamen benutzte Trennzeichen",
+    "jobSubmissionAdvancedSettingsDelimiter.label" : "Trennzeichen"
   }
 }

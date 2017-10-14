@@ -42,6 +42,9 @@ function calculateFaFile(project, i) {
         setProgress(++stepsDone, stepsToDO);
         setFileVal(i, "endParsing", Date.now());
         // end parsing - now run mj algo
+        if(typeof project["delimiter"] !== "undefined") {
+            mj_Seq.delimiter = project["delimiter"];
+        }
         var m = new mj_MJAlgo();
         var current = fc.h;
         while(current != null && current != undefined) {

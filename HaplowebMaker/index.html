@@ -183,7 +183,7 @@
                     <td style="text-align: right"><input type="file" id="faAlign" name="faAlign" multiple="" autocomplete="off" /></td>
                 </tr>
                 <tr>
-                    <td onclick="javascript: $('.advancedSettings').toggle(); $('#advancedSettingsIcon').toggleClass('ui-icon-triangle-1-e ui-icon-triangle-1-s');" style="cursor:pointer"><span id="advancedSettingsIcon" class="ui-icon ui-icon-triangle-1-e"></span><span class="label" lid="jobSubmissionAdvancedSettings.label">Erweiterete Einstellungen</span></td>
+                    <td onclick="javascript: $('.advancedSettings').toggle(); $('#advancedSettingsIcon').toggleClass('ui-icon-triangle-1-e ui-icon-triangle-1-s');" style="cursor:pointer"><span id="advancedSettingsIcon" class="ui-icon ui-icon-triangle-1-e"></span><span class="label" lid="jobSubmissionAdvancedSettings.label"></span></td>
                     <td></td>
                 </tr>
                 <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsMJFasta.title">
@@ -204,6 +204,33 @@
                                 }
                             });
                         </script>
+                    </td>
+                </tr>
+                <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsDelimiter.title">
+                    <td class="label" lid="jobSubmissionAdvancedSettingsDelimiter.label"></td>
+                    <td style="text-align: right">
+                        <select id="delimiterChoosing" autocomplete="off">
+                            <option>_</option>
+                            <option>.</option>
+                            <option>:</option>
+                            <option>,</option>
+                            <option>;</option>
+                            <option>/</option>
+                            <option>\</option>
+                            <option>%</option>
+                            <option>$</option>
+                            <option>-</option>
+                            <option> </option>
+                            <option>^</option>
+                            <option>+</option>
+                            <option>#</option>
+                            <option>?</option>
+                            <option>~</option>
+                            <option>*</option>
+                            <option>!</option>
+                            <option>§</option>
+                            <option>&amp;</option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -555,6 +582,7 @@
                     project["notifications"] = [ { "ui" : "highlight", "icon" : "info", "text" : "haplowebmakerIsStillBeta.text" } ];
                     project["projectName"] = document.getElementById("jobname").value;
                     project["epsilon"] = $( "#epsilon" ).spinner( "value" );
+                    project["delimiter"] = document.getElementById("delimiterChoosing").value;
                     project["upperLowerCase"] = document.getElementById("ignoreUpperLower").checked;
                     project["submissionDate"] = Date.now();
                     project["calculationEndDate"] = null;
