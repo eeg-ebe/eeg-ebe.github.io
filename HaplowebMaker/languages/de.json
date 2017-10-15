@@ -118,6 +118,8 @@
     "nbinds.title" : "Die Anzahl an Individuen",
     "nbinds.label" : "Anzahl Individuen",
     "jobSubmissionAdvancedSettingsDelimiter.title" : "Das in den Sequenznamen benutzte Trennzeichen",
-    "jobSubmissionAdvancedSettingsDelimiter.label" : "Trennzeichen"
+    "jobSubmissionAdvancedSettingsDelimiter.label" : "Trennzeichen",
+    "areaShouldBePropToNrInd.title" : "Kreisfläche soll der Haplotypefrequenz entsprechen",
+    "areaShouldBePropToNrInd.label" : "Kreisfläche soll der Haplotypefrequenz entsprechen"
   }
 }

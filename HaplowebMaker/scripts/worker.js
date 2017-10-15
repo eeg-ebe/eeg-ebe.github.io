@@ -45,6 +45,9 @@ function calculateFaFile(project, i) {
         if(typeof project["delimiter"] !== "undefined") {
             mj_Seq.delimiter = project["delimiter"];
         }
+        if(typeof project["areaShouldBePropToNrInd"] !== "undefined") {
+            draw_NodePos.areaShouldBePropToNrInd = !!project["areaShouldBePropToNrInd"];
+        }
         var m = new mj_MJAlgo();
         var current = fc.h;
         while(current != null && current != undefined) {

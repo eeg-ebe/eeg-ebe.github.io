@@ -118,6 +118,8 @@
     "nbinds.title" : "Nombre des individus dans le fichier",
     "nbinds.label" : "Nombre des individus",
     "jobSubmissionAdvancedSettingsDelimiter.title" : "Le caractère séparateur utilise dans les noms de séquences",
-    "jobSubmissionAdvancedSettingsDelimiter.label" : "Caractère séparateur"
+    "jobSubmissionAdvancedSettingsDelimiter.label" : "Caractère séparateur",
+    "areaShouldBePropToNrInd.title" : "Fréquence des haplotypes doit être répresente par la surface des circles",
+    "areaShouldBePropToNrInd.label" : "Fréquence des haplotypes doit être répresente par la surface"
   }
 }

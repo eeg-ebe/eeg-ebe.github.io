@@ -117,7 +117,9 @@
     "editSvg.title" : "Edit '{0}'",
     "nbinds.title" : "The number of individuals",
     "nbinds.label" : "Nb. Individuals",
-    "jobSubmissionAdvancedSettingsDelimiter.title" : "The delimiter used in the sequence name",
-    "jobSubmissionAdvancedSettingsDelimiter.label" : "Delimiter"
+    "jobSubmissionAdvancedSettingsDelimiter.title" : "The delimiter used in the sequence names",
+    "jobSubmissionAdvancedSettingsDelimiter.label" : "Delimiter",
+    "areaShouldBePropToNrInd.title" : "Cirlce area should equal haplotype frequency",
+    "areaShouldBePropToNrInd.label" : "Cirlce area should equal haplotype frequency"
   }
 }

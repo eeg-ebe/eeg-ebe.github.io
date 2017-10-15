@@ -3823,7 +3823,11 @@ var draw_NodePos = function(n) {
 	this.valid = false;
 	this.pie = new List();
 	this.node = n;
-	this.radius = 3 + this.node.names.length;
+	if(draw_NodePos.areaShouldBePropToNrInd) {
+		this.radius = 3 + Math.sqrt(this.node.names.length);
+	} else {
+		this.radius = 3 + this.node.names.length;
+	}
 	if(this.node.type == parsing_SEQ_$TYPE.MEDIAN_VECTOR) {
 		this.strokeColor = "grey";
 		this.strokeWidth = 1;
@@ -4685,4 +4689,5 @@ Bool.__ename__ = ["Bool"];
 var Class = $hxClasses["Class"] = { __name__ : ["Class"]};
 var Enum = { };
 var Void = $hxClasses["Void"] = { __ename__ : ["Void"]};
+draw_NodePos.areaShouldBePropToNrInd = false;
 js_Boot.__toStr = ({ }).toString;
