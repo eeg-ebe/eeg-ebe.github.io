@@ -305,8 +305,8 @@
                     <button onclick="javascript: currentGraphEdit.rotateN90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s"></span></button>
                     <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); if(isNaN(f)) { alert('Illegal input'); } else {currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();}">Rot angle</button>
                     <button onclick="javascript: currentGraphEdit.rotateP90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s mirror"></span></button>
-                    <button onclick="javascript: currentGraphEdit.mirrorX(); updateSVG();">Mirror X</span></button>
-                    <button onclick="javascript: currentGraphEdit.mirrorY(); updateSVG();">Mirror Y</span></button>
+                    <button onclick="javascript: currentGraphEdit.mirrorX(); updateSVG();">Mirror X</button>
+                    <button onclick="javascript: currentGraphEdit.mirrorY(); updateSVG();">Mirror Y</button>
                     <br>
                     <span>Muts by lines:</span>
                     <input type="checkbox" name="drawMutsByLineChkbx" id="drawMutsByLineChkbx" autocomplete="off" />
@@ -433,6 +433,10 @@
                     return y / currentGraphEdit.lastStretchFact;
                 }
                 function editMouseMove(event) {
+                    if(event.which == 3) {
+                        selectedObj = null; // just to be sure ...
+                        return;
+                    }
                     if(selectedObj != null) {
                         selectedObj.set_xPos(initObjX + getClickX(event) - initX);
                         selectedObj.set_yPos(initObjY + getClickY(event) - initY);
@@ -440,6 +444,10 @@
                     }
                 }
                 function editMouseUp(event) {
+                    if(event.which == 3) {
+                        selectedObj = null; // just to be sure ...
+                        return;
+                    }
                     if('setByUser' in selectedObj) {
                         selectedObj.setByUser = true;
                     }
@@ -449,8 +457,38 @@
                     initX = getClickX(event);
                     initY = getClickY(event);
                     selectedObj = currentGraphEdit.getNearestO(initX, initY);
+                    if(event.which == 3) { // jquery maps event.button == 2 to event.which == 3
+                        showDetailsMenu(selectedObj);
+                        selectedObj = null; // just to be sure ...
+                        return;
+                    }
                     initObjX = selectedObj.xPos;
                     initObjY = selectedObj.yPos;
+                }
+                function showDetailsMenu(obj) {
+                    if('pie' in selectedObj) { // obj is a nodepos object
+                        var nodeId = "editObjCirlce" + obj.node.id + "Dialog";
+                        $("body").append($("<div id='" + nodeId + "'>" + obj.getDivContent() + "</div>"));
+                        $( '#' + nodeId ).dialog({
+                            modal: true,
+                            buttons: [ {
+                                "text" : languageDicts[language]["dict"]["buttonOk"],
+                                "class" : "dialogOkButton",
+                                "click" : function() {
+                                    $( '#' + nodeId ).dialog( "close" );
+                                    $( '#' + nodeId ).remove();
+                                }
+                            }],
+                            hide: {
+                                effect: "explode",
+                                duration: 1000
+                            }
+                        });
+                        $( '#' + nodeId ).dialog('option', 'title', "INFO"); // TODO languageDicts[language]["dict"]["cite.label"]
+                        $( '#' + nodeId ).dialog("open");
+                        // hack in order to bring this dialog to the front
+                        setTimeout( function() { $( '#' + nodeId ).parent().css('z-index', 250); }, 120);
+                    }
                 }
                 function updateSVG() {
                     var svgDisp = document.getElementById("svgDisplay");
@@ -462,6 +500,7 @@
                     svg.addEventListener("mousemove", editMouseMove);
                     svg.addEventListener("mouseup", editMouseUp);
                     svg.addEventListener("mousedown", editMouseDown);
+                    $(svg).bind("contextmenu", function(e) {e.preventDefault();});
                 }
                 function visualizeIntPos(i) {
                     var positions = project["faFiles"][i]["intPos"], seqLen = project["faFiles"][i]["seqLen"];

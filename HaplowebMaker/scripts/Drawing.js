@@ -3975,6 +3975,12 @@ draw_NodePos.prototype = {
 	,maxY: function() {
 		return this.yPos + this.radius;
 	}
+	,getDivContent: function() {
+		var result = "<table>";
+		result += "<tr><td>Id</td><td>" + this.node.id + "</td></tr>";
+		result += "</table>";
+		return result;
+	}
 	,__class__: draw_NodePos
 };
 var haxe_IMap = function() { };
