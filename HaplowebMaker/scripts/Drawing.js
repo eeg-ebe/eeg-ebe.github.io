@@ -3976,8 +3976,17 @@ draw_NodePos.prototype = {
 		return this.yPos + this.radius;
 	}
 	,getDivContent: function() {
-		var result = "<table>";
+		var result = "<table style='width: 100%'>";
 		result += "<tr><td>Id</td><td>" + this.node.id + "</td></tr>";
+		result += "<tr><td>SpId</td><td>" + this.node.spId + "</td></tr>";
+		result += "<tr><td>Seq</td><td>" + this.node.seq + "</td></tr>";
+		result += "<tr><td>Names</td><td>" + this.node.names.join(",") + "</td></tr>";
+		result += "<tr><td>X</td><td>" + this.xPos + "</td></tr>";
+		result += "<tr><td>Y</td><td>" + this.yPos + "</td></tr>";
+		result += "<tr><td>R</td><td>" + this.radius + "</td></tr>";
+		result += "<tr><td>Stroke color</td><td>" + this.strokeColor + "</td></tr>";
+		result += "<tr><td>Stroke width</td><td>" + this.strokeWidth + "</td></tr>";
+		result += "<tr><td>Dashed array</td><td>" + this.dashedArray.join(",") + "</td></tr>";
 		result += "</table>";
 		return result;
 	}
