@@ -1621,7 +1621,6 @@ mj_MJAlgo.prototype = {
 					}
 					s11 = s11.next;
 				}
-				var nrSeqsAdded = 0;
 				var sortedMeds = new List();
 				var _g_head5 = medLst.h;
 				while(_g_head5 != null) {
@@ -1653,13 +1652,14 @@ mj_MJAlgo.prototype = {
 				if(medLst == null) {
 					medLst = new List();
 				}
+				var nrSeqsAdded = 0;
 				var lambda = Infinity;
 				var _g_head6 = medLst.h;
 				while(_g_head6 != null) {
 					var val6 = _g_head6.item;
 					_g_head6 = _g_head6.next;
 					var med1 = val6;
-					if(med1.diffPos > 1 && med1.dist <= lambda + epsilon) {
+					if(med1.diffPos >= 1 && med1.dist <= lambda + epsilon) {
 						var _g_head7;
 						var presult = new List();
 						var length = med1.s1.length;
@@ -2237,7 +2237,6 @@ mj_MJAlgo.prototype = {
 			}
 			s1 = s1.next;
 		}
-		var nrSeqsAdded = 0;
 		var sortedMeds = new List();
 		var _g_head = medLst.h;
 		while(_g_head != null) {
@@ -2269,13 +2268,14 @@ mj_MJAlgo.prototype = {
 		if(medLst == null) {
 			medLst = new List();
 		}
+		var nrSeqsAdded = 0;
 		var lambda = Infinity;
 		var _g_head1 = medLst.h;
 		while(_g_head1 != null) {
 			var val1 = _g_head1.item;
 			_g_head1 = _g_head1.next;
 			var med1 = val1;
-			if(med1.diffPos > 1 && med1.dist <= lambda + epsilon) {
+			if(med1.diffPos >= 1 && med1.dist <= lambda + epsilon) {
 				var _g_head2;
 				var presult = new List();
 				var length = med1.s1.length;
@@ -3921,5 +3921,5 @@ var Class = $hxClasses["Class"] = { __name__ : ["Class"]};
 var Enum = { };
 var Void = $hxClasses["Void"] = { __ename__ : ["Void"]};
 js_Boot.__toStr = ({ }).toString;
-mj_MJAlgo.version = "1.0.1";
+mj_MJAlgo.version = "1.0.2";
 mj_Seq.delimiter = "_";
