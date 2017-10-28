@@ -79,6 +79,11 @@ function calculateFaFile(project, i) {
         g.centerPos();
 //        g.stretch(0.1);
         g.assignLinkPos();
+        // assign pie charts if needed
+        if(typeof project["pieChart"] !== "undefined") {
+            g.assingPiesByTxt(project["pieChart"], project["upperLowerCase"]);
+        }
+        // return result
         setFileVal(i, "graphstyle", g.saveStyle());
         setFileVal(i, "svg", g.getSvgCode());
         setFileVal(i, "endDraw", Date.now());

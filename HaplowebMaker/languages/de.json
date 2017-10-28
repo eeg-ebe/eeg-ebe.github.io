@@ -120,6 +120,8 @@
     "jobSubmissionAdvancedSettingsDelimiter.title" : "Das in den Sequenznamen benutzte Trennzeichen",
     "jobSubmissionAdvancedSettingsDelimiter.label" : "Trennzeichen",
     "areaShouldBePropToNrInd.title" : "Kreisfläche soll der Haplotypefrequenz entsprechen",
-    "areaShouldBePropToNrInd.label" : "Kreisfläche soll der Haplotypefrequenz entsprechen"
+    "areaShouldBePropToNrInd.label" : "Kreisfläche soll der Haplotypefrequenz entsprechen",
+    "pieChartAdvSet.title" : "Tab seperierte Datei. Wenn eine solche Datei gegeben ist wird auf jeden Haplotype ein Kuchendiagramm anhand der gegebenen Farben gemalt.",
+    "pieChartAdvSet.label" : "Kuchendiagramm"
   }
 }

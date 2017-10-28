@@ -120,6 +120,8 @@
     "jobSubmissionAdvancedSettingsDelimiter.title" : "The delimiter used in the sequence names",
     "jobSubmissionAdvancedSettingsDelimiter.label" : "Delimiter",
     "areaShouldBePropToNrInd.title" : "Cirlce area should equal haplotype frequency",
-    "areaShouldBePropToNrInd.label" : "Cirlce area should equal haplotype frequency"
+    "areaShouldBePropToNrInd.label" : "Cirlce area should equal haplotype frequency",
+    "pieChartAdvSet.title" : "Tab delimited file. When given a pie chart will be drawn on each haplotype accoding to the colors given.",
+    "pieChartAdvSet.label" : "Pie char file"
   }
 }

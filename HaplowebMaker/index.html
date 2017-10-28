@@ -239,6 +239,10 @@
                         <input type="checkbox" name="areaShouldBePropToNrInd" id="areaShouldBePropToNrInd" autocomplete="off" />
                     </td>
                 </tr>
+                <tr class="advancedSettings tooltip" tid="pieChartAdvSet.title">
+                    <td class="label" lid="pieChartAdvSet.label"></td>
+                    <td style="text-align: right"><input type="file" id="pieFile" name="pieFile" autocomplete="off" /></td>
+                </tr>
                 <tr>
                     <td></td>
                     <td style="text-align: right"><button id="jobSubmissionButton" class="ui-button ui-widget ui-corner-all shortcut label tooltip" shortcut="jobsubmission" lid="jobSubmissionButton.label" tid="jobSubmissionButton.title" onclick="javascript: addNewSequencesToProject();"></button></td>
@@ -678,7 +682,18 @@
                                     showProject();
                                     $("#calculationOverlay").hide();
                                 }, false);
-                                worker.postMessage(project);
+                                // check if we also have a pie chart file to read in?
+                                var pieFile = document.getElementById("pieFile").files;
+                                if(pieFile.length == 1) {
+                                    var reader2 = new FileReader();
+                                    reader2.onload = function(data) {
+                                        project["pieChart"] = data.target.result;
+                                        worker.postMessage(project);
+                                    }
+                                    reader2.readAsText(pieFile[0]);
+                                } else { // no we don't have
+                                    worker.postMessage(project);
+                                }
                             }
                         };
                         reader.readAsText(files[i]);

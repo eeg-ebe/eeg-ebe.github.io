@@ -120,6 +120,8 @@
     "jobSubmissionAdvancedSettingsDelimiter.title" : "Le caractère séparateur utilise dans les noms de séquences",
     "jobSubmissionAdvancedSettingsDelimiter.label" : "Caractère séparateur",
     "areaShouldBePropToNrInd.title" : "Fréquence des haplotypes doit être répresente par la surface des circles",
-    "areaShouldBePropToNrInd.label" : "Fréquence des haplotypes doit être répresente par la surface"
+    "areaShouldBePropToNrInd.label" : "Fréquence des haplotypes doit être répresente par la surface",
+    "pieChartAdvSet.title" : "Si un fichier est donné un diagramme en camembert va être designer sûr chaque",
+    "pieChartAdvSet.label" : "Fichier pour un diagramme en camembert"
   }
 }
