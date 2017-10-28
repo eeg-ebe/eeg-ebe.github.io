@@ -52,6 +52,11 @@ function calculateFaFile(project, i) {
         var current = fc.h;
         while(current != null && current != undefined) {
             var seqName = current.item.first, seq = current.item.second;
+            // check whether to add warning
+            if(seq.charAt(0) == "-" || seq.charAt(seq.length - 1) == "-") {
+                project["notifications"].push({ "ui" : "highlight", "icon" : "info", "text" : "indelIs5State.text" });
+                self.postMessage([{ "key" : ["notifications"], "val" : project["notifications"] }]);
+            }
             // check sequence
             for(var chIndex = 0; chIndex < seq.length; chIndex++) {
                 var c = seq.charAt(chIndex).toUpperCase();

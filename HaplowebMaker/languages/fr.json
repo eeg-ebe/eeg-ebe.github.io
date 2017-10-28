@@ -122,6 +122,7 @@
     "areaShouldBePropToNrInd.title" : "Fréquence des haplotypes doit être répresente par la surface des circles",
     "areaShouldBePropToNrInd.label" : "Fréquence des haplotypes doit être répresente par la surface",
     "pieChartAdvSet.title" : "Si un fichier est donné un diagramme en camembert va être designer sûr chaque",
-    "pieChartAdvSet.label" : "Fichier pour un diagramme en camembert"
+    "pieChartAdvSet.label" : "Fichier pour un diagramme en camembert",
+    "indelIs5State.text" : "Au moins une séquence commence ou termine avec un character indel '-'. Svp soyez au courrant que HaplowebMaker considere des characters indel comme un 5ème état et ne pas comme d'information absent"
   }
 }
