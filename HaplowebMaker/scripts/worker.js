@@ -52,6 +52,17 @@ function calculateFaFile(project, i) {
         var current = fc.h;
         while(current != null && current != undefined) {
             var seqName = current.item.first, seq = current.item.second;
+            // check sequence
+            for(var chIndex = 0; chIndex < seq.length; chIndex++) {
+                var c = seq.charAt(chIndex).toUpperCase();
+                if(!(c == 'A' || c == 'T' || c == 'G' || c == 'C' || c == '-')) {
+                    if (c == 'R' || c == 'Y' || c == 'K' || c == 'M' || c == 'S' || c == 'W' || c == 'B' || c == 'D' || c == 'H' || c == 'V' || c == 'N') {
+                        throw new js__$Boot_HaxeError("Your input FASTA file contains one or several ambiguities (" + c + "). Please make sure that all your sequences are properly phased and do not contain any ambiguities before running HaplowebMaker.");
+                    }
+                    throw new js__$Boot_HaxeError("Your input FASTA file contains one or several unauthorized characters (" + c + ")!");
+                }
+            }
+            // go on
             if(project["upperLowerCase"]) {
                 m.addSequence(seqName.toUpperCase(), seq.toUpperCase());
             } else {
@@ -90,6 +101,7 @@ function calculateFaFile(project, i) {
         // end of drawing - end of this file
         setFileVal(i, "status", "okstatus.label");
     } catch(e) {
+console.log("XXX " + e);
         setFileVal(i, "status", "failed.label");
         setFileVal(i, "statusDescription", e.message);
         stepsDone = (i+1) * 3;
