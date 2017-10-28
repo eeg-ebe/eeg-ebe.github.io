@@ -125,6 +125,8 @@
     "pieChartAdvSet.label" : "Pie char file",
     "indelIs5State.text" : "Some of your sequences start with '-' (indel character). Please be aware that HaplowebMaker consider the indel character as a 5th character state, not as missing information",
     "pieChartsByIndNameOnly.title" : "",
-    "pieChartsByIndNameOnly.label" : "Name is sufficent for pie chart"
+    "pieChartsByIndNameOnly.label" : "Name is sufficent for pie chart",
+    "colorByFFR.title" : "Colorfy network by FFRs",
+    "colorByFFR.label" : "Colorfy network by FFRs"
   }
 }

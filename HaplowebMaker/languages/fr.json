@@ -125,6 +125,8 @@
     "pieChartAdvSet.label" : "Fichier pour un diagramme en camembert",
     "indelIs5State.text" : "Au moins une séquence commence ou termine avec un character indel '-'. Svp soyez au courrant que HaplowebMaker considere des characters indel comme un 5ème état et ne pas comme d'information absent",
     "pieChartsByIndNameOnly.title" : "",
-    "pieChartsByIndNameOnly.label" : "Nom suffit pour le diagramme de camembert"
+    "pieChartsByIndNameOnly.label" : "Nom suffit pour le diagramme de camembert",
+    "colorByFFR.title" : "Colorer le reseaux par FFRs",
+    "colorByFFR.label" : "Colorer le reseaux par FFRs"
   }
 }

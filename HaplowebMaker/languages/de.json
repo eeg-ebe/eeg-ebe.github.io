@@ -125,6 +125,8 @@
     "pieChartAdvSet.label" : "Kuchendiagramm",
     "indelIs5State.text" : "Mindestens eine Sequenz startet/endet mit einem '-' Indel Zeichen. Bitte beachten Sie, dass HaplowebMaker das Indel Zeichen als 5. Zeichen betrachtet und nicht als fehlende Information",
     "pieChartsByIndNameOnly.title" : "",
-    "pieChartsByIndNameOnly.label" : "Name reicht für Kuchendiagram"
+    "pieChartsByIndNameOnly.label" : "Name reicht für Kuchendiagram",
+    "colorByFFR.title" : "Netzwerk anhand der FFRs färben",
+    "colorByFFR.label" : "Netzwerk anhand der FFRs färben"
   }
 }

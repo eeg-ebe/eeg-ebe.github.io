@@ -247,6 +247,10 @@
                     <td class="label" lid="pieChartsByIndNameOnly.label"></td>
                     <td style="text-align: right"><input type="checkbox" name="pieByIndNameOnly" id="pieByIndNameOnly" checked="cheched" autocomplete="off" /></td>
                 </tr>
+                <tr class="advancedSettings tooltip" tid="colorByFFR.title">
+                    <td class="label" lid="colorByFFR.label"></td>
+                    <td style="text-align: right"><input type="checkbox" name="colorByFFR" id="colorByFFR" autocomplete="off" /></td>
+                </tr>
                 <tr>
                     <td></td>
                     <td style="text-align: right"><button id="jobSubmissionButton" class="ui-button ui-widget ui-corner-all shortcut label tooltip" shortcut="jobsubmission" lid="jobSubmissionButton.label" tid="jobSubmissionButton.title" onclick="javascript: addNewSequencesToProject();"></button></td>
@@ -642,6 +646,7 @@
                     project["submissionDate"] = Date.now();
                     project["calculationEndDate"] = null;
                     project["pieByIndNameOnly"] = document.getElementById("pieByIndNameOnly").checked;
+                    project["assignRandomColoresToFFRs"] = document.getElementById("colorByFFR").checked;
                     project["browser"] = {
                         "code name" : navigator.appCodeName,
                         "browser name" : navigator.appName,
