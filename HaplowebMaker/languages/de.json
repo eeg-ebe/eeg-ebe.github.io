@@ -123,6 +123,8 @@
     "areaShouldBePropToNrInd.label" : "Kreisfläche soll der Haplotypefrequenz entsprechen",
     "pieChartAdvSet.title" : "Tab seperierte Datei. Wenn eine solche Datei gegeben ist wird auf jeden Haplotype ein Kuchendiagramm anhand der gegebenen Farben gemalt.",
     "pieChartAdvSet.label" : "Kuchendiagramm",
-    "indelIs5State.text" : "Mindestens eine Sequenz startet/endet mit einem '-' Indel Zeichen. Bitte beachten Sie, dass HaplowebMaker das Indel Zeichen als 5. Zeichen betrachtet und nicht als fehlende Information"
+    "indelIs5State.text" : "Mindestens eine Sequenz startet/endet mit einem '-' Indel Zeichen. Bitte beachten Sie, dass HaplowebMaker das Indel Zeichen als 5. Zeichen betrachtet und nicht als fehlende Information",
+    "pieChartsByIndNameOnly.title" : "",
+    "pieChartsByIndNameOnly.label" : "Name reicht für Kuchendiagram"
   }
 }

@@ -2469,7 +2469,7 @@ draw_Graph.prototype = {
 		}
 		return result;
 	}
-	,assingPiesByTxt: function(s,ignoreCase) {
+	,assingPiesByTxt: function(s,ignoreCase,byIndNameOnly) {
 		var l = parsing_LstParser.parseLst(s);
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
@@ -2482,6 +2482,16 @@ draw_Graph.prototype = {
 				var val1 = _g_head1.item;
 				_g_head1 = _g_head1.next;
 				var name = val1;
+				if(byIndNameOnly) {
+					var result = name;
+					if(name != null) {
+						var pos = name.lastIndexOf(mj_Seq.delimiter);
+						if(pos != -1) {
+							result = HxOverrides.substr(name,0,pos);
+						}
+					}
+					name = result;
+				}
 				var colorName = null;
 				var _g_head2 = l.h;
 				while(_g_head2 != null) {
@@ -2518,7 +2528,7 @@ draw_Graph.prototype = {
 			node.pie = l_;
 		}
 	}
-	,assignPieCharts: function(l,ignoreCase) {
+	,assignPieCharts: function(l,ignoreCase,byIndNameOnly) {
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
@@ -2530,6 +2540,16 @@ draw_Graph.prototype = {
 				var val1 = _g_head1.item;
 				_g_head1 = _g_head1.next;
 				var name = val1;
+				if(byIndNameOnly) {
+					var result = name;
+					if(name != null) {
+						var pos = name.lastIndexOf(mj_Seq.delimiter);
+						if(pos != -1) {
+							result = HxOverrides.substr(name,0,pos);
+						}
+					}
+					name = result;
+				}
 				var colorName = null;
 				var _g_head2 = l.h;
 				while(_g_head2 != null) {
@@ -2565,6 +2585,8 @@ draw_Graph.prototype = {
 			node.valid = false;
 			node.pie = l_;
 		}
+	}
+	,colorNetwork: function() {
 	}
 	,pieToTxt: function(pie) {
 		var result = new List();
@@ -3996,13 +4018,23 @@ draw_NodePos.prototype = {
 		this.valid = false;
 		this.pie = l;
 	}
-	,set_pieByLst: function(l,ignoreCase) {
+	,set_pieByLst: function(l,ignoreCase,byIndNameOnly) {
 		var l_ = new List();
 		var _g_head = this.node.names.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
 			var name = val;
+			if(byIndNameOnly) {
+				var result = name;
+				if(name != null) {
+					var pos = name.lastIndexOf(mj_Seq.delimiter);
+					if(pos != -1) {
+						result = HxOverrides.substr(name,0,pos);
+					}
+				}
+				name = result;
+			}
 			var colorName = null;
 			var _g_head1 = l.h;
 			while(_g_head1 != null) {
@@ -4167,6 +4199,109 @@ haxe_Log.trace = function(v,infos) {
 };
 haxe_Log.clear = function() {
 	js_Boot.__clear_trace();
+};
+var haxe_ds__$Vector_Vector_$Impl_$ = {};
+$hxClasses["haxe.ds._Vector.Vector_Impl_"] = haxe_ds__$Vector_Vector_$Impl_$;
+haxe_ds__$Vector_Vector_$Impl_$.__name__ = ["haxe","ds","_Vector","Vector_Impl_"];
+haxe_ds__$Vector_Vector_$Impl_$.__properties__ = {get_length:"get_length"};
+haxe_ds__$Vector_Vector_$Impl_$._new = function(length) {
+	var this1 = new Array(length);
+	return this1;
+};
+haxe_ds__$Vector_Vector_$Impl_$.get = function(this1,index) {
+	return this1[index];
+};
+haxe_ds__$Vector_Vector_$Impl_$.set = function(this1,index,val) {
+	return this1[index] = val;
+};
+haxe_ds__$Vector_Vector_$Impl_$.get_length = function(this1) {
+	return this1.length;
+};
+haxe_ds__$Vector_Vector_$Impl_$.blit = function(src,srcPos,dest,destPos,len) {
+	if(src == dest) {
+		if(srcPos < destPos) {
+			var i = srcPos + len;
+			var j = destPos + len;
+			var _g1 = 0;
+			var _g = len;
+			while(_g1 < _g) {
+				var k = _g1++;
+				--i;
+				--j;
+				src[j] = src[i];
+			}
+		} else if(srcPos > destPos) {
+			var i1 = srcPos;
+			var j1 = destPos;
+			var _g11 = 0;
+			var _g2 = len;
+			while(_g11 < _g2) {
+				var k1 = _g11++;
+				src[j1] = src[i1];
+				++i1;
+				++j1;
+			}
+		}
+	} else {
+		var _g12 = 0;
+		var _g3 = len;
+		while(_g12 < _g3) {
+			var i2 = _g12++;
+			dest[destPos + i2] = src[srcPos + i2];
+		}
+	}
+};
+haxe_ds__$Vector_Vector_$Impl_$.toArray = function(this1) {
+	return this1.slice(0);
+};
+haxe_ds__$Vector_Vector_$Impl_$.toData = function(this1) {
+	return this1;
+};
+haxe_ds__$Vector_Vector_$Impl_$.fromData = function(data) {
+	return data;
+};
+haxe_ds__$Vector_Vector_$Impl_$.fromArrayCopy = function(array) {
+	return array.slice(0);
+};
+haxe_ds__$Vector_Vector_$Impl_$.copy = function(this1) {
+	var length = this1.length;
+	var this2 = new Array(length);
+	var r = this2;
+	haxe_ds__$Vector_Vector_$Impl_$.blit(this1,0,r,0,this1.length);
+	return r;
+};
+haxe_ds__$Vector_Vector_$Impl_$.join = function(this1,sep) {
+	var b_b = "";
+	var i = 0;
+	var len = this1.length;
+	var _g1 = 0;
+	var _g = len;
+	while(_g1 < _g) {
+		var i1 = _g1++;
+		b_b += Std.string(Std.string(this1[i1]));
+		if(i1 < len - 1) {
+			b_b += sep == null ? "null" : "" + sep;
+		}
+	}
+	return b_b;
+};
+haxe_ds__$Vector_Vector_$Impl_$.map = function(this1,f) {
+	var length = this1.length;
+	var this2 = new Array(length);
+	var r = this2;
+	var i = 0;
+	var len = length;
+	var _g1 = 0;
+	var _g = len;
+	while(_g1 < _g) {
+		var i1 = _g1++;
+		var v = f(this1[i1]);
+		r[i1] = v;
+	}
+	return r;
+};
+haxe_ds__$Vector_Vector_$Impl_$.sort = function(this1,f) {
+	this1.sort(f);
 };
 var interfaces_Printer = function() {
 	this.indent = "  ";
@@ -4457,6 +4592,309 @@ js_Lib["eval"] = function(code) {
 };
 js_Lib.get_undefined = function() {
 	return undefined;
+};
+var mj_Connection = function(conT,dist) {
+	this.connectedTo = conT;
+	this.dist = dist;
+};
+$hxClasses["mj.Connection"] = mj_Connection;
+mj_Connection.__name__ = ["mj","Connection"];
+mj_Connection.prototype = {
+	next: null
+	,connectedTo: null
+	,dist: null
+	,__class__: mj_Connection
+};
+var mj_Link = function() {
+};
+$hxClasses["mj.Link"] = mj_Link;
+mj_Link.__name__ = ["mj","Link"];
+mj_Link.prototype = {
+	to: null
+	,names: null
+	,countInd: function() {
+		return this.names.length;
+	}
+	,__class__: mj_Link
+};
+var mj_Seq = function() {
+	this.names = new List();
+	this.indNames = new List();
+	this.linkedTo = new List();
+	this.spId = 0;
+};
+$hxClasses["mj.Seq"] = mj_Seq;
+mj_Seq.__name__ = ["mj","Seq"];
+mj_Seq.calcHash = function(s) {
+	var result = 7;
+	var _g1 = 0;
+	var _g = s.length;
+	while(_g1 < _g) {
+		var pos = _g1++;
+		result = 31 * result + HxOverrides.cca(s,pos);
+	}
+	return result;
+};
+mj_Seq.getIndIdentifier = function(s) {
+	var result = s;
+	if(s != null) {
+		var pos = s.lastIndexOf(mj_Seq.delimiter);
+		if(pos != -1) {
+			result = HxOverrides.substr(s,0,pos);
+		}
+	}
+	return result;
+};
+mj_Seq.createSample = function(id,name,seq) {
+	var result = new mj_Seq();
+	result.id = id;
+	if(name != null && name != "") {
+		result.names.add(name);
+		var result1 = name;
+		if(name != null) {
+			var pos = name.lastIndexOf(mj_Seq.delimiter);
+			if(pos != -1) {
+				result1 = HxOverrides.substr(name,0,pos);
+			}
+		}
+		var indId = result1;
+		var result2 = false;
+		var _g_head = result.indNames.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var indName = val;
+			if(indName == indId) {
+				result2 = true;
+				break;
+			}
+		}
+		if(!result2) {
+			result.indNames.add(indId);
+		}
+	}
+	result.origSeq = seq;
+	var s = result.origSeq;
+	var result3 = 7;
+	var _g1 = 0;
+	var _g = s.length;
+	while(_g1 < _g) {
+		var pos1 = _g1++;
+		result3 = 31 * result3 + HxOverrides.cca(s,pos1);
+	}
+	result.hashCode = result3;
+	result.isSample = true;
+	return result;
+};
+mj_Seq.createMedian = function(id,seq) {
+	var result = new mj_Seq();
+	result.id = id;
+	result.redSeq = seq;
+	var s = result.redSeq;
+	var result1 = 7;
+	var _g1 = 0;
+	var _g = s.length;
+	while(_g1 < _g) {
+		var pos = _g1++;
+		result1 = 31 * result1 + HxOverrides.cca(s,pos);
+	}
+	result.hashCode = result1;
+	result.isSample = false;
+	return result;
+};
+mj_Seq.prototype = {
+	next: null
+	,prev: null
+	,hashCode: null
+	,nextWithHash: null
+	,prevWithHash: null
+	,calcHashForOrig: function() {
+		var s = this.origSeq;
+		var result = 7;
+		var _g1 = 0;
+		var _g = s.length;
+		while(_g1 < _g) {
+			var pos = _g1++;
+			result = 31 * result + HxOverrides.cca(s,pos);
+		}
+		this.hashCode = result;
+	}
+	,calcHashForRed: function() {
+		var s = this.redSeq;
+		var result = 7;
+		var _g1 = 0;
+		var _g = s.length;
+		while(_g1 < _g) {
+			var pos = _g1++;
+			result = 31 * result + HxOverrides.cca(s,pos);
+		}
+		this.hashCode = result;
+	}
+	,names: null
+	,indNames: null
+	,addName: function(s) {
+		if(s != null && s != "") {
+			this.names.add(s);
+			var result = s;
+			if(s != null) {
+				var pos = s.lastIndexOf(mj_Seq.delimiter);
+				if(pos != -1) {
+					result = HxOverrides.substr(s,0,pos);
+				}
+			}
+			var indId = result;
+			var result1 = false;
+			var _g_head = this.indNames.h;
+			while(_g_head != null) {
+				var val = _g_head.item;
+				_g_head = _g_head.next;
+				var indName = val;
+				if(indName == indId) {
+					result1 = true;
+					break;
+				}
+			}
+			if(!result1) {
+				this.indNames.add(indId);
+			}
+		}
+	}
+	,hasIndIdentifier: function(s) {
+		var result = false;
+		var _g_head = this.indNames.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var indName = val;
+			if(indName == s) {
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	,cmpIndIdentifiers: function(o) {
+		var result = new List();
+		var _g_head = o.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var e = val;
+			var result1 = false;
+			var _g_head1 = this.indNames.h;
+			while(_g_head1 != null) {
+				var val1 = _g_head1.item;
+				_g_head1 = _g_head1.next;
+				var indName = val1;
+				if(indName == e) {
+					result1 = true;
+					break;
+				}
+			}
+			if(result1) {
+				result.add(e);
+			}
+		}
+		return result;
+	}
+	,origSeq: null
+	,redSeq: null
+	,reduceSequence: function(ipos) {
+		var l = new List();
+		var _g_head = ipos.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var e = val;
+			l.add(this.origSeq.charAt(e));
+		}
+		this.redSeq = l.join("");
+	}
+	,constructSeq: function(s,ipos) {
+		var i = 0;
+		var _g_head = ipos.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var pos = val;
+			s[pos] = this.redSeq.charAt(i++);
+		}
+		var b_b = "";
+		var i1 = 0;
+		var len = s.length;
+		var _g1 = 0;
+		var _g = len;
+		while(_g1 < _g) {
+			var i2 = _g1++;
+			b_b += Std.string(Std.string(s[i2]));
+			if(i2 < len - 1) {
+				b_b += "";
+			}
+		}
+		this.origSeq = b_b;
+	}
+	,isSample: null
+	,id: null
+	,spId: null
+	,visitedId: null
+	,connectedTo: null
+	,nrConnections: null
+	,linkedTo: null
+	,addConnection: function(c) {
+		c.next = this.connectedTo;
+		this.connectedTo = c;
+		this.nrConnections++;
+	}
+	,clearConnections: function() {
+		this.nrConnections = 0;
+		this.connectedTo = null;
+	}
+	,addLinkTo: function(o,names) {
+		if(names != null && !names.isEmpty()) {
+			var l = new mj_Link();
+			l.to = o;
+			l.names = names;
+			this.linkedTo.add(l);
+		}
+	}
+	,addLinkBySeq: function(os) {
+		var o = os.indNames;
+		var result = new List();
+		var _g_head = o.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var e = val;
+			var result1 = false;
+			var _g_head1 = this.indNames.h;
+			while(_g_head1 != null) {
+				var val1 = _g_head1.item;
+				_g_head1 = _g_head1.next;
+				var indName = val1;
+				if(indName == e) {
+					result1 = true;
+					break;
+				}
+			}
+			if(result1) {
+				result.add(e);
+			}
+		}
+		var l = result;
+		if(l != null && !l.isEmpty()) {
+			var l1 = new mj_Link();
+			l1.to = os;
+			l1.names = l;
+			this.linkedTo.add(l1);
+		}
+		if(l != null && !l.isEmpty()) {
+			var l2 = new mj_Link();
+			l2.to = this;
+			l2.names = l;
+			os.linkedTo.add(l2);
+		}
+	}
+	,__class__: mj_Seq
 };
 var parsing_LstParser = function() { };
 $hxClasses["parsing.LstParser"] = parsing_LstParser;
@@ -4994,3 +5432,4 @@ var Enum = { };
 var Void = $hxClasses["Void"] = { __ename__ : ["Void"]};
 draw_NodePos.areaShouldBePropToNrInd = false;
 js_Boot.__toStr = ({ }).toString;
+mj_Seq.delimiter = "_";

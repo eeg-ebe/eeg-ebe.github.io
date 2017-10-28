@@ -100,7 +100,9 @@ function calculateFaFile(project, i) {
         g.assignLinkPos();
         // assign pie charts if needed
         if(typeof project["pieChart"] !== "undefined") {
-            g.assingPiesByTxt(project["pieChart"], project["upperLowerCase"]);
+            g.assingPiesByTxt(project["pieChart"], project["upperLowerCase"], project["pieByIndNameOnly"]);
+        } else {
+            g.colorNetwork();
         }
         // return result
         setFileVal(i, "graphstyle", g.saveStyle());
