@@ -2300,6 +2300,44 @@ var draw_Graph = function(l) {
 };
 $hxClasses["draw.Graph"] = draw_Graph;
 draw_Graph.__name__ = ["draw","Graph"];
+draw_Graph.generateRandomHex = function() {
+	var rand = Math.random();
+	var result = null;
+	if(rand <= 0.0625) {
+		result = "0";
+	} else if(rand <= 0.125) {
+		result = "1";
+	} else if(rand <= 0.1875) {
+		result = "2";
+	} else if(rand <= 0.25) {
+		result = "3";
+	} else if(rand <= 0.3125) {
+		result = "4";
+	} else if(rand <= 0.375) {
+		result = "5";
+	} else if(rand <= 0.4375) {
+		result = "6";
+	} else if(rand <= 0.5) {
+		result = "7";
+	} else if(rand <= 0.5625) {
+		result = "8";
+	} else if(rand <= 0.625) {
+		result = "9";
+	} else if(rand <= 0.6875) {
+		result = "A";
+	} else if(rand <= 0.75) {
+		result = "B";
+	} else if(rand <= 0.8125) {
+		result = "C";
+	} else if(rand <= 0.875) {
+		result = "D";
+	} else if(rand <= 0.9375) {
+		result = "E";
+	} else {
+		result = "F";
+	}
+	return result;
+};
 draw_Graph.dist = function(x1,y1,x2,y2) {
 	var dX = x1 - x2;
 	var dY = y1 - y2;
@@ -2586,7 +2624,472 @@ draw_Graph.prototype = {
 			node.pie = l_;
 		}
 	}
+	,generateRandomColor: function() {
+		var rand = Math.random();
+		var result = null;
+		if(rand <= 0.0625) {
+			result = "0";
+		} else if(rand <= 0.125) {
+			result = "1";
+		} else if(rand <= 0.1875) {
+			result = "2";
+		} else if(rand <= 0.25) {
+			result = "3";
+		} else if(rand <= 0.3125) {
+			result = "4";
+		} else if(rand <= 0.375) {
+			result = "5";
+		} else if(rand <= 0.4375) {
+			result = "6";
+		} else if(rand <= 0.5) {
+			result = "7";
+		} else if(rand <= 0.5625) {
+			result = "8";
+		} else if(rand <= 0.625) {
+			result = "9";
+		} else if(rand <= 0.6875) {
+			result = "A";
+		} else if(rand <= 0.75) {
+			result = "B";
+		} else if(rand <= 0.8125) {
+			result = "C";
+		} else if(rand <= 0.875) {
+			result = "D";
+		} else if(rand <= 0.9375) {
+			result = "E";
+		} else {
+			result = "F";
+		}
+		var rand1 = Math.random();
+		var result1 = null;
+		if(rand1 <= 0.0625) {
+			result1 = "0";
+		} else if(rand1 <= 0.125) {
+			result1 = "1";
+		} else if(rand1 <= 0.1875) {
+			result1 = "2";
+		} else if(rand1 <= 0.25) {
+			result1 = "3";
+		} else if(rand1 <= 0.3125) {
+			result1 = "4";
+		} else if(rand1 <= 0.375) {
+			result1 = "5";
+		} else if(rand1 <= 0.4375) {
+			result1 = "6";
+		} else if(rand1 <= 0.5) {
+			result1 = "7";
+		} else if(rand1 <= 0.5625) {
+			result1 = "8";
+		} else if(rand1 <= 0.625) {
+			result1 = "9";
+		} else if(rand1 <= 0.6875) {
+			result1 = "A";
+		} else if(rand1 <= 0.75) {
+			result1 = "B";
+		} else if(rand1 <= 0.8125) {
+			result1 = "C";
+		} else if(rand1 <= 0.875) {
+			result1 = "D";
+		} else if(rand1 <= 0.9375) {
+			result1 = "E";
+		} else {
+			result1 = "F";
+		}
+		var rand2 = Math.random();
+		var result2 = null;
+		if(rand2 <= 0.0625) {
+			result2 = "0";
+		} else if(rand2 <= 0.125) {
+			result2 = "1";
+		} else if(rand2 <= 0.1875) {
+			result2 = "2";
+		} else if(rand2 <= 0.25) {
+			result2 = "3";
+		} else if(rand2 <= 0.3125) {
+			result2 = "4";
+		} else if(rand2 <= 0.375) {
+			result2 = "5";
+		} else if(rand2 <= 0.4375) {
+			result2 = "6";
+		} else if(rand2 <= 0.5) {
+			result2 = "7";
+		} else if(rand2 <= 0.5625) {
+			result2 = "8";
+		} else if(rand2 <= 0.625) {
+			result2 = "9";
+		} else if(rand2 <= 0.6875) {
+			result2 = "A";
+		} else if(rand2 <= 0.75) {
+			result2 = "B";
+		} else if(rand2 <= 0.8125) {
+			result2 = "C";
+		} else if(rand2 <= 0.875) {
+			result2 = "D";
+		} else if(rand2 <= 0.9375) {
+			result2 = "E";
+		} else {
+			result2 = "F";
+		}
+		var rand3 = Math.random();
+		var result3 = null;
+		if(rand3 <= 0.0625) {
+			result3 = "0";
+		} else if(rand3 <= 0.125) {
+			result3 = "1";
+		} else if(rand3 <= 0.1875) {
+			result3 = "2";
+		} else if(rand3 <= 0.25) {
+			result3 = "3";
+		} else if(rand3 <= 0.3125) {
+			result3 = "4";
+		} else if(rand3 <= 0.375) {
+			result3 = "5";
+		} else if(rand3 <= 0.4375) {
+			result3 = "6";
+		} else if(rand3 <= 0.5) {
+			result3 = "7";
+		} else if(rand3 <= 0.5625) {
+			result3 = "8";
+		} else if(rand3 <= 0.625) {
+			result3 = "9";
+		} else if(rand3 <= 0.6875) {
+			result3 = "A";
+		} else if(rand3 <= 0.75) {
+			result3 = "B";
+		} else if(rand3 <= 0.8125) {
+			result3 = "C";
+		} else if(rand3 <= 0.875) {
+			result3 = "D";
+		} else if(rand3 <= 0.9375) {
+			result3 = "E";
+		} else {
+			result3 = "F";
+		}
+		var rand4 = Math.random();
+		var result4 = null;
+		if(rand4 <= 0.0625) {
+			result4 = "0";
+		} else if(rand4 <= 0.125) {
+			result4 = "1";
+		} else if(rand4 <= 0.1875) {
+			result4 = "2";
+		} else if(rand4 <= 0.25) {
+			result4 = "3";
+		} else if(rand4 <= 0.3125) {
+			result4 = "4";
+		} else if(rand4 <= 0.375) {
+			result4 = "5";
+		} else if(rand4 <= 0.4375) {
+			result4 = "6";
+		} else if(rand4 <= 0.5) {
+			result4 = "7";
+		} else if(rand4 <= 0.5625) {
+			result4 = "8";
+		} else if(rand4 <= 0.625) {
+			result4 = "9";
+		} else if(rand4 <= 0.6875) {
+			result4 = "A";
+		} else if(rand4 <= 0.75) {
+			result4 = "B";
+		} else if(rand4 <= 0.8125) {
+			result4 = "C";
+		} else if(rand4 <= 0.875) {
+			result4 = "D";
+		} else if(rand4 <= 0.9375) {
+			result4 = "E";
+		} else {
+			result4 = "F";
+		}
+		var rand5 = Math.random();
+		var result5 = null;
+		if(rand5 <= 0.0625) {
+			result5 = "0";
+		} else if(rand5 <= 0.125) {
+			result5 = "1";
+		} else if(rand5 <= 0.1875) {
+			result5 = "2";
+		} else if(rand5 <= 0.25) {
+			result5 = "3";
+		} else if(rand5 <= 0.3125) {
+			result5 = "4";
+		} else if(rand5 <= 0.375) {
+			result5 = "5";
+		} else if(rand5 <= 0.4375) {
+			result5 = "6";
+		} else if(rand5 <= 0.5) {
+			result5 = "7";
+		} else if(rand5 <= 0.5625) {
+			result5 = "8";
+		} else if(rand5 <= 0.625) {
+			result5 = "9";
+		} else if(rand5 <= 0.6875) {
+			result5 = "A";
+		} else if(rand5 <= 0.75) {
+			result5 = "B";
+		} else if(rand5 <= 0.8125) {
+			result5 = "C";
+		} else if(rand5 <= 0.875) {
+			result5 = "D";
+		} else if(rand5 <= 0.9375) {
+			result5 = "E";
+		} else {
+			result5 = "F";
+		}
+		return "#" + result + result1 + result2 + result3 + result4 + result5;
+	}
+	,colorfyFFR: function(n,s) {
+		var l = new List();
+		l.add(new util_Pair(s,1));
+		n.valid = false;
+		n.pie = l;
+		n.isProcessed = true;
+		var _g_head = this.links.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var link = val;
+			if(link.n1 == n) {
+				link.strokeColor = s;
+				if(!link.n2.isProcessed) {
+					this.colorfyFFR(link.n2,s);
+				}
+			}
+			if(link.n2 == n) {
+				link.strokeColor = s;
+				if(!link.n1.isProcessed) {
+					this.colorfyFFR(link.n1,s);
+				}
+			}
+		}
+	}
 	,colorNetwork: function() {
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			node.isProcessed = false;
+		}
+		var _g_head1 = this.nodes.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var node1 = val1;
+			if(node1.isProcessed) {
+				continue;
+			}
+			var rand = Math.random();
+			var result = null;
+			if(rand <= 0.0625) {
+				result = "0";
+			} else if(rand <= 0.125) {
+				result = "1";
+			} else if(rand <= 0.1875) {
+				result = "2";
+			} else if(rand <= 0.25) {
+				result = "3";
+			} else if(rand <= 0.3125) {
+				result = "4";
+			} else if(rand <= 0.375) {
+				result = "5";
+			} else if(rand <= 0.4375) {
+				result = "6";
+			} else if(rand <= 0.5) {
+				result = "7";
+			} else if(rand <= 0.5625) {
+				result = "8";
+			} else if(rand <= 0.625) {
+				result = "9";
+			} else if(rand <= 0.6875) {
+				result = "A";
+			} else if(rand <= 0.75) {
+				result = "B";
+			} else if(rand <= 0.8125) {
+				result = "C";
+			} else if(rand <= 0.875) {
+				result = "D";
+			} else if(rand <= 0.9375) {
+				result = "E";
+			} else {
+				result = "F";
+			}
+			var rand1 = Math.random();
+			var result1 = null;
+			if(rand1 <= 0.0625) {
+				result1 = "0";
+			} else if(rand1 <= 0.125) {
+				result1 = "1";
+			} else if(rand1 <= 0.1875) {
+				result1 = "2";
+			} else if(rand1 <= 0.25) {
+				result1 = "3";
+			} else if(rand1 <= 0.3125) {
+				result1 = "4";
+			} else if(rand1 <= 0.375) {
+				result1 = "5";
+			} else if(rand1 <= 0.4375) {
+				result1 = "6";
+			} else if(rand1 <= 0.5) {
+				result1 = "7";
+			} else if(rand1 <= 0.5625) {
+				result1 = "8";
+			} else if(rand1 <= 0.625) {
+				result1 = "9";
+			} else if(rand1 <= 0.6875) {
+				result1 = "A";
+			} else if(rand1 <= 0.75) {
+				result1 = "B";
+			} else if(rand1 <= 0.8125) {
+				result1 = "C";
+			} else if(rand1 <= 0.875) {
+				result1 = "D";
+			} else if(rand1 <= 0.9375) {
+				result1 = "E";
+			} else {
+				result1 = "F";
+			}
+			var rand2 = Math.random();
+			var result2 = null;
+			if(rand2 <= 0.0625) {
+				result2 = "0";
+			} else if(rand2 <= 0.125) {
+				result2 = "1";
+			} else if(rand2 <= 0.1875) {
+				result2 = "2";
+			} else if(rand2 <= 0.25) {
+				result2 = "3";
+			} else if(rand2 <= 0.3125) {
+				result2 = "4";
+			} else if(rand2 <= 0.375) {
+				result2 = "5";
+			} else if(rand2 <= 0.4375) {
+				result2 = "6";
+			} else if(rand2 <= 0.5) {
+				result2 = "7";
+			} else if(rand2 <= 0.5625) {
+				result2 = "8";
+			} else if(rand2 <= 0.625) {
+				result2 = "9";
+			} else if(rand2 <= 0.6875) {
+				result2 = "A";
+			} else if(rand2 <= 0.75) {
+				result2 = "B";
+			} else if(rand2 <= 0.8125) {
+				result2 = "C";
+			} else if(rand2 <= 0.875) {
+				result2 = "D";
+			} else if(rand2 <= 0.9375) {
+				result2 = "E";
+			} else {
+				result2 = "F";
+			}
+			var rand3 = Math.random();
+			var result3 = null;
+			if(rand3 <= 0.0625) {
+				result3 = "0";
+			} else if(rand3 <= 0.125) {
+				result3 = "1";
+			} else if(rand3 <= 0.1875) {
+				result3 = "2";
+			} else if(rand3 <= 0.25) {
+				result3 = "3";
+			} else if(rand3 <= 0.3125) {
+				result3 = "4";
+			} else if(rand3 <= 0.375) {
+				result3 = "5";
+			} else if(rand3 <= 0.4375) {
+				result3 = "6";
+			} else if(rand3 <= 0.5) {
+				result3 = "7";
+			} else if(rand3 <= 0.5625) {
+				result3 = "8";
+			} else if(rand3 <= 0.625) {
+				result3 = "9";
+			} else if(rand3 <= 0.6875) {
+				result3 = "A";
+			} else if(rand3 <= 0.75) {
+				result3 = "B";
+			} else if(rand3 <= 0.8125) {
+				result3 = "C";
+			} else if(rand3 <= 0.875) {
+				result3 = "D";
+			} else if(rand3 <= 0.9375) {
+				result3 = "E";
+			} else {
+				result3 = "F";
+			}
+			var rand4 = Math.random();
+			var result4 = null;
+			if(rand4 <= 0.0625) {
+				result4 = "0";
+			} else if(rand4 <= 0.125) {
+				result4 = "1";
+			} else if(rand4 <= 0.1875) {
+				result4 = "2";
+			} else if(rand4 <= 0.25) {
+				result4 = "3";
+			} else if(rand4 <= 0.3125) {
+				result4 = "4";
+			} else if(rand4 <= 0.375) {
+				result4 = "5";
+			} else if(rand4 <= 0.4375) {
+				result4 = "6";
+			} else if(rand4 <= 0.5) {
+				result4 = "7";
+			} else if(rand4 <= 0.5625) {
+				result4 = "8";
+			} else if(rand4 <= 0.625) {
+				result4 = "9";
+			} else if(rand4 <= 0.6875) {
+				result4 = "A";
+			} else if(rand4 <= 0.75) {
+				result4 = "B";
+			} else if(rand4 <= 0.8125) {
+				result4 = "C";
+			} else if(rand4 <= 0.875) {
+				result4 = "D";
+			} else if(rand4 <= 0.9375) {
+				result4 = "E";
+			} else {
+				result4 = "F";
+			}
+			var rand5 = Math.random();
+			var result5 = null;
+			if(rand5 <= 0.0625) {
+				result5 = "0";
+			} else if(rand5 <= 0.125) {
+				result5 = "1";
+			} else if(rand5 <= 0.1875) {
+				result5 = "2";
+			} else if(rand5 <= 0.25) {
+				result5 = "3";
+			} else if(rand5 <= 0.3125) {
+				result5 = "4";
+			} else if(rand5 <= 0.375) {
+				result5 = "5";
+			} else if(rand5 <= 0.4375) {
+				result5 = "6";
+			} else if(rand5 <= 0.5) {
+				result5 = "7";
+			} else if(rand5 <= 0.5625) {
+				result5 = "8";
+			} else if(rand5 <= 0.625) {
+				result5 = "9";
+			} else if(rand5 <= 0.6875) {
+				result5 = "A";
+			} else if(rand5 <= 0.75) {
+				result5 = "B";
+			} else if(rand5 <= 0.8125) {
+				result5 = "C";
+			} else if(rand5 <= 0.875) {
+				result5 = "D";
+			} else if(rand5 <= 0.9375) {
+				result5 = "E";
+			} else {
+				result5 = "F";
+			}
+			this.colorfyFFR(node1,"#" + result + result1 + result2 + result3 + result4 + result5);
+		}
 	}
 	,pieToTxt: function(pie) {
 		var result = new List();
@@ -3982,6 +4485,7 @@ draw_NodePos.prototype = {
 	,velocityY: null
 	,forceX: null
 	,forceY: null
+	,isProcessed: null
 	,valid: null
 	,svg: null
 	,set_xPos: function(n) {
@@ -4015,6 +4519,12 @@ draw_NodePos.prototype = {
 			var i = _g1++;
 			l.add(new util_Pair(n1[i],n2[i]));
 		}
+		this.valid = false;
+		this.pie = l;
+	}
+	,set_color: function(s) {
+		var l = new List();
+		l.add(new util_Pair(s,1));
 		this.valid = false;
 		this.pie = l;
 	}
