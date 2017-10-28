@@ -54,8 +54,11 @@ function calculateFaFile(project, i) {
             var seqName = current.item.first, seq = current.item.second;
             // check whether to add warning
             if(seq.charAt(0) == "-" || seq.charAt(seq.length - 1) == "-") {
-                project["notifications"].push({ "ui" : "highlight", "icon" : "info", "text" : "indelIs5State.text" });
-                self.postMessage([{ "key" : ["notifications"], "val" : project["notifications"] }]);
+                if(!self.addedIndelIs5thStateWarning) {
+                    project["notifications"].push({ "ui" : "highlight", "icon" : "info", "text" : "indelIs5State.text" });
+                    self.postMessage([{ "key" : ["notifications"], "val" : project["notifications"] }]);
+                }
+                self.addedIndelIs5thStateWarning = true;
             }
             // check sequence
             for(var chIndex = 0; chIndex < seq.length; chIndex++) {
@@ -116,6 +119,7 @@ console.log("XXX " + e);
 
 self.addEventListener('message', function(e) {
     var project = e.data;
+    self.addedIndelIs5thStateWarning = false;
     // for processbar
     stepsToDO = project["faFiles"].length * 3 + 1; // for each file - parsing, create haploweb, assing svg drawing positions & run coma
     stepsDone = 0;
