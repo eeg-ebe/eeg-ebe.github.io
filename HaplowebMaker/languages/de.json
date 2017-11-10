@@ -127,6 +127,8 @@
     "pieChartsByIndNameOnly.title" : "",
     "pieChartsByIndNameOnly.label" : "Name reicht für Kuchendiagram",
     "colorByFFR.title" : "Netzwerk anhand der FFRs färben",
-    "colorByFFR.label" : "Netzwerk anhand der FFRs färben"
+    "colorByFFR.label" : "Netzwerk anhand der FFRs färben",
+    "coma.label" : "CoMa",
+    "comaDesc.label" : "CoMa"
   }
 }

@@ -1,4 +1,4 @@
-self.importScripts("FastaParsing.js", "MJAlgo.js", "Drawing.js");
+self.importScripts("FastaParsing.js", "MJAlgo.js", "Drawing.js", "coma.js", "LstExtractor.js");
 
 Printer = function () {
     this.indent = "  ";
@@ -83,7 +83,8 @@ function calculateFaFile(project, i) {
         var p = new Printer();
         m.finalizeNetwork().printTxt(p);
         var netTxt = p.toText();
-        setFileVal(i, "mj", p.toText());
+        project["faFiles"][i]["mj"] = p.toText();
+        setFileVal(i, "mj", project["faFiles"][i]["mj"]);
         setFileVal(i, "nrSeqs", m.getNrSeqs());
         setFileVal(i, "nrDifSeqs", m.getNrDifSeqs());
         setFileVal(i, "seqLen", m.getSeqLength());
@@ -130,7 +131,27 @@ self.addEventListener('message', function(e) {
         calculateFaFile(project, i);
     }
     // do coma
-// TODO
+//    try {
+        var a = new Array(project["faFiles"]);
+        for(var i = 0; i < project["faFiles"].length; i++) {
+            var p = new Printer();
+            LstExtractor.extract(p, project["faFiles"][i]["mj"], true, false, false, false);
+            a[i] = p.toText();
+        }
+        var p = new Printer();
+        CoMa.runComaJS(a, p);
+        var comaTxt = p.toText();
+        self.postMessage([
+            {
+                "key" : ["coma"],
+                "val" : comaTxt
+            }
+        ]);
+/*
+    } catch(e) {
+console.log("XXX " + e);
+    }
+*/
     // safe end time
     self.postMessage([{ "key" : ["calculationEndDate"], "val" : Date.now() }]);
     self.postMessage([

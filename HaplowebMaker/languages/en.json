@@ -127,6 +127,8 @@
     "pieChartsByIndNameOnly.title" : "",
     "pieChartsByIndNameOnly.label" : "Name is sufficent for pie chart",
     "colorByFFR.title" : "Colorfy network by FFRs",
-    "colorByFFR.label" : "Colorfy network by FFRs"
+    "colorByFFR.label" : "Colorfy network by FFRs",
+    "coma.label" : "CoMa",
+    "comaDesc.label" : "CoMa"
   }
 }

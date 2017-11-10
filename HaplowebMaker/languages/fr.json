@@ -127,6 +127,8 @@
     "pieChartsByIndNameOnly.title" : "",
     "pieChartsByIndNameOnly.label" : "Nom suffit pour le diagramme de camembert",
     "colorByFFR.title" : "Colorer le reseaux par FFRs",
-    "colorByFFR.label" : "Colorer le reseaux par FFRs"
+    "colorByFFR.label" : "Colorer le reseaux par FFRs",
+    "coma.label" : "CoMa",
+    "comaDesc.label" : "CoMa"
   }
 }
