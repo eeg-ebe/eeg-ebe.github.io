@@ -310,7 +310,8 @@ LEle.prototype = {
 var LstExtractor = function() { };
 $hxClasses["LstExtractor"] = LstExtractor;
 LstExtractor.__name__ = ["LstExtractor"];
-LstExtractor.extract = function(p,s,onlyInd,sort,sortAlpha,outputSet) {
+LstExtractor.extract = function(p,s,onlyInd,sort,sortAlpha,outputSet,sep) {
+	mj_Seq.delimiter = sep;
 	var lines = s.split("\n");
 	var result = new List();
 	var lineNo = 0;
@@ -473,7 +474,7 @@ LstExtractor.extract = function(p,s,onlyInd,sort,sortAlpha,outputSet) {
 			if(onlyInd) {
 				var result5 = n;
 				if(n != null) {
-					var pos = n.lastIndexOf("_");
+					var pos = n.lastIndexOf(mj_Seq.delimiter);
 					if(pos != -1) {
 						result5 = HxOverrides.substr(n,0,pos);
 					}
@@ -1679,7 +1680,7 @@ mj_Seq.calcHash = function(s) {
 mj_Seq.getIndIdentifier = function(s) {
 	var result = s;
 	if(s != null) {
-		var pos = s.lastIndexOf("_");
+		var pos = s.lastIndexOf(mj_Seq.delimiter);
 		if(pos != -1) {
 			result = HxOverrides.substr(s,0,pos);
 		}
@@ -1693,7 +1694,7 @@ mj_Seq.createSample = function(id,name,seq) {
 		result.names.add(name);
 		var result1 = name;
 		if(name != null) {
-			var pos = name.lastIndexOf("_");
+			var pos = name.lastIndexOf(mj_Seq.delimiter);
 			if(pos != -1) {
 				result1 = HxOverrides.substr(name,0,pos);
 			}
@@ -1778,7 +1779,7 @@ mj_Seq.prototype = {
 			this.names.add(s);
 			var result = s;
 			if(s != null) {
-				var pos = s.lastIndexOf("_");
+				var pos = s.lastIndexOf(mj_Seq.delimiter);
 				if(pos != -1) {
 					result = HxOverrides.substr(s,0,pos);
 				}
@@ -2338,3 +2339,4 @@ var Class = $hxClasses["Class"] = { __name__ : ["Class"]};
 var Enum = { };
 var Void = $hxClasses["Void"] = { __ename__ : ["Void"]};
 js_Boot.__toStr = ({ }).toString;
+mj_Seq.delimiter = "_";

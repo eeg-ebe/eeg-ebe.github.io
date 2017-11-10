@@ -135,7 +135,7 @@ self.addEventListener('message', function(e) {
         var a = new Array(project["faFiles"]);
         for(var i = 0; i < project["faFiles"].length; i++) {
             var p = new Printer();
-            LstExtractor.extract(p, project["faFiles"][i]["mj"], true, false, false, false);
+            LstExtractor.extract(p, project["faFiles"][i]["mj"], true, false, false, false, project["delimiter"]);
             a[i] = p.toText();
         }
         var p = new Printer();

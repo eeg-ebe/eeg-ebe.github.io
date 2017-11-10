@@ -950,7 +950,7 @@
                         }
                     }
                     var p = new Printer();
-                    LstExtractor.extract(p, project["faFiles"][i]["mj"], onlyInd, sort, sortAlpha, outputSet);
+                    LstExtractor.extract(p, project["faFiles"][i]["mj"], onlyInd, sort, sortAlpha, outputSet, project["delimiter"]);
                     return p.toText();
                 }
                 function generateFFRList(i, f) {
