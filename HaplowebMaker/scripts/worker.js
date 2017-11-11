@@ -79,7 +79,9 @@ function calculateFaFile(project, i) {
             current = current.next;
         }
         m.finishedAddingSequences();
-        m.runMJ(project["epsilon"]);
+        if(!project["onlyComa"]) {
+            m.runMJ(project["epsilon"]);
+        }
         var p = new Printer();
         m.finalizeNetwork().printTxt(p);
         var netTxt = p.toText();
@@ -94,20 +96,22 @@ function calculateFaFile(project, i) {
         setProgress(++stepsDone, stepsToDO);
         setFileVal(i, "endMJ", Date.now());
         // end of mj - now draw
-        var g = new draw_Graph(parsing_MJNetParser.parseNet(netTxt));
-        g.forceDirectedMethod(true, 0.6, 0.5, 500.0, 0.1, 0.1, 10000);
-        g.centerPos();
-//        g.stretch(0.1);
-        g.assignLinkPos();
-        // assign pie charts if needed
-        if(typeof project["pieChart"] !== "undefined") {
-            g.assingPiesByTxt(project["pieChart"], project["upperLowerCase"], project["pieByIndNameOnly"]);
-        } else if(typeof project["assignRandomColoresToFFRs"] !== "undefined") {
-            g.colorNetwork();
+        if(!project["onlyComa"]) {
+            var g = new draw_Graph(parsing_MJNetParser.parseNet(netTxt));
+            g.forceDirectedMethod(true, 0.6, 0.5, 500.0, 0.1, 0.1, 10000);
+            g.centerPos();
+//            g.stretch(0.1);
+            g.assignLinkPos();
+            // assign pie charts if needed
+            if(typeof project["pieChart"] !== "undefined") {
+                g.assingPiesByTxt(project["pieChart"], project["upperLowerCase"], project["pieByIndNameOnly"]);
+            } else if(typeof project["assignRandomColoresToFFRs"] !== "undefined") {
+                g.colorNetwork();
+            }
+            // return result
+            setFileVal(i, "graphstyle", g.saveStyle());
+            setFileVal(i, "svg", g.getSvgCode());
         }
-        // return result
-        setFileVal(i, "graphstyle", g.saveStyle());
-        setFileVal(i, "svg", g.getSvgCode());
         setFileVal(i, "endDraw", Date.now());
         // end of drawing - end of this file
         setFileVal(i, "status", "okstatus.label");

@@ -129,6 +129,8 @@
     "colorByFFR.title" : "Netzwerk anhand der FFRs färben",
     "colorByFFR.label" : "Netzwerk anhand der FFRs färben",
     "coma.label" : "CoMa",
-    "comaDesc.label" : "CoMa"
+    "comaDesc.label" : "CoMa",
+    "onlyComa.title" : "Nur die Programmteile laufen lassen, die für CoMa benötigt werden",
+    "onlyComa.label" : "Nur CoMa"
   }
 }

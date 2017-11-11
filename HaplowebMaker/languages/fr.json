@@ -129,6 +129,8 @@
     "colorByFFR.title" : "Colorer le reseaux par FFRs",
     "colorByFFR.label" : "Colorer le reseaux par FFRs",
     "coma.label" : "CoMa",
-    "comaDesc.label" : "CoMa"
+    "comaDesc.label" : "CoMa",
+    "onlyComa.title" : "Tourner seulement les calculs nécessaire pour CoMa",
+    "onlyComa.label" : "Seulement CoMa"
   }
 }

@@ -251,6 +251,10 @@
                     <td class="label" lid="colorByFFR.label"></td>
                     <td style="text-align: right"><input type="checkbox" name="colorByFFR" id="colorByFFR" autocomplete="off" /></td>
                 </tr>
+                <tr class="advancedSettings tooltip" tid="onlyComa.title">
+                    <td class="label" lid="onlyComa.label"></td>
+                    <td style="text-align: right"><input type="checkbox" name="onlyComa" id="onlyComa" autocomplete="off" /></td>
+                </tr>
                 <tr>
                     <td></td>
                     <td style="text-align: right"><button id="jobSubmissionButton" class="ui-button ui-widget ui-corner-all shortcut label tooltip" shortcut="jobsubmission" lid="jobSubmissionButton.label" tid="jobSubmissionButton.title" onclick="javascript: addNewSequencesToProject();"></button></td>
@@ -637,6 +641,7 @@
                         $("#calculationOverlay").hide();
                         return;
                     }
+                    project["onlyComa"] = document.getElementById("onlyComa").checked;
                     project["notifications"] = [ { "ui" : "highlight", "icon" : "info", "text" : "haplowebmakerIsStillBeta.text" } ];
                     project["projectName"] = document.getElementById("jobname").value;
                     project["epsilon"] = $( "#epsilon" ).spinner( "value" );
