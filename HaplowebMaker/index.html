@@ -915,7 +915,10 @@
                         zip.file(name, project["faFiles"][i]["data"]);
                         zip.file(name + ".haploweb", project["faFiles"][i]["mj"]);
                         zip.file(name + ".tsv", generateFFRListByParams(i, true, true, true, false));
-                        zip.file(name + ".svg", project["faFiles"][i]["svg"]);
+                        if(!(missing(project["faFiles"][i]["mj"])) { // will not be available if "onlyComa" option is set ...
+                            zip.file(name + ".svg", project["faFiles"][i]["svg"]);
+                        }
+                        zip.file("CoMa.svg", project["coma"]);
                     }
                     zip.generateAsync({type:"blob"}).then(function(content) { saveAs(content, "all.zip"); $("#calculationOverlay").hide(); });
                 } // TODO
