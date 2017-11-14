@@ -52,7 +52,7 @@ CoMa.cToCol = function(v,maxV,minV) {
 	b = (b + m) * 256;
 	return "rgb(" + (r | 0) + "," + (g | 0) + "," + (b | 0) + ")";
 };
-CoMa.runComaJS = function(a,printer) {
+CoMa.runComaJS = function(a,printer,printer2) {
 	var l = new List();
 	var _g1 = 0;
 	var _g = a.length;
@@ -60,9 +60,9 @@ CoMa.runComaJS = function(a,printer) {
 		var i = _g1++;
 		l.add(parsing_LstParser.parseLst(a[i]));
 	}
-	CoMa.runComa(l,printer);
+	CoMa.runComa(l,printer,printer2);
 };
-CoMa.runComa = function(l,printer) {
+CoMa.runComa = function(l,printer,printer2) {
 	haxe_Log.trace("runningComa on " + l.length + " " + l.first().length,{ fileName : "CoMa.hx", lineNumber : 62, className : "CoMa", methodName : "runComa"});
 	var comaIndL = new List();
 	var index = 0;
@@ -171,35 +171,59 @@ CoMa.runComa = function(l,printer) {
 			}
 		}
 	}
-	var width = 100 + orderedL.length * 20 + 5;
-	var height = 100 + orderedL.length * 20 + 5;
-	printer.printString("<svg version=\"1.1\" baseProfile=\"full\" width=\"" + width + "\" height=\"" + height + "\" xmlns=\"http://www.w3.org/2000/svg\">");
-	printer.printString("<g style=\"font-family:serif;font-size:16\">");
-	var index1 = 0;
 	var _g_head6 = orderedL.h;
 	while(_g_head6 != null) {
 		var val6 = _g_head6.item;
 		_g_head6 = _g_head6.next;
 		var e3 = val6;
-		printer.printString("<text x=\"5\" y=\"" + (100 + 20 * index1 + 15) + "\">" + e3.indName + "</text>");
-		printer.printString("<text x=\"" + (100 + 20 * index1 + 15) + "\" y=\"5\" transform=\"rotate(90 " + (100 + 20 * index1 + 7) + " 5)\">" + e3.indName + "</text>");
-		++index1;
+		printer2.printString("\t" + e3.indName);
 	}
-	printer.printString("</g>");
-	var i = 0;
-	var j = 0;
+	printer2.printString("\n");
 	var _g_head7 = orderedL.h;
 	while(_g_head7 != null) {
 		var val7 = _g_head7.item;
 		_g_head7 = _g_head7.next;
 		var e11 = val7;
+		printer2.printString(e11.indName);
 		var _g_head8 = orderedL.h;
 		while(_g_head8 != null) {
 			var val8 = _g_head8.item;
 			_g_head8 = _g_head8.next;
 			var e21 = val8;
 			var dist1 = e11.compare(e21);
-			printer.printString("<rect x=\"" + (100 + 20 * i) + "\" y=\"" + (100 + 20 * j) + "\" width=\"20\" height=\"20\" fill=\"" + CoMa.cToCol(dist1,highestVal,lowestVal) + "\"/>");
+			printer2.printString("\t" + dist1);
+		}
+		printer2.printString("\n");
+	}
+	var width = 100 + orderedL.length * 20 + 5;
+	var height = 100 + orderedL.length * 20 + 5;
+	printer.printString("<svg version=\"1.1\" baseProfile=\"full\" width=\"" + width + "\" height=\"" + height + "\" xmlns=\"http://www.w3.org/2000/svg\">");
+	printer.printString("<g style=\"font-family:serif;font-size:16\">");
+	var index1 = 0;
+	var _g_head9 = orderedL.h;
+	while(_g_head9 != null) {
+		var val9 = _g_head9.item;
+		_g_head9 = _g_head9.next;
+		var e4 = val9;
+		printer.printString("<text x=\"5\" y=\"" + (100 + 20 * index1 + 15) + "\">" + e4.indName + "</text>");
+		printer.printString("<text x=\"" + (100 + 20 * index1 + 15) + "\" y=\"5\" transform=\"rotate(90 " + (100 + 20 * index1 + 7) + " 5)\">" + e4.indName + "</text>");
+		++index1;
+	}
+	printer.printString("</g>");
+	var i = 0;
+	var j = 0;
+	var _g_head10 = orderedL.h;
+	while(_g_head10 != null) {
+		var val10 = _g_head10.item;
+		_g_head10 = _g_head10.next;
+		var e12 = val10;
+		var _g_head11 = orderedL.h;
+		while(_g_head11 != null) {
+			var val11 = _g_head11.item;
+			_g_head11 = _g_head11.next;
+			var e22 = val11;
+			var dist2 = e12.compare(e22);
+			printer.printString("<rect x=\"" + (100 + 20 * i) + "\" y=\"" + (100 + 20 * j) + "\" width=\"20\" height=\"20\" fill=\"" + CoMa.cToCol(dist2,highestVal,lowestVal) + "\"/>");
 			++j;
 		}
 		j = 0;

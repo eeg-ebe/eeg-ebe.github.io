@@ -143,12 +143,20 @@ self.addEventListener('message', function(e) {
             a[i] = p.toText();
         }
         var p = new Printer();
-        CoMa.runComaJS(a, p);
+        var p2 = new Printer();
+        CoMa.runComaJS(a, p, p2);
         var comaTxt = p.toText();
+        var comaLstTxt = p2.toText();
         self.postMessage([
             {
                 "key" : ["coma"],
                 "val" : comaTxt
+            }
+        ]);
+        self.postMessage([
+            {
+                "key" : ["comaLst"],
+                "val" : comaLstTxt
             }
         ]);
 /*
