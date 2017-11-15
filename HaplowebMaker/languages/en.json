@@ -129,8 +129,10 @@
     "colorByFFR.title" : "Colorfy network by FFRs",
     "colorByFFR.label" : "Colorfy network by FFRs",
     "coma.label" : "CoMa",
-    "comaDesc.label" : "CoMa",
+    "comaDesc.label" : "Graphical version of the conspecicifity matrix",
     "onlyComa.title" : "Only run those parts of the program that are needed for CoMa",
-    "onlyComa.label" : "Only CoMa"
+    "onlyComa.label" : "Only CoMa",
+    "comaLst.label" : "CoMa.tsv",
+    "comaLstDesc.label" : "Text version of the conspecicifity matrix"
   }
 }
