@@ -4342,6 +4342,34 @@ draw_Graph.prototype = {
 		}
 		return tE;
 	}
+	,modifyLinks: function(f) {
+		var _g_head = this.links.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var l = val;
+			l.strokeWidth *= f;
+		}
+	}
+	,modifyCons: function(f) {
+		var _g_head = this.cons.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var c = val;
+			c.strokeWidth *= f;
+		}
+	}
+	,modifyNodes: function(f) {
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var n = val;
+			n.valid = false;
+			n.radius = f * n.radius;
+		}
+	}
 	,calculateEnergy: function() {
 		var result = 0;
 		var _g_head = this.nodes.h;
