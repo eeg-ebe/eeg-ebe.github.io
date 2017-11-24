@@ -2514,6 +2514,13 @@ draw_Graph.prototype = {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
 			var node = val;
+			if(node.node.names.length == 0) {
+				var l1 = new List();
+				l1.add(new util_Pair("grey",1));
+				node.valid = false;
+				node.pie = l1;
+				continue;
+			}
 			var l_ = new List();
 			var _g_head1 = node.node.names.h;
 			while(_g_head1 != null) {
@@ -2575,6 +2582,13 @@ draw_Graph.prototype = {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
 			var node = val;
+			if(node.node.names.length == 0) {
+				var l1 = new List();
+				l1.add(new util_Pair("grey",1));
+				node.valid = false;
+				node.pie = l1;
+				continue;
+			}
 			var l_ = new List();
 			var _g_head1 = node.node.names.h;
 			while(_g_head1 != null) {
@@ -4507,7 +4521,7 @@ var draw_NodePos = function(n) {
 		this.strokeWidth = 1;
 	} else {
 		this.strokeColor = "black";
-		this.strokeWidth = 3;
+		this.strokeWidth = 1;
 	}
 	this.dashedArray = new List();
 };
