@@ -1578,20 +1578,20 @@ mj_MJAlgo.prototype = {
 				while(s11 != null) {
 					var s2_ = s11.connectedTo;
 					while(s2_ != null) {
+						var s12 = s11.redSeq;
+						var s21 = s2_.connectedTo.redSeq;
+						var result1 = 0.0;
+						var _g11 = 0;
+						var _g2 = s12.length;
+						while(_g11 < _g2) {
+							var pos1 = _g11++;
+							if(s12.charAt(pos1) != s21.charAt(pos1)) {
+								result1 += this.rweights[pos1];
+							}
+						}
+						var c12 = result1;
 						var s3_ = s2_.next;
 						while(s3_ != null) {
-							var s12 = s11.redSeq;
-							var s21 = s2_.connectedTo.redSeq;
-							var result1 = 0.0;
-							var _g11 = 0;
-							var _g2 = s12.length;
-							while(_g11 < _g2) {
-								var pos1 = _g11++;
-								if(s12.charAt(pos1) != s21.charAt(pos1)) {
-									result1 += this.rweights[pos1];
-								}
-							}
-							var c11 = result1;
 							var s13 = s2_.connectedTo.redSeq;
 							var s22 = s3_.connectedTo.redSeq;
 							var result2 = 0.0;
@@ -1603,7 +1603,7 @@ mj_MJAlgo.prototype = {
 									result2 += this.rweights[pos2];
 								}
 							}
-							medLst.add(new mj_Median(s11.redSeq,s2_.connectedTo.redSeq,s3_.connectedTo.redSeq,this.rweights,c11 + result2));
+							medLst.add(new mj_Median(s11.redSeq,s2_.connectedTo.redSeq,s3_.connectedTo.redSeq,this.rweights,c12 + result2));
 							s3_ = s3_.next;
 						}
 						s2_ = s2_.next;
@@ -1955,9 +1955,9 @@ mj_MJAlgo.prototype = {
 							_this5.connectedTo = c10;
 							_this5.nrConnections++;
 							var _this6 = delta5.s2;
-							var c12 = new mj_Connection(delta5.s1,delta5.dist);
-							c12.next = _this6.connectedTo;
-							_this6.connectedTo = c12;
+							var c11 = new mj_Connection(delta5.s1,delta5.dist);
+							c11.next = _this6.connectedTo;
+							_this6.connectedTo = c11;
 							_this6.nrConnections++;
 						}
 					}
@@ -2189,20 +2189,20 @@ mj_MJAlgo.prototype = {
 		while(s1 != null) {
 			var s2_ = s1.connectedTo;
 			while(s2_ != null) {
+				var s11 = s1.redSeq;
+				var s2 = s2_.connectedTo.redSeq;
+				var result = 0.0;
+				var _g1 = 0;
+				var _g = s11.length;
+				while(_g1 < _g) {
+					var pos = _g1++;
+					if(s11.charAt(pos) != s2.charAt(pos)) {
+						result += this.rweights[pos];
+					}
+				}
+				var c12 = result;
 				var s3_ = s2_.next;
 				while(s3_ != null) {
-					var s11 = s1.redSeq;
-					var s2 = s2_.connectedTo.redSeq;
-					var result = 0.0;
-					var _g1 = 0;
-					var _g = s11.length;
-					while(_g1 < _g) {
-						var pos = _g1++;
-						if(s11.charAt(pos) != s2.charAt(pos)) {
-							result += this.rweights[pos];
-						}
-					}
-					var c1 = result;
 					var s12 = s2_.connectedTo.redSeq;
 					var s21 = s3_.connectedTo.redSeq;
 					var result1 = 0.0;
@@ -2214,7 +2214,7 @@ mj_MJAlgo.prototype = {
 							result1 += this.rweights[pos1];
 						}
 					}
-					medLst.add(new mj_Median(s1.redSeq,s2_.connectedTo.redSeq,s3_.connectedTo.redSeq,this.rweights,c1 + result1));
+					medLst.add(new mj_Median(s1.redSeq,s2_.connectedTo.redSeq,s3_.connectedTo.redSeq,this.rweights,c12 + result1));
 					s3_ = s3_.next;
 				}
 				s2_ = s2_.next;
@@ -2279,22 +2279,22 @@ mj_MJAlgo.prototype = {
 						continue;
 					}
 					if(med1.s1.charAt(pos2) == med1.s3.charAt(pos2)) {
-						var c2 = med1.s1.charAt(pos2);
+						var c1 = med1.s1.charAt(pos2);
 						var _g_head4 = presult.h;
 						while(_g_head4 != null) {
 							var val3 = _g_head4.item;
 							_g_head4 = _g_head4.next;
-							val3[pos2] = c2;
+							val3[pos2] = c1;
 						}
 						continue;
 					}
 					if(med1.s2.charAt(pos2) == med1.s3.charAt(pos2)) {
-						var c3 = med1.s2.charAt(pos2);
+						var c2 = med1.s2.charAt(pos2);
 						var _g_head5 = presult.h;
 						while(_g_head5 != null) {
 							var val4 = _g_head5.item;
 							_g_head5 = _g_head5.next;
-							val4[pos2] = c3;
+							val4[pos2] = c2;
 						}
 						continue;
 					}
@@ -2403,20 +2403,20 @@ mj_MJAlgo.prototype = {
 						if(_this1.hashTable.length >> 1 < _this1.size) {
 							var newSize = _this1.hashTable.length << 1;
 							_this1.hashTable = new Array(newSize);
-							var c4 = _this1.first;
-							while(c4 != null) {
-								c4.nextWithHash = null;
-								c4.prevWithHash = null;
-								var hc2 = c4.hashCode;
+							var c3 = _this1.first;
+							while(c3 != null) {
+								c3.nextWithHash = null;
+								c3.prevWithHash = null;
+								var hc2 = c3.hashCode;
 								var index = hc2 >= 0 ? hc2 % _this1.hashTable.length : -hc2 % _this1.hashTable.length;
 								if(_this1.hashTable[index] == null) {
-									_this1.hashTable[index] = c4;
+									_this1.hashTable[index] = c3;
 								} else {
-									c4.nextWithHash = _this1.hashTable[index];
-									_this1.hashTable[index].prevWithHash = c4;
-									_this1.hashTable[index] = c4;
+									c3.nextWithHash = _this1.hashTable[index];
+									_this1.hashTable[index].prevWithHash = c3;
+									_this1.hashTable[index] = c3;
 								}
-								c4 = c4.next;
+								c3 = c3.next;
 							}
 						}
 						s6.nextWithHash = null;
@@ -2853,7 +2853,7 @@ var mj_Median = function(s1,s2,s3,w,cDist) {
 		}
 		this.dist += w[pos];
 	}
-	this.makesSense = this.dist < cDist;
+	this.makesSense = true;
 };
 $hxClasses["mj.Median"] = mj_Median;
 mj_Median.__name__ = ["mj","Median"];
