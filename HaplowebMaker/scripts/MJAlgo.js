@@ -212,7 +212,7 @@ List.prototype = {
 		var s_b = "";
 		var first = true;
 		var l = this.h;
-		s_b = "{";
+		s_b += "{";
 		while(l != null) {
 			if(first) {
 				first = false;
@@ -736,6 +736,15 @@ haxe_IMap.prototype = {
 	,toString: null
 	,__class__: haxe_IMap
 };
+var haxe_Log = function() { };
+$hxClasses["haxe.Log"] = haxe_Log;
+haxe_Log.__name__ = ["haxe","Log"];
+haxe_Log.trace = function(v,infos) {
+	js_Boot.__trace(v,infos);
+};
+haxe_Log.clear = function() {
+	js_Boot.__clear_trace();
+};
 var haxe_ds_ListSort = function() { };
 $hxClasses["haxe.ds.ListSort"] = haxe_ds_ListSort;
 haxe_ds_ListSort.__name__ = ["haxe","ds","ListSort"];
@@ -763,7 +772,7 @@ haxe_ds_ListSort.sort = function(list,cmp) {
 			var _g1 = 0;
 			var _g = insize;
 			while(_g1 < _g) {
-				++_g1;
+				var i = _g1++;
 				++psize;
 				q = q.next;
 				if(q == null) {
@@ -828,7 +837,7 @@ haxe_ds_ListSort.sortSingleLinked = function(list,cmp) {
 			var _g1 = 0;
 			var _g = insize;
 			while(_g1 < _g) {
-				++_g1;
+				var i = _g1++;
 				++psize;
 				q = q.next;
 				if(q == null) {
@@ -890,8 +899,9 @@ haxe_ds__$Vector_Vector_$Impl_$.blit = function(src,srcPos,dest,destPos,len) {
 			var i = srcPos + len;
 			var j = destPos + len;
 			var _g1 = 0;
-			while(_g1 < len) {
-				++_g1;
+			var _g = len;
+			while(_g1 < _g) {
+				var k = _g1++;
 				--i;
 				--j;
 				src[j] = src[i];
@@ -900,8 +910,9 @@ haxe_ds__$Vector_Vector_$Impl_$.blit = function(src,srcPos,dest,destPos,len) {
 			var i1 = srcPos;
 			var j1 = destPos;
 			var _g11 = 0;
-			while(_g11 < len) {
-				++_g11;
+			var _g2 = len;
+			while(_g11 < _g2) {
+				var k1 = _g11++;
 				src[j1] = src[i1];
 				++i1;
 				++j1;
@@ -909,7 +920,8 @@ haxe_ds__$Vector_Vector_$Impl_$.blit = function(src,srcPos,dest,destPos,len) {
 		}
 	} else {
 		var _g12 = 0;
-		while(_g12 < len) {
+		var _g3 = len;
+		while(_g12 < _g3) {
 			var i2 = _g12++;
 			dest[destPos + i2] = src[srcPos + i2];
 		}
@@ -929,18 +941,21 @@ haxe_ds__$Vector_Vector_$Impl_$.fromArrayCopy = function(array) {
 };
 haxe_ds__$Vector_Vector_$Impl_$.copy = function(this1) {
 	var length = this1.length;
-	var r = new Array(length);
+	var this2 = new Array(length);
+	var r = this2;
 	haxe_ds__$Vector_Vector_$Impl_$.blit(this1,0,r,0,this1.length);
 	return r;
 };
 haxe_ds__$Vector_Vector_$Impl_$.join = function(this1,sep) {
 	var b_b = "";
+	var i = 0;
 	var len = this1.length;
 	var _g1 = 0;
-	while(_g1 < len) {
-		var i = _g1++;
-		b_b += Std.string(Std.string(this1[i]));
-		if(i < len - 1) {
+	var _g = len;
+	while(_g1 < _g) {
+		var i1 = _g1++;
+		b_b += Std.string(Std.string(this1[i1]));
+		if(i1 < len - 1) {
 			b_b += sep == null ? "null" : "" + sep;
 		}
 	}
@@ -948,12 +963,16 @@ haxe_ds__$Vector_Vector_$Impl_$.join = function(this1,sep) {
 };
 haxe_ds__$Vector_Vector_$Impl_$.map = function(this1,f) {
 	var length = this1.length;
-	var r = new Array(length);
+	var this2 = new Array(length);
+	var r = this2;
+	var i = 0;
+	var len = length;
 	var _g1 = 0;
-	var _g = length;
+	var _g = len;
 	while(_g1 < _g) {
-		var i = _g1++;
-		r[i] = f(this1[i]);
+		var i1 = _g1++;
+		var v = f(this1[i1]);
+		r[i1] = v;
 	}
 	return r;
 };
@@ -1152,8 +1171,9 @@ js_Boot.__interfLoop = function(cc,cl) {
 		var _g1 = 0;
 		var _g = intf.length;
 		while(_g1 < _g) {
-			var i = intf[_g1++];
-			if(i == cl || js_Boot.__interfLoop(i,cl)) {
+			var i = _g1++;
+			var i1 = intf[i];
+			if(i1 == cl || js_Boot.__interfLoop(i1,cl)) {
 				return true;
 			}
 		}
@@ -1342,24 +1362,30 @@ mj_MJAlgo.prototype = {
 		}
 		var current1 = _this.first;
 		while(current1 != null) {
+			var ipos = _this.ipos;
 			var l = new List();
-			var _g_head = _this.ipos.h;
+			var _g_head = ipos.h;
 			while(_g_head != null) {
 				var val = _g_head.item;
 				_g_head = _g_head.next;
-				l.add(current1.origSeq.charAt(val));
+				var e = val;
+				l.add(current1.origSeq.charAt(e));
 			}
 			current1.redSeq = l.join("");
 			var s = current1.redSeq;
 			var result = 7;
 			var _g11 = 0;
 			var _g2 = s.length;
-			while(_g11 < _g2) result = 31 * result + HxOverrides.cca(s,_g11++);
+			while(_g11 < _g2) {
+				var pos1 = _g11++;
+				result = 31 * result + HxOverrides.cca(s,pos1);
+			}
 			current1.hashCode = result;
 			current1 = current1.next;
 		}
 		var newSize = _this.hashTable.length << 1;
-		_this.hashTable = new Array(newSize);
+		var this1 = new Array(newSize);
+		_this.hashTable = this1;
 		var c = _this.first;
 		while(c != null) {
 			c.nextWithHash = null;
@@ -1377,22 +1403,28 @@ mj_MJAlgo.prototype = {
 		}
 		if(this.weights == null) {
 			var length = this.seqs.ipos.length;
-			this.rweights = new Array(length);
+			var this2 = new Array(length);
+			this.rweights = this2;
 			var _g12 = 0;
 			var _g3 = this.seqs.ipos.length;
-			while(_g12 < _g3) this.rweights[_g12++] = 1;
+			while(_g12 < _g3) {
+				var i = _g12++;
+				this.rweights[i] = 1;
+			}
 		} else {
 			if(this.weights.length != this.seqs.first.origSeq.length) {
 				throw new js__$Boot_HaxeError("Expected " + this.seqs.first.origSeq.length + " weights but got " + this.weights.length + " weights!");
 			}
 			var length1 = this.seqs.ipos.length;
-			this.rweights = new Array(length1);
+			var this3 = new Array(length1);
+			this.rweights = this3;
 			var iii = 0;
 			var _g_head1 = this.seqs.ipos.h;
 			while(_g_head1 != null) {
 				var val1 = _g_head1.item;
 				_g_head1 = _g_head1.next;
-				this.rweights[iii++] = this.weights[val1];
+				var e1 = val1;
+				this.rweights[iii++] = this.weights[e1];
 			}
 		}
 	}
@@ -1416,7 +1448,8 @@ mj_MJAlgo.prototype = {
 								result += this.rweights[pos];
 							}
 						}
-						deltas.add(new mj_Delta(current,current2,result));
+						var d = new mj_Delta(current,current2,result);
+						deltas.add(d);
 						current2 = current2.next;
 					}
 					current = current.next;
@@ -1481,7 +1514,8 @@ mj_MJAlgo.prototype = {
 				while(_g_head2 != null) {
 					var val2 = _g_head2.item;
 					_g_head2 = _g_head2.next;
-					var _g_head3 = val2.h;
+					var deltas1 = val2;
+					var _g_head3 = deltas1.h;
 					while(_g_head3 != null) {
 						var val3 = _g_head3.item;
 						_g_head3 = _g_head3.next;
@@ -1603,7 +1637,9 @@ mj_MJAlgo.prototype = {
 									result2 += this.rweights[pos2];
 								}
 							}
-							medLst.add(new mj_Median(s11.redSeq,s2_.connectedTo.redSeq,s3_.connectedTo.redSeq,this.rweights,c12 + result2));
+							var c23 = result2;
+							var cDist = c12 + c23;
+							medLst.add(new mj_Median(s11.redSeq,s2_.connectedTo.redSeq,s3_.connectedTo.redSeq,this.rweights,cDist));
 							s3_ = s3_.next;
 						}
 						s2_ = s2_.next;
@@ -1649,185 +1685,110 @@ mj_MJAlgo.prototype = {
 					_g_head6 = _g_head6.next;
 					var med1 = val6;
 					if(med1.makesSense && med1.diffPos >= 1 && med1.dist <= lambda + epsilon) {
-						var _g_head7;
-						var presult = new List();
-						var length = med1.s1.length;
-						presult.add(new Array(length));
-						var _g13 = 0;
-						var _g4 = med1.s1.length;
-						while(_g13 < _g4) {
-							var pos3 = _g13++;
-							if(med1.s1.charAt(pos3) == med1.s2.charAt(pos3)) {
-								var c4 = med1.s1.charAt(pos3);
-								var _g_head8 = presult.h;
-								while(_g_head8 != null) {
-									var val7 = _g_head8.item;
-									_g_head8 = _g_head8.next;
-									val7[pos3] = c4;
-								}
-								continue;
-							}
-							if(med1.s1.charAt(pos3) == med1.s3.charAt(pos3)) {
-								var c5 = med1.s1.charAt(pos3);
-								var _g_head9 = presult.h;
-								while(_g_head9 != null) {
-									var val8 = _g_head9.item;
-									_g_head9 = _g_head9.next;
-									val8[pos3] = c5;
-								}
-								continue;
-							}
-							if(med1.s2.charAt(pos3) == med1.s3.charAt(pos3)) {
-								var c6 = med1.s2.charAt(pos3);
-								var _g_head10 = presult.h;
-								while(_g_head10 != null) {
-									var val9 = _g_head10.item;
-									_g_head10 = _g_head10.next;
-									val9[pos3] = c6;
-								}
-								continue;
-							}
-							var limit = presult.length;
-							var _g21 = 0;
-							while(_g21 < 2) {
-								_g21++;
-								var i1 = 0;
-								var _g3_head = presult.h;
-								while(_g3_head != null) {
-									var val10 = _g3_head.item;
-									_g3_head = _g3_head.next;
-									var ele = val10;
-									if(i1 < limit) {
-										++i1;
-									} else {
-										break;
-									}
-									var length1 = ele.length;
-									var r = new Array(length1);
-									haxe_ds__$Vector_Vector_$Impl_$.blit(ele,0,r,0,ele.length);
-									presult.add(r);
-								}
-							}
-							var pp = 0;
-							var _g2_head = presult.h;
-							while(_g2_head != null) {
-								var val11 = _g2_head.item;
-								_g2_head = _g2_head.next;
-								val11[pos3] = pp < limit ? med1.s1.charAt(pos3) : pp < limit << 1 ? med1.s2.charAt(pos3) : med1.s3.charAt(pos3);
-								++pp;
-							}
-						}
-						var result3 = new List();
-						var _g_head11 = presult.h;
-						while(_g_head11 != null) {
-							var val12 = _g_head11.item;
-							_g_head11 = _g_head11.next;
-							var s = val12;
-							var b_b = "";
-							var len = s.length;
-							var _g14 = 0;
-							var _g5 = len;
-							while(_g14 < _g5) {
-								var i2 = _g14++;
-								b_b += Std.string(Std.string(s[i2]));
-								if(i2 < len - 1) {
-									b_b += "";
-								}
-							}
-							result3.add(b_b);
-						}
-						_g_head7 = result3.h;
+						var _g_head7 = med1.constructMedians().h;
 						while(_g_head7 != null) {
-							var val13 = _g_head7.item;
+							var val7 = _g_head7.item;
 							_g_head7 = _g_head7.next;
-							var medV = val13;
+							var medV = val7;
 							var _this3 = this.seqs;
-							var result4 = false;
-							var result5 = 7;
-							var _g15 = 0;
-							var _g6 = medV.length;
-							while(_g15 < _g6) result5 = 31 * result5 + HxOverrides.cca(medV,_g15++);
-							var hc1 = result5;
-							var s3 = _this3.hashTable[hc1 >= 0 ? hc1 % _this3.hashTable.length : -hc1 % _this3.hashTable.length];
-							while(s3 != null) {
-								if(s3.redSeq == medV) {
-									result4 = true;
+							var result3 = false;
+							var result4 = 7;
+							var _g13 = 0;
+							var _g4 = medV.length;
+							while(_g13 < _g4) {
+								var pos3 = _g13++;
+								result4 = 31 * result4 + HxOverrides.cca(medV,pos3);
+							}
+							var hc1 = result4;
+							var hc2 = hc1 >= 0 ? hc1 % _this3.hashTable.length : -hc1 % _this3.hashTable.length;
+							var s = _this3.hashTable[hc2];
+							while(s != null) {
+								if(s.redSeq == medV) {
+									result3 = true;
 									break;
 								}
-								s3 = s3.nextWithHash;
+								s = s.nextWithHash;
 							}
-							if(result4) {
+							if(result3) {
 								continue;
 							}
 							lambda = Math.min(lambda,med1.dist);
 							var _this4 = this.seqs;
-							var result6 = false;
-							var result7 = 7;
-							var _g16 = 0;
-							var _g7 = medV.length;
-							while(_g16 < _g7) result7 = 31 * result7 + HxOverrides.cca(medV,_g16++);
-							var hc2 = result7;
-							var s4 = _this4.hashTable[hc2 >= 0 ? hc2 % _this4.hashTable.length : -hc2 % _this4.hashTable.length];
-							while(s4 != null) {
-								if(s4.redSeq == medV) {
-									result6 = true;
+							var result5 = false;
+							var result6 = 7;
+							var _g14 = 0;
+							var _g5 = medV.length;
+							while(_g14 < _g5) {
+								var pos4 = _g14++;
+								result6 = 31 * result6 + HxOverrides.cca(medV,pos4);
+							}
+							var hc3 = result6;
+							var hc4 = hc3 >= 0 ? hc3 % _this4.hashTable.length : -hc3 % _this4.hashTable.length;
+							var s3 = _this4.hashTable[hc4];
+							while(s3 != null) {
+								if(s3.redSeq == medV) {
+									result5 = true;
 									break;
 								}
-								s4 = s4.nextWithHash;
+								s3 = s3.nextWithHash;
 							}
-							if(!result6) {
+							if(!result5) {
 								var id = _this4.nextSeqId++;
-								var result8 = new mj_Seq();
-								result8.id = id;
-								result8.redSeq = medV;
-								var s5 = result8.redSeq;
-								var result9 = 7;
-								var _g17 = 0;
-								var _g8 = s5.length;
-								while(_g17 < _g8) result9 = 31 * result9 + HxOverrides.cca(s5,_g17++);
-								result8.hashCode = result9;
-								result8.isSample = false;
-								var s6 = result8;
+								var result7 = new mj_Seq();
+								result7.id = id;
+								result7.redSeq = medV;
+								var s4 = result7.redSeq;
+								var result8 = 7;
+								var _g15 = 0;
+								var _g6 = s4.length;
+								while(_g15 < _g6) {
+									var pos5 = _g15++;
+									result8 = 31 * result8 + HxOverrides.cca(s4,pos5);
+								}
+								result7.hashCode = result8;
+								result7.isSample = false;
+								var s5 = result7;
 								_this4.size++;
 								if(_this4.hashTable.length >> 1 < _this4.size) {
 									var newSize = _this4.hashTable.length << 1;
-									_this4.hashTable = new Array(newSize);
-									var c7 = _this4.first;
-									while(c7 != null) {
-										c7.nextWithHash = null;
-										c7.prevWithHash = null;
-										var hc3 = c7.hashCode;
-										var index1 = hc3 >= 0 ? hc3 % _this4.hashTable.length : -hc3 % _this4.hashTable.length;
+									var this1 = new Array(newSize);
+									_this4.hashTable = this1;
+									var c4 = _this4.first;
+									while(c4 != null) {
+										c4.nextWithHash = null;
+										c4.prevWithHash = null;
+										var hc5 = c4.hashCode;
+										var index1 = hc5 >= 0 ? hc5 % _this4.hashTable.length : -hc5 % _this4.hashTable.length;
 										if(_this4.hashTable[index1] == null) {
-											_this4.hashTable[index1] = c7;
+											_this4.hashTable[index1] = c4;
 										} else {
-											c7.nextWithHash = _this4.hashTable[index1];
-											_this4.hashTable[index1].prevWithHash = c7;
-											_this4.hashTable[index1] = c7;
+											c4.nextWithHash = _this4.hashTable[index1];
+											_this4.hashTable[index1].prevWithHash = c4;
+											_this4.hashTable[index1] = c4;
 										}
-										c7 = c7.next;
+										c4 = c4.next;
 									}
 								}
-								s6.nextWithHash = null;
-								s6.prevWithHash = null;
-								var hc4 = s6.hashCode;
-								var index2 = hc4 >= 0 ? hc4 % _this4.hashTable.length : -hc4 % _this4.hashTable.length;
+								s5.nextWithHash = null;
+								s5.prevWithHash = null;
+								var hc6 = s5.hashCode;
+								var index2 = hc6 >= 0 ? hc6 % _this4.hashTable.length : -hc6 % _this4.hashTable.length;
 								if(_this4.hashTable[index2] == null) {
-									_this4.hashTable[index2] = s6;
+									_this4.hashTable[index2] = s5;
 								} else {
-									s6.nextWithHash = _this4.hashTable[index2];
-									_this4.hashTable[index2].prevWithHash = s6;
-									_this4.hashTable[index2] = s6;
+									s5.nextWithHash = _this4.hashTable[index2];
+									_this4.hashTable[index2].prevWithHash = s5;
+									_this4.hashTable[index2] = s5;
 								}
 								if(_this4.first == null) {
-									_this4.first = s6;
+									_this4.first = s5;
 								} else {
-									s6.prev = _this4.last;
-									_this4.last.next = s6;
+									s5.prev = _this4.last;
+									_this4.last.next = s5;
 								}
-								_this4.last = s6;
-								if(_this4.firstMed == null && !s6.isSample) {
-									_this4.firstMed = s6;
+								_this4.last = s5;
+								if(_this4.firstMed == null && !s5.isSample) {
+									_this4.firstMed = s5;
 								}
 							}
 							++nrSeqsAdded;
@@ -1841,35 +1802,36 @@ mj_MJAlgo.prototype = {
 					break;
 				}
 			}
-			var i3;
+			var i1;
 			while(true) {
-				var deltas1 = new List();
+				var deltas2 = new List();
 				var current5 = this.seqs.first;
 				while(current5 != null) {
 					var current21 = current5.next;
 					while(current21 != null) {
 						var s14 = current5.redSeq;
 						var s23 = current21.redSeq;
-						var result10 = 0.0;
-						var _g18 = 0;
-						var _g9 = s14.length;
-						while(_g18 < _g9) {
-							var pos4 = _g18++;
-							if(s14.charAt(pos4) != s23.charAt(pos4)) {
-								result10 += this.rweights[pos4];
+						var result9 = 0.0;
+						var _g16 = 0;
+						var _g7 = s14.length;
+						while(_g16 < _g7) {
+							var pos6 = _g16++;
+							if(s14.charAt(pos6) != s23.charAt(pos6)) {
+								result9 += this.rweights[pos6];
 							}
 						}
-						deltas1.add(new mj_Delta(current5,current21,result10));
+						var d1 = new mj_Delta(current5,current21,result9);
+						deltas2.add(d1);
 						current21 = current21.next;
 					}
 					current5 = current5.next;
 				}
 				var sortedLists1 = new List();
-				var _g_head12 = deltas1.h;
-				while(_g_head12 != null) {
-					var val14 = _g_head12.item;
-					_g_head12 = _g_head12.next;
-					var delta3 = val14;
+				var _g_head8 = deltas2.h;
+				while(_g_head8 != null) {
+					var val8 = _g_head8.item;
+					_g_head8 = _g_head8.next;
+					var delta3 = val8;
 					if(sortedLists1.last() != null && sortedLists1.last().last() != null && sortedLists1.last().last().dist <= delta3.dist) {
 						sortedLists1.last().add(delta3);
 					} else {
@@ -1891,26 +1853,26 @@ mj_MJAlgo.prototype = {
 					while(!l22.isEmpty()) nL2.add(l22.pop());
 					sortedLists1.add(nL2);
 				}
-				deltas1 = sortedLists1.first();
+				deltas2 = sortedLists1.first();
 				this.rdeltas.clear();
 				var lastDeltaValue1 = -1.0;
-				var c8 = null;
-				var _g_head13 = deltas1.h;
-				while(_g_head13 != null) {
-					var val15 = _g_head13.item;
-					_g_head13 = _g_head13.next;
-					var delta4 = val15;
+				var c5 = null;
+				var _g_head9 = deltas2.h;
+				while(_g_head9 != null) {
+					var val9 = _g_head9.item;
+					_g_head9 = _g_head9.next;
+					var delta4 = val9;
 					if(lastDeltaValue1 != delta4.dist) {
 						lastDeltaValue1 = delta4.dist;
-						if(c8 != null) {
-							this.rdeltas.add(c8);
+						if(c5 != null) {
+							this.rdeltas.add(c5);
 						}
-						c8 = new List();
+						c5 = new List();
 					}
-					c8.add(delta4);
+					c5.add(delta4);
 				}
-				if(c8 != null) {
-					this.rdeltas.add(c8);
+				if(c5 != null) {
+					this.rdeltas.add(c5);
 				}
 				var current6 = this.seqs.first;
 				while(current6 != null) {
@@ -1920,25 +1882,26 @@ mj_MJAlgo.prototype = {
 					current6 = current6.next;
 				}
 				var nextVisitedId1 = 1;
-				var _g_head14 = this.rdeltas.h;
-				while(_g_head14 != null) {
-					var val16 = _g_head14.item;
-					_g_head14 = _g_head14.next;
-					var _g_head15 = val16.h;
-					while(_g_head15 != null) {
-						var val17 = _g_head15.item;
-						_g_head15 = _g_head15.next;
-						var delta5 = val17;
+				var _g_head10 = this.rdeltas.h;
+				while(_g_head10 != null) {
+					var val10 = _g_head10.item;
+					_g_head10 = _g_head10.next;
+					var deltas3 = val10;
+					var _g_head11 = deltas3.h;
+					while(_g_head11 != null) {
+						var val11 = _g_head11.item;
+						_g_head11 = _g_head11.next;
+						var delta5 = val11;
 						var isConnected1 = false;
 						var l4 = new List();
 						l4.add(delta5.s1);
 						delta5.s1.visitedId = nextVisitedId1;
 						while(!l4.isEmpty()) {
-							var c9 = l4.pop();
-							if(c9 == delta5.s2) {
+							var c6 = l4.pop();
+							if(c6 == delta5.s2) {
 								isConnected1 = true;
 							}
-							var p1 = c9.connectedTo;
+							var p1 = c6.connectedTo;
 							while(p1 != null) {
 								if(p1.connectedTo.visitedId != nextVisitedId1 && p1.dist < delta5.dist) {
 									l4.add(p1.connectedTo);
@@ -1950,14 +1913,14 @@ mj_MJAlgo.prototype = {
 						++nextVisitedId1;
 						if(!isConnected1) {
 							var _this5 = delta5.s1;
-							var c10 = new mj_Connection(delta5.s2,delta5.dist);
-							c10.next = _this5.connectedTo;
-							_this5.connectedTo = c10;
+							var c7 = new mj_Connection(delta5.s2,delta5.dist);
+							c7.next = _this5.connectedTo;
+							_this5.connectedTo = c7;
 							_this5.nrConnections++;
 							var _this6 = delta5.s2;
-							var c11 = new mj_Connection(delta5.s1,delta5.dist);
-							c11.next = _this6.connectedTo;
-							_this6.connectedTo = c11;
+							var c8 = new mj_Connection(delta5.s1,delta5.dist);
+							c8.next = _this6.connectedTo;
+							_this6.connectedTo = c8;
 							_this6.nrConnections++;
 						}
 					}
@@ -1972,11 +1935,11 @@ mj_MJAlgo.prototype = {
 					}
 					current7 = current7.next;
 				}
-				var _g_head16 = markDel1.h;
-				while(_g_head16 != null) {
-					var val18 = _g_head16.item;
-					_g_head16 = _g_head16.next;
-					var current8 = val18;
+				var _g_head12 = markDel1.h;
+				while(_g_head12 != null) {
+					var val12 = _g_head12.item;
+					_g_head12 = _g_head12.next;
+					var current8 = val12;
 					var _this7 = this.seqs;
 					current8.linkedTo.clear();
 					if(_this7.firstMed == current8) {
@@ -1985,8 +1948,8 @@ mj_MJAlgo.prototype = {
 					if(_this7.last == current8) {
 						_this7.last = current8.prev;
 					}
-					var hc5 = current8.hashCode;
-					var index3 = hc5 >= 0 ? hc5 % _this7.hashTable.length : -hc5 % _this7.hashTable.length;
+					var hc7 = current8.hashCode;
+					var index3 = hc7 >= 0 ? hc7 % _this7.hashTable.length : -hc7 % _this7.hashTable.length;
 					if(_this7.hashTable[index3] == current8) {
 						_this7.hashTable[index3] = current8.nextWithHash;
 					}
@@ -2008,8 +1971,8 @@ mj_MJAlgo.prototype = {
 					current8.nextWithHash = null;
 					current8.prevWithHash = null;
 				}
-				i3 = nrRem1;
-				if(!(i3 != 0)) {
+				i1 = nrRem1;
+				if(!(i1 != 0)) {
 					break;
 				}
 			}
@@ -2032,7 +1995,8 @@ mj_MJAlgo.prototype = {
 						result += this.rweights[pos];
 					}
 				}
-				deltas.add(new mj_Delta(current,current2,result));
+				var d = new mj_Delta(current,current2,result);
+				deltas.add(d);
 				current2 = current2.next;
 			}
 			current = current.next;
@@ -2042,11 +2006,12 @@ mj_MJAlgo.prototype = {
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
-			if(sortedLists.last() != null && sortedLists.last().last() != null && sortedLists.last().last().dist <= val.dist) {
-				sortedLists.last().add(val);
+			var delta = val;
+			if(sortedLists.last() != null && sortedLists.last().last() != null && sortedLists.last().last().dist <= delta.dist) {
+				sortedLists.last().add(delta);
 			} else {
 				var newL = new List();
-				newL.add(val);
+				newL.add(delta);
 				sortedLists.add(newL);
 			}
 		}
@@ -2071,14 +2036,15 @@ mj_MJAlgo.prototype = {
 		while(_g_head1 != null) {
 			var val1 = _g_head1.item;
 			_g_head1 = _g_head1.next;
-			if(lastDeltaValue != val1.dist) {
-				lastDeltaValue = val1.dist;
+			var delta1 = val1;
+			if(lastDeltaValue != delta1.dist) {
+				lastDeltaValue = delta1.dist;
 				if(c != null) {
 					this.rdeltas.add(c);
 				}
 				c = new List();
 			}
-			c.add(val1);
+			c.add(delta1);
 		}
 		if(c != null) {
 			this.rdeltas.add(c);
@@ -2097,22 +2063,24 @@ mj_MJAlgo.prototype = {
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
-			var _g_head1 = val.h;
+			var deltas = val;
+			var _g_head1 = deltas.h;
 			while(_g_head1 != null) {
 				var val1 = _g_head1.item;
 				_g_head1 = _g_head1.next;
+				var delta = val1;
 				var isConnected = false;
 				var l = new List();
-				l.add(val1.s1);
-				val1.s1.visitedId = nextVisitedId;
+				l.add(delta.s1);
+				delta.s1.visitedId = nextVisitedId;
 				while(!l.isEmpty()) {
 					var c = l.pop();
-					if(c == val1.s2) {
+					if(c == delta.s2) {
 						isConnected = true;
 					}
 					var p = c.connectedTo;
 					while(p != null) {
-						if(p.connectedTo.visitedId != nextVisitedId && p.dist < val1.dist - epsilon) {
+						if(p.connectedTo.visitedId != nextVisitedId && p.dist < delta.dist - epsilon) {
 							l.add(p.connectedTo);
 							p.connectedTo.visitedId = nextVisitedId;
 						}
@@ -2121,13 +2089,13 @@ mj_MJAlgo.prototype = {
 				}
 				++nextVisitedId;
 				if(!isConnected) {
-					var _this = val1.s1;
-					var c1 = new mj_Connection(val1.s2,val1.dist);
+					var _this = delta.s1;
+					var c1 = new mj_Connection(delta.s2,delta.dist);
 					c1.next = _this.connectedTo;
 					_this.connectedTo = c1;
 					_this.nrConnections++;
-					var _this1 = val1.s2;
-					var c2 = new mj_Connection(val1.s1,val1.dist);
+					var _this1 = delta.s2;
+					var c2 = new mj_Connection(delta.s1,delta.dist);
 					c2.next = _this1.connectedTo;
 					_this1.connectedTo = c2;
 					_this1.nrConnections++;
@@ -2150,36 +2118,37 @@ mj_MJAlgo.prototype = {
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
+			var current1 = val;
 			var _this = this.seqs;
-			val.linkedTo.clear();
-			if(_this.firstMed == val) {
-				_this.firstMed = val.next;
+			current1.linkedTo.clear();
+			if(_this.firstMed == current1) {
+				_this.firstMed = current1.next;
 			}
-			if(_this.last == val) {
-				_this.last = val.prev;
+			if(_this.last == current1) {
+				_this.last = current1.prev;
 			}
-			var hc = val.hashCode;
+			var hc = current1.hashCode;
 			var index = hc >= 0 ? hc % _this.hashTable.length : -hc % _this.hashTable.length;
-			if(_this.hashTable[index] == val) {
-				_this.hashTable[index] = val.nextWithHash;
+			if(_this.hashTable[index] == current1) {
+				_this.hashTable[index] = current1.nextWithHash;
 			}
-			if(val.next != null) {
-				val.next.prev = val.prev;
+			if(current1.next != null) {
+				current1.next.prev = current1.prev;
 			}
-			if(val.prev != null) {
-				val.prev.next = val.next;
+			if(current1.prev != null) {
+				current1.prev.next = current1.next;
 			}
-			if(val.nextWithHash != null) {
-				val.nextWithHash.prevWithHash = val.prevWithHash;
+			if(current1.nextWithHash != null) {
+				current1.nextWithHash.prevWithHash = current1.prevWithHash;
 			}
-			if(val.prevWithHash != null) {
-				val.prevWithHash.nextWithHash = val.nextWithHash;
+			if(current1.prevWithHash != null) {
+				current1.prevWithHash.nextWithHash = current1.nextWithHash;
 			}
 			_this.size--;
-			val.next = null;
-			val.prev = null;
-			val.nextWithHash = null;
-			val.prevWithHash = null;
+			current1.next = null;
+			current1.prev = null;
+			current1.nextWithHash = null;
+			current1.prevWithHash = null;
 		}
 		return nrRem;
 	}
@@ -2214,7 +2183,9 @@ mj_MJAlgo.prototype = {
 							result1 += this.rweights[pos1];
 						}
 					}
-					medLst.add(new mj_Median(s1.redSeq,s2_.connectedTo.redSeq,s3_.connectedTo.redSeq,this.rweights,c12 + result1));
+					var c23 = result1;
+					var cDist = c12 + c23;
+					medLst.add(new mj_Median(s1.redSeq,s2_.connectedTo.redSeq,s3_.connectedTo.redSeq,this.rweights,cDist));
 					s3_ = s3_.next;
 				}
 				s2_ = s2_.next;
@@ -2260,185 +2231,110 @@ mj_MJAlgo.prototype = {
 			_g_head1 = _g_head1.next;
 			var med1 = val1;
 			if(med1.makesSense && med1.diffPos >= 1 && med1.dist <= lambda + epsilon) {
-				var _g_head2;
-				var presult = new List();
-				var length = med1.s1.length;
-				presult.add(new Array(length));
-				var _g12 = 0;
-				var _g3 = med1.s1.length;
-				while(_g12 < _g3) {
-					var pos2 = _g12++;
-					if(med1.s1.charAt(pos2) == med1.s2.charAt(pos2)) {
-						var c = med1.s1.charAt(pos2);
-						var _g_head3 = presult.h;
-						while(_g_head3 != null) {
-							var val2 = _g_head3.item;
-							_g_head3 = _g_head3.next;
-							val2[pos2] = c;
-						}
-						continue;
-					}
-					if(med1.s1.charAt(pos2) == med1.s3.charAt(pos2)) {
-						var c1 = med1.s1.charAt(pos2);
-						var _g_head4 = presult.h;
-						while(_g_head4 != null) {
-							var val3 = _g_head4.item;
-							_g_head4 = _g_head4.next;
-							val3[pos2] = c1;
-						}
-						continue;
-					}
-					if(med1.s2.charAt(pos2) == med1.s3.charAt(pos2)) {
-						var c2 = med1.s2.charAt(pos2);
-						var _g_head5 = presult.h;
-						while(_g_head5 != null) {
-							var val4 = _g_head5.item;
-							_g_head5 = _g_head5.next;
-							val4[pos2] = c2;
-						}
-						continue;
-					}
-					var limit = presult.length;
-					var _g21 = 0;
-					while(_g21 < 2) {
-						_g21++;
-						var i = 0;
-						var _g3_head = presult.h;
-						while(_g3_head != null) {
-							var val5 = _g3_head.item;
-							_g3_head = _g3_head.next;
-							var ele = val5;
-							if(i < limit) {
-								++i;
-							} else {
-								break;
-							}
-							var length1 = ele.length;
-							var r = new Array(length1);
-							haxe_ds__$Vector_Vector_$Impl_$.blit(ele,0,r,0,ele.length);
-							presult.add(r);
-						}
-					}
-					var pp = 0;
-					var _g2_head = presult.h;
-					while(_g2_head != null) {
-						var val6 = _g2_head.item;
-						_g2_head = _g2_head.next;
-						val6[pos2] = pp < limit ? med1.s1.charAt(pos2) : pp < limit << 1 ? med1.s2.charAt(pos2) : med1.s3.charAt(pos2);
-						++pp;
-					}
-				}
-				var result2 = new List();
-				var _g_head6 = presult.h;
-				while(_g_head6 != null) {
-					var val7 = _g_head6.item;
-					_g_head6 = _g_head6.next;
-					var s = val7;
-					var b_b = "";
-					var len = s.length;
-					var _g13 = 0;
-					var _g4 = len;
-					while(_g13 < _g4) {
-						var i1 = _g13++;
-						b_b += Std.string(Std.string(s[i1]));
-						if(i1 < len - 1) {
-							b_b += "";
-						}
-					}
-					result2.add(b_b);
-				}
-				_g_head2 = result2.h;
+				var _g_head2 = med1.constructMedians().h;
 				while(_g_head2 != null) {
-					var val8 = _g_head2.item;
+					var val2 = _g_head2.item;
 					_g_head2 = _g_head2.next;
-					var medV = val8;
+					var medV = val2;
 					var _this = this.seqs;
-					var result3 = false;
-					var result4 = 7;
-					var _g14 = 0;
-					var _g5 = medV.length;
-					while(_g14 < _g5) result4 = 31 * result4 + HxOverrides.cca(medV,_g14++);
-					var hc = result4;
-					var s3 = _this.hashTable[hc >= 0 ? hc % _this.hashTable.length : -hc % _this.hashTable.length];
-					while(s3 != null) {
-						if(s3.redSeq == medV) {
-							result3 = true;
+					var result2 = false;
+					var result3 = 7;
+					var _g12 = 0;
+					var _g3 = medV.length;
+					while(_g12 < _g3) {
+						var pos2 = _g12++;
+						result3 = 31 * result3 + HxOverrides.cca(medV,pos2);
+					}
+					var hc = result3;
+					var hc1 = hc >= 0 ? hc % _this.hashTable.length : -hc % _this.hashTable.length;
+					var s = _this.hashTable[hc1];
+					while(s != null) {
+						if(s.redSeq == medV) {
+							result2 = true;
 							break;
 						}
-						s3 = s3.nextWithHash;
+						s = s.nextWithHash;
 					}
-					if(result3) {
+					if(result2) {
 						continue;
 					}
 					lambda = Math.min(lambda,med1.dist);
 					var _this1 = this.seqs;
-					var result5 = false;
-					var result6 = 7;
-					var _g15 = 0;
-					var _g6 = medV.length;
-					while(_g15 < _g6) result6 = 31 * result6 + HxOverrides.cca(medV,_g15++);
-					var hc1 = result6;
-					var s4 = _this1.hashTable[hc1 >= 0 ? hc1 % _this1.hashTable.length : -hc1 % _this1.hashTable.length];
-					while(s4 != null) {
-						if(s4.redSeq == medV) {
-							result5 = true;
+					var result4 = false;
+					var result5 = 7;
+					var _g13 = 0;
+					var _g4 = medV.length;
+					while(_g13 < _g4) {
+						var pos3 = _g13++;
+						result5 = 31 * result5 + HxOverrides.cca(medV,pos3);
+					}
+					var hc2 = result5;
+					var hc3 = hc2 >= 0 ? hc2 % _this1.hashTable.length : -hc2 % _this1.hashTable.length;
+					var s3 = _this1.hashTable[hc3];
+					while(s3 != null) {
+						if(s3.redSeq == medV) {
+							result4 = true;
 							break;
 						}
-						s4 = s4.nextWithHash;
+						s3 = s3.nextWithHash;
 					}
-					if(!result5) {
+					if(!result4) {
 						var id = _this1.nextSeqId++;
-						var result7 = new mj_Seq();
-						result7.id = id;
-						result7.redSeq = medV;
-						var s5 = result7.redSeq;
-						var result8 = 7;
-						var _g16 = 0;
-						var _g7 = s5.length;
-						while(_g16 < _g7) result8 = 31 * result8 + HxOverrides.cca(s5,_g16++);
-						result7.hashCode = result8;
-						result7.isSample = false;
-						var s6 = result7;
+						var result6 = new mj_Seq();
+						result6.id = id;
+						result6.redSeq = medV;
+						var s4 = result6.redSeq;
+						var result7 = 7;
+						var _g14 = 0;
+						var _g5 = s4.length;
+						while(_g14 < _g5) {
+							var pos4 = _g14++;
+							result7 = 31 * result7 + HxOverrides.cca(s4,pos4);
+						}
+						result6.hashCode = result7;
+						result6.isSample = false;
+						var s5 = result6;
 						_this1.size++;
 						if(_this1.hashTable.length >> 1 < _this1.size) {
 							var newSize = _this1.hashTable.length << 1;
-							_this1.hashTable = new Array(newSize);
-							var c3 = _this1.first;
-							while(c3 != null) {
-								c3.nextWithHash = null;
-								c3.prevWithHash = null;
-								var hc2 = c3.hashCode;
-								var index = hc2 >= 0 ? hc2 % _this1.hashTable.length : -hc2 % _this1.hashTable.length;
+							var this1 = new Array(newSize);
+							_this1.hashTable = this1;
+							var c = _this1.first;
+							while(c != null) {
+								c.nextWithHash = null;
+								c.prevWithHash = null;
+								var hc4 = c.hashCode;
+								var index = hc4 >= 0 ? hc4 % _this1.hashTable.length : -hc4 % _this1.hashTable.length;
 								if(_this1.hashTable[index] == null) {
-									_this1.hashTable[index] = c3;
+									_this1.hashTable[index] = c;
 								} else {
-									c3.nextWithHash = _this1.hashTable[index];
-									_this1.hashTable[index].prevWithHash = c3;
-									_this1.hashTable[index] = c3;
+									c.nextWithHash = _this1.hashTable[index];
+									_this1.hashTable[index].prevWithHash = c;
+									_this1.hashTable[index] = c;
 								}
-								c3 = c3.next;
+								c = c.next;
 							}
 						}
-						s6.nextWithHash = null;
-						s6.prevWithHash = null;
-						var hc3 = s6.hashCode;
-						var index1 = hc3 >= 0 ? hc3 % _this1.hashTable.length : -hc3 % _this1.hashTable.length;
+						s5.nextWithHash = null;
+						s5.prevWithHash = null;
+						var hc5 = s5.hashCode;
+						var index1 = hc5 >= 0 ? hc5 % _this1.hashTable.length : -hc5 % _this1.hashTable.length;
 						if(_this1.hashTable[index1] == null) {
-							_this1.hashTable[index1] = s6;
+							_this1.hashTable[index1] = s5;
 						} else {
-							s6.nextWithHash = _this1.hashTable[index1];
-							_this1.hashTable[index1].prevWithHash = s6;
-							_this1.hashTable[index1] = s6;
+							s5.nextWithHash = _this1.hashTable[index1];
+							_this1.hashTable[index1].prevWithHash = s5;
+							_this1.hashTable[index1] = s5;
 						}
 						if(_this1.first == null) {
-							_this1.first = s6;
+							_this1.first = s5;
 						} else {
-							s6.prev = _this1.last;
-							_this1.last.next = s6;
+							s5.prev = _this1.last;
+							_this1.last.next = s5;
 						}
-						_this1.last = s6;
-						if(_this1.firstMed == null && !s6.isSample) {
-							_this1.firstMed = s6;
+						_this1.last = s5;
+						if(_this1.firstMed == null && !s5.isSample) {
+							_this1.firstMed = s5;
 						}
 					}
 					++nrSeqsAdded;
@@ -2468,7 +2364,8 @@ mj_MJAlgo.prototype = {
 							result += this.rweights[pos];
 						}
 					}
-					deltas.add(new mj_Delta(current,current2,result));
+					var d = new mj_Delta(current,current2,result);
+					deltas.add(d);
 					current2 = current2.next;
 				}
 				current = current.next;
@@ -2478,11 +2375,12 @@ mj_MJAlgo.prototype = {
 			while(_g_head != null) {
 				var val = _g_head.item;
 				_g_head = _g_head.next;
-				if(sortedLists.last() != null && sortedLists.last().last() != null && sortedLists.last().last().dist <= val.dist) {
-					sortedLists.last().add(val);
+				var delta = val;
+				if(sortedLists.last() != null && sortedLists.last().last() != null && sortedLists.last().last().dist <= delta.dist) {
+					sortedLists.last().add(delta);
 				} else {
 					var newL = new List();
-					newL.add(val);
+					newL.add(delta);
 					sortedLists.add(newL);
 				}
 			}
@@ -2507,14 +2405,15 @@ mj_MJAlgo.prototype = {
 			while(_g_head1 != null) {
 				var val1 = _g_head1.item;
 				_g_head1 = _g_head1.next;
-				if(lastDeltaValue != val1.dist) {
-					lastDeltaValue = val1.dist;
+				var delta1 = val1;
+				if(lastDeltaValue != delta1.dist) {
+					lastDeltaValue = delta1.dist;
 					if(c != null) {
 						this.rdeltas.add(c);
 					}
 					c = new List();
 				}
-				c.add(val1);
+				c.add(delta1);
 			}
 			if(c != null) {
 				this.rdeltas.add(c);
@@ -2531,22 +2430,24 @@ mj_MJAlgo.prototype = {
 			while(_g_head2 != null) {
 				var val2 = _g_head2.item;
 				_g_head2 = _g_head2.next;
-				var _g_head3 = val2.h;
+				var deltas1 = val2;
+				var _g_head3 = deltas1.h;
 				while(_g_head3 != null) {
 					var val3 = _g_head3.item;
 					_g_head3 = _g_head3.next;
+					var delta2 = val3;
 					var isConnected = false;
 					var l = new List();
-					l.add(val3.s1);
-					val3.s1.visitedId = nextVisitedId;
+					l.add(delta2.s1);
+					delta2.s1.visitedId = nextVisitedId;
 					while(!l.isEmpty()) {
 						var c1 = l.pop();
-						if(c1 == val3.s2) {
+						if(c1 == delta2.s2) {
 							isConnected = true;
 						}
 						var p = c1.connectedTo;
 						while(p != null) {
-							if(p.connectedTo.visitedId != nextVisitedId && p.dist < val3.dist) {
+							if(p.connectedTo.visitedId != nextVisitedId && p.dist < delta2.dist) {
 								l.add(p.connectedTo);
 								p.connectedTo.visitedId = nextVisitedId;
 							}
@@ -2555,13 +2456,13 @@ mj_MJAlgo.prototype = {
 					}
 					++nextVisitedId;
 					if(!isConnected) {
-						var _this = val3.s1;
-						var c2 = new mj_Connection(val3.s2,val3.dist);
+						var _this = delta2.s1;
+						var c2 = new mj_Connection(delta2.s2,delta2.dist);
 						c2.next = _this.connectedTo;
 						_this.connectedTo = c2;
 						_this.nrConnections++;
-						var _this1 = val3.s2;
-						var c3 = new mj_Connection(val3.s1,val3.dist);
+						var _this1 = delta2.s2;
+						var c3 = new mj_Connection(delta2.s1,delta2.dist);
 						c3.next = _this1.connectedTo;
 						_this1.connectedTo = c3;
 						_this1.nrConnections++;
@@ -2582,36 +2483,37 @@ mj_MJAlgo.prototype = {
 			while(_g_head4 != null) {
 				var val4 = _g_head4.item;
 				_g_head4 = _g_head4.next;
+				var current4 = val4;
 				var _this2 = this.seqs;
-				val4.linkedTo.clear();
-				if(_this2.firstMed == val4) {
-					_this2.firstMed = val4.next;
+				current4.linkedTo.clear();
+				if(_this2.firstMed == current4) {
+					_this2.firstMed = current4.next;
 				}
-				if(_this2.last == val4) {
-					_this2.last = val4.prev;
+				if(_this2.last == current4) {
+					_this2.last = current4.prev;
 				}
-				var hc = val4.hashCode;
+				var hc = current4.hashCode;
 				var index = hc >= 0 ? hc % _this2.hashTable.length : -hc % _this2.hashTable.length;
-				if(_this2.hashTable[index] == val4) {
-					_this2.hashTable[index] = val4.nextWithHash;
+				if(_this2.hashTable[index] == current4) {
+					_this2.hashTable[index] = current4.nextWithHash;
 				}
-				if(val4.next != null) {
-					val4.next.prev = val4.prev;
+				if(current4.next != null) {
+					current4.next.prev = current4.prev;
 				}
-				if(val4.prev != null) {
-					val4.prev.next = val4.next;
+				if(current4.prev != null) {
+					current4.prev.next = current4.next;
 				}
-				if(val4.nextWithHash != null) {
-					val4.nextWithHash.prevWithHash = val4.prevWithHash;
+				if(current4.nextWithHash != null) {
+					current4.nextWithHash.prevWithHash = current4.prevWithHash;
 				}
-				if(val4.prevWithHash != null) {
-					val4.prevWithHash.nextWithHash = val4.nextWithHash;
+				if(current4.prevWithHash != null) {
+					current4.prevWithHash.nextWithHash = current4.nextWithHash;
 				}
 				_this2.size--;
-				val4.next = null;
-				val4.prev = null;
-				val4.nextWithHash = null;
-				val4.prevWithHash = null;
+				current4.next = null;
+				current4.prev = null;
+				current4.nextWithHash = null;
+				current4.prevWithHash = null;
 			}
 			i = nrRem;
 			if(!(i != 0)) {
@@ -2645,7 +2547,7 @@ mj_MJAlgo.prototype = {
 					var _g1 = 0;
 					var _g = insize;
 					while(_g1 < _g) {
-						_g1++;
+						var i = _g1++;
 						++psize;
 						q = q.next;
 						if(q == null) {
@@ -2690,31 +2592,34 @@ mj_MJAlgo.prototype = {
 		var count = 0;
 		var current = this.seqs.first;
 		var length = current.origSeq.length;
-		var v = new Array(length);
+		var this1 = new Array(length);
+		var v = this1;
 		var _g11 = 0;
 		var _g2 = current.origSeq.length;
 		while(_g11 < _g2) {
-			var i = _g11++;
-			v[i] = current.origSeq.charAt(i);
+			var i1 = _g11++;
+			v[i1] = current.origSeq.charAt(i1);
 		}
 		while(current != null) {
 			current.id = ++count;
 			if(!current.isSample) {
-				var i1 = 0;
+				var i2 = 0;
 				var _g_head = this.seqs.ipos.h;
 				while(_g_head != null) {
 					var val = _g_head.item;
 					_g_head = _g_head.next;
-					v[val] = current.redSeq.charAt(i1++);
+					var pos = val;
+					v[pos] = current.redSeq.charAt(i2++);
 				}
 				var b_b = "";
+				var i3 = 0;
 				var len = v.length;
 				var _g12 = 0;
 				var _g3 = len;
 				while(_g12 < _g3) {
-					var i2 = _g12++;
-					b_b += Std.string(Std.string(v[i2]));
-					if(i2 < len - 1) {
+					var i4 = _g12++;
+					b_b += Std.string(Std.string(v[i4]));
+					if(i4 < len - 1) {
 						b_b += "";
 					}
 				}
@@ -2722,8 +2627,9 @@ mj_MJAlgo.prototype = {
 			}
 			var current2 = current.next;
 			while(current2 != null && current2.isSample) {
+				var o = current2.indNames;
 				var result = new List();
-				var _g_head1 = current2.indNames.h;
+				var _g_head1 = o.h;
 				while(_g_head1 != null) {
 					var val1 = _g_head1.item;
 					_g_head1 = _g_head1.next;
@@ -2733,7 +2639,8 @@ mj_MJAlgo.prototype = {
 					while(_g_head2 != null) {
 						var val2 = _g_head2.item;
 						_g_head2 = _g_head2.next;
-						if(val2 == e1) {
+						var indName = val2;
+						if(indName == e1) {
 							result1 = true;
 							break;
 						}
@@ -2768,15 +2675,17 @@ mj_MJAlgo.prototype = {
 				l3.clear();
 				l3.add(current);
 				while(!l3.isEmpty()) {
-					var _g_head3 = l3.pop().linkedTo.h;
+					var c = l3.pop();
+					var _g_head3 = c.linkedTo.h;
 					while(_g_head3 != null) {
 						var val3 = _g_head3.item;
 						_g_head3 = _g_head3.next;
-						var n = val3.to;
-						if(n.spId == 0) {
-							n.spId = this.nextSpId;
-							l3.add(n);
-						} else if(n.spId != this.nextSpId) {
+						var n = val3;
+						var n1 = n.to;
+						if(n1.spId == 0) {
+							n1.spId = this.nextSpId;
+							l3.add(n1);
+						} else if(n1.spId != this.nextSpId) {
 							throw new js__$Boot_HaxeError("Something somewhere went terribly wrong (#1)!");
 						}
 					}
@@ -2810,18 +2719,20 @@ mj_MJAlgo.prototype = {
 			while(_g_head != null) {
 				var val = _g_head.item;
 				_g_head = _g_head.next;
+				var indName = val;
 				inLst = false;
 				var _g_head1 = l.h;
 				while(_g_head1 != null) {
 					var val1 = _g_head1.item;
 					_g_head1 = _g_head1.next;
-					if(val1 == val) {
+					var name = val1;
+					if(name == indName) {
 						inLst = true;
 						break;
 					}
 				}
 				if(!inLst) {
-					l.add(val);
+					l.add(indName);
 				}
 			}
 			current = current.next;
@@ -2870,13 +2781,15 @@ mj_Median.prototype = {
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
-			val[pos] = c;
+			var e = val;
+			e[pos] = c;
 		}
 	}
-	,constructMedians: function() {
+	,constructMediansOld: function() {
 		var presult = new List();
 		var length = this.s1.length;
-		presult.add(new Array(length));
+		var this1 = new Array(length);
+		presult.add(this1);
 		var _g1 = 0;
 		var _g = this.s1.length;
 		while(_g1 < _g) {
@@ -2887,7 +2800,8 @@ mj_Median.prototype = {
 				while(_g_head != null) {
 					var val = _g_head.item;
 					_g_head = _g_head.next;
-					val[pos] = c;
+					var e = val;
+					e[pos] = c;
 				}
 				continue;
 			}
@@ -2897,7 +2811,8 @@ mj_Median.prototype = {
 				while(_g_head1 != null) {
 					var val1 = _g_head1.item;
 					_g_head1 = _g_head1.next;
-					val1[pos] = c1;
+					var e1 = val1;
+					e1[pos] = c1;
 				}
 				continue;
 			}
@@ -2907,14 +2822,15 @@ mj_Median.prototype = {
 				while(_g_head2 != null) {
 					var val2 = _g_head2.item;
 					_g_head2 = _g_head2.next;
-					val2[pos] = c2;
+					var e2 = val2;
+					e2[pos] = c2;
 				}
 				continue;
 			}
 			var limit = presult.length;
 			var _g2 = 0;
 			while(_g2 < 2) {
-				_g2++;
+				var zzzzz = _g2++;
 				var i = 0;
 				var _g3_head = presult.h;
 				while(_g3_head != null) {
@@ -2927,7 +2843,8 @@ mj_Median.prototype = {
 						break;
 					}
 					var length1 = ele.length;
-					var r = new Array(length1);
+					var this2 = new Array(length1);
+					var r = this2;
 					haxe_ds__$Vector_Vector_$Impl_$.blit(ele,0,r,0,ele.length);
 					presult.add(r);
 				}
@@ -2937,7 +2854,9 @@ mj_Median.prototype = {
 			while(_g2_head != null) {
 				var val4 = _g2_head.item;
 				_g2_head = _g2_head.next;
-				val4[pos] = pp < limit ? this.s1.charAt(pos) : pp < limit << 1 ? this.s2.charAt(pos) : this.s3.charAt(pos);
+				var ele1 = val4;
+				var c3 = pp < limit ? this.s1.charAt(pos) : pp < limit << 1 ? this.s2.charAt(pos) : this.s3.charAt(pos);
+				ele1[pos] = c3;
 				++pp;
 			}
 		}
@@ -2948,19 +2867,191 @@ mj_Median.prototype = {
 			_g_head3 = _g_head3.next;
 			var s = val5;
 			var b_b = "";
+			var i1 = 0;
 			var len = s.length;
 			var _g11 = 0;
 			var _g3 = len;
 			while(_g11 < _g3) {
-				var i1 = _g11++;
-				b_b += Std.string(Std.string(s[i1]));
-				if(i1 < len - 1) {
+				var i2 = _g11++;
+				b_b += Std.string(Std.string(s[i2]));
+				if(i2 < len - 1) {
 					b_b += "";
 				}
 			}
 			result.add(b_b);
 		}
 		return result;
+	}
+	,constructMedians: function() {
+		if(this.meds <= 3) {
+			var presult = new List();
+			var length = this.s1.length;
+			var this1 = new Array(length);
+			presult.add(this1);
+			var _g1 = 0;
+			var _g = this.s1.length;
+			while(_g1 < _g) {
+				var pos = _g1++;
+				if(this.s1.charAt(pos) == this.s2.charAt(pos)) {
+					var c = this.s1.charAt(pos);
+					var _g_head = presult.h;
+					while(_g_head != null) {
+						var val = _g_head.item;
+						_g_head = _g_head.next;
+						var e = val;
+						e[pos] = c;
+					}
+					continue;
+				}
+				if(this.s1.charAt(pos) == this.s3.charAt(pos)) {
+					var c1 = this.s1.charAt(pos);
+					var _g_head1 = presult.h;
+					while(_g_head1 != null) {
+						var val1 = _g_head1.item;
+						_g_head1 = _g_head1.next;
+						var e1 = val1;
+						e1[pos] = c1;
+					}
+					continue;
+				}
+				if(this.s2.charAt(pos) == this.s3.charAt(pos)) {
+					var c2 = this.s2.charAt(pos);
+					var _g_head2 = presult.h;
+					while(_g_head2 != null) {
+						var val2 = _g_head2.item;
+						_g_head2 = _g_head2.next;
+						var e2 = val2;
+						e2[pos] = c2;
+					}
+					continue;
+				}
+				var limit = presult.length;
+				var _g2 = 0;
+				while(_g2 < 2) {
+					var zzzzz = _g2++;
+					var i = 0;
+					var _g3_head = presult.h;
+					while(_g3_head != null) {
+						var val3 = _g3_head.item;
+						_g3_head = _g3_head.next;
+						var ele = val3;
+						if(i < limit) {
+							++i;
+						} else {
+							break;
+						}
+						var length1 = ele.length;
+						var this2 = new Array(length1);
+						var r = this2;
+						haxe_ds__$Vector_Vector_$Impl_$.blit(ele,0,r,0,ele.length);
+						presult.add(r);
+					}
+				}
+				var pp = 0;
+				var _g2_head = presult.h;
+				while(_g2_head != null) {
+					var val4 = _g2_head.item;
+					_g2_head = _g2_head.next;
+					var ele1 = val4;
+					var c3 = pp < limit ? this.s1.charAt(pos) : pp < limit << 1 ? this.s2.charAt(pos) : this.s3.charAt(pos);
+					ele1[pos] = c3;
+					++pp;
+				}
+			}
+			var result = new List();
+			var _g_head3 = presult.h;
+			while(_g_head3 != null) {
+				var val5 = _g_head3.item;
+				_g_head3 = _g_head3.next;
+				var s = val5;
+				var b_b = "";
+				var i1 = 0;
+				var len = s.length;
+				var _g11 = 0;
+				var _g3 = len;
+				while(_g11 < _g3) {
+					var i2 = _g11++;
+					b_b += Std.string(Std.string(s[i2]));
+					if(i2 < len - 1) {
+						b_b += "";
+					}
+				}
+				result.add(b_b);
+			}
+			return result;
+		}
+		var length2 = this.s1.length;
+		var this3 = new Array(length2);
+		var s1v = this3;
+		var length3 = this.s1.length;
+		var this4 = new Array(length3);
+		var s2v = this4;
+		var length4 = this.s1.length;
+		var this5 = new Array(length4);
+		var s3v = this5;
+		var _g12 = 0;
+		var _g4 = this.s1.length;
+		while(_g12 < _g4) {
+			var pos1 = _g12++;
+			if(this.s1.charAt(pos1) == this.s2.charAt(pos1) && this.s2.charAt(pos1) == this.s3.charAt(pos1) || this.s1.charAt(pos1) != this.s2.charAt(pos1) && this.s2.charAt(pos1) != this.s3.charAt(pos1) && this.s1.charAt(pos1) != this.s3.charAt(pos1)) {
+				s1v[pos1] = this.s1.charAt(pos1);
+				s2v[pos1] = this.s2.charAt(pos1);
+				s3v[pos1] = this.s3.charAt(pos1);
+				continue;
+			}
+			var c4 = "";
+			if(this.s1.charAt(pos1) == this.s2.charAt(pos1)) {
+				c4 = this.s1.charAt(pos1);
+			} else if(this.s2.charAt(pos1) == this.s3.charAt(pos1)) {
+				c4 = this.s2.charAt(pos1);
+			} else {
+				c4 = this.s3.charAt(pos1);
+			}
+			s1v[pos1] = c4;
+			s2v[pos1] = c4;
+			s3v[pos1] = c4;
+		}
+		var result1 = new List();
+		var b_b1 = "";
+		var i3 = 0;
+		var len1 = s1v.length;
+		var _g13 = 0;
+		var _g5 = len1;
+		while(_g13 < _g5) {
+			var i4 = _g13++;
+			b_b1 += Std.string(Std.string(s1v[i4]));
+			if(i4 < len1 - 1) {
+				b_b1 += "";
+			}
+		}
+		result1.add(b_b1);
+		var b_b2 = "";
+		var i5 = 0;
+		var len2 = s2v.length;
+		var _g14 = 0;
+		var _g6 = len2;
+		while(_g14 < _g6) {
+			var i6 = _g14++;
+			b_b2 += Std.string(Std.string(s2v[i6]));
+			if(i6 < len2 - 1) {
+				b_b2 += "";
+			}
+		}
+		result1.add(b_b2);
+		var b_b3 = "";
+		var i7 = 0;
+		var len3 = s3v.length;
+		var _g15 = 0;
+		var _g7 = len3;
+		while(_g15 < _g7) {
+			var i8 = _g15++;
+			b_b3 += Std.string(Std.string(s3v[i8]));
+			if(i8 < len3 - 1) {
+				b_b3 += "";
+			}
+		}
+		result1.add(b_b3);
+		return result1;
 	}
 	,__class__: mj_Median
 };
@@ -2976,7 +3067,10 @@ mj_Seq.calcHash = function(s) {
 	var result = 7;
 	var _g1 = 0;
 	var _g = s.length;
-	while(_g1 < _g) result = 31 * result + HxOverrides.cca(s,_g1++);
+	while(_g1 < _g) {
+		var pos = _g1++;
+		result = 31 * result + HxOverrides.cca(s,pos);
+	}
 	return result;
 };
 mj_Seq.getIndIdentifier = function(s) {
@@ -3007,7 +3101,8 @@ mj_Seq.createSample = function(id,name,seq) {
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
-			if(val == indId) {
+			var indName = val;
+			if(indName == indId) {
 				result2 = true;
 				break;
 			}
@@ -3021,7 +3116,10 @@ mj_Seq.createSample = function(id,name,seq) {
 	var result3 = 7;
 	var _g1 = 0;
 	var _g = s.length;
-	while(_g1 < _g) result3 = 31 * result3 + HxOverrides.cca(s,_g1++);
+	while(_g1 < _g) {
+		var pos1 = _g1++;
+		result3 = 31 * result3 + HxOverrides.cca(s,pos1);
+	}
 	result.hashCode = result3;
 	result.isSample = true;
 	return result;
@@ -3034,7 +3132,10 @@ mj_Seq.createMedian = function(id,seq) {
 	var result1 = 7;
 	var _g1 = 0;
 	var _g = s.length;
-	while(_g1 < _g) result1 = 31 * result1 + HxOverrides.cca(s,_g1++);
+	while(_g1 < _g) {
+		var pos = _g1++;
+		result1 = 31 * result1 + HxOverrides.cca(s,pos);
+	}
 	result.hashCode = result1;
 	result.isSample = false;
 	return result;
@@ -3050,7 +3151,10 @@ mj_Seq.prototype = {
 		var result = 7;
 		var _g1 = 0;
 		var _g = s.length;
-		while(_g1 < _g) result = 31 * result + HxOverrides.cca(s,_g1++);
+		while(_g1 < _g) {
+			var pos = _g1++;
+			result = 31 * result + HxOverrides.cca(s,pos);
+		}
 		this.hashCode = result;
 	}
 	,calcHashForRed: function() {
@@ -3058,7 +3162,10 @@ mj_Seq.prototype = {
 		var result = 7;
 		var _g1 = 0;
 		var _g = s.length;
-		while(_g1 < _g) result = 31 * result + HxOverrides.cca(s,_g1++);
+		while(_g1 < _g) {
+			var pos = _g1++;
+			result = 31 * result + HxOverrides.cca(s,pos);
+		}
 		this.hashCode = result;
 	}
 	,names: null
@@ -3079,7 +3186,8 @@ mj_Seq.prototype = {
 			while(_g_head != null) {
 				var val = _g_head.item;
 				_g_head = _g_head.next;
-				if(val == indId) {
+				var indName = val;
+				if(indName == indId) {
 					result1 = true;
 					break;
 				}
@@ -3095,7 +3203,8 @@ mj_Seq.prototype = {
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
-			if(val == s) {
+			var indName = val;
+			if(indName == s) {
 				result = true;
 				break;
 			}
@@ -3108,18 +3217,20 @@ mj_Seq.prototype = {
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
+			var e = val;
 			var result1 = false;
 			var _g_head1 = this.indNames.h;
 			while(_g_head1 != null) {
 				var val1 = _g_head1.item;
 				_g_head1 = _g_head1.next;
-				if(val1 == val) {
+				var indName = val1;
+				if(indName == e) {
 					result1 = true;
 					break;
 				}
 			}
 			if(result1) {
-				result.add(val);
+				result.add(e);
 			}
 		}
 		return result;
@@ -3132,7 +3243,8 @@ mj_Seq.prototype = {
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
-			l.add(this.origSeq.charAt(val));
+			var e = val;
+			l.add(this.origSeq.charAt(e));
 		}
 		this.redSeq = l.join("");
 	}
@@ -3142,15 +3254,18 @@ mj_Seq.prototype = {
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
-			s[val] = this.redSeq.charAt(i++);
+			var pos = val;
+			s[pos] = this.redSeq.charAt(i++);
 		}
 		var b_b = "";
+		var i1 = 0;
 		var len = s.length;
 		var _g1 = 0;
-		while(_g1 < len) {
-			var i1 = _g1++;
-			b_b += Std.string(Std.string(s[i1]));
-			if(i1 < len - 1) {
+		var _g = len;
+		while(_g1 < _g) {
+			var i2 = _g1++;
+			b_b += Std.string(Std.string(s[i2]));
+			if(i2 < len - 1) {
 				b_b += "";
 			}
 		}
@@ -3181,42 +3296,47 @@ mj_Seq.prototype = {
 		}
 	}
 	,addLinkBySeq: function(os) {
+		var o = os.indNames;
 		var result = new List();
-		var _g_head = os.indNames.h;
+		var _g_head = o.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
+			var e = val;
 			var result1 = false;
 			var _g_head1 = this.indNames.h;
 			while(_g_head1 != null) {
 				var val1 = _g_head1.item;
 				_g_head1 = _g_head1.next;
-				if(val1 == val) {
+				var indName = val1;
+				if(indName == e) {
 					result1 = true;
 					break;
 				}
 			}
 			if(result1) {
-				result.add(val);
+				result.add(e);
 			}
 		}
-		if(result != null && !result.isEmpty()) {
-			var l = new mj_Link();
-			l.to = os;
-			l.names = result;
-			this.linkedTo.add(l);
-		}
-		if(result != null && !result.isEmpty()) {
+		var l = result;
+		if(l != null && !l.isEmpty()) {
 			var l1 = new mj_Link();
-			l1.to = this;
-			l1.names = result;
-			os.linkedTo.add(l1);
+			l1.to = os;
+			l1.names = l;
+			this.linkedTo.add(l1);
+		}
+		if(l != null && !l.isEmpty()) {
+			var l2 = new mj_Link();
+			l2.to = this;
+			l2.names = l;
+			os.linkedTo.add(l2);
 		}
 	}
 	,__class__: mj_Seq
 };
 var mj_Seqs = function() {
-	this.hashTable = new Array(100);
+	var this1 = new Array(100);
+	this.hashTable = this1;
 	this.nextSeqId = 1;
 	this.origSeqLen = -1;
 	this.ipos = new List();
@@ -3241,7 +3361,8 @@ mj_Seqs.prototype = {
 		}
 	}
 	,rehash: function(newSize) {
-		this.hashTable = new Array(newSize);
+		var this1 = new Array(newSize);
+		this.hashTable = this1;
 		var c = this.first;
 		while(c != null) {
 			c.nextWithHash = null;
@@ -3275,7 +3396,8 @@ mj_Seqs.prototype = {
 		this.size++;
 		if(this.hashTable.length >> 1 < this.size) {
 			var newSize = this.hashTable.length << 1;
-			this.hashTable = new Array(newSize);
+			var this1 = new Array(newSize);
+			this.hashTable = this1;
 			var c = this.first;
 			while(c != null) {
 				c.nextWithHash = null;
@@ -3324,18 +3446,22 @@ mj_Seqs.prototype = {
 		var result = 7;
 		var _g1 = 0;
 		var _g = seq.length;
-		while(_g1 < _g) result = 31 * result + HxOverrides.cca(seq,_g1++);
+		while(_g1 < _g) {
+			var pos = _g1++;
+			result = 31 * result + HxOverrides.cca(seq,pos);
+		}
 		var hc = result;
-		var s = this.hashTable[hc >= 0 ? hc % this.hashTable.length : -hc % this.hashTable.length];
+		var hc1 = hc >= 0 ? hc % this.hashTable.length : -hc % this.hashTable.length;
+		var s = this.hashTable[hc1];
 		while(s != null) {
 			if(s.origSeq == seq) {
 				if(name != null && name != "") {
 					s.names.add(name);
 					var result1 = name;
 					if(name != null) {
-						var pos = name.lastIndexOf(mj_Seq.delimiter);
-						if(pos != -1) {
-							result1 = HxOverrides.substr(name,0,pos);
+						var pos1 = name.lastIndexOf(mj_Seq.delimiter);
+						if(pos1 != -1) {
+							result1 = HxOverrides.substr(name,0,pos1);
 						}
 					}
 					var indId = result1;
@@ -3344,7 +3470,8 @@ mj_Seqs.prototype = {
 					while(_g_head != null) {
 						var val = _g_head.item;
 						_g_head = _g_head.next;
-						if(val == indId) {
+						var indName = val;
+						if(indName == indId) {
 							result2 = true;
 							break;
 						}
@@ -3364,9 +3491,9 @@ mj_Seqs.prototype = {
 			result3.names.add(name);
 			var result4 = name;
 			if(name != null) {
-				var pos1 = name.lastIndexOf(mj_Seq.delimiter);
-				if(pos1 != -1) {
-					result4 = HxOverrides.substr(name,0,pos1);
+				var pos2 = name.lastIndexOf(mj_Seq.delimiter);
+				if(pos2 != -1) {
+					result4 = HxOverrides.substr(name,0,pos2);
 				}
 			}
 			var indId1 = result4;
@@ -3375,7 +3502,8 @@ mj_Seqs.prototype = {
 			while(_g_head1 != null) {
 				var val1 = _g_head1.item;
 				_g_head1 = _g_head1.next;
-				if(val1 == indId1) {
+				var indName1 = val1;
+				if(indName1 == indId1) {
 					result5 = true;
 					break;
 				}
@@ -3389,20 +3517,24 @@ mj_Seqs.prototype = {
 		var result6 = 7;
 		var _g11 = 0;
 		var _g2 = s1.length;
-		while(_g11 < _g2) result6 = 31 * result6 + HxOverrides.cca(s1,_g11++);
+		while(_g11 < _g2) {
+			var pos3 = _g11++;
+			result6 = 31 * result6 + HxOverrides.cca(s1,pos3);
+		}
 		result3.hashCode = result6;
 		result3.isSample = true;
 		var s2 = result3;
 		this.size++;
 		if(this.hashTable.length >> 1 < this.size) {
 			var newSize = this.hashTable.length << 1;
-			this.hashTable = new Array(newSize);
+			var this1 = new Array(newSize);
+			this.hashTable = this1;
 			var c = this.first;
 			while(c != null) {
 				c.nextWithHash = null;
 				c.prevWithHash = null;
-				var hc1 = c.hashCode;
-				var index = hc1 >= 0 ? hc1 % this.hashTable.length : -hc1 % this.hashTable.length;
+				var hc2 = c.hashCode;
+				var index = hc2 >= 0 ? hc2 % this.hashTable.length : -hc2 % this.hashTable.length;
 				if(this.hashTable[index] == null) {
 					this.hashTable[index] = c;
 				} else {
@@ -3415,8 +3547,8 @@ mj_Seqs.prototype = {
 		}
 		s2.nextWithHash = null;
 		s2.prevWithHash = null;
-		var hc2 = s2.hashCode;
-		var index1 = hc2 >= 0 ? hc2 % this.hashTable.length : -hc2 % this.hashTable.length;
+		var hc3 = s2.hashCode;
+		var index1 = hc3 >= 0 ? hc3 % this.hashTable.length : -hc3 % this.hashTable.length;
 		if(this.hashTable[index1] == null) {
 			this.hashTable[index1] = s2;
 		} else {
@@ -3440,9 +3572,13 @@ mj_Seqs.prototype = {
 		var result1 = 7;
 		var _g1 = 0;
 		var _g = seq.length;
-		while(_g1 < _g) result1 = 31 * result1 + HxOverrides.cca(seq,_g1++);
+		while(_g1 < _g) {
+			var pos = _g1++;
+			result1 = 31 * result1 + HxOverrides.cca(seq,pos);
+		}
 		var hc = result1;
-		var s = this.hashTable[hc >= 0 ? hc % this.hashTable.length : -hc % this.hashTable.length];
+		var hc1 = hc >= 0 ? hc % this.hashTable.length : -hc % this.hashTable.length;
+		var s = this.hashTable[hc1];
 		while(s != null) {
 			if(s.redSeq == seq) {
 				result = true;
@@ -3457,9 +3593,13 @@ mj_Seqs.prototype = {
 		var result1 = 7;
 		var _g1 = 0;
 		var _g = seq.length;
-		while(_g1 < _g) result1 = 31 * result1 + HxOverrides.cca(seq,_g1++);
+		while(_g1 < _g) {
+			var pos = _g1++;
+			result1 = 31 * result1 + HxOverrides.cca(seq,pos);
+		}
 		var hc = result1;
-		var s = this.hashTable[hc >= 0 ? hc % this.hashTable.length : -hc % this.hashTable.length];
+		var hc1 = hc >= 0 ? hc % this.hashTable.length : -hc % this.hashTable.length;
+		var s = this.hashTable[hc1];
 		while(s != null) {
 			if(s.redSeq == seq) {
 				result = true;
@@ -3476,20 +3616,24 @@ mj_Seqs.prototype = {
 			var result3 = 7;
 			var _g11 = 0;
 			var _g2 = s1.length;
-			while(_g11 < _g2) result3 = 31 * result3 + HxOverrides.cca(s1,_g11++);
+			while(_g11 < _g2) {
+				var pos1 = _g11++;
+				result3 = 31 * result3 + HxOverrides.cca(s1,pos1);
+			}
 			result2.hashCode = result3;
 			result2.isSample = false;
 			var s2 = result2;
 			this.size++;
 			if(this.hashTable.length >> 1 < this.size) {
 				var newSize = this.hashTable.length << 1;
-				this.hashTable = new Array(newSize);
+				var this1 = new Array(newSize);
+				this.hashTable = this1;
 				var c = this.first;
 				while(c != null) {
 					c.nextWithHash = null;
 					c.prevWithHash = null;
-					var hc1 = c.hashCode;
-					var index = hc1 >= 0 ? hc1 % this.hashTable.length : -hc1 % this.hashTable.length;
+					var hc2 = c.hashCode;
+					var index = hc2 >= 0 ? hc2 % this.hashTable.length : -hc2 % this.hashTable.length;
 					if(this.hashTable[index] == null) {
 						this.hashTable[index] = c;
 					} else {
@@ -3502,8 +3646,8 @@ mj_Seqs.prototype = {
 			}
 			s2.nextWithHash = null;
 			s2.prevWithHash = null;
-			var hc2 = s2.hashCode;
-			var index1 = hc2 >= 0 ? hc2 % this.hashTable.length : -hc2 % this.hashTable.length;
+			var hc3 = s2.hashCode;
+			var index1 = hc3 >= 0 ? hc3 % this.hashTable.length : -hc3 % this.hashTable.length;
 			if(this.hashTable[index1] == null) {
 				this.hashTable[index1] = s2;
 			} else {
@@ -3573,24 +3717,30 @@ mj_Seqs.prototype = {
 		}
 		var current1 = this.first;
 		while(current1 != null) {
+			var ipos = this.ipos;
 			var l = new List();
-			var _g_head = this.ipos.h;
+			var _g_head = ipos.h;
 			while(_g_head != null) {
 				var val = _g_head.item;
 				_g_head = _g_head.next;
-				l.add(current1.origSeq.charAt(val));
+				var e = val;
+				l.add(current1.origSeq.charAt(e));
 			}
 			current1.redSeq = l.join("");
 			var s = current1.redSeq;
 			var result = 7;
 			var _g11 = 0;
 			var _g2 = s.length;
-			while(_g11 < _g2) result = 31 * result + HxOverrides.cca(s,_g11++);
+			while(_g11 < _g2) {
+				var pos1 = _g11++;
+				result = 31 * result + HxOverrides.cca(s,pos1);
+			}
 			current1.hashCode = result;
 			current1 = current1.next;
 		}
 		var newSize = this.hashTable.length << 1;
-		this.hashTable = new Array(newSize);
+		var this1 = new Array(newSize);
+		this.hashTable = this1;
 		var c = this.first;
 		while(c != null) {
 			c.nextWithHash = null;
@@ -3641,9 +3791,10 @@ mj_Seqs.prototype = {
 				while(_g_head != null) {
 					var val = _g_head.item;
 					_g_head = _g_head.next;
+					var name = val;
 					printer.printString(printer.indent);
 					printer.printString(printer.indent);
-					printer.printString(val);
+					printer.printString(name);
 					printer.printString(printer.newline);
 				}
 			}
@@ -3677,9 +3828,10 @@ mj_Seqs.prototype = {
 				while(_g_head1 != null) {
 					var val1 = _g_head1.item;
 					_g_head1 = _g_head1.next;
+					var link = val1;
 					printer.printString(printer.indent);
 					printer.printString(printer.indent);
-					printer.printString("ID " + val1.to.id + " COUNT " + val1.names.length);
+					printer.printString("ID " + link.to.id + " COUNT " + link.names.length);
 					printer.printString(printer.newline);
 				}
 			}
@@ -3693,7 +3845,8 @@ mj_Seqs.prototype = {
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
-			printer.printString(" " + val);
+			var e = val;
+			printer.printString(" " + e);
 		}
 		printer.printString(printer.newline);
 		var c = this.first;
@@ -3705,8 +3858,9 @@ mj_Seqs.prototype = {
 				while(_g_head1 != null) {
 					var val1 = _g_head1.item;
 					_g_head1 = _g_head1.next;
+					var name = val1;
 					printer.printString("NAME ");
-					printer.printString(val1);
+					printer.printString(name);
 					printer.printString(printer.newline);
 				}
 			}
@@ -3736,7 +3890,8 @@ mj_Seqs.prototype = {
 						while(_g_head2 != null) {
 							var val2 = _g_head2.item;
 							_g_head2 = _g_head2.next;
-							printer.printString(" " + val2);
+							var e1 = val2;
+							printer.printString(" " + e1);
 						}
 						printer.printString(printer.newline);
 					}
@@ -3748,8 +3903,9 @@ mj_Seqs.prototype = {
 				while(_g_head3 != null) {
 					var val3 = _g_head3.item;
 					_g_head3 = _g_head3.next;
-					if(c1.id - 1 > val3.to.id - 1) {
-						printer.printString("+LINK " + (c1.id - 1) + " " + (val3.to.id - 1) + " " + val3.names.length + " " + val3.names.length + " " + val3.names.length);
+					var link = val3;
+					if(c1.id - 1 > link.to.id - 1) {
+						printer.printString("+LINK " + (c1.id - 1) + " " + (link.to.id - 1) + " " + link.names.length + " " + link.names.length + " " + link.names.length);
 						printer.printString(printer.newline);
 					}
 				}
@@ -3772,6 +3928,7 @@ util_StdOutPrinter.prototype = {
 	,newline: null
 	,indent: null
 	,printString: function(s) {
+		haxe_Log.trace(s,{ fileName : "StdOutPrinter.hx", lineNumber : 15, className : "util.StdOutPrinter", methodName : "printString"});
 	}
 	,close: function() {
 	}
