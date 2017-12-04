@@ -71,8 +71,12 @@ function calculateFaFile(project, i) {
                 }
             }
             // go on
-            if(project["upperLowerCase"]) {
+            if(project["upperLowerCaseN"] && project["upperLowerCaseS"]) {
                 m.addSequence(seqName.toUpperCase(), seq.toUpperCase());
+            } else if(project["upperLowerCaseN"]) {
+                m.addSequence(seqName.toUpperCase(), seq);
+            } else if(project["upperLowerCaseS"]) {
+                m.addSequence(seqName, seq.toUpperCase());
             } else {
                 m.addSequence(seqName, seq);
             }
@@ -104,7 +108,7 @@ function calculateFaFile(project, i) {
             g.assignLinkPos();
             // assign pie charts if needed
             if(typeof project["pieChart"] !== "undefined") {
-                g.assingPiesByTxt(project["pieChart"], project["upperLowerCase"], project["pieByIndNameOnly"]);
+                g.assingPiesByTxt(project["pieChart"], project["upperLowerCaseN"], project["pieByIndNameOnly"]);
             } else if(typeof project["assignRandomColoresToFFRs"] !== "undefined") {
                 g.colorNetwork();
             }

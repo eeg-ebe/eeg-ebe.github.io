@@ -188,7 +188,11 @@
                 </tr>
                 <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsMJFasta.title">
                     <td class="label" lid="jobSubmissionAdvancedSettingsMJFasta.label"></td>
-                    <td style="text-align: right"><input type="checkbox" name="ignoreUpperLower" id="ignoreUpperLower" checked="cheched" autocomplete="off" /></td>
+                    <td style="text-align: right"><input type="checkbox" name="ignoreUpperLowerName" id="ignoreUpperLowerName" autocomplete="off" />(name)</td>
+                </tr>
+                <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsMJFasta.title">
+                    <td class="label" lid="jobSubmissionAdvancedSettingsMJFasta.label"></td>
+                    <td style="text-align: right"><input type="checkbox" name="ignoreUpperLowerSeq" id="ignoreUpperLowerSeq" checked="cheched" autocomplete="off" disabled="disabled" />(seq)</td>
                 </tr>
                 <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsMJEpsilon.title">
                     <td class="label" lid="jobSubmissionAdvancedSettingsMJEpsilon.label"></td>
@@ -655,7 +659,8 @@
                     project["epsilon"] = $( "#epsilon" ).spinner( "value" );
                     project["delimiter"] = document.getElementById("delimiterChoosing").value;
                     project["areaShouldBePropToNrInd"] = document.getElementById("areaShouldBePropToNrInd").checked;
-                    project["upperLowerCase"] = document.getElementById("ignoreUpperLower").checked;
+                    project["upperLowerCaseN"] = document.getElementById("ignoreUpperLowerName").checked;
+                    project["upperLowerCaseS"] = document.getElementById("ignoreUpperLowerSeq").checked;
                     project["submissionDate"] = Date.now();
                     project["calculationEndDate"] = null;
                     project["pieByIndNameOnly"] = document.getElementById("pieByIndNameOnly").checked;
