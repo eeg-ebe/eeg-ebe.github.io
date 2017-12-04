@@ -315,8 +315,10 @@
                     <button onclick="javascript: exportEditSVGasSVG();">Export svg</button>
                     <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves (force)</button>
                     <button onclick="javascript: currentGraphEdit.assignLinkPos(false); updateSVG();">Recalc curves (weak)</button>
+<!--
                     <button onclick="javascript: currentGraphEdit.mult_radius(10/9); updateSVG();">Circles ++</button>
                     <button onclick="javascript: currentGraphEdit.mult_radius(9/10); updateSVG();">Circles --</button>
+-->
                     <br>
                     <button onclick="javascript: currentGraphEdit.rotateN90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s"></span></button>
                     <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); if(isNaN(f)) { alert('Illegal input'); } else {currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();}">Rot angle</button>
