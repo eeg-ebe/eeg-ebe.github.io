@@ -32,6 +32,9 @@ function setFileVal(i, key, val) {
         }
     ]);
 }
+function replace(s, i, c) {
+    return s.substring(0, i) + c + s.substring(i+1);
+}
 function calculateFaFile(project, i) {
     try {
         // ok, set that we are processing this file
@@ -49,6 +52,38 @@ function calculateFaFile(project, i) {
             draw_NodePos.areaShouldBePropToNrInd = !!project["areaShouldBePropToNrInd"];
         }
         var m = new mj_MJAlgo();
+        // check sequence
+        var toRem = []
+        var current = fc.h;
+        while(current != null && current != undefined) {
+            var seqName = current.item.first, seq = current.item.second;
+            for(var chIndex = 0; chIndex < seq.length; chIndex++) {
+                var c = seq.charAt(chIndex).toUpperCase();
+                if(!(c == 'A' || c == 'T' || c == 'G' || c == 'C' || c == '-')) {
+                    if(project["ambigStrat"] == "error") {
+                        if (c == 'R' || c == 'Y' || c == 'K' || c == 'M' || c == 'S' || c == 'W' || c == 'B' || c == 'D' || c == 'H' || c == 'V' || c == 'N') {
+                            throw new js__$Boot_HaxeError("Your input FASTA file contains one or several ambiguities (" + c + "). Please make sure that all your sequences are properly phased and do not contain any ambiguities before running HaplowebMaker. (Or enable an option for treating ambiguities ...)");
+                        }
+                        throw new js__$Boot_HaxeError("Your input FASTA file contains one or several unauthorized characters (" + c + ")!");
+                    } else {
+                        toRem.push(chIndex);
+                    }
+                }
+            }
+            current = current.next;
+        }
+        for (var ixy = 0; ixy < toRem.length; ixy++) {
+            var ppii = toRem[ixy];
+            var current = fc.h;
+            while(current != null && current != undefined) {
+                var seqName = current.item.first, seq = current.item.second;
+                seq = replace(seq, ppii, "#");
+//                seq = seq.substring(0, ppii) + "#" + seq.substring(ppii + 1);
+                current.item.second = seq;
+                current = current.next;
+            }
+        }
+        // add sequences
         var current = fc.h;
         while(current != null && current != undefined) {
             var seqName = current.item.first, seq = current.item.second;
@@ -59,16 +94,6 @@ function calculateFaFile(project, i) {
                     self.postMessage([{ "key" : ["notifications"], "val" : project["notifications"] }]);
                 }
                 self.addedIndelIs5thStateWarning = true;
-            }
-            // check sequence
-            for(var chIndex = 0; chIndex < seq.length; chIndex++) {
-                var c = seq.charAt(chIndex).toUpperCase();
-                if(!(c == 'A' || c == 'T' || c == 'G' || c == 'C' || c == '-')) {
-                    if (c == 'R' || c == 'Y' || c == 'K' || c == 'M' || c == 'S' || c == 'W' || c == 'B' || c == 'D' || c == 'H' || c == 'V' || c == 'N') {
-                        throw new js__$Boot_HaxeError("Your input FASTA file contains one or several ambiguities (" + c + "). Please make sure that all your sequences are properly phased and do not contain any ambiguities before running HaplowebMaker.");
-                    }
-                    throw new js__$Boot_HaxeError("Your input FASTA file contains one or several unauthorized characters (" + c + ")!");
-                }
             }
             // go on
             if(project["upperLowerCaseN"] && project["upperLowerCaseS"]) {

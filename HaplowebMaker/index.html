@@ -210,6 +210,15 @@
                         </script>
                     </td>
                 </tr>
+                <tr class="advancedSettings">
+                    <td>Ambigious characters</td>
+                    <td style="text-align: right">
+                        <select id="ambigStrat" autocomplete="off">
+                            <option>error</option>
+                            <option>replace</option>
+                        </select>
+                    </td>
+                </tr>
                 <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsDelimiter.title">
                     <td class="label" lid="jobSubmissionAdvancedSettingsDelimiter.label"></td>
                     <td style="text-align: right">
@@ -661,6 +670,7 @@
                     project["areaShouldBePropToNrInd"] = document.getElementById("areaShouldBePropToNrInd").checked;
                     project["upperLowerCaseN"] = document.getElementById("ignoreUpperLowerName").checked;
                     project["upperLowerCaseS"] = document.getElementById("ignoreUpperLowerSeq").checked;
+                    project["ambigStrat"] = document.getElementById("ambigStrat").value;
                     project["submissionDate"] = Date.now();
                     project["calculationEndDate"] = null;
                     project["pieByIndNameOnly"] = document.getElementById("pieByIndNameOnly").checked;
