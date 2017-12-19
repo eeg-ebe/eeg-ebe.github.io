@@ -249,7 +249,12 @@
                 <tr class="advancedSettings tooltip" tid="areaShouldBePropToNrInd.title">
                     <td class="label" lid="areaShouldBePropToNrInd.label"></td>
                     <td style="text-align: right">
-                        <input type="checkbox" name="areaShouldBePropToNrInd" id="areaShouldBePropToNrInd" autocomplete="off" />
+                        <select id="areaShouldBePropToNrInd" autocomplete="off">
+                            <option>Area</option>
+                            <option>Const</option>
+                            <option>Radius</option>
+                        </select>
+<!--                        <input type="checkbox" name="areaShouldBePropToNrInd" id="areaShouldBePropToNrInd" autocomplete="off" />-->
                     </td>
                 </tr>
                 <tr class="advancedSettings tooltip" tid="pieChartAdvSet.title">
@@ -668,7 +673,7 @@
                     project["projectName"] = document.getElementById("jobname").value;
                     project["epsilon"] = $( "#epsilon" ).spinner( "value" );
                     project["delimiter"] = document.getElementById("delimiterChoosing").value;
-                    project["areaShouldBePropToNrInd"] = document.getElementById("areaShouldBePropToNrInd").checked;
+                    project["areaShouldBePropToNrInd"] = document.getElementById("areaShouldBePropToNrInd").value;
                     project["upperLowerCaseN"] = document.getElementById("ignoreUpperLowerName").checked;
                     project["upperLowerCaseS"] = document.getElementById("ignoreUpperLowerSeq").checked;
                     project["ambigStrat"] = document.getElementById("ambigStrat").value;

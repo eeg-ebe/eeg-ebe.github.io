@@ -48,9 +48,6 @@ function calculateFaFile(project, i) {
         if(typeof project["delimiter"] !== "undefined") {
             mj_Seq.delimiter = project["delimiter"];
         }
-        if(typeof project["areaShouldBePropToNrInd"] !== "undefined") {
-            draw_NodePos.areaShouldBePropToNrInd = !!project["areaShouldBePropToNrInd"];
-        }
         var m = new mj_MJAlgo();
         // check sequence
         var toRem = []
@@ -125,6 +122,9 @@ function calculateFaFile(project, i) {
         setProgress(++stepsDone, stepsToDO);
         setFileVal(i, "endMJ", Date.now());
         // end of mj - now draw
+        if(typeof project["areaShouldBePropToNrInd"] !== "undefined") {
+            draw_NodePos.set_areaShouldBePropTo(project["areaShouldBePropToNrInd"]);
+        }
         if(!project["onlyComa"]) {
             var g = new draw_Graph(parsing_MJNetParser.parseNet(netTxt));
             g.forceDirectedMethod(true, 0.6, 0.5, 500.0, 0.1, 0.1, 10000);
