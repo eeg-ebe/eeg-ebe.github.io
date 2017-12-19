@@ -122,7 +122,7 @@
     "areaShouldBePropToNrInd.title" : "Cirlce ... should equal frequency",
     "areaShouldBePropToNrInd.label" : "Cirlce ... should equal frequency",
     "pieChartAdvSet.title" : "Tab delimited file. When given a pie chart will be drawn on each haplotype accoding to the colors given.",
-    "pieChartAdvSet.label" : "Pie char file",
+    "pieChartAdvSet.label" : "Pie chart file",
     "indelIs5State.text" : "Some of your sequences start with '-' (indel character). Please be aware that HaplowebMaker consider the indel character as a 5th character state, not as missing information",
     "pieChartsByIndNameOnly.title" : "",
     "pieChartsByIndNameOnly.label" : "Name is sufficent for pie chart",
