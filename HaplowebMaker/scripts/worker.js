@@ -54,7 +54,7 @@ function calculateFaFile(project, i) {
         var current = fc.h;
         while(current != null && current != undefined) {
             var seqName = current.item.first, seq = current.item.second;
-            for(var chIndex = 0; chIndex < seq.length; chIndex++) {
+            for(var chIndex = 0; chIndex < seq.length; chIndex++) { // XXX: for loop should change place with while loop (or even better whole thing should get implemented in HaXe)
                 var c = seq.charAt(chIndex).toUpperCase();
                 if(!(c == 'A' || c == 'T' || c == 'G' || c == 'C' || c == '-')) {
                     if(project["ambigStrat"] == "error") {
@@ -65,6 +65,9 @@ function calculateFaFile(project, i) {
                     } else {
                         toRem.push(chIndex);
                     }
+                }
+                if(c == '-' && !!project["replaceIndelPositions"]) {
+                    toRem.push(chIndex);
                 }
             }
             current = current.next;

@@ -133,6 +133,8 @@
     "onlyComa.title" : "Nur die Programmteile laufen lassen, die für CoMa benötigt werden",
     "onlyComa.label" : "Nur CoMa",
     "comaLst.label" : "CoMa.tsv",
-    "comaLstDesc.label" : "Textuelle Version der Matrix"
+    "comaLstDesc.label" : "Textuelle Version der Matrix",
+    "repIndels.title" : "Indel Zeichen von der Analyse ausschließen",
+    "repIndels.label" : "Indel Zeichen von der Analyse ausschließen"
   }
 }
