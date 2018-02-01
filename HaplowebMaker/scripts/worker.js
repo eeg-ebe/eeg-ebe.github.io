@@ -49,8 +49,19 @@ function calculateFaFile(project, i) {
             mj_Seq.delimiter = project["delimiter"];
         }
         var m = new mj_MJAlgo();
+// remove singletons
+        if(!!project["removeSingletons"]) {
+            var toRem = [];
+            var current = fc.h;
+            while(current != null && current != undefined) {
+                var seqName = current.item.first, seq = current.item.second;
+                toRem.push(chIndex);
+            }
+// TODO
+        }
+// end remove singletons
         // check sequence
-        var toRem = []
+        var toRem = [];
         var current = fc.h;
         while(current != null && current != undefined) {
             var seqName = current.item.first, seq = current.item.second;

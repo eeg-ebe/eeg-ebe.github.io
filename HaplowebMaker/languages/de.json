@@ -135,6 +135,8 @@
     "comaLst.label" : "CoMa.tsv",
     "comaLstDesc.label" : "Textuelle Version der Matrix",
     "repIndels.title" : "Indel Zeichen von der Analyse ausschließen",
-    "repIndels.label" : "Indel Zeichen von der Analyse ausschließen"
+    "repIndels.label" : "Indel Zeichen von der Analyse ausschließen",
+    "removeSingletons.title" : "Singletons entfernen",
+    "removeSingletons.label" : "Singletons entfernen"
   }
 }
