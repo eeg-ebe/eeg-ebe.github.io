@@ -37,11 +37,12 @@
             urlParams = parseUrl();
             // check in which language the site should get displayed;
             language = 'en'; // fallback: english
+            /*
             var browserLang = navigator.browserLanguage || navigator.language; // check if the language of the browser is among the supported languages => if yes, use it
             browserLang = browserLang.split("-")[0].toLowerCase();
             if(typeof languageDicts[browserLang] != "undefined") {
                 language = browserLang;
-            }
+            }*/
             if(typeof urlParams["lang"] != "undefined") { // uri parameter overwrites fallback language
                 if(typeof languageDicts[urlParams["lang"]] != "undefined") {
                     // ok, a language parameter was given via uri -> use this language instead
