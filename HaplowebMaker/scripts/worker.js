@@ -140,6 +140,10 @@ function calculateFaFile(project, i) {
             } else if(typeof project["assignRandomColoresToFFRs"] !== "undefined") {
                 g.colorNetwork();
             }
+            // multicolor?
+            if(typeof project["multiColorLinks"] !== "undefined" && project["multiColorLinks"] && typeof project["pieChart"] !== "undefined") {
+                g.initStrokeColorListByStr(project["pieChart"], project["upperLowerCaseN"]);
+            }
             // return result
             setFileVal(i, "graphstyle", g.saveStyle());
             setFileVal(i, "svg", g.getSvgCode());

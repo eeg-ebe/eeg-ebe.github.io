@@ -137,6 +137,8 @@
     "repIndels.title" : "Indel Zeichen von der Analyse ausschließen",
     "repIndels.label" : "Indel Zeichen von der Analyse ausschließen",
     "partitionsLst.label" : "partitions.tsv",
-    "partitionLstDesc.label" : "Partitionen"
+    "partitionLstDesc.label" : "Partitionen",
+    "multiColorLinks.label" : "Mehrfarbige Kurven",
+    "multiColorLinks.title" : "Mehrfarbige Kurven"
   }
 }
