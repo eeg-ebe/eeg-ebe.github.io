@@ -135,6 +135,8 @@
     "comaLst.label" : "CoMa.tsv",
     "comaLstDesc.label" : "Text version of the conspecicifity matrix",
     "repIndels.title" : "Remove indel position(s) from analysis",
-    "repIndels.label" : "Remove indel position(s) from analysis"
+    "repIndels.label" : "Remove indel position(s) from analysis",
+    "partitionsLst.label" : "partitions.tsv",
+    "partitionLstDesc.label" : "partitions"
   }
 }

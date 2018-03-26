@@ -135,6 +135,8 @@
     "comaLst.label" : "CoMa.tsv",
     "comaLstDesc.label" : "Version text de la matrice",
     "repIndels.title" : "Supprime les positions d'indel",
-    "repIndels.label" : "Supprime les positions d'indel"
+    "repIndels.label" : "Supprime les positions d'indel",
+    "partitionsLst.label" : "partitions.tsv",
+    "partitionLstDesc.label" : "partitions"
   }
 }
