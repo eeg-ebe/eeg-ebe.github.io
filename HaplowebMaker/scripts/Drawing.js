@@ -2771,6 +2771,9 @@ draw_Graph.prototype = {
 			node.pie = l_;
 		}
 	}
+	,initStrokeColorListByStr: function(s,ignoreCase) {
+		this.initStrokeColorList(parsing_LstParser.parseLst(s),ignoreCase);
+	}
 	,initStrokeColorList: function(l,ignoreCase) {
 		var _g_head = this.links.h;
 		while(_g_head != null) {
