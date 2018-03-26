@@ -1009,7 +1009,7 @@ draw_Drawer.main = function() {
 	var g_drawAngles;
 	var g_cons;
 	g_drawCircles = true;
-	g_drawCirclesMedians = true;
+	g_drawCirclesMedians = false;
 	g_drawCons = true;
 	g_drawCurves = true;
 	g_drawBezierPoints = false;
@@ -1558,6 +1558,7 @@ draw_Drawer.main = function() {
 					sum += p.second;
 				}
 				var dSum = 0;
+				var factor = link4.strokeWidth / sum;
 				var _g_head32 = link4.strokeColorList.h;
 				while(_g_head32 != null) {
 					var val32 = _g_head32.item;
@@ -1565,7 +1566,7 @@ draw_Drawer.main = function() {
 					var p1 = val32;
 					var c = p1.first;
 					var d2 = p1.second;
-					var l3 = (sum - d2) / 2 - dSum;
+					var l3 = ((sum - d2) / 2 - dSum) * factor;
 					dSum += d2;
 					result7.add("<path d='M");
 					result7.add(link4.n1.xPos + v00X * l3 + " ");
@@ -1577,7 +1578,7 @@ draw_Drawer.main = function() {
 					result7.add("' stroke='");
 					result7.add(c);
 					result7.add("' stroke-width='");
-					result7.add(d2 + "' ");
+					result7.add(d2 * factor + "' ");
 					if(!link4.dashedArray.isEmpty()) {
 						result7.add("stroke-dasharray='");
 						result7.add(link4.dashedArray.join(","));
@@ -2140,6 +2141,7 @@ draw_Drawer.main = function() {
 					sum1 += p4.second;
 				}
 				var dSum1 = 0;
+				var factor1 = link11.strokeWidth / sum1;
 				var _g_head61 = link11.strokeColorList.h;
 				while(_g_head61 != null) {
 					var val61 = _g_head61.item;
@@ -2147,7 +2149,7 @@ draw_Drawer.main = function() {
 					var p5 = val61;
 					var c4 = p5.first;
 					var d3 = p5.second;
-					var l5 = (sum1 - d3) / 2 - dSum1;
+					var l5 = ((sum1 - d3) / 2 - dSum1) * factor1;
 					dSum1 += d3;
 					result11.add("<path d='M");
 					result11.add(link11.n1.xPos + v00X1 * l5 + " ");
@@ -2159,7 +2161,7 @@ draw_Drawer.main = function() {
 					result11.add("' stroke='");
 					result11.add(c4);
 					result11.add("' stroke-width='");
-					result11.add(d3 + "' ");
+					result11.add(d3 * factor1 + "' ");
 					if(!link11.dashedArray.isEmpty()) {
 						result11.add("stroke-dasharray='");
 						result11.add(link11.dashedArray.join(","));
@@ -2370,7 +2372,7 @@ var draw_Graph = function(l) {
 	this.drawBezierPoints = false;
 	this.drawCurves = true;
 	this.drawCons = true;
-	this.drawCirclesMedians = true;
+	this.drawCirclesMedians = false;
 	this.drawCircles = true;
 	this.drawCircles = true;
 	this.drawCons = true;
@@ -3767,6 +3769,7 @@ draw_Graph.prototype = {
 						sum += p.second;
 					}
 					var dSum = 0;
+					var factor = link1.strokeWidth / sum;
 					var _g_head6 = link1.strokeColorList.h;
 					while(_g_head6 != null) {
 						var val6 = _g_head6.item;
@@ -3774,7 +3777,7 @@ draw_Graph.prototype = {
 						var p1 = val6;
 						var c = p1.first;
 						var d = p1.second;
-						var l = (sum - d) / 2 - dSum;
+						var l = ((sum - d) / 2 - dSum) * factor;
 						dSum += d;
 						result2.add("<path d='M");
 						result2.add(link1.n1.xPos + v00X * l + " ");
@@ -3786,7 +3789,7 @@ draw_Graph.prototype = {
 						result2.add("' stroke='");
 						result2.add(c);
 						result2.add("' stroke-width='");
-						result2.add(d + "' ");
+						result2.add(d * factor + "' ");
 						if(!link1.dashedArray.isEmpty()) {
 							result2.add("stroke-dasharray='");
 							result2.add(link1.dashedArray.join(","));
@@ -4793,6 +4796,7 @@ draw_Link.prototype = {
 				sum += p.second;
 			}
 			var dSum = 0;
+			var factor = this.strokeWidth / sum;
 			var _g_head1 = this.strokeColorList.h;
 			while(_g_head1 != null) {
 				var val1 = _g_head1.item;
@@ -4800,7 +4804,7 @@ draw_Link.prototype = {
 				var p1 = val1;
 				var c = p1.first;
 				var d = p1.second;
-				var l = (sum - d) / 2 - dSum;
+				var l = ((sum - d) / 2 - dSum) * factor;
 				dSum += d;
 				result.add("<path d='M");
 				result.add(this.n1.xPos + v00X * l + " ");
@@ -4812,7 +4816,7 @@ draw_Link.prototype = {
 				result.add("' stroke='");
 				result.add(c);
 				result.add("' stroke-width='");
-				result.add(d + "' ");
+				result.add(d * factor + "' ");
 				if(!this.dashedArray.isEmpty()) {
 					result.add("stroke-dasharray='");
 					result.add(this.dashedArray.join(","));
