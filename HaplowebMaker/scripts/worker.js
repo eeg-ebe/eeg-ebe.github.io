@@ -176,9 +176,11 @@ self.addEventListener('message', function(e) {
         }
         var p = new Printer();
         var p2 = new Printer();
-        CoMa.runComaJS(a, p, p2);
+        var p3 = new Printer();
+        CoMa.runComaJS(a, p, p2, p3);
         var comaTxt = p.toText();
         var comaLstTxt = p2.toText();
+        var partitionsLstTxt = p3.toText();
         self.postMessage([
             {
                 "key" : ["coma"],
@@ -189,6 +191,12 @@ self.addEventListener('message', function(e) {
             {
                 "key" : ["comaLst"],
                 "val" : comaLstTxt
+            }
+        ]);
+        self.postMessage([
+            {
+                "key" : ["partitionsLst"],
+                "val" : partitionsLstTxt
             }
         ]);
 /*
