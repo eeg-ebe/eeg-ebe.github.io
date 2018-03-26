@@ -95,17 +95,25 @@ CoMa.runComa = function(l,printer,printer2,printer3) {
 		}
 		++index;
 	}
+	printer3.printString("Individual");
+	var _g1 = 1;
+	var _g = comaIndL.first().vals.length + 1;
+	while(_g1 < _g) {
+		var i = _g1++;
+		printer3.printString("\tMarker" + i);
+	}
+	printer3.printString("\n");
 	var _g_head3 = comaIndL.h;
 	while(_g_head3 != null) {
 		var val3 = _g_head3.item;
 		_g_head3 = _g_head3.next;
 		var ind = val3;
 		printer3.printString(ind.indName);
-		var _g = 0;
-		var _g1 = ind.vals;
-		while(_g < _g1.length) {
-			var val4 = _g1[_g];
-			++_g;
+		var _g2 = 0;
+		var _g11 = ind.vals;
+		while(_g2 < _g11.length) {
+			var val4 = _g11[_g2];
+			++_g2;
 			printer3.printString("\t" + val4);
 		}
 		printer3.printString("\n");
@@ -224,7 +232,7 @@ CoMa.runComa = function(l,printer,printer2,printer3) {
 		++index1;
 	}
 	printer.printString("</g>");
-	var i = 0;
+	var i1 = 0;
 	var j = 0;
 	var _g_head11 = orderedL.h;
 	while(_g_head11 != null) {
@@ -237,11 +245,11 @@ CoMa.runComa = function(l,printer,printer2,printer3) {
 			_g_head12 = _g_head12.next;
 			var e22 = val13;
 			var dist2 = e12.compare(e22);
-			printer.printString("<rect x=\"" + (100 + 20 * i) + "\" y=\"" + (100 + 20 * j) + "\" width=\"20\" height=\"20\" fill=\"" + CoMa.cToCol(dist2,highestVal,lowestVal) + "\"/>");
+			printer.printString("<rect x=\"" + (100 + 20 * i1) + "\" y=\"" + (100 + 20 * j) + "\" width=\"20\" height=\"20\" fill=\"" + CoMa.cToCol(dist2,highestVal,lowestVal) + "\"/>");
 			++j;
 		}
 		j = 0;
-		++i;
+		++i1;
 	}
 	printer.printString("</svg>");
 	printer.close();
