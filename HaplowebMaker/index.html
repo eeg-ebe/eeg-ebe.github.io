@@ -283,6 +283,10 @@
                     <td class="label" lid="multiColorLinks.label"></td>
                     <td style="text-align: right"><input type="checkbox" name="multiColorLinks" id="multiColorLinks" checked="cheched" autocomplete="off" /></td>
                 </tr>-->
+                <tr class="advancedSettings tooltip" tid="removeSingletons.title">
+                    <td class="label" lid="removeSingletons.label"></td>
+                    <td style="text-align: right"><input type="checkbox" name="removeSingletons" id="removeSingletons" autocomplete="off" /></td>
+                </tr>
                 <tr>
                     <td></td>
                     <td style="text-align: right"><button id="jobSubmissionButton" class="ui-button ui-widget ui-corner-all shortcut label tooltip" shortcut="jobsubmission" lid="jobSubmissionButton.label" tid="jobSubmissionButton.title" onclick="javascript: addNewSequencesToProject();"></button></td>
@@ -679,7 +683,8 @@
                         $("#calculationOverlay").hide();
                         return;
                     }
-                    project["multiColorLinks"] = document.getElementById("multiColorLinks").checked;
+                    project["removeSingletons"] = document.getElementById("removeSingletons").checked
+//XXX                    project["multiColorLinks"] = document.getElementById("multiColorLinks").checked;
                     project["onlyComa"] = document.getElementById("onlyComa").checked;
                     project["replaceIndelPositions"] = document.getElementById("repIndels").checked;
                     project["notifications"] = [ { "ui" : "highlight", "icon" : "info", "text" : "haplowebmakerIsStillBeta.text" } ];

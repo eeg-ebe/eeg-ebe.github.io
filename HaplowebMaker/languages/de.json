@@ -139,6 +139,8 @@
     "partitionsLst.label" : "partitions.tsv",
     "partitionLstDesc.label" : "Partitionen",
     "multiColorLinks.label" : "Mehrfarbige Kurven",
-    "multiColorLinks.title" : "Mehrfarbige Kurven"
+    "multiColorLinks.title" : "Mehrfarbige Kurven",
+    "removeSingletons.label" : "Singletons entfernen",
+    "removeSingletons.title" : "Singletons entfernen"
   }
 }

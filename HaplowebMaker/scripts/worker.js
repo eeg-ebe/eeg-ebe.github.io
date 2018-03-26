@@ -1,4 +1,4 @@
-self.importScripts("FastaParsing.js", "MJAlgo.js", "Drawing.js", "coma.js", "LstExtractor.js");
+self.importScripts("FastaParsing.js", "MJAlgo.js", "Drawing.js", "coma.js", "LstExtractor.js", "filterSingl.js");
 
 Printer = function () {
     this.indent = "  ";
@@ -83,6 +83,10 @@ function calculateFaFile(project, i) {
                 current = current.next;
             }
         }
+        // filter for singletons if needed
+        if(!!project["removeSingletons"]) {
+            fc = FilterSingletons.filterSingletons(fc);
+        }
         // add sequences
         var current = fc.h;
         while(current != null && current != undefined) {
@@ -141,9 +145,11 @@ function calculateFaFile(project, i) {
                 g.colorNetwork();
             }
             // multicolor?
+            /*
             if(typeof project["multiColorLinks"] !== "undefined" && project["multiColorLinks"] && typeof project["pieChart"] !== "undefined") {
                 g.initStrokeColorListByStr(project["pieChart"], project["upperLowerCaseN"]);
             }
+            */
             // return result
             setFileVal(i, "graphstyle", g.saveStyle());
             setFileVal(i, "svg", g.getSvgCode());
