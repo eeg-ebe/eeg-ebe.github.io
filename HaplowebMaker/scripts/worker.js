@@ -179,15 +179,17 @@ self.addEventListener('message', function(e) {
     // do coma
 //    try {
         var a = new Array(project["faFiles"]);
+        var fileNames = new Array(project["faFiles"]);
         for(var i = 0; i < project["faFiles"].length; i++) {
             var p = new Printer();
             LstExtractor.extract(p, project["faFiles"][i]["mj"], true, false, false, false, project["delimiter"]);
             a[i] = p.toText();
+            fileNames[i] = project["faFiles"][i]["filename"];
         }
         var p = new Printer();
         var p2 = new Printer();
         var p3 = new Printer();
-        CoMa.runComaJS(a, p, p2, p3);
+        CoMa.runComaJS(a, p, p2, p3, fileNames);
         var comaTxt = p.toText();
         var comaLstTxt = p2.toText();
         var partitionsLstTxt = p3.toText();

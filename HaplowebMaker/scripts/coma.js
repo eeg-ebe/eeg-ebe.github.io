@@ -51,7 +51,7 @@ CoMa.cToCol = function(v,maxV,minV) {
 	b = (b + m) * 256;
 	return "rgb(" + (r | 0) + "," + (g | 0) + "," + (b | 0) + ")";
 };
-CoMa.runComaJS = function(a,printer,printer2,printer3) {
+CoMa.runComaJS = function(a,printer,printer2,printer3,namesOfMarkerFiles) {
 	var l = new List();
 	var _g1 = 0;
 	var _g = a.length;
@@ -59,9 +59,9 @@ CoMa.runComaJS = function(a,printer,printer2,printer3) {
 		var i = _g1++;
 		l.add(parsing_LstParser.parseLst(a[i]));
 	}
-	CoMa.runComa(l,printer,printer2,printer3);
+	CoMa.runComa(l,printer,printer2,printer3,namesOfMarkerFiles);
 };
-CoMa.runComa = function(l,printer,printer2,printer3) {
+CoMa.runComa = function(l,printer,printer2,printer3,namesOfMarkerFiles) {
 	haxe_Log.trace("runningComa on " + l.length + " " + l.first().length,{ fileName : "CoMa.hx", lineNumber : 63, className : "CoMa", methodName : "runComa"});
 	var comaIndL = new List();
 	var index = 0;
@@ -96,11 +96,12 @@ CoMa.runComa = function(l,printer,printer2,printer3) {
 		++index;
 	}
 	printer3.printString("Individual");
-	var _g1 = 1;
-	var _g = comaIndL.first().vals.length + 1;
+	var _g1 = 0;
+	var _g = comaIndL.first().vals.length;
 	while(_g1 < _g) {
 		var i = _g1++;
-		printer3.printString("\tMarker" + i);
+		printer3.printString("\t");
+		printer3.printString(namesOfMarkerFiles[i]);
 	}
 	printer3.printString("\n");
 	var _g_head3 = comaIndL.h;
