@@ -2771,16 +2771,85 @@ draw_Graph.prototype = {
 			node.pie = l_;
 		}
 	}
-	,initStrokeColorList: function() {
+	,initStrokeColorList: function(l,ignoreCase) {
 		var _g_head = this.links.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
 			var link = val;
+			var map = new haxe_ds_StringMap();
+			var _g_head1 = link.n1.node.names.h;
+			while(_g_head1 != null) {
+				var val1 = _g_head1.item;
+				_g_head1 = _g_head1.next;
+				var name1 = val1;
+				var result = name1;
+				if(name1 != null) {
+					var pos = name1.lastIndexOf(mj_Seq.delimiter);
+					if(pos != -1) {
+						result = HxOverrides.substr(name1,0,pos);
+					}
+				}
+				var nn1 = result;
+				var _g_head2 = link.n1.node.names.h;
+				while(_g_head2 != null) {
+					var val2 = _g_head2.item;
+					_g_head2 = _g_head2.next;
+					var name2 = val2;
+					var result1 = name2;
+					if(name2 != null) {
+						var pos1 = name2.lastIndexOf(mj_Seq.delimiter);
+						if(pos1 != -1) {
+							result1 = HxOverrides.substr(name2,0,pos1);
+						}
+					}
+					var nn2 = result1;
+					if(nn1 == nn2) {
+						var colorName = null;
+						if(ignoreCase) {
+							var _g_head3 = l.h;
+							while(_g_head3 != null) {
+								var val3 = _g_head3.item;
+								_g_head3 = _g_head3.next;
+								var p = val3;
+								if(p.first.toUpperCase() == nn1.toUpperCase()) {
+									colorName = p.second.toLowerCase();
+									break;
+								}
+							}
+						} else {
+							var _g_head4 = l.h;
+							while(_g_head4 != null) {
+								var val4 = _g_head4.item;
+								_g_head4 = _g_head4.next;
+								var p1 = val4;
+								if(p1.first == nn1) {
+									colorName = p1.second.toLowerCase();
+									break;
+								}
+							}
+						}
+						if(__map_reserved[colorName] != null ? map.existsReserved(colorName) : map.h.hasOwnProperty(colorName)) {
+							var value = (__map_reserved[colorName] != null ? map.getReserved(colorName) : map.h[colorName]) + 1;
+							if(__map_reserved[colorName] != null) {
+								map.setReserved(colorName,value);
+							} else {
+								map.h[colorName] = value;
+							}
+						} else if(__map_reserved[colorName] != null) {
+							map.setReserved(colorName,1);
+						} else {
+							map.h[colorName] = 1;
+						}
+					}
+				}
+			}
 			link.strokeColorList = new List();
-			link.strokeColorList.add(new util_Pair("green",5));
-			link.strokeColorList.add(new util_Pair("red",18));
-			link.strokeColorList.add(new util_Pair("blue",8));
+			var key = map.keys();
+			while(key.hasNext()) {
+				var key1 = key.next();
+				link.strokeColorList.add(new util_Pair(key1,__map_reserved[key1] != null ? map.getReserved(key1) : map.h[key1]));
+			}
 		}
 	}
 	,generateRandomColor: function() {
@@ -5080,6 +5149,142 @@ haxe_Log.trace = function(v,infos) {
 haxe_Log.clear = function() {
 	js_Boot.__clear_trace();
 };
+var haxe_ds__$StringMap_StringMapIterator = function(map,keys) {
+	this.map = map;
+	this.keys = keys;
+	this.index = 0;
+	this.count = keys.length;
+};
+$hxClasses["haxe.ds._StringMap.StringMapIterator"] = haxe_ds__$StringMap_StringMapIterator;
+haxe_ds__$StringMap_StringMapIterator.__name__ = ["haxe","ds","_StringMap","StringMapIterator"];
+haxe_ds__$StringMap_StringMapIterator.prototype = {
+	map: null
+	,keys: null
+	,index: null
+	,count: null
+	,hasNext: function() {
+		return this.index < this.count;
+	}
+	,next: function() {
+		var _this = this.map;
+		var key = this.keys[this.index++];
+		if(__map_reserved[key] != null) {
+			return _this.getReserved(key);
+		} else {
+			return _this.h[key];
+		}
+	}
+	,__class__: haxe_ds__$StringMap_StringMapIterator
+};
+var haxe_ds_StringMap = function() {
+	this.h = { };
+};
+$hxClasses["haxe.ds.StringMap"] = haxe_ds_StringMap;
+haxe_ds_StringMap.__name__ = ["haxe","ds","StringMap"];
+haxe_ds_StringMap.__interfaces__ = [haxe_IMap];
+haxe_ds_StringMap.prototype = {
+	h: null
+	,rh: null
+	,isReserved: function(key) {
+		return __map_reserved[key] != null;
+	}
+	,set: function(key,value) {
+		if(__map_reserved[key] != null) {
+			this.setReserved(key,value);
+		} else {
+			this.h[key] = value;
+		}
+	}
+	,get: function(key) {
+		if(__map_reserved[key] != null) {
+			return this.getReserved(key);
+		}
+		return this.h[key];
+	}
+	,exists: function(key) {
+		if(__map_reserved[key] != null) {
+			return this.existsReserved(key);
+		}
+		return this.h.hasOwnProperty(key);
+	}
+	,setReserved: function(key,value) {
+		if(this.rh == null) {
+			this.rh = { };
+		}
+		this.rh["$" + key] = value;
+	}
+	,getReserved: function(key) {
+		if(this.rh == null) {
+			return null;
+		} else {
+			return this.rh["$" + key];
+		}
+	}
+	,existsReserved: function(key) {
+		if(this.rh == null) {
+			return false;
+		}
+		return this.rh.hasOwnProperty("$" + key);
+	}
+	,remove: function(key) {
+		if(__map_reserved[key] != null) {
+			key = "$" + key;
+			if(this.rh == null || !this.rh.hasOwnProperty(key)) {
+				return false;
+			}
+			delete(this.rh[key]);
+			return true;
+		} else {
+			if(!this.h.hasOwnProperty(key)) {
+				return false;
+			}
+			delete(this.h[key]);
+			return true;
+		}
+	}
+	,keys: function() {
+		return HxOverrides.iter(this.arrayKeys());
+	}
+	,arrayKeys: function() {
+		var out = [];
+		for( var key in this.h ) {
+		if(this.h.hasOwnProperty(key)) {
+			out.push(key);
+		}
+		}
+		if(this.rh != null) {
+			for( var key in this.rh ) {
+			if(key.charCodeAt(0) == 36) {
+				out.push(key.substr(1));
+			}
+			}
+		}
+		return out;
+	}
+	,iterator: function() {
+		return new haxe_ds__$StringMap_StringMapIterator(this,this.arrayKeys());
+	}
+	,toString: function() {
+		var s_b = "";
+		s_b += "{";
+		var keys = this.arrayKeys();
+		var _g1 = 0;
+		var _g = keys.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var k = keys[i];
+			s_b += k == null ? "null" : "" + k;
+			s_b += " => ";
+			s_b += Std.string(Std.string(__map_reserved[k] != null ? this.getReserved(k) : this.h[k]));
+			if(i < keys.length - 1) {
+				s_b += ", ";
+			}
+		}
+		s_b += "}";
+		return s_b;
+	}
+	,__class__: haxe_ds_StringMap
+};
 var haxe_ds__$Vector_Vector_$Impl_$ = {};
 $hxClasses["haxe.ds._Vector.Vector_Impl_"] = haxe_ds__$Vector_Vector_$Impl_$;
 haxe_ds__$Vector_Vector_$Impl_$.__name__ = ["haxe","ds","_Vector","Vector_Impl_"];
@@ -6310,7 +6515,7 @@ Bool.__ename__ = ["Bool"];
 var Class = $hxClasses["Class"] = { __name__ : ["Class"]};
 var Enum = { };
 var Void = $hxClasses["Void"] = { __ename__ : ["Void"]};
+var __map_reserved = {}
 draw_NodePos.areaShouldBePropTo = draw_SIZE_$TO_$RADIUS.SQRT;
 js_Boot.__toStr = ({ }).toString;
 mj_Seq.delimiter = "_";
-
