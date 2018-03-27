@@ -909,7 +909,7 @@
                         var even = true;
                         html += "<tr class='" + ((even) ? "even" : "odd") + " overviewfiles'>";
                         html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
-                        html += "<span class='label' lid='allFilesZip.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadEverything();'><span class='ui-icon ui-icon-disk";
+                        html += "<span class='label' lid='allFilesZip.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all' style='visibility: hidden'><span class='ui-icon ui-icon-newwin'></span></button><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadEverything();'><span class='ui-icon ui-icon-disk";
                         html += (project["progress"] === 100) ? "" : " ui-state-disabled";
                         html += "'></span></button></td><td class='middle label' lid='allFilesZipDesc.label'></td></tr>";
                         var even = !even;
