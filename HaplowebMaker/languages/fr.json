@@ -137,7 +137,7 @@
     "repIndels.title" : "Supprime les positions d'indel",
     "repIndels.label" : "Supprime les positions d'indel",
     "partitionsLst.label" : "partitions.tsv",
-    "partitionLstDesc.label" : "partitions",
+    "partitionLstDesc.label" : "Tableau qui montre les partitions",
     "multiColorLinks.label" : "Curbes multicolore",
     "multiColorLinks.title" : "Curbes multicolore",
     "removeSingletons.label" : "Supprimer les singletons",

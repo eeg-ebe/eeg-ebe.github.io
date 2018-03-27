@@ -137,7 +137,7 @@
     "repIndels.title" : "Remove indel position(s) from analysis",
     "repIndels.label" : "Remove indel position(s) from analysis",
     "partitionsLst.label" : "partitions.tsv",
-    "partitionLstDesc.label" : "partitions",
+    "partitionLstDesc.label" : "Table of partitions",
     "multiColorLinks.label" : "Multicolor links",
     "multiColorLinks.title" : "Multicolor links",
     "removeSingletons.label" : "Remove singletone",

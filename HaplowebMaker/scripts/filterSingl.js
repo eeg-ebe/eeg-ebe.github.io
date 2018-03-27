@@ -22,7 +22,7 @@ FilterSingletons.filterSingletons = function(faFile) {
 			(__map_reserved[key1] != null ? map.getReserved(key1) : map.h[key1]).add(seq.first);
 		} else {
 			var lst = new List();
-			lst.add(seq.second);
+			lst.add(seq.first);
 			var key2 = seq.second;
 			if(__map_reserved[key2] != null) {
 				map.setReserved(key2,lst);
