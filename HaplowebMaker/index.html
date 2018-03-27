@@ -372,6 +372,7 @@
                     <button onclick="javascript: currentGraphEdit.modifyNodes(10/9); updateSVG();">Nodes++</button>
                     <button onclick="javascript: currentGraphEdit.modifyNodes(9/10); updateSVG();">Nodes--</button>
                     <button onclick="javascript: currentGraphEdit.initStrokeColorListByStr(project['pieChart'], document.getElementById('ignoreUpperLowerName').checked); updateSVG();">Multicolor curves</button>
+                    <button onclick="javascript: if(typeof project['pieChart'] !== 'undefined') { currentGraphEdit.assingPiesByTxt(project['pieChart'], project['upperLowerCaseN'], project['pieByIndNameOnly']); updateSVG(); } else { alert('No color file given!'); }">Reinitialize pie charts</button>
                     <br>
                     <span>Mutations shown as lines:</span>
                     <input type="checkbox" name="drawMutsByLineChkbx" id="drawMutsByLineChkbx" autocomplete="off" />
