@@ -211,8 +211,17 @@
                         </script>
                     </td>
                 </tr>
+                <tr class="advancedSettings tooltip" tid="repIndels.title">
+                    <td class="label" lid="repIndels.label"></td>
+                    <td style="text-align: right">
+                        <select id="repIndels" autocomplete="off">
+                            <option>5th character</option>
+                            <option>missing data</option>
+                        </select>
+                    </td>
+                </tr>
                 <tr class="advancedSettings">
-                    <td>Ambigious characters</td>
+                    <td>In case of ambiguous characters</td>
                     <td style="text-align: right">
                         <select id="ambigStrat" autocomplete="off">
                             <option>error</option>
@@ -273,10 +282,6 @@
                 <tr class="advancedSettings tooltip" tid="onlyComa.title">
                     <td class="label" lid="onlyComa.label"></td>
                     <td style="text-align: right"><input type="checkbox" name="onlyComa" id="onlyComa" autocomplete="off" /></td>
-                </tr>
-                <tr class="advancedSettings tooltip" tid="repIndels.title">
-                    <td class="label" lid="repIndels.label"></td>
-                    <td style="text-align: right"><input type="checkbox" name="repIndels" id="repIndels" autocomplete="off" /></td>
                 </tr>
                 <!--
                 <tr class="advancedSettings tooltip" tid="multiColorLinks.title">
@@ -691,7 +696,11 @@
                     project["removeSingletons"] = document.getElementById("removeSingletons").checked
 //XXX                    project["multiColorLinks"] = document.getElementById("multiColorLinks").checked;
                     project["onlyComa"] = document.getElementById("onlyComa").checked;
-                    project["replaceIndelPositions"] = document.getElementById("repIndels").checked;
+                    if(document.getElementById("repIndels").value == "5th character") {
+                        project["replaceIndelPositions"] = false;
+                    } else {
+                        project["replaceIndelPositions"] = true;
+                    }
                     project["notifications"] = [ { "ui" : "highlight", "icon" : "info", "text" : "haplowebmakerIsStillBeta.text" } ];
                     project["projectName"] = document.getElementById("jobname").value;
                     project["epsilon"] = $( "#epsilon" ).spinner( "value" );
