@@ -359,16 +359,16 @@
                     <button onclick="javascript: currentGraphEdit.rotateP90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s mirror"></span></button>
                     <button onclick="javascript: currentGraphEdit.mirrorX(); updateSVG();">Mirror X</button>
                     <button onclick="javascript: currentGraphEdit.mirrorY(); updateSVG();">Mirror Y</button>
-                    <button onclick="javascript: currentGraphEdit.colorNetwork(); updateSVG();">Colorfy by FFRs</button>
-                    <button onclick="javascript: currentGraphEdit.modifyLinks(10/9); updateSVG();">Links++</button>
-                    <button onclick="javascript: currentGraphEdit.modifyLinks(9/10); updateSVG();">Links--</button>
-                    <button onclick="javascript: currentGraphEdit.modifyCons(10/9); updateSVG();">Cons++</button>
-                    <button onclick="javascript: currentGraphEdit.modifyCons(9/10); updateSVG();">Cons--</button>
+                    <button onclick="javascript: currentGraphEdit.colorNetwork(); updateSVG();">Color by FFRs</button>
+                    <button onclick="javascript: currentGraphEdit.modifyLinks(10/9); updateSVG();">Curves++</button>
+                    <button onclick="javascript: currentGraphEdit.modifyLinks(9/10); updateSVG();">Curves--</button>
+                    <button onclick="javascript: currentGraphEdit.modifyCons(10/9); updateSVG();">Edges++</button>
+                    <button onclick="javascript: currentGraphEdit.modifyCons(9/10); updateSVG();">Edges--</button>
                     <button onclick="javascript: currentGraphEdit.modifyNodes(10/9); updateSVG();">Nodes++</button>
                     <button onclick="javascript: currentGraphEdit.modifyNodes(9/10); updateSVG();">Nodes--</button>
-                    <button onclick="javascript: currentGraphEdit.initStrokeColorListByStr(project['pieChart'], document.getElementById('ignoreUpperLowerName').checked); updateSVG();">Multicolor links</button>
+                    <button onclick="javascript: currentGraphEdit.initStrokeColorListByStr(project['pieChart'], document.getElementById('ignoreUpperLowerName').checked); updateSVG();">Multicolor curves</button>
                     <br>
-                    <span>Muts by lines:</span>
+                    <span>Mutations shown as lines:</span>
                     <input type="checkbox" name="drawMutsByLineChkbx" id="drawMutsByLineChkbx" autocomplete="off" />
                     <input type="color" name="drawMutsLineStrokeColor" id="drawMutsLineStrokeColor" value="#000000" autocomplete="off" />
                     <input type="text" name="drawMutsLineStrokeWidth" id="drawMutsLineStrokeWidth" value="3" autocomplete="off" />
@@ -376,7 +376,7 @@
                     <input type="text" name="drawMutsLineStrokeArr" id="drawMutsLineStrokeArr" value="" autocomplete="off" />
                     <button onclick="javascript: assignMutsLines();">Change</button>
                     <br>
-                    <span>Muts by text:</span>
+                    <span>Mutations shown as text:</span>
                     <input type="checkbox" name="drawMutsByTextChkbx" id="drawMutsByTextChkbx" autocomplete="off" />
                     <select name="drawMutsByTextFont" id="drawMutsByTextFont">
                         <option value="Georgia">Georgia</option>
@@ -395,7 +395,7 @@
                     <input type="text" name="drawMutsTextPY" id="drawMutsTextPY" value="0" autocomplete="off" />
                     <button onclick="javascript: assignMutsText();">Change</button>
                     <br>
-                    <span>Muts by dots:</span>
+                    <span>Mutations shown as dots:</span>
                     <input type="checkbox" name="drawMutsByDotChkbx" id="drawMutsByDotChkbx" autocomplete="off" />
                     <input type="text" name="drawMutsDotSize" id="drawMutsDotSize" value="12" autocomplete="off" />
                     <input type="color" name="drawMutsDotColor" id="drawMutsDotColor" value="#000000" autocomplete="off" />
