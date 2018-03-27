@@ -251,9 +251,9 @@
                     <td class="label" lid="areaShouldBePropToNrInd.label"></td>
                     <td style="text-align: right">
                         <select id="areaShouldBePropToNrInd" autocomplete="off">
-                            <option>Area</option>
-                            <option>Const</option>
-                            <option>Radius</option>
+                            <option>proportional to circle area</option>
+                            <option>proportional to circle radius</option>
+                            <option>not reflected in circles</option>
                         </select>
 <!--                        <input type="checkbox" name="areaShouldBePropToNrInd" id="areaShouldBePropToNrInd" autocomplete="off" />-->
                     </td>
@@ -696,7 +696,13 @@
                     project["projectName"] = document.getElementById("jobname").value;
                     project["epsilon"] = $( "#epsilon" ).spinner( "value" );
                     project["delimiter"] = document.getElementById("delimiterChoosing").value;
-                    project["areaShouldBePropToNrInd"] = document.getElementById("areaShouldBePropToNrInd").value;
+                    if(document.getElementById("areaShouldBePropToNrInd").value == "proportional to circle area") {
+                        project["areaShouldBePropToNrInd"] = "Area";
+                    } else if(document.getElementById("areaShouldBePropToNrInd").value == "proportional to circle radius") {
+                        project["areaShouldBePropToNrInd"] = "Radius";
+                    } else if(document.getElementById("areaShouldBePropToNrInd").value == "not reflected in circles") {
+                        project["areaShouldBePropToNrInd"] = "Const";
+                    }
                     project["upperLowerCaseN"] = document.getElementById("ignoreUpperLowerName").checked;
                     project["upperLowerCaseS"] = document.getElementById("ignoreUpperLowerSeq").checked;
                     project["ambigStrat"] = document.getElementById("ambigStrat").value;
