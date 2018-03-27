@@ -917,17 +917,23 @@
                         html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
                         html += "<span class='label' lid='coma.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonView' onclick='javascript:viewComa();'><span class='ui-icon ui-icon-newwin";
                         html += (project["progress"] === 100) ? "" : " ui-state-disabled";
+                        html += "'></span></button><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadComa();'><span class='ui-icon ui-icon-disk";
+                        html += (project["progress"] === 100) ? "" : " ui-state-disabled";
                         html += "'></span></button></td><td class='middle label' lid='comaDesc.label'></td></tr>";
                         var even = !even;
                         html += "<tr class='" + ((even) ? "even" : "odd") + " overviewfiles'>";
                         html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
                         html += "<span class='label' lid='comaLst.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonView' onclick='javascript:viewComaLst();'><span class='ui-icon ui-icon-newwin";
                         html += (project["progress"] === 100) ? "" : " ui-state-disabled";
+                        html += "'></span></button><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadComaLst();'><span class='ui-icon ui-icon-disk";
+                        html += (project["progress"] === 100) ? "" : " ui-state-disabled";
                         html += "'></span></button></td><td class='middle label' lid='comaLstDesc.label'></td></tr>";
                         even = !even;
                         html += "<tr class='" + ((even) ? "even" : "odd") + " overviewfiles'>";
                         html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
                         html += "<span class='label' lid='partitionsLst.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonView' onclick='javascript:viewpartitionsLst();'><span class='ui-icon ui-icon-newwin";
+                        html += (project["progress"] === 100) ? "" : " ui-state-disabled";
+                        html += "'></span></button><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadpartitionsLst();'><span class='ui-icon ui-icon-disk";
                         html += (project["progress"] === 100) ? "" : " ui-state-disabled";
                         html += "'></span></button></td><td class='middle label' lid='partitionLstDesc.label'></td></tr>";
                         even = !even;
@@ -997,8 +1003,11 @@
                 function viewpartitionsLst() {
                     view("text/plain", project["partitionsLst"]);
                 }
+                function downloadpartitionsLst() {
+                    download("text/plain", "partitions.tsv", project["partitionsLst"]);
+                }
                 function downloadComa() {
-                    download("application/fasta", "coma.svg", project["coma"]);
+                    download('image/svg+xml', "coma.svg", project["coma"]);
                 }
                 function viewComa() {
                     view("image/svg+xml", project["coma"]);
