@@ -116,7 +116,7 @@
     "buttonEditSvg" : "Edit the SVG",
     "editSvg.title" : "Edit '{0}'",
     "nbinds.title" : "The number of individuals",
-    "nbinds.label" : "Nb. Individuals",
+    "nbinds.label" : "Nb. individuals",
     "jobSubmissionAdvancedSettingsDelimiter.title" : "The delimiter used in the sequence names",
     "jobSubmissionAdvancedSettingsDelimiter.label" : "Delimiter",
     "areaShouldBePropToNrInd.title" : "Cirlce ... should equal frequency",
