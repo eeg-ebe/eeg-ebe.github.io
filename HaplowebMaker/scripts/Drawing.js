@@ -2838,7 +2838,7 @@ draw_Graph.prototype = {
 					}
 				}
 				var nn1 = result;
-				var _g_head2 = link.n1.node.names.h;
+				var _g_head2 = link.n2.node.names.h;
 				while(_g_head2 != null) {
 					var val2 = _g_head2.item;
 					_g_head2 = _g_head2.next;
