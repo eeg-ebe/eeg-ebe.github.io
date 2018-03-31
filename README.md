@@ -1,4 +1,4 @@
-# HaplowebMaker
+# [HaplowebMaker](HaplowebMaker)
 
 This web tool allows users to generate quickly publication-quality haplowebs (short for "haplotype webs", see http://dx.doi.org/10.1186/1471-2148-10-372 for details).
 
@@ -28,6 +28,6 @@ A whole analysis can be saved in JSON format (https://en.wikipedia.org/wiki/JSON
 
 If you want to run HaplowebMaker locally, without Internet connection, just open a terminal and run the command `git clone https://github.com/eeg-ebe/eeg-ebe.github.io.git`. This will copy all the necessary files to a local folder on your computer. Then open the `index.html` file (located in the HaplowebMaker folder) in your Internet browser.
 
-HaplowebMaker is mostly tested using Firefox but should work in all web browsers.
+HaplowebMaker is mostly tested using Firefox but should work in all recent web browsers that support HTML 5 and JavaScript.
 
 
