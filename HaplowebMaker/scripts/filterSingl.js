@@ -6,296 +6,49 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
-var CoMa = function() { };
-$hxClasses["CoMa"] = CoMa;
-CoMa.__name__ = ["CoMa"];
-CoMa.cToCol = function(v,maxV,minV) {
-	var divVal = maxV != minV ? maxV - minV : 0.01;
-	var h = (240. - (v - minV) / divVal * -120.0) % 360;
-	var s = 0.5;
-	var l = 0.5;
-	var r = -1;
-	var g = -1;
-	var b = -1;
-	var c = (1 - Math.abs(l * 2 - 1)) * s;
-	var h_ = h / 60;
-	var x = c * (1 - Math.abs(h_ % 2 - 1));
-	var m = l - c / 2;
-	if(0 <= h_ && h_ <= 1) {
-		r = c;
-		g = x;
-		b = 0;
-	} else if(1 <= h_ && h_ <= 2) {
-		r = x;
-		g = c;
-		b = 0;
-	} else if(2 <= h_ && h_ <= 3) {
-		r = 0;
-		g = c;
-		b = x;
-	} else if(3 <= h_ && h_ <= 4) {
-		r = 0;
-		g = x;
-		b = c;
-	} else if(4 <= h_ && h_ <= 5) {
-		r = x;
-		g = 0;
-		b = c;
-	} else if(5 <= h_ && h_ <= 6) {
-		r = c;
-		g = 0;
-		b = x;
-	}
-	r = (r + m) * 256;
-	g = (g + m) * 256;
-	b = (b + m) * 256;
-	return "rgb(" + (r | 0) + "," + (g | 0) + "," + (b | 0) + ")";
-};
-CoMa.runComaJS = function(a,printer,printer2,printer3,namesOfMarkerFiles) {
-	var l = new List();
-	var _g1 = 0;
-	var _g = a.length;
-	while(_g1 < _g) {
-		var i = _g1++;
-		l.add(parsing_LstParser.parseLst(a[i]));
-	}
-	CoMa.runComa(l,printer,printer2,printer3,namesOfMarkerFiles);
-};
-CoMa.runComa = function(l,printer,printer2,printer3,namesOfMarkerFiles) {
-	haxe_Log.trace("runningComa on " + l.length + " " + l.first().length,{ fileName : "CoMa.hx", lineNumber : 63, className : "CoMa", methodName : "runComa"});
-	var comaIndL = new List();
-	var index = 0;
-	var _g_head = l.h;
+var FilterSingletons = function() { };
+$hxClasses["FilterSingletons"] = FilterSingletons;
+FilterSingletons.__name__ = ["FilterSingletons"];
+FilterSingletons.filterSingletons = function(faFile) {
+	var map = new haxe_ds_StringMap();
+	var _g_head = faFile.h;
 	while(_g_head != null) {
 		var val = _g_head.item;
 		_g_head = _g_head.next;
-		var lp = val;
-		var _g_head1 = lp.h;
-		while(_g_head1 != null) {
-			var val1 = _g_head1.item;
-			_g_head1 = _g_head1.next;
-			var p = val1;
-			var found = false;
-			var _g_head2 = comaIndL.h;
-			while(_g_head2 != null) {
-				var val2 = _g_head2.item;
-				_g_head2 = _g_head2.next;
-				var comaInd = val2;
-				if(comaInd.indName == p.first) {
-					comaInd.setSpResultOf(index,Std.parseInt(p.second));
-					found = true;
-					break;
-				}
-			}
-			if(!found) {
-				var newCoMaInd = new CoMaInd(p.first,l.length);
-				newCoMaInd.setSpResultOf(index,Std.parseInt(p.second));
-				comaIndL.add(newCoMaInd);
-			}
-		}
-		++index;
-	}
-	printer3.printString("Individual");
-	var _g1 = 0;
-	var _g = comaIndL.first().vals.length;
-	while(_g1 < _g) {
-		var i = _g1++;
-		printer3.printString("\t");
-		printer3.printString(namesOfMarkerFiles[i]);
-	}
-	printer3.printString("\n");
-	var _g_head3 = comaIndL.h;
-	while(_g_head3 != null) {
-		var val3 = _g_head3.item;
-		_g_head3 = _g_head3.next;
-		var ind = val3;
-		printer3.printString(ind.indName);
-		var _g2 = 0;
-		var _g11 = ind.vals;
-		while(_g2 < _g11.length) {
-			var val4 = _g11[_g2];
-			++_g2;
-			printer3.printString("\t" + val4);
-		}
-		printer3.printString("\n");
-	}
-	var orderedL = new List();
-	var highestVal = -Infinity;
-	var lowestVal = Infinity;
-	if(comaIndL.length == 0) {
-		highestVal = 0;
-		lowestVal = 0;
-	} else if(comaIndL.length == 1) {
-		orderedL.add(comaIndL.pop());
-		highestVal = 0;
-		lowestVal = 0;
-	} else if(comaIndL.length == 2) {
-		orderedL.add(comaIndL.pop());
-		orderedL.add(comaIndL.pop());
-		highestVal = orderedL.first().compare(orderedL.last());
-		lowestVal = highestVal;
-	} else {
-		var bestDist = -Infinity;
-		var bestE1 = null;
-		var bestE2 = null;
-		var _g_head4 = comaIndL.h;
-		while(_g_head4 != null) {
-			var val5 = _g_head4.item;
-			_g_head4 = _g_head4.next;
-			var e1 = val5;
-			var _g_head5 = comaIndL.h;
-			while(_g_head5 != null) {
-				var val6 = _g_head5.item;
-				_g_head5 = _g_head5.next;
-				var e2 = val6;
-				var dist = e1.compare(e2);
-				if(e1 != e2) {
-					if(dist > bestDist) {
-						bestDist = dist;
-						bestE1 = e1;
-						bestE2 = e2;
-					}
-				}
-				highestVal = Math.max(highestVal,dist);
-				lowestVal = Math.min(lowestVal,dist);
-			}
-		}
-		comaIndL.remove(bestE1);
-		comaIndL.remove(bestE2);
-		orderedL.add(bestE1);
-		orderedL.add(bestE2);
-		while(!comaIndL.isEmpty()) {
-			var bestDistFirst = -Infinity;
-			var bestDistLast = -Infinity;
-			var bestEFirst = null;
-			var bestELast = null;
-			var _g_head6 = comaIndL.h;
-			while(_g_head6 != null) {
-				var val7 = _g_head6.item;
-				_g_head6 = _g_head6.next;
-				var e = val7;
-				var distFirst = e.compare(orderedL.first());
-				var distLast = e.compare(orderedL.last());
-				if(distFirst > bestDistFirst) {
-					bestDistFirst = distFirst;
-					bestEFirst = e;
-				}
-				if(distLast > bestDistLast) {
-					bestDistLast = distLast;
-					bestELast = e;
-				}
-			}
-			if(bestDistFirst > bestDistLast) {
-				comaIndL.remove(bestEFirst);
-				orderedL.push(bestEFirst);
+		var seq = val;
+		var key = seq.second;
+		if(__map_reserved[key] != null ? map.existsReserved(key) : map.h.hasOwnProperty(key)) {
+			var key1 = seq.second;
+			(__map_reserved[key1] != null ? map.getReserved(key1) : map.h[key1]).add(seq.first);
+		} else {
+			var lst = new List();
+			lst.add(seq.first);
+			var key2 = seq.second;
+			if(__map_reserved[key2] != null) {
+				map.setReserved(key2,lst);
 			} else {
-				comaIndL.remove(bestELast);
-				orderedL.add(bestELast);
+				map.h[key2] = lst;
 			}
 		}
 	}
-	var _g_head7 = orderedL.h;
-	while(_g_head7 != null) {
-		var val8 = _g_head7.item;
-		_g_head7 = _g_head7.next;
-		var e3 = val8;
-		printer2.printString("\t" + e3.indName);
-	}
-	printer2.printString("\n");
-	var _g_head8 = orderedL.h;
-	while(_g_head8 != null) {
-		var val9 = _g_head8.item;
-		_g_head8 = _g_head8.next;
-		var e11 = val9;
-		printer2.printString(e11.indName);
-		var _g_head9 = orderedL.h;
-		while(_g_head9 != null) {
-			var val10 = _g_head9.item;
-			_g_head9 = _g_head9.next;
-			var e21 = val10;
-			var dist1 = e11.compare(e21);
-			printer2.printString("\t" + dist1);
-		}
-		printer2.printString("\n");
-	}
-	var width = 100 + orderedL.length * 20 + 5;
-	var height = 100 + orderedL.length * 20 + 5;
-	printer.printString("<svg version=\"1.1\" baseProfile=\"full\" width=\"" + width + "\" height=\"" + height + "\" xmlns=\"http://www.w3.org/2000/svg\">");
-	printer.printString("<g style=\"font-family:serif;font-size:16\">");
-	var index1 = 0;
-	var _g_head10 = orderedL.h;
-	while(_g_head10 != null) {
-		var val11 = _g_head10.item;
-		_g_head10 = _g_head10.next;
-		var e4 = val11;
-		printer.printString("<text x=\"5\" y=\"" + (100 + 20 * index1 + 15) + "\">" + e4.indName + "</text>");
-		printer.printString("<text x=\"" + (100 + 20 * index1 + 15) + "\" y=\"5\" transform=\"rotate(90 " + (100 + 20 * index1 + 7) + " 5)\">" + e4.indName + "</text>");
-		++index1;
-	}
-	printer.printString("</g>");
-	var i1 = 0;
-	var j = 0;
-	var _g_head11 = orderedL.h;
-	while(_g_head11 != null) {
-		var val12 = _g_head11.item;
-		_g_head11 = _g_head11.next;
-		var e12 = val12;
-		var _g_head12 = orderedL.h;
-		while(_g_head12 != null) {
-			var val13 = _g_head12.item;
-			_g_head12 = _g_head12.next;
-			var e22 = val13;
-			var dist2 = e12.compare(e22);
-			printer.printString("<rect x=\"" + (100 + 20 * i1) + "\" y=\"" + (100 + 20 * j) + "\" width=\"20\" height=\"20\" fill=\"" + CoMa.cToCol(dist2,highestVal,lowestVal) + "\"/>");
-			++j;
-		}
-		j = 0;
-		++i1;
-	}
-	printer.printString("</svg>");
-	printer.close();
-	printer2.close();
-	printer3.close();
-};
-CoMa.main = function() {
-};
-var CoMaInd = function(s,l) {
-	this.indName = s;
-	var this1 = new Array(l);
-	this.vals = this1;
-	var _g1 = 0;
-	var _g = l;
-	while(_g1 < _g) {
-		var index = _g1++;
-		this.vals[index] = -1;
-	}
-};
-$hxClasses["CoMaInd"] = CoMaInd;
-CoMaInd.__name__ = ["CoMaInd"];
-CoMaInd.prototype = {
-	indName: null
-	,vals: null
-	,setSpResultOf: function(i,sp) {
-		this.vals[i] = sp;
-	}
-	,compare: function(other) {
-		var result = 0;
-		var _g1 = 0;
-		var _g = this.vals.length;
-		while(_g1 < _g) {
-			var i = _g1++;
-			if(this.vals[i] == -1 || other.vals[i] == -1) {
-				continue;
-			}
-			if(this.vals[i] == other.vals[i]) {
-				++result;
-			} else {
-				--result;
+	var newLst = new List();
+	var key3 = map.keys();
+	while(key3.hasNext()) {
+		var key4 = key3.next();
+		var lst1 = __map_reserved[key4] != null ? map.getReserved(key4) : map.h[key4];
+		if(lst1.length > 1) {
+			var _g_head1 = lst1.h;
+			while(_g_head1 != null) {
+				var val1 = _g_head1.item;
+				_g_head1 = _g_head1.next;
+				var name = val1;
+				newLst.add(new util_Pair(name,key4));
 			}
 		}
-		return result;
 	}
-	,__class__: CoMaInd
+	return newLst;
+};
+FilterSingletons.main = function() {
 };
 var HxOverrides = function() { };
 $hxClasses["HxOverrides"] = HxOverrides;
@@ -1026,132 +779,141 @@ haxe_IMap.prototype = {
 	,toString: null
 	,__class__: haxe_IMap
 };
-var haxe_Log = function() { };
-$hxClasses["haxe.Log"] = haxe_Log;
-haxe_Log.__name__ = ["haxe","Log"];
-haxe_Log.trace = function(v,infos) {
-	js_Boot.__trace(v,infos);
+var haxe_ds__$StringMap_StringMapIterator = function(map,keys) {
+	this.map = map;
+	this.keys = keys;
+	this.index = 0;
+	this.count = keys.length;
 };
-haxe_Log.clear = function() {
-	js_Boot.__clear_trace();
+$hxClasses["haxe.ds._StringMap.StringMapIterator"] = haxe_ds__$StringMap_StringMapIterator;
+haxe_ds__$StringMap_StringMapIterator.__name__ = ["haxe","ds","_StringMap","StringMapIterator"];
+haxe_ds__$StringMap_StringMapIterator.prototype = {
+	map: null
+	,keys: null
+	,index: null
+	,count: null
+	,hasNext: function() {
+		return this.index < this.count;
+	}
+	,next: function() {
+		var _this = this.map;
+		var key = this.keys[this.index++];
+		if(__map_reserved[key] != null) {
+			return _this.getReserved(key);
+		} else {
+			return _this.h[key];
+		}
+	}
+	,__class__: haxe_ds__$StringMap_StringMapIterator
 };
-var haxe_ds__$Vector_Vector_$Impl_$ = {};
-$hxClasses["haxe.ds._Vector.Vector_Impl_"] = haxe_ds__$Vector_Vector_$Impl_$;
-haxe_ds__$Vector_Vector_$Impl_$.__name__ = ["haxe","ds","_Vector","Vector_Impl_"];
-haxe_ds__$Vector_Vector_$Impl_$.__properties__ = {get_length:"get_length"};
-haxe_ds__$Vector_Vector_$Impl_$._new = function(length) {
-	var this1 = new Array(length);
-	return this1;
+var haxe_ds_StringMap = function() {
+	this.h = { };
 };
-haxe_ds__$Vector_Vector_$Impl_$.get = function(this1,index) {
-	return this1[index];
-};
-haxe_ds__$Vector_Vector_$Impl_$.set = function(this1,index,val) {
-	return this1[index] = val;
-};
-haxe_ds__$Vector_Vector_$Impl_$.get_length = function(this1) {
-	return this1.length;
-};
-haxe_ds__$Vector_Vector_$Impl_$.blit = function(src,srcPos,dest,destPos,len) {
-	if(src == dest) {
-		if(srcPos < destPos) {
-			var i = srcPos + len;
-			var j = destPos + len;
-			var _g1 = 0;
-			var _g = len;
-			while(_g1 < _g) {
-				var k = _g1++;
-				--i;
-				--j;
-				src[j] = src[i];
+$hxClasses["haxe.ds.StringMap"] = haxe_ds_StringMap;
+haxe_ds_StringMap.__name__ = ["haxe","ds","StringMap"];
+haxe_ds_StringMap.__interfaces__ = [haxe_IMap];
+haxe_ds_StringMap.prototype = {
+	h: null
+	,rh: null
+	,isReserved: function(key) {
+		return __map_reserved[key] != null;
+	}
+	,set: function(key,value) {
+		if(__map_reserved[key] != null) {
+			this.setReserved(key,value);
+		} else {
+			this.h[key] = value;
+		}
+	}
+	,get: function(key) {
+		if(__map_reserved[key] != null) {
+			return this.getReserved(key);
+		}
+		return this.h[key];
+	}
+	,exists: function(key) {
+		if(__map_reserved[key] != null) {
+			return this.existsReserved(key);
+		}
+		return this.h.hasOwnProperty(key);
+	}
+	,setReserved: function(key,value) {
+		if(this.rh == null) {
+			this.rh = { };
+		}
+		this.rh["$" + key] = value;
+	}
+	,getReserved: function(key) {
+		if(this.rh == null) {
+			return null;
+		} else {
+			return this.rh["$" + key];
+		}
+	}
+	,existsReserved: function(key) {
+		if(this.rh == null) {
+			return false;
+		}
+		return this.rh.hasOwnProperty("$" + key);
+	}
+	,remove: function(key) {
+		if(__map_reserved[key] != null) {
+			key = "$" + key;
+			if(this.rh == null || !this.rh.hasOwnProperty(key)) {
+				return false;
 			}
-		} else if(srcPos > destPos) {
-			var i1 = srcPos;
-			var j1 = destPos;
-			var _g11 = 0;
-			var _g2 = len;
-			while(_g11 < _g2) {
-				var k1 = _g11++;
-				src[j1] = src[i1];
-				++i1;
-				++j1;
+			delete(this.rh[key]);
+			return true;
+		} else {
+			if(!this.h.hasOwnProperty(key)) {
+				return false;
+			}
+			delete(this.h[key]);
+			return true;
+		}
+	}
+	,keys: function() {
+		return HxOverrides.iter(this.arrayKeys());
+	}
+	,arrayKeys: function() {
+		var out = [];
+		for( var key in this.h ) {
+		if(this.h.hasOwnProperty(key)) {
+			out.push(key);
+		}
+		}
+		if(this.rh != null) {
+			for( var key in this.rh ) {
+			if(key.charCodeAt(0) == 36) {
+				out.push(key.substr(1));
+			}
 			}
 		}
-	} else {
-		var _g12 = 0;
-		var _g3 = len;
-		while(_g12 < _g3) {
-			var i2 = _g12++;
-			dest[destPos + i2] = src[srcPos + i2];
+		return out;
+	}
+	,iterator: function() {
+		return new haxe_ds__$StringMap_StringMapIterator(this,this.arrayKeys());
+	}
+	,toString: function() {
+		var s_b = "";
+		s_b += "{";
+		var keys = this.arrayKeys();
+		var _g1 = 0;
+		var _g = keys.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var k = keys[i];
+			s_b += k == null ? "null" : "" + k;
+			s_b += " => ";
+			s_b += Std.string(Std.string(__map_reserved[k] != null ? this.getReserved(k) : this.h[k]));
+			if(i < keys.length - 1) {
+				s_b += ", ";
+			}
 		}
+		s_b += "}";
+		return s_b;
 	}
-};
-haxe_ds__$Vector_Vector_$Impl_$.toArray = function(this1) {
-	return this1.slice(0);
-};
-haxe_ds__$Vector_Vector_$Impl_$.toData = function(this1) {
-	return this1;
-};
-haxe_ds__$Vector_Vector_$Impl_$.fromData = function(data) {
-	return data;
-};
-haxe_ds__$Vector_Vector_$Impl_$.fromArrayCopy = function(array) {
-	return array.slice(0);
-};
-haxe_ds__$Vector_Vector_$Impl_$.copy = function(this1) {
-	var length = this1.length;
-	var this2 = new Array(length);
-	var r = this2;
-	haxe_ds__$Vector_Vector_$Impl_$.blit(this1,0,r,0,this1.length);
-	return r;
-};
-haxe_ds__$Vector_Vector_$Impl_$.join = function(this1,sep) {
-	var b_b = "";
-	var i = 0;
-	var len = this1.length;
-	var _g1 = 0;
-	var _g = len;
-	while(_g1 < _g) {
-		var i1 = _g1++;
-		b_b += Std.string(Std.string(this1[i1]));
-		if(i1 < len - 1) {
-			b_b += sep == null ? "null" : "" + sep;
-		}
-	}
-	return b_b;
-};
-haxe_ds__$Vector_Vector_$Impl_$.map = function(this1,f) {
-	var length = this1.length;
-	var this2 = new Array(length);
-	var r = this2;
-	var i = 0;
-	var len = length;
-	var _g1 = 0;
-	var _g = len;
-	while(_g1 < _g) {
-		var i1 = _g1++;
-		var v = f(this1[i1]);
-		r[i1] = v;
-	}
-	return r;
-};
-haxe_ds__$Vector_Vector_$Impl_$.sort = function(this1,f) {
-	this1.sort(f);
-};
-var interfaces_Printer = function() {
-	this.indent = "  ";
-	this.newline = "\n";
-	this.countingOffset = 1;
-};
-$hxClasses["interfaces.Printer"] = interfaces_Printer;
-interfaces_Printer.__name__ = ["interfaces","Printer"];
-interfaces_Printer.prototype = {
-	countingOffset: null
-	,newline: null
-	,indent: null
-	,printString: null
-	,close: null
-	,__class__: interfaces_Printer
+	,__class__: haxe_ds_StringMap
 };
 var js__$Boot_HaxeError = function(val) {
 	Error.call(this);
@@ -1428,273 +1190,6 @@ js_Lib["eval"] = function(code) {
 js_Lib.get_undefined = function() {
 	return undefined;
 };
-var parsing_LstParser = function() { };
-$hxClasses["parsing.LstParser"] = parsing_LstParser;
-parsing_LstParser.__name__ = ["parsing","LstParser"];
-parsing_LstParser.parseLst = function(fileContent) {
-	var result = new List();
-	var lines = fileContent.split("\n");
-	var lineNo = 0;
-	var _g = 0;
-	while(_g < lines.length) {
-		var line = lines[_g];
-		++_g;
-		++lineNo;
-		if(line == null || line == "" || line.charAt(0) == "#") {
-			continue;
-		}
-		var pos = line.lastIndexOf("\t");
-		if(pos == -1) {
-			throw new js__$Boot_HaxeError("Missing tab character in line " + lineNo);
-		}
-		var name = line.substring(0,pos);
-		var end = name.length;
-		while(true) {
-			var name1;
-			if(end > 0) {
-				var cCode = HxOverrides.cca(name,end - 1);
-				var result1 = false;
-				var _g1 = 0;
-				var _g11 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
-				while(_g1 < _g11.length) {
-					var ele = _g11[_g1];
-					++_g1;
-					if(ele == cCode) {
-						result1 = true;
-						break;
-					}
-				}
-				name1 = result1;
-			} else {
-				name1 = false;
-			}
-			if(!name1) {
-				break;
-			}
-			--end;
-		}
-		var s = name.substring(0,end);
-		var begin = 0;
-		var sLen = s.length;
-		while(true) {
-			var name2;
-			if(begin < sLen) {
-				var cCode1 = HxOverrides.cca(s,begin);
-				var result2 = false;
-				var _g2 = 0;
-				var _g12 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
-				while(_g2 < _g12.length) {
-					var ele1 = _g12[_g2];
-					++_g2;
-					if(ele1 == cCode1) {
-						result2 = true;
-						break;
-					}
-				}
-				name2 = result2;
-			} else {
-				name2 = false;
-			}
-			if(!name2) {
-				break;
-			}
-			++begin;
-		}
-		name = HxOverrides.substr(s,begin,null);
-		var chr = line.substring(pos + 1);
-		var end1 = chr.length;
-		while(true) {
-			var chr1;
-			if(end1 > 0) {
-				var cCode2 = HxOverrides.cca(chr,end1 - 1);
-				var result3 = false;
-				var _g3 = 0;
-				var _g13 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
-				while(_g3 < _g13.length) {
-					var ele2 = _g13[_g3];
-					++_g3;
-					if(ele2 == cCode2) {
-						result3 = true;
-						break;
-					}
-				}
-				chr1 = result3;
-			} else {
-				chr1 = false;
-			}
-			if(!chr1) {
-				break;
-			}
-			--end1;
-		}
-		var s1 = chr.substring(0,end1);
-		var begin1 = 0;
-		var sLen1 = s1.length;
-		while(true) {
-			var chr2;
-			if(begin1 < sLen1) {
-				var cCode3 = HxOverrides.cca(s1,begin1);
-				var result4 = false;
-				var _g4 = 0;
-				var _g14 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
-				while(_g4 < _g14.length) {
-					var ele3 = _g14[_g4];
-					++_g4;
-					if(ele3 == cCode3) {
-						result4 = true;
-						break;
-					}
-				}
-				chr2 = result4;
-			} else {
-				chr2 = false;
-			}
-			if(!chr2) {
-				break;
-			}
-			++begin1;
-		}
-		chr = HxOverrides.substr(s1,begin1,null);
-		if(name == null || name == "" || chr == null || chr == "") {
-			throw new js__$Boot_HaxeError("Error in line " + lineNo);
-		}
-		result.add(new util_Pair(name,chr));
-	}
-	return result;
-};
-var parsing_Parse = function() { };
-$hxClasses["parsing.Parse"] = parsing_Parse;
-parsing_Parse.__name__ = ["parsing","Parse"];
-parsing_Parse.startsWith = function(t,s) {
-	return HxOverrides.substr(t,0,s.length) == s;
-};
-parsing_Parse.isWhitespace = function(s,pos) {
-	var cCode = HxOverrides.cca(s,pos);
-	var result = false;
-	var _g = 0;
-	var _g1 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
-	while(_g < _g1.length) {
-		var ele = _g1[_g];
-		++_g;
-		if(ele == cCode) {
-			result = true;
-			break;
-		}
-	}
-	return result;
-};
-parsing_Parse.stripStringBegin = function(s) {
-	var begin = 0;
-	var sLen = s.length;
-	while(true) {
-		var tmp;
-		if(begin < sLen) {
-			var cCode = HxOverrides.cca(s,begin);
-			var result = false;
-			var _g = 0;
-			var _g1 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
-			while(_g < _g1.length) {
-				var ele = _g1[_g];
-				++_g;
-				if(ele == cCode) {
-					result = true;
-					break;
-				}
-			}
-			tmp = result;
-		} else {
-			tmp = false;
-		}
-		if(!tmp) {
-			break;
-		}
-		++begin;
-	}
-	return HxOverrides.substr(s,begin,null);
-};
-parsing_Parse.stripStringEnd = function(s) {
-	var end = s.length;
-	while(true) {
-		var tmp;
-		if(end > 0) {
-			var cCode = HxOverrides.cca(s,end - 1);
-			var result = false;
-			var _g = 0;
-			var _g1 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
-			while(_g < _g1.length) {
-				var ele = _g1[_g];
-				++_g;
-				if(ele == cCode) {
-					result = true;
-					break;
-				}
-			}
-			tmp = result;
-		} else {
-			tmp = false;
-		}
-		if(!tmp) {
-			break;
-		}
-		--end;
-	}
-	return s.substring(0,end);
-};
-parsing_Parse.stripString = function(s) {
-	var end = s.length;
-	while(true) {
-		var tmp;
-		if(end > 0) {
-			var cCode = HxOverrides.cca(s,end - 1);
-			var result = false;
-			var _g = 0;
-			var _g1 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
-			while(_g < _g1.length) {
-				var ele = _g1[_g];
-				++_g;
-				if(ele == cCode) {
-					result = true;
-					break;
-				}
-			}
-			tmp = result;
-		} else {
-			tmp = false;
-		}
-		if(!tmp) {
-			break;
-		}
-		--end;
-	}
-	var s1 = s.substring(0,end);
-	var begin = 0;
-	var sLen = s1.length;
-	while(true) {
-		var tmp1;
-		if(begin < sLen) {
-			var cCode1 = HxOverrides.cca(s1,begin);
-			var result1 = false;
-			var _g2 = 0;
-			var _g11 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
-			while(_g2 < _g11.length) {
-				var ele1 = _g11[_g2];
-				++_g2;
-				if(ele1 == cCode1) {
-					result1 = true;
-					break;
-				}
-			}
-			tmp1 = result1;
-		} else {
-			tmp1 = false;
-		}
-		if(!tmp1) {
-			break;
-		}
-		++begin;
-	}
-	return HxOverrides.substr(s1,begin,null);
-};
 var util_Pair = function(u,v) {
 	this.second = null;
 	this.first = null;
@@ -1742,4 +1237,5 @@ Bool.__ename__ = ["Bool"];
 var Class = $hxClasses["Class"] = { __name__ : ["Class"]};
 var Enum = { };
 var Void = $hxClasses["Void"] = { __ename__ : ["Void"]};
+var __map_reserved = {}
 js_Boot.__toStr = ({ }).toString;

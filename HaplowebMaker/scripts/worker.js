@@ -1,4 +1,4 @@
-self.importScripts("FastaParsing.js", "MJAlgo.js", "Drawing.js", "coma.js", "LstExtractor.js");
+self.importScripts("FastaParsing.js", "MJAlgo.js", "Drawing.js", "coma.js", "LstExtractor.js", "filterSingl.js");
 
 Printer = function () {
     this.indent = "  ";
@@ -83,6 +83,10 @@ function calculateFaFile(project, i) {
                 current = current.next;
             }
         }
+        // filter for singletons if needed
+        if(!!project["removeSingletons"]) {
+            fc = FilterSingletons.filterSingletons(fc);
+        }
         // add sequences
         var current = fc.h;
         while(current != null && current != undefined) {
@@ -140,6 +144,12 @@ function calculateFaFile(project, i) {
             } else if(typeof project["assignRandomColoresToFFRs"] !== "undefined") {
                 g.colorNetwork();
             }
+            // multicolor?
+            /*
+            if(typeof project["multiColorLinks"] !== "undefined" && project["multiColorLinks"] && typeof project["pieChart"] !== "undefined") {
+                g.initStrokeColorListByStr(project["pieChart"], project["upperLowerCaseN"]);
+            }
+            */
             // return result
             setFileVal(i, "graphstyle", g.saveStyle());
             setFileVal(i, "svg", g.getSvgCode());
@@ -169,16 +179,20 @@ self.addEventListener('message', function(e) {
     // do coma
 //    try {
         var a = new Array(project["faFiles"]);
+        var fileNames = new Array(project["faFiles"]);
         for(var i = 0; i < project["faFiles"].length; i++) {
             var p = new Printer();
             LstExtractor.extract(p, project["faFiles"][i]["mj"], true, false, false, false, project["delimiter"]);
             a[i] = p.toText();
+            fileNames[i] = project["faFiles"][i]["filename"];
         }
         var p = new Printer();
         var p2 = new Printer();
-        CoMa.runComaJS(a, p, p2);
+        var p3 = new Printer();
+        CoMa.runComaJS(a, p, p2, p3, fileNames);
         var comaTxt = p.toText();
         var comaLstTxt = p2.toText();
+        var partitionsLstTxt = p3.toText();
         self.postMessage([
             {
                 "key" : ["coma"],
@@ -189,6 +203,12 @@ self.addEventListener('message', function(e) {
             {
                 "key" : ["comaLst"],
                 "val" : comaLstTxt
+            }
+        ]);
+        self.postMessage([
+            {
+                "key" : ["partitionsLst"],
+                "val" : partitionsLstTxt
             }
         ]);
 /*

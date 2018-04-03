@@ -147,7 +147,7 @@
                         </div>
                     </li>
                     <li>
-                        <div class="shortcut" shortcut="contact" onclick="javascript: window.location='mailto: Yann Spöri <ga29qal@mytum.de>'">
+                        <div class="shortcut" shortcut="contact" onclick="javascript: window.location='mailto: Yann Spöri <ga29qal@mytum.de>,Jean-François Flot <jflot@ulb.ac.be>?subject=[HaplowebMaker/CoMa]'">
                             <span class="ui-icon ui-icon-contact"></span>
                             <span class="label tooltip" lid="contact.label" tid="contact.title"></span>
                         </div>
@@ -211,8 +211,17 @@
                         </script>
                     </td>
                 </tr>
+                <tr class="advancedSettings tooltip" tid="repIndels.title">
+                    <td class="label" lid="repIndels.label"></td>
+                    <td style="text-align: right">
+                        <select id="repIndels" autocomplete="off">
+                            <option>5th character</option>
+                            <option>missing data</option>
+                        </select>
+                    </td>
+                </tr>
                 <tr class="advancedSettings">
-                    <td>Ambigious characters</td>
+                    <td>In case of ambiguous characters</td>
                     <td style="text-align: right">
                         <select id="ambigStrat" autocomplete="off">
                             <option>error</option>
@@ -251,9 +260,9 @@
                     <td class="label" lid="areaShouldBePropToNrInd.label"></td>
                     <td style="text-align: right">
                         <select id="areaShouldBePropToNrInd" autocomplete="off">
-                            <option>Area</option>
-                            <option>Const</option>
-                            <option>Radius</option>
+                            <option>proportional to circle area</option>
+                            <option>proportional to circle radius</option>
+                            <option>not reflected in circles</option>
                         </select>
 <!--                        <input type="checkbox" name="areaShouldBePropToNrInd" id="areaShouldBePropToNrInd" autocomplete="off" />-->
                     </td>
@@ -274,9 +283,14 @@
                     <td class="label" lid="onlyComa.label"></td>
                     <td style="text-align: right"><input type="checkbox" name="onlyComa" id="onlyComa" autocomplete="off" /></td>
                 </tr>
-                <tr class="advancedSettings tooltip" tid="repIndels.title">
-                    <td class="label" lid="repIndels.label"></td>
-                    <td style="text-align: right"><input type="checkbox" name="repIndels" id="repIndels" autocomplete="off" /></td>
+                <!--
+                <tr class="advancedSettings tooltip" tid="multiColorLinks.title">
+                    <td class="label" lid="multiColorLinks.label"></td>
+                    <td style="text-align: right"><input type="checkbox" name="multiColorLinks" id="multiColorLinks" checked="cheched" autocomplete="off" /></td>
+                </tr>-->
+                <tr class="advancedSettings tooltip" tid="removeSingletons.title">
+                    <td class="label" lid="removeSingletons.label"></td>
+                    <td style="text-align: right"><input type="checkbox" name="removeSingletons" id="removeSingletons" autocomplete="off" /></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -326,6 +340,7 @@
                     <button onclick="javascript: currentGraphEdit.drawBezierPoints = !currentGraphEdit.drawBezierPoints; updateSVG();">Toggle Bézier vis</button>
                     <button onclick="javascript: currentGraphEdit.drawCenter = !currentGraphEdit.drawCenter; updateSVG();">Toggle center vis</button>
                     <button onclick="javascript: currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle vis</button>
+                    <button onclick="javascript: currentGraphEdit.drawCirclesNames = !currentGraphEdit.drawCirclesNames; updateSVG();">Toggle circle name vis</button>
                     <br>
                     <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Restart</button>
                     <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
@@ -349,15 +364,17 @@
                     <button onclick="javascript: currentGraphEdit.rotateP90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s mirror"></span></button>
                     <button onclick="javascript: currentGraphEdit.mirrorX(); updateSVG();">Mirror X</button>
                     <button onclick="javascript: currentGraphEdit.mirrorY(); updateSVG();">Mirror Y</button>
-                    <button onclick="javascript: currentGraphEdit.colorNetwork(); updateSVG();">Colorfy by FFRs</button>
-                    <button onclick="javascript: currentGraphEdit.modifyLinks(10/9); updateSVG();">Links++</button>
-                    <button onclick="javascript: currentGraphEdit.modifyLinks(9/10); updateSVG();">Links--</button>
-                    <button onclick="javascript: currentGraphEdit.modifyCons(10/9); updateSVG();">Cons++</button>
-                    <button onclick="javascript: currentGraphEdit.modifyCons(9/10); updateSVG();">Cons--</button>
+                    <button onclick="javascript: currentGraphEdit.colorNetwork(); updateSVG();">Color by FFRs</button>
+                    <button onclick="javascript: currentGraphEdit.modifyLinks(10/9); updateSVG();">Curves++</button>
+                    <button onclick="javascript: currentGraphEdit.modifyLinks(9/10); updateSVG();">Curves--</button>
+                    <button onclick="javascript: currentGraphEdit.modifyCons(10/9); updateSVG();">Edges++</button>
+                    <button onclick="javascript: currentGraphEdit.modifyCons(9/10); updateSVG();">Edges--</button>
                     <button onclick="javascript: currentGraphEdit.modifyNodes(10/9); updateSVG();">Nodes++</button>
                     <button onclick="javascript: currentGraphEdit.modifyNodes(9/10); updateSVG();">Nodes--</button>
+                    <button onclick="javascript: currentGraphEdit.initStrokeColorListByStr(project['pieChart'], document.getElementById('ignoreUpperLowerName').checked); updateSVG();">Multicolor curves</button>
+                    <button onclick="javascript: if(typeof project['pieChart'] !== 'undefined') { currentGraphEdit.assingPiesByTxt(project['pieChart'], project['upperLowerCaseN'], project['pieByIndNameOnly']); updateSVG(); } else { alert('No color file given!'); }">Reinitialize pie charts</button>
                     <br>
-                    <span>Muts by lines:</span>
+                    <span>Mutations shown as lines:</span>
                     <input type="checkbox" name="drawMutsByLineChkbx" id="drawMutsByLineChkbx" autocomplete="off" />
                     <input type="color" name="drawMutsLineStrokeColor" id="drawMutsLineStrokeColor" value="#000000" autocomplete="off" />
                     <input type="text" name="drawMutsLineStrokeWidth" id="drawMutsLineStrokeWidth" value="3" autocomplete="off" />
@@ -365,7 +382,7 @@
                     <input type="text" name="drawMutsLineStrokeArr" id="drawMutsLineStrokeArr" value="" autocomplete="off" />
                     <button onclick="javascript: assignMutsLines();">Change</button>
                     <br>
-                    <span>Muts by text:</span>
+                    <span>Mutations shown as text:</span>
                     <input type="checkbox" name="drawMutsByTextChkbx" id="drawMutsByTextChkbx" autocomplete="off" />
                     <select name="drawMutsByTextFont" id="drawMutsByTextFont">
                         <option value="Georgia">Georgia</option>
@@ -384,7 +401,7 @@
                     <input type="text" name="drawMutsTextPY" id="drawMutsTextPY" value="0" autocomplete="off" />
                     <button onclick="javascript: assignMutsText();">Change</button>
                     <br>
-                    <span>Muts by dots:</span>
+                    <span>Mutations shown as dots:</span>
                     <input type="checkbox" name="drawMutsByDotChkbx" id="drawMutsByDotChkbx" autocomplete="off" />
                     <input type="text" name="drawMutsDotSize" id="drawMutsDotSize" value="12" autocomplete="off" />
                     <input type="color" name="drawMutsDotColor" id="drawMutsDotColor" value="#000000" autocomplete="off" />
@@ -455,7 +472,11 @@
                     source.onload = function () {
                         myCanvasContext.drawImage(source, 0, 0);
                         DOMURL.revokeObjectURL(url);
-                        window.open(myCanvas.toDataURL(mime), '_blank');
+                        var win = window.open();
+                        var base64URL = myCanvas.toDataURL(mime);
+                        win.document.write('<iframe src="' + base64URL  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+                        win.document.close();
+//                        window.open('<iframe src="' + myCanvas.toDataURL(mime) + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>', '_blank');
                     };
                     source.src = url;
                 }
@@ -673,13 +694,25 @@
                         $("#calculationOverlay").hide();
                         return;
                     }
+                    project["removeSingletons"] = document.getElementById("removeSingletons").checked
+//XXX                    project["multiColorLinks"] = document.getElementById("multiColorLinks").checked;
                     project["onlyComa"] = document.getElementById("onlyComa").checked;
-                    project["replaceIndelPositions"] = document.getElementById("repIndels").checked;
+                    if(document.getElementById("repIndels").value == "5th character") {
+                        project["replaceIndelPositions"] = false;
+                    } else {
+                        project["replaceIndelPositions"] = true;
+                    }
                     project["notifications"] = [ { "ui" : "highlight", "icon" : "info", "text" : "haplowebmakerIsStillBeta.text" } ];
                     project["projectName"] = document.getElementById("jobname").value;
                     project["epsilon"] = $( "#epsilon" ).spinner( "value" );
                     project["delimiter"] = document.getElementById("delimiterChoosing").value;
-                    project["areaShouldBePropToNrInd"] = document.getElementById("areaShouldBePropToNrInd").value;
+                    if(document.getElementById("areaShouldBePropToNrInd").value == "proportional to circle area") {
+                        project["areaShouldBePropToNrInd"] = "Area";
+                    } else if(document.getElementById("areaShouldBePropToNrInd").value == "proportional to circle radius") {
+                        project["areaShouldBePropToNrInd"] = "Radius";
+                    } else if(document.getElementById("areaShouldBePropToNrInd").value == "not reflected in circles") {
+                        project["areaShouldBePropToNrInd"] = "Const";
+                    }
                     project["upperLowerCaseN"] = document.getElementById("ignoreUpperLowerName").checked;
                     project["upperLowerCaseS"] = document.getElementById("ignoreUpperLowerSeq").checked;
                     project["ambigStrat"] = document.getElementById("ambigStrat").value;
@@ -892,7 +925,7 @@
                         var even = true;
                         html += "<tr class='" + ((even) ? "even" : "odd") + " overviewfiles'>";
                         html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
-                        html += "<span class='label' lid='allFilesZip.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadEverything();'><span class='ui-icon ui-icon-disk";
+                        html += "<span class='label' lid='allFilesZip.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all' style='visibility: hidden'><span class='ui-icon ui-icon-newwin'></span></button><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadEverything();'><span class='ui-icon ui-icon-disk";
                         html += (project["progress"] === 100) ? "" : " ui-state-disabled";
                         html += "'></span></button></td><td class='middle label' lid='allFilesZipDesc.label'></td></tr>";
                         var even = !even;
@@ -900,13 +933,25 @@
                         html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
                         html += "<span class='label' lid='coma.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonView' onclick='javascript:viewComa();'><span class='ui-icon ui-icon-newwin";
                         html += (project["progress"] === 100) ? "" : " ui-state-disabled";
+                        html += "'></span></button><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadComa();'><span class='ui-icon ui-icon-disk";
+                        html += (project["progress"] === 100) ? "" : " ui-state-disabled";
                         html += "'></span></button></td><td class='middle label' lid='comaDesc.label'></td></tr>";
                         var even = !even;
                         html += "<tr class='" + ((even) ? "even" : "odd") + " overviewfiles'>";
                         html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
                         html += "<span class='label' lid='comaLst.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonView' onclick='javascript:viewComaLst();'><span class='ui-icon ui-icon-newwin";
                         html += (project["progress"] === 100) ? "" : " ui-state-disabled";
+                        html += "'></span></button><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadComaLst();'><span class='ui-icon ui-icon-disk";
+                        html += (project["progress"] === 100) ? "" : " ui-state-disabled";
                         html += "'></span></button></td><td class='middle label' lid='comaLstDesc.label'></td></tr>";
+                        even = !even;
+                        html += "<tr class='" + ((even) ? "even" : "odd") + " overviewfiles'>";
+                        html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
+                        html += "<span class='label' lid='partitionsLst.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonView' onclick='javascript:viewpartitionsLst();'><span class='ui-icon ui-icon-newwin";
+                        html += (project["progress"] === 100) ? "" : " ui-state-disabled";
+                        html += "'></span></button><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadpartitionsLst();'><span class='ui-icon ui-icon-disk";
+                        html += (project["progress"] === 100) ? "" : " ui-state-disabled";
+                        html += "'></span></button></td><td class='middle label' lid='partitionLstDesc.label'></td></tr>";
                         even = !even;
                         for(var i = 0; i < project["faFiles"].length; i++) {
                             var name = project["faFiles"][i]["filename"].escape();
@@ -971,8 +1016,14 @@
                 function viewComaLst() {
                     view("text/plain", project["comaLst"]);
                 }
+                function viewpartitionsLst() {
+                    view("text/plain", project["partitionsLst"]);
+                }
+                function downloadpartitionsLst() {
+                    download("text/plain", "partitions.tsv", project["partitionsLst"]);
+                }
                 function downloadComa() {
-                    download("application/fasta", "coma.svg", project["coma"]);
+                    download('image/svg+xml', "coma.svg", project["coma"]);
                 }
                 function viewComa() {
                     view("image/svg+xml", project["coma"]);

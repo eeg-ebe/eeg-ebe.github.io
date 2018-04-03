@@ -180,14 +180,24 @@ function missing(val) {
 
 function view(mime, data) {
     var b64 = window.btoa(data);
+    var win = window.open();
+    var base64URL = "data:" + mime + ";base64,"+b64;
+    win.document.write('<iframe src="' + base64URL  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+    win.document.close();
+    /*
+    var b64 = window.btoa(data);
     $("body").append($("<a target='_blank' id='viewLink' href-lang='" + mime + "' href='data:" + mime + ";base64,\n"+b64+"' title='visualization' style='display:none'>View/a>"));
     document.getElementById('viewLink').click();
     $("#viewLink").remove();
+    */
 }
 
 function showVizualization(data) {
+    /*
     var b64 = window.btoa(data);
     $("body").append($("<a target='_blank' id='vizualizationLink' href-lang='image/svg+xml' href='data:image/svg+xml;base64,\n"+b64+"' title='visualization' style='display:none'>Show vizualization</a>"));
     document.getElementById('vizualizationLink').click();
     $("#vizualizationLink").remove();
+    */
+    view('image/svg+xml', data);
 }

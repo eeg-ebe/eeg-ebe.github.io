@@ -135,6 +135,12 @@
     "comaLst.label" : "CoMa.tsv",
     "comaLstDesc.label" : "Textuelle Version der Matrix",
     "repIndels.title" : "Indel Zeichen von der Analyse ausschließen",
-    "repIndels.label" : "Indel Zeichen von der Analyse ausschließen"
+    "repIndels.label" : "Indel Zeichen von der Analyse ausschließen",
+    "partitionsLst.label" : "partitions.tsv",
+    "partitionLstDesc.label" : "Tabelle der Partitionen",
+    "multiColorLinks.label" : "Mehrfarbige Kurven",
+    "multiColorLinks.title" : "Mehrfarbige Kurven",
+    "removeSingletons.label" : "Singletons entfernen",
+    "removeSingletons.title" : "Singletons entfernen"
   }
 }
