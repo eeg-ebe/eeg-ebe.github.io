@@ -473,15 +473,17 @@
                         myCanvasContext.drawImage(source, 0, 0);
                         DOMURL.revokeObjectURL(url);
                         var win = window.open();
-                        var base64URL = myCanvas.toDataURL(mime);
+                        download(mime, "image.png", currentGraphEdit.getSvgCode());
+/*                        var base64URL = myCanvas.toDataURL(mime);
                         win.document.write('<iframe src="' + base64URL  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
                         win.document.close();
+*/
 //                        window.open('<iframe src="' + myCanvas.toDataURL(mime) + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>', '_blank');
                     };
                     source.src = url;
                 }
                 function exportEditSVGasSVG() {
-                    view("image/svg+xml", currentGraphEdit.getSvgCode());
+                    download("image/svg+xml", "image.svg", currentGraphEdit.getSvgCode());
                 }
                 function force() {
                     var tE = currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, false);
