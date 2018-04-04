@@ -472,7 +472,11 @@
                     source.onload = function () {
                         myCanvasContext.drawImage(source, 0, 0);
                         DOMURL.revokeObjectURL(url);
-                        download(mime, "image.png", currentGraphEdit.getSvgCode());
+                        var dataURI = myCanvas.toDataURL(mime);
+                        var filename = "image.png"
+                        $("body").append($("<a id='downloadLink' href-lang='" + mime + "' href='data:" + dataURI + "' title='" + filename + "' style='display:none' download='" + filename + "'>Download</a>"));
+                        document.getElementById('downloadLink').click();
+                        $("#downloadLink").remove();
 /*
                         var base64URL = myCanvas.toDataURL(mime);
                         var win = window.open();
