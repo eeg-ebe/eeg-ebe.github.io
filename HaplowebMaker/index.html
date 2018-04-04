@@ -472,9 +472,10 @@
                     source.onload = function () {
                         myCanvasContext.drawImage(source, 0, 0);
                         DOMURL.revokeObjectURL(url);
-                        var win = window.open();
                         download(mime, "image.png", currentGraphEdit.getSvgCode());
-/*                        var base64URL = myCanvas.toDataURL(mime);
+/*
+                        var base64URL = myCanvas.toDataURL(mime);
+                        var win = window.open();
                         win.document.write('<iframe src="' + base64URL  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
                         win.document.close();
 */
