@@ -21,5 +21,5 @@ self.addEventListener('message', function(e) {
     CoMa.runComaFromPartition(comaData, p, p2);
     var comaTxt = p.toText();
     var comaLstTxt = p2.toText();
-    self.postMessage(comaTxt);
+    self.postMessage(comaTxt + "<br><br><br><pre>" + comaLstTxt + "</pre");
 });
