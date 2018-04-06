@@ -1,0 +1,60 @@
+<!Doctype html>
+<html>
+    <head>
+        <meta charset="UTF8">
+        <title>CoMa</title>
+        <style>
+
+table {
+    margin: 0 auto;
+    width: 800px;
+}
+table tr .right {
+    text-align: right;
+    horizontal-align: right;
+    align: right;
+}
+
+        </style>
+        <script>
+
+function runComa() {
+    // read in the partition file
+    reader = new FileReader();
+    // this is not a multi upload, but nevertheless treat it like so
+    var files = document.getElementById('partitionfileUpload').files;
+    for (var i = 0, f; f = files[i]; i++) {
+        reader.onload = function(data) {
+            document.getElementById("resultDiv").innerHTML = "Running CoMa ...";
+            var txt = data.target.result;
+            // everything is read in ... now create the co. matrix ...
+            var worker = new Worker("comaWorker.js");
+            // this event will be executed, once results are ready ...
+            worker.addEventListener("message", function(event) {
+                // once the worker finished ...
+                document.getElementById("uploadStuff").style.visibility = "hidden";
+                // save/show result
+                document.getElementById("resultDiv").innerHTML = event.data;
+                // explicitly terminate the worker
+                worker.terminate();
+            }, false);
+            // start the worker
+            worker.postMessage(txt);
+        };
+        document.getElementById("resultDiv").innerHTML = "Reading files ...";
+        reader.readAsText(f);
+    }
+}
+
+        </script>
+    </head>
+    <body>
+        <h1>CoMa</h1>
+        <br/>
+        <div id="uploadStuff">
+            Please upload your partition file here: <input id="partitionfileUpload" type="file"><br/>
+            <button onclick="javascript: runComa()">Run CoMa</button>
+        </div>
+        <div id="resultDiv"></div>
+    </body>
+</html>
