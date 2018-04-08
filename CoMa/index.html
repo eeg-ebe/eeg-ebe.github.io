@@ -2,9 +2,20 @@
 <html>
     <head>
         <meta charset="UTF8">
+        <link rel="shortcut icon" type="image/png" href="favicon.svg"/>
         <title>CoMa</title>
+
+        <link rel="stylesheet" href="../HaplowebMaker/external/jquery-ui.min.css"/>
+        <script src="../HaplowebMaker/external/jquery.js"></script>
+        <script src="../HaplowebMaker/external/jquery-ui.min.js"></script>
+
         <style>
 
+* {
+    padding: 0px;
+    margin: 0px;
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+}
 table {
     margin: 0 auto;
     width: 800px;
@@ -13,6 +24,26 @@ table tr .right {
     text-align: right;
     horizontal-align: right;
     align: right;
+}
+body {
+    width: 100%;
+    height: 100%;
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+}
+#banner {
+    z-index: 50;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: black;
+}
+#bannerSpace {
+    height: 65px;    
+}
+.right {
+    float: right;
 }
 
         </style>
@@ -49,12 +80,27 @@ function runComa() {
         </script>
     </head>
     <body>
-        <h1>CoMa</h1>
-        <br/>
-        <div id="uploadStuff">
-            Please upload your partition matrix here: <input id="partitionfileUpload" type="file"><br/>
-            <button onclick="javascript: runComa()">Run CoMa</button>
+
+        <div id="banner">
+            <div style="padding: 10; margin-left: 20px;">
+                <img id="logoImg" src="favicon.svg" style="padding-top: 10px" />
+                <span style="vertical-align: middle; height: 40; font: italic 32px Verdana; text-decoration: none; color: lightgray; padding-bottom: 27px">&nbsp;CoMa</span>
+            </div>
+        </div>
+        <div style="margin: 70px"></div>
+
+        <br><br><br>
+        <div style="overflow: hidden;">
+            <div id="centerEverythingWrapper" style="width: 40em; margin: 0 auto">
+                <h1>CoMa</h1>
+                <br><br>
+                <div id="uploadStuff">
+                    Please upload your partition matrix here:&nbsp;&nbsp;&nbsp;<input id="partitionfileUpload" type="file" class="right"><br><br>
+                    <button onclick="javascript: runComa()" class="ui-button ui-widget ui-corner-all shortcut label tooltip right">Run CoMa</button>
+                </div>
+            </div>
         </div>
         <div id="resultDiv"></div>
+
     </body>
 </html>

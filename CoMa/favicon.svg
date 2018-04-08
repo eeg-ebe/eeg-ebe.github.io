@@ -1,0 +1,6 @@
+<svg version="1.1" baseProfile="full" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+<rect x='00' y='00' width='40' height='40' fill='white' />
+<rect x='04' y='04' width='35' height='35' fill='red' />
+<rect x='04' y='27' width='23' height='12' fill='blue' />
+<rect x='27' y='04' width='12' height='23' fill='blue' />
+</svg>
