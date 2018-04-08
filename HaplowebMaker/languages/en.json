@@ -137,7 +137,7 @@
     "repIndels.title" : "Treat indels as",
     "repIndels.label" : "Treat indels as",
     "partitionsLst.label" : "partitions.tsv",
-    "partitionLstDesc.label" : "Table of partitions",
+    "partitionLstDesc.label" : "Partition matrix",
     "multiColorLinks.label" : "Multicolor links",
     "multiColorLinks.title" : "Multicolor links",
     "removeSingletons.label" : "Remove singletons",
