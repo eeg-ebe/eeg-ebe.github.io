@@ -113,7 +113,7 @@ function calculateFaFile(project, i) {
         }
         m.finishedAddingSequences();
         if(!project["onlyComa"]) {
-            m.runMJ(project["epsilon"]);
+            m.runMJ(project["epsilon"], !!project["onlyMinimumSpanningNetwork"]);
         }
         var p = new Printer();
         m.finalizeNetwork().printTxt(p);

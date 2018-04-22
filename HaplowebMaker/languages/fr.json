@@ -141,6 +141,8 @@
     "multiColorLinks.label" : "Curbes multicolore",
     "multiColorLinks.title" : "Curbes multicolore",
     "removeSingletons.label" : "Supprimer les singletons",
-    "removeSingletons.title" : "Supprimer les singletons"
+    "removeSingletons.title" : "Supprimer les singletons",
+    "networkCreationAlgo.title" : "Network creation",
+    "networkCreationAlgo.label" : "Network creation"
   }
 }

@@ -77,6 +77,8 @@
                 <img src="images/loading.gif" class="ui-front"/>
             </div>
         </div>
+        <div id="modalOverlay" class="ui-widget-overlay ui-front">
+        </div>
         <div id="banner">
             <div style="padding: 10">
                 <a id="mainToolsOpener" class="tooltip shortcut" shortcut="openMainToolsToolbox" tid="openMainToolsToolbox.title" onclick="javascript: $('#mainToolsToolbox').toggle();">
@@ -253,6 +255,15 @@
                             <option>!</option>
                             <option>§</option>
                             <option>&amp;</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="advancedSettings tooltip" tid="networkCreationAlgo.title">
+                    <td class="label" lid="networkCreationAlgo.label"></td>
+                    <td style="text-align: right">
+                        <select id="onlyMinimumSpanningNetwork" autocomplete="off">
+                            <option>minimum spanning network</option>
+                            <option>median joining</option>
                         </select>
                     </td>
                 </tr>
@@ -548,12 +559,14 @@
                         $("body").append($("<div id='" + nodeId + "'>" + obj.getDivContent() + "</div>"));
                         $( '#' + nodeId ).dialog({
                             modal: true,
+                            autoOpen: false,
                             buttons: [ {
                                 "text" : languageDicts[language]["dict"]["buttonOk"],
                                 "class" : "dialogOkButton",
                                 "click" : function() {
                                     $( '#' + nodeId ).dialog( "close" );
                                     $( '#' + nodeId ).remove();
+                                    $( "#modalOverlay" ).hide();
                                 }
                             }],
                             hide: {
@@ -566,6 +579,7 @@
                         });
                         $( '#' + nodeId ).dialog('option', 'title', "INFO"); // TODO languageDicts[language]["dict"]["cite.label"]
                         $( '#' + nodeId ).dialog("open");
+                        $( "#modalOverlay" ).show();
                         // hack in order to bring this dialog to the front
                         setTimeout( function() { $( '#' + nodeId ).parent().css('z-index', 250); }, 120);
                     }
@@ -722,6 +736,11 @@
                         project["areaShouldBePropToNrInd"] = "Radius";
                     } else if(document.getElementById("areaShouldBePropToNrInd").value == "not reflected in circles") {
                         project["areaShouldBePropToNrInd"] = "Const";
+                    }
+                    if(document.getElementById("onlyMinimumSpanningNetwork").value == "minimum spanning network") {
+                        project["onlyMinimumSpanningNetwork"] = true;
+                    } else {
+                        project["onlyMinimumSpanningNetwork"] = false;
                     }
                     project["upperLowerCaseN"] = document.getElementById("ignoreUpperLowerName").checked;
                     project["upperLowerCaseS"] = document.getElementById("ignoreUpperLowerSeq").checked;
@@ -1269,6 +1288,7 @@
             });
             // everything done -> remove overlay
             $("#calculationOverlay").hide();
+            $("#modalOverlay").hide();
         </script>
     </body>
 </html>

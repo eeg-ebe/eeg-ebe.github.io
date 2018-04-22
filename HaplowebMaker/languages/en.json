@@ -141,6 +141,8 @@
     "multiColorLinks.label" : "Multicolor links",
     "multiColorLinks.title" : "Multicolor links",
     "removeSingletons.label" : "Remove singletons",
-    "removeSingletons.title" : "When this box is ticked, haplotypes found only once are removed from the analysis."
+    "removeSingletons.title" : "When this box is ticked, haplotypes found only once are removed from the analysis.",
+    "networkCreationAlgo.title" : "Network creation",
+    "networkCreationAlgo.label" : "Network creation"
   }
 }
