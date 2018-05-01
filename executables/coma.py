@@ -185,10 +185,12 @@ class CoMa:
                 printer3.printString(("\t" + Std.string(val4)))
             printer3.printString("\n")
         printer3.close()
-        CoMa.runComaFromPartition(comaIndL,printer,printer2)
+        CoMa.runComaFromPartition(util_Pair(comaIndL,None),printer,printer2)
 
     @staticmethod
-    def runComaFromPartition(comaIndL,printer,printer2):
+    def runComaFromPartition(comaIndLP,printer,printer2):
+        comaIndL = comaIndLP.first
+        weights = comaIndLP.second
         orderedL = List()
         highestVal = Math.NEGATIVE_INFINITY
         lowestVal = Math.POSITIVE_INFINITY
@@ -202,7 +204,7 @@ class CoMa:
         elif (comaIndL.length == 2):
             orderedL.add(comaIndL.pop())
             orderedL.add(comaIndL.pop())
-            highestVal = orderedL.first().compare(orderedL.last())
+            highestVal = orderedL.first().compare(orderedL.last(),weights)
             lowestVal = highestVal
         else:
             bestDist = Math.NEGATIVE_INFINITY
@@ -218,7 +220,7 @@ class CoMa:
                     val1 = _g_head1.item
                     _g_head1 = _g_head1.next
                     e2 = val1
-                    dist = e1.compare(e2)
+                    dist = e1.compare(e2,weights)
                     if (e1 != e2):
                         if (dist > bestDist):
                             bestDist = dist
@@ -250,8 +252,8 @@ class CoMa:
                     val2 = _g_head2.item
                     _g_head2 = _g_head2.next
                     e = val2
-                    distFirst = e.compare(orderedL.first())
-                    distLast = e.compare(orderedL.last())
+                    distFirst = e.compare(orderedL.first(),weights)
+                    distLast = e.compare(orderedL.last(),weights)
                     if (distFirst > bestDistFirst):
                         bestDistFirst = distFirst
                         bestEFirst = e
@@ -282,7 +284,7 @@ class CoMa:
                 val5 = _g_head5.item
                 _g_head5 = _g_head5.next
                 e21 = val5
-                dist1 = e11.compare(e21)
+                dist1 = e11.compare(e21,weights)
                 printer2.printString(("\t" + Std.string(dist1)))
             printer2.printString("\n")
         width = ((100 + ((orderedL.length * 20))) + 5)
@@ -311,7 +313,7 @@ class CoMa:
                 val8 = _g_head8.item
                 _g_head8 = _g_head8.next
                 e22 = val8
-                dist2 = e12.compare(e22)
+                dist2 = e12.compare(e22,weights)
                 printer.printString((((((("<rect x=\"" + Std.string(((100 + ((20 * i)))))) + "\" y=\"") + Std.string(((100 + ((20 * j)))))) + "\" width=\"20\" height=\"20\" fill=\"") + HxOverrides.stringOrNull(CoMa.cToCol(dist2,highestVal,lowestVal))) + "\"/>"))
                 j = (j + 1)
             j = 0
@@ -323,8 +325,10 @@ class CoMa:
     @staticmethod
     def parsePartitionFile(fileContent):
         comaIndL = List()
-        lines = fileContent.split("\n")
+        _this = StringTools.rtrim(fileContent)
+        lines = _this.split("\n")
         lineNo = 0
+        weightLine = None
         _g = 0
         while (_g < len(lines)):
             line = (lines[_g] if _g >= 0 and _g < len(lines) else None)
@@ -333,15 +337,25 @@ class CoMa:
             parts = line.split("\t")
             if (((line is None) or ((line == ""))) or ((lineNo == 1))):
                 continue
+            if ((lineNo == len(lines)) and ((((parts[0] if 0 < len(parts) else None) == "") or (((parts[0] if 0 < len(parts) else None) is None))))):
+                weightLine = list()
+                _g2 = 1
+                _g1 = len(parts)
+                while (_g2 < _g1):
+                    index = _g2
+                    _g2 = (_g2 + 1)
+                    x = Std.parseInt((parts[index] if index >= 0 and index < len(parts) else None))
+                    weightLine.append(x)
+                continue
             newCoMaInd = CoMaInd((parts[0] if 0 < len(parts) else None),(len(parts) - 1))
-            _g2 = 1
-            _g1 = len(parts)
-            while (_g2 < _g1):
-                index = _g2
-                _g2 = (_g2 + 1)
-                newCoMaInd.setSpResultOf((index - 1),Std.parseInt((parts[index] if index >= 0 and index < len(parts) else None)))
+            _g21 = 1
+            _g11 = len(parts)
+            while (_g21 < _g11):
+                index1 = _g21
+                _g21 = (_g21 + 1)
+                newCoMaInd.setSpResultOf((index1 - 1),Std.parseInt((parts[index1] if index1 >= 0 and index1 < len(parts) else None)))
             comaIndL.add(newCoMaInd)
-        return comaIndL
+        return util_Pair(comaIndL,weightLine)
 
     @staticmethod
     def main():
@@ -403,7 +417,7 @@ class CoMaInd:
     def setSpResultOf(self,i,sp):
         self.vals[i] = sp
 
-    def compare(self,other):
+    def compare(self,other,weights):
         result = 0
         _g1 = 0
         _g = len(self.vals)
@@ -413,9 +427,14 @@ class CoMaInd:
             if ((self.vals[i] == -1) or ((other.vals[i] == -1))):
                 continue
             if (self.vals[i] == other.vals[i]):
-                result = (result + 1)
-            else:
+                if (weights is None):
+                    result = (result + 1)
+                else:
+                    result = (result + (weights[i] if i >= 0 and i < len(weights) else None))
+            elif (weights is None):
                 result = (result - 1)
+            else:
+                result = (result - (weights[i] if i >= 0 and i < len(weights) else None))
         return result
 
 
@@ -607,7 +626,7 @@ class Std:
 class StringTools:
     _hx_class_name = "StringTools"
     __slots__ = ()
-    _hx_statics = ["startsWith"]
+    _hx_statics = ["startsWith", "isSpace", "rtrim"]
 
     @staticmethod
     def startsWith(s,start):
@@ -615,6 +634,27 @@ class StringTools:
             return (HxString.substr(s,0,len(start)) == start)
         else:
             return False
+
+    @staticmethod
+    def isSpace(s,pos):
+        if (((len(s) == 0) or ((pos < 0))) or ((pos >= len(s)))):
+            return False
+        c = HxString.charCodeAt(s,pos)
+        if (not (((c > 8) and ((c < 14))))):
+            return (c == 32)
+        else:
+            return True
+
+    @staticmethod
+    def rtrim(s):
+        l = len(s)
+        r = 0
+        while ((r < l) and StringTools.isSpace(s,((l - r) - 1))):
+            r = (r + 1)
+        if (r > 0):
+            return HxString.substr(s,0,(l - r))
+        else:
+            return s
 
 
 class sys_FileSystem:
