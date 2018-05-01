@@ -953,6 +953,12 @@
                         html += "<p></p><table id='fileTable'><tr class='header'><td class='left label' lid='fileTableHeaderName.label'></td><td class='left label' lid='fileTableHeaderAction.label'></td><td class='middle label' lid='fileTableHeaderDesc.label'></td></tr>";
                         var even = true;
                         html += "<tr class='" + ((even) ? "even" : "odd") + " overviewfiles'>";
+                        html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
+                        html += "<span class='label'></span>project.json</td><td class='left'><button class='ui-button ui-widget ui-corner-all' style='visibility: hidden'><span class='ui-icon ui-icon-newwin'></span></button><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:saveProject();'><span class='ui-icon ui-icon-disk";
+                        html += (project["progress"] === 100) ? "" : " ui-state-disabled";
+                        html += "'></span></button></td><td class='middle'>The project as json</td></tr>";
+                        var even = !even;
+                        html += "<tr class='" + ((even) ? "even" : "odd") + " overviewfiles'>";
                         html += "<td class='left'><a name='overviewfiles' class='anchor'></a><a href='#overview' onclick='javascript:$(\".overview\").effect(\"highlight\", {color: \"red\"}, 1750);' class='tooltip' tid='jumpOverview.title'><span class='ui-icon ui-icon-arrowreturnthick-1-n'></span></a>";
                         html += "<span class='label' lid='allFilesZip.label'></span></td><td class='left'><button class='ui-button ui-widget ui-corner-all' style='visibility: hidden'><span class='ui-icon ui-icon-newwin'></span></button><button class='ui-button ui-widget ui-corner-all tooltip' tid='buttonDownload' onclick='javascript:downloadEverything();'><span class='ui-icon ui-icon-disk";
                         html += (project["progress"] === 100) ? "" : " ui-state-disabled";
