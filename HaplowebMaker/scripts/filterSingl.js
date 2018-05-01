@@ -9,6 +9,117 @@ function $extend(from, fields) {
 var FilterSingletons = function() { };
 $hxClasses["FilterSingletons"] = FilterSingletons;
 FilterSingletons.__name__ = ["FilterSingletons"];
+FilterSingletons.getIndIdentifier = function(s,delimiter) {
+	var result = s;
+	if(s != null) {
+		var pos = s.lastIndexOf(delimiter);
+		if(pos != -1) {
+			result = HxOverrides.substr(s,0,pos);
+		}
+	}
+	return result;
+};
+FilterSingletons.assumeAtLeastDiploid = function(faFile,delimiter) {
+	var map = new haxe_ds_StringMap();
+	var _g_head = faFile.h;
+	while(_g_head != null) {
+		var val = _g_head.item;
+		_g_head = _g_head.next;
+		var seq = val;
+		var s = seq.first;
+		var result = s;
+		if(s != null) {
+			var pos = s.lastIndexOf(delimiter);
+			if(pos != -1) {
+				result = HxOverrides.substr(s,0,pos);
+			}
+		}
+		var identifier = result;
+		if(__map_reserved[identifier] != null ? map.existsReserved(identifier) : map.h.hasOwnProperty(identifier)) {
+			(__map_reserved[identifier] != null ? map.getReserved(identifier) : map.h[identifier]).add(new util_Pair(seq.first,seq.second));
+		} else {
+			var lst = new List();
+			lst.add(seq);
+			if(__map_reserved[identifier] != null) {
+				map.setReserved(identifier,lst);
+			} else {
+				map.h[identifier] = lst;
+			}
+		}
+	}
+	var newLst = new List();
+	var key = map.keys();
+	while(key.hasNext()) {
+		var key1 = key.next();
+		var l = __map_reserved[key1] != null ? map.getReserved(key1) : map.h[key1];
+		if(l.length <= 1) {
+			newLst.add(l.first());
+			newLst.add(l.first());
+		} else {
+			var _g_head1 = l.h;
+			while(_g_head1 != null) {
+				var val1 = _g_head1.item;
+				_g_head1 = _g_head1.next;
+				var e = val1;
+				newLst.add(e);
+			}
+		}
+	}
+	return newLst;
+};
+FilterSingletons.removeDuplicates = function(faFile,delimiter) {
+	var map = new haxe_ds_StringMap();
+	var _g_head = faFile.h;
+	while(_g_head != null) {
+		var val = _g_head.item;
+		_g_head = _g_head.next;
+		var seq = val;
+		var s = seq.first;
+		var result = s;
+		if(s != null) {
+			var pos = s.lastIndexOf(delimiter);
+			if(pos != -1) {
+				result = HxOverrides.substr(s,0,pos);
+			}
+		}
+		var identifier = result;
+		if(__map_reserved[identifier] != null ? map.existsReserved(identifier) : map.h.hasOwnProperty(identifier)) {
+			(__map_reserved[identifier] != null ? map.getReserved(identifier) : map.h[identifier]).add(new util_Pair(seq.first,seq.second));
+		} else {
+			var lst = new List();
+			lst.add(seq);
+			if(__map_reserved[identifier] != null) {
+				map.setReserved(identifier,lst);
+			} else {
+				map.h[identifier] = lst;
+			}
+		}
+	}
+	var newLst = new List();
+	var key = map.keys();
+	while(key.hasNext()) {
+		var key1 = key.next();
+		var l = __map_reserved[key1] != null ? map.getReserved(key1) : map.h[key1];
+		var outputted = new haxe_ds_StringMap();
+		var _g_head1 = l.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var e = val1;
+			var key2 = e.second;
+			if(!(__map_reserved[key2] != null ? outputted.existsReserved(key2) : outputted.h.hasOwnProperty(key2))) {
+				newLst.add(e);
+				var key3 = e.second;
+				if(__map_reserved[key3] != null) {
+					outputted.setReserved(key3,0);
+				} else {
+					outputted.h[key3] = 0;
+				}
+			}
+		}
+	}
+	return newLst;
+};
 FilterSingletons.filterSingletons = function(faFile) {
 	var map = new haxe_ds_StringMap();
 	var _g_head = faFile.h;

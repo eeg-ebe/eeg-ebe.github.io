@@ -87,6 +87,12 @@ function calculateFaFile(project, i) {
         if(!!project["removeSingletons"]) {
             fc = FilterSingletons.filterSingletons(fc);
         }
+        // change frequency?
+        if(project["frequency"] == "assumeAtLeastDiploid") {
+            fc = FilterSingletons.assumeAtLeastDiploid(fc, project["delimiter"]);
+        } else if(project["frequency"] == "numberOfIndividuals") {
+            fc = FilterSingletons.removeDuplicates(fc, project["delimiter"]);
+        }
         // add sequences
         var current = fc.h;
         while(current != null && current != undefined) {
