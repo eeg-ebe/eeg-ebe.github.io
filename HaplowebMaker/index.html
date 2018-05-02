@@ -268,26 +268,29 @@
                     </td>
                 </tr>
                 <tr class="advancedSettings">
+                    <td colspan="2">Circle <select id="areaShouldBePropToNrInd" autocomplete="off">
+                            <option>area</option>
+                            <option>radius</option>
+                            <option>const</option>
+                        </select> and curve thicknesses <select id="frequency" autocomplete="off">
+                            <option>proportional to number of individuals</option>
+                            <option>proportional to inferred frequencies</option>
+                            <option>proportional to number of occurrences in input files</option>
+                        </select></td>
+                </tr>
+<!--                <tr class="advancedSettings">
                     <td>Haplotype circle reflect</td>
                     <td style="text-align: right">
-                        <select id="frequency" autocomplete="off">
-                            <option>number of individuals</option>
-                            <option>inferred frequency</option>
-                            <option>fa file data frequency</option>
-                        </select>
+                        
                     </td>
                 </tr>
                 <tr class="advancedSettings tooltip" tid="areaShouldBePropToNrInd.title">
                     <td class="label" lid="areaShouldBePropToNrInd.label"></td>
                     <td style="text-align: right">
-                        <select id="areaShouldBePropToNrInd" autocomplete="off">
-                            <option>proportional to circle area</option>
-                            <option>proportional to circle radius</option>
-                            <option>not reflected in circles</option>
-                        </select>
-<!--                        <input type="checkbox" name="areaShouldBePropToNrInd" id="areaShouldBePropToNrInd" autocomplete="off" />-->
+                        
+<!--                        <input type="checkbox" name="areaShouldBePropToNrInd" id="areaShouldBePropToNrInd" autocomplete="off" />
                     </td>
-                </tr>
+                </tr>-->
                 <tr class="advancedSettings tooltip" tid="pieChartAdvSet.title">
                     <td class="label" lid="pieChartAdvSet.label"></td>
                     <td style="text-align: right"><input type="file" id="pieFile" name="pieFile" autocomplete="off" /></td>
@@ -740,11 +743,11 @@
                     project["projectName"] = document.getElementById("jobname").value;
                     project["epsilon"] = $( "#epsilon" ).spinner( "value" );
                     project["delimiter"] = document.getElementById("delimiterChoosing").value;
-                    if(document.getElementById("areaShouldBePropToNrInd").value == "proportional to circle area") {
+                    if(document.getElementById("areaShouldBePropToNrInd").value == "area") {
                         project["areaShouldBePropToNrInd"] = "Area";
-                    } else if(document.getElementById("areaShouldBePropToNrInd").value == "proportional to circle radius") {
+                    } else if(document.getElementById("areaShouldBePropToNrInd").value == "radius") {
                         project["areaShouldBePropToNrInd"] = "Radius";
-                    } else if(document.getElementById("areaShouldBePropToNrInd").value == "not reflected in circles") {
+                    } else if(document.getElementById("areaShouldBePropToNrInd").value == "const") {
                         project["areaShouldBePropToNrInd"] = "Const";
                     }
                     if(document.getElementById("onlyMinimumSpanningNetwork").value == "minimum spanning network") {
@@ -752,9 +755,9 @@
                     } else {
                         project["onlyMinimumSpanningNetwork"] = false;
                     }
-                    if(document.getElementById("frequency").value == "number of individuals") {
+                    if(document.getElementById("frequency").value == "proportional to number of individuals") {
                         project["frequency"] = "numberOfIndividuals";
-                    } else if(document.getElementById("frequency").value == "inferred frequency") {
+                    } else if(document.getElementById("frequency").value == "proportional to inferred frequencies") {
                         project["frequency"] = "assumeAtLeastDiploid";
                     } else {
                         project["frequency"] = "dont treat";
