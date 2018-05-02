@@ -129,7 +129,7 @@
                 </div>
                 <ul>
                     <script>
-                        for(key in languageDicts) {
+                        for(key in {"en":""}) {
                             document.write("<li><div onclick=\"javascript: setLanguage('" + key + "');\"><span class=\"ui-icon imgInSpan\" style=\"background-image:url('languages/" + languageDicts[key]["flag_path"] + "')\"></span>" + languageDicts[key]["lang_long"] + "</div></li>");
                         }
                     </script>
@@ -298,7 +298,7 @@
                 </tr>
                 <tr class="advancedSettings tooltip" tid="colorByFFR.title">
                     <td class="label" lid="colorByFFR.label"></td>
-                    <td style="text-align: right"><input type="checkbox" name="colorByFFR" id="colorByFFR" autocomplete="off" /></td>
+                    <td style="text-align: right"><input type="checkbox" name="colorByFFR" id="colorByFFR" checked="cheched" autocomplete="off" /></td>
                 </tr>
                 <tr class="advancedSettings tooltip" tid="onlyComa.title">
                     <td class="label" lid="onlyComa.label"></td>
