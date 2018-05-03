@@ -13,7 +13,7 @@
     "unknown" : "?",
     "visualize" : "Visualise",
     "configureShortcuts.warningdialog.label" : "Ambiguous shortcut",
-    "shortcutConfigurationWarningDialogText.label" : "Error: The shortcut '{2}' cannot be used for action '{0}' and action '{1}' simultanously!",
+    "shortcutConfigurationWarningDialogText.label" : "Error: The shortcut '{2}' cannot be used for action '{0}' and action '{1}' simultaneously!",
     "openMainToolsToolbox.label" : "Open basic tools box",
     "openMainToolsToolbox.title" : "Opens (and closes) a toolbox that contains the most basic tools",
     "newInstance.label" : "New instance",
@@ -55,9 +55,9 @@
     "exemplaryFastaFileDownloadLink.label" : "Download example FASTA alignment files",
     "jobSubmissionAdvancedSettings.label" : "Advanced settings",
     "jobSubmissionAdvancedSettingsMJFasta.label" : "Ignore upper and lower case",
-    "jobSubmissionAdvancedSettingsMJFasta.title" : "If this parameter is activated this program will not differenciate upper- and lowercase characters in the names and sequences",
+    "jobSubmissionAdvancedSettingsMJFasta.title" : "If this parameter is activated this program will not differentiate upper- and lowercase characters in the names and sequences",
     "jobSubmissionAdvancedSettingsMJEpsilon.label" : "Epsilon",
-    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "The epsilon parameter of the median joining algorithmus (see Bandelt et al.)",
+    "jobSubmissionAdvancedSettingsMJEpsilon.title" : "The epsilon parameter of the median joining algorithm (see Bandelt et al.). This parameter specifies a tolerance up to which distances are not distinguished.",
     "needAlignments.label" : "Missing data",
     "needAlignments.text.label" : "Please provide at least one FASTA alignment file!",
     "jobname.label" : "Jobname",
@@ -142,7 +142,7 @@
     "multiColorLinks.title" : "Multicolor links",
     "removeSingletons.label" : "Remove singletons",
     "removeSingletons.title" : "When this box is ticked, haplotypes found only once are removed from the analysis.",
-    "networkCreationAlgo.title" : "Network creation",
-    "networkCreationAlgo.label" : "Network creation"
+    "networkCreationAlgo.title" : "Network algorithm",
+    "networkCreationAlgo.label" : "Network algorithm"
   }
 }

@@ -272,7 +272,7 @@
                             <option>area</option>
                             <option>radius</option>
                             <option>const</option>
-                        </select> and curve thicknesses <select id="frequency" autocomplete="off">
+                        </select> and curve thickness <select id="frequency" autocomplete="off">
                             <option>proportional to number of individuals</option>
                             <option>proportional to inferred frequencies</option>
                             <option>proportional to number of occurrences in input files</option>
@@ -296,8 +296,15 @@
                     <td style="text-align: right"><input type="file" id="pieFile" name="pieFile" autocomplete="off" /></td>
                 </tr>
                 <tr class="advancedSettings tooltip" tid="pieChartsByIndNameOnly.title">
+                    <td>PMColor file</td>
+                    <td style="text-align: right"><select id="pieByIndNameOnly" autocomplete="off">
+                        <option>attributing colors to individuals</option>
+                        <option>attributing colors to individual sequences</option>
+                    </select></td>
+                    <!--
                     <td class="label" lid="pieChartsByIndNameOnly.label"></td>
                     <td style="text-align: right"><input type="checkbox" name="pieByIndNameOnly" id="pieByIndNameOnly" checked="cheched" autocomplete="off" /></td>
+                    -->
                 </tr>
                 <tr class="advancedSettings tooltip" tid="colorByFFR.title">
                     <td class="label" lid="colorByFFR.label"></td>
@@ -767,7 +774,11 @@
                     project["ambigStrat"] = document.getElementById("ambigStrat").value;
                     project["submissionDate"] = Date.now();
                     project["calculationEndDate"] = null;
-                    project["pieByIndNameOnly"] = document.getElementById("pieByIndNameOnly").checked;
+                    if(document.getElementById("pieByIndNameOnly").value == "attributing colors to individuals") {
+                        project["pieByIndNameOnly"] = true;
+                    } else {
+                        project["pieByIndNameOnly"] = false;
+                    }
                     project["assignRandomColoresToFFRs"] = document.getElementById("colorByFFR").checked;
                     project["browser"] = {
                         "code name" : navigator.appCodeName,
