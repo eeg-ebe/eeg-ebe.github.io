@@ -197,22 +197,6 @@
                     <td class="label" lid="jobSubmissionAdvancedSettingsMJFasta.label"></td>
                     <td style="text-align: right"><input type="checkbox" name="ignoreUpperLowerSeq" id="ignoreUpperLowerSeq" checked="cheched" autocomplete="off" disabled="disabled" />(seq)</td>
                 </tr>
-                <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsMJEpsilon.title">
-                    <td class="label" lid="jobSubmissionAdvancedSettingsMJEpsilon.label"></td>
-                    <td style="text-align: right"><input id="epsilon" name="value" value="0.0" autocomplete="off" />
-                        <script>
-                            $("#epsilon").spinner({
-                                step: 0.1,
-                                spin: function( event, ui ) {
-                                    if ( ui.value < 0 ) {
-                                        $( this ).spinner( "value", 0.0 );
-                                        return false;
-                                    }
-                                }
-                            });
-                        </script>
-                    </td>
-                </tr>
                 <tr class="advancedSettings tooltip" tid="repIndels.title">
                     <td class="label" lid="repIndels.label"></td>
                     <td style="text-align: right">
@@ -265,6 +249,22 @@
                             <option>median joining</option>
                             <option>minimum spanning network</option>
                         </select>
+                    </td>
+                </tr>
+                <tr class="advancedSettings tooltip" tid="jobSubmissionAdvancedSettingsMJEpsilon.title">
+                    <td class="label" lid="jobSubmissionAdvancedSettingsMJEpsilon.label"></td>
+                    <td style="text-align: right"><input id="epsilon" name="value" value="0.0" autocomplete="off" />
+                        <script>
+                            $("#epsilon").spinner({
+                                step: 0.1,
+                                spin: function( event, ui ) {
+                                    if ( ui.value < 0 ) {
+                                        $( this ).spinner( "value", 0.0 );
+                                        return false;
+                                    }
+                                }
+                            });
+                        </script>
                     </td>
                 </tr>
                 <tr class="advancedSettings">
