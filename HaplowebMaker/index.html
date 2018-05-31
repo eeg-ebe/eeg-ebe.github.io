@@ -1072,12 +1072,12 @@
                             zip.file(name + ".svg", project["faFiles"][i]["svg"]);
                         }
                         zip.file("CoMa.svg", project["coma"]);
-                        zip.file("CoMa.lst", project["comaLst"]);
+                        zip.file("CoMa.tsv", project["comaLst"]);
                     }
                     zip.generateAsync({type:"blob"}).then(function(content) { saveAs(content, "all.zip"); $("#calculationOverlay").hide(); });
                 } // TODO
                 function downloadComaLst() {
-                    download("text/plain", "coma.lst", project["comaLst"]);
+                    download("text/plain", "CoMa.tsv", project["comaLst"]);
                 }
                 function viewComaLst() {
                     view("text/plain", project["comaLst"]);
