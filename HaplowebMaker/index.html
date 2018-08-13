@@ -404,6 +404,8 @@
                     <button onclick="javascript: currentGraphEdit.modifyNodes(9/10); updateSVG();">Nodes--</button>
                     <button onclick="javascript: currentGraphEdit.initStrokeColorListByStr(project['pieChart'], document.getElementById('ignoreUpperLowerName').checked); updateSVG();">Multicolor curves</button>
                     <button onclick="javascript: if(typeof project['pieChart'] !== 'undefined') { currentGraphEdit.assingPiesByTxt(project['pieChart'], project['upperLowerCaseN'], project['pieByIndNameOnly']); updateSVG(); } else { alert('No color file given!'); }">Reinitialize pie charts</button>
+                    <input type="file" id="updateColorFileUploadInput"/>
+                    <button onclick="javascript: updateColorFile();">Upload color file</button>
                     <br>
                     <span>Mutations shown as lines:</span>
                     <input type="checkbox" name="drawMutsByLineChkbx" id="drawMutsByLineChkbx" autocomplete="off" />
@@ -449,6 +451,25 @@
             <a id="scrollUpLink" href="#top"></a>
             <a id="scrollDownLink" href="#bottom"></a>
             <script>
+                function updateColorFile() { // TODO
+                    var reader = new FileReader();
+                    var input = document.getElementById("updateColorFileUploadInput");
+                    var pieFile = input.files;
+                    if(pieFile.length == 1) {
+                        var reader2 = new FileReader();
+                        reader2.onload = function(data) {
+                            // parse
+                            project["pieChart"] = data.target.result;
+                            if(typeof project["pieChart"] !== "undefined") {
+                                currentGraphEdit.assingPiesByTxt(project["pieChart"], project["upperLowerCaseN"], project["pieByIndNameOnly"]);
+                            } else if(typeof project["assignRandomColoresToFFRs"] !== "undefined" && !!project["assignRandomColoresToFFRs"]) {
+                                currentGraphEdit.colorNetwork();
+                            }
+                            updateSVG();
+                        };
+                        reader2.readAsText(pieFile[0]);
+                    }
+                }
                 function assignMutsByDot() {
                     var chkd = document.getElementById("drawMutsByDotChkbx").checked;
                     var size = parseFloat(document.getElementById("drawMutsDotSize").value);
