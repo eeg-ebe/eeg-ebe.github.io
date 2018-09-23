@@ -1000,6 +1000,7 @@ draw_Drawer.main = function() {
 	var g_nodes;
 	var g_links;
 	var g_lastStretchFact;
+	var g_drawLoops;
 	var g_drawCurves;
 	var g_drawCons;
 	var g_drawCirclesNames;
@@ -1014,6 +1015,7 @@ draw_Drawer.main = function() {
 	g_drawCirclesMedians = false;
 	g_drawCons = true;
 	g_drawCurves = true;
+	g_drawLoops = false;
 	g_drawBezierPoints = false;
 	g_drawCenter = false;
 	g_drawAngles = false;
@@ -1022,6 +1024,7 @@ draw_Drawer.main = function() {
 	g_drawCirclesMedians = false;
 	g_drawCons = true;
 	g_drawCurves = true;
+	g_drawLoops = false;
 	g_drawBezierPoints = false;
 	g_drawCenter = false;
 	g_drawAngles = false;
@@ -1536,20 +1539,76 @@ draw_Drawer.main = function() {
 		}
 		result5.add("</g>");
 	}
-	if(g_drawCircles) {
+	if(g_drawLoops) {
 		var _g_head27 = g_nodes.h;
 		while(_g_head27 != null) {
 			var val27 = _g_head27.item;
 			_g_head27 = _g_head27.next;
 			var node12 = val27;
+			var n4 = 0;
+			var map = new haxe_ds_StringMap();
+			var _g_head28 = node12.node.names.h;
+			while(_g_head28 != null) {
+				var val28 = _g_head28.item;
+				_g_head28 = _g_head28.next;
+				var name = val28;
+				var result8 = name;
+				if(name != null) {
+					var pos = name.lastIndexOf(mj_Seq.delimiter);
+					if(pos != -1) {
+						result8 = HxOverrides.substr(name,0,pos);
+					}
+				}
+				var indName = result8;
+				if(__map_reserved[indName] != null ? map.existsReserved(indName) : map.h.hasOwnProperty(indName)) {
+					if((__map_reserved[indName] != null ? map.getReserved(indName) : map.h[indName]) == 0) {
+						if(__map_reserved[indName] != null) {
+							map.setReserved(indName,1);
+						} else {
+							map.h[indName] = 1;
+						}
+						++n4;
+					}
+				} else if(__map_reserved[indName] != null) {
+					map.setReserved(indName,0);
+				} else {
+					map.h[indName] = 0;
+				}
+			}
+			haxe_Log.trace("XXX " + n4 + " " + node12.xPos + " " + node12.yPos,{ fileName : "NodePos.hx", lineNumber : 240, className : "draw.NodePos", methodName : "getLoopSvg"});
 			var tmp2;
-			if(!g_drawCirclesMedians && node12.node.type != parsing_SEQ_$TYPE.SAMPLED_SEQUENCE) {
+			if(n4 == 0) {
 				tmp2 = "";
-			} else if(node12.valid) {
-				tmp2 = node12.svg;
 			} else {
-				var result8 = new List();
-				node12.pie = node12.pie.filter(function(t) {
+				var l4 = Math.sqrt(node12.xPos * node12.xPos + node12.yPos * node12.yPos);
+				var x3;
+				var y3;
+				if(l4 < 0.1) {
+					x3 = node12.xPos + node12.radius / 1.414213562;
+					y3 = node12.yPos + node12.radius / 1.414213562;
+				} else {
+					x3 = node12.xPos + node12.xPos / l4 * node12.radius;
+					y3 = node12.yPos + node12.yPos / l4 * node12.radius;
+				}
+				tmp2 = "<circle cx='" + x3 + "' cy='" + y3 + "' r='" + node12.radius + "' stroke-width='" + n4 + "' stroke='blue' fill='none'/>";
+			}
+			result5.add(tmp2);
+		}
+	}
+	if(g_drawCircles) {
+		var _g_head29 = g_nodes.h;
+		while(_g_head29 != null) {
+			var val29 = _g_head29.item;
+			_g_head29 = _g_head29.next;
+			var node13 = val29;
+			var tmp3;
+			if(!g_drawCirclesMedians && node13.node.type != parsing_SEQ_$TYPE.SAMPLED_SEQUENCE) {
+				tmp3 = "";
+			} else if(node13.valid) {
+				tmp3 = node13.svg;
+			} else {
+				var result9 = new List();
+				node13.pie = node13.pie.filter(function(t) {
 					if(t.first != null && t.first != "") {
 						return t.second > 0;
 					} else {
@@ -1557,100 +1616,100 @@ draw_Drawer.main = function() {
 					}
 				});
 				var needArcs = false;
-				result8.add("<circle id='");
-				result8.add("n" + node12.node.id);
-				result8.add("' ");
-				result8.add("stroke='");
-				result8.add(node12.strokeColor);
-				result8.add("' ");
-				result8.add("stroke-width='");
-				result8.add("" + node12.strokeWidth);
-				result8.add("' ");
-				if(!node12.dashedArray.isEmpty()) {
-					result8.add("stroke-dasharray='");
-					result8.add(node12.dashedArray.join(","));
-					result8.add("' ");
+				result9.add("<circle id='");
+				result9.add("n" + node13.node.id);
+				result9.add("' ");
+				result9.add("stroke='");
+				result9.add(node13.strokeColor);
+				result9.add("' ");
+				result9.add("stroke-width='");
+				result9.add("" + node13.strokeWidth);
+				result9.add("' ");
+				if(!node13.dashedArray.isEmpty()) {
+					result9.add("stroke-dasharray='");
+					result9.add(node13.dashedArray.join(","));
+					result9.add("' ");
 				}
-				result8.add("cx='");
-				result8.add("" + node12.xPos);
-				result8.add("' ");
-				result8.add("cy='");
-				result8.add("" + node12.yPos);
-				result8.add("' ");
-				result8.add("r='");
-				result8.add("" + node12.radius);
-				result8.add("' ");
-				if(node12.pie.isEmpty()) {
-					result8.add("fill='blue'");
-				} else if(node12.pie.length == 1) {
-					result8.add("fill='");
-					result8.add(node12.pie.first().first);
-					result8.add("' ");
+				result9.add("cx='");
+				result9.add("" + node13.xPos);
+				result9.add("' ");
+				result9.add("cy='");
+				result9.add("" + node13.yPos);
+				result9.add("' ");
+				result9.add("r='");
+				result9.add("" + node13.radius);
+				result9.add("' ");
+				if(node13.pie.isEmpty()) {
+					result9.add("fill='blue'");
+				} else if(node13.pie.length == 1) {
+					result9.add("fill='");
+					result9.add(node13.pie.first().first);
+					result9.add("' ");
 				} else {
 					needArcs = true;
 				}
-				result8.add("/>");
+				result9.add("/>");
 				if(needArcs) {
 					var summe = 0;
-					var _g_head28 = node12.pie.h;
-					while(_g_head28 != null) {
-						var val28 = _g_head28.item;
-						_g_head28 = _g_head28.next;
-						var p2 = val28;
+					var _g_head30 = node13.pie.h;
+					while(_g_head30 != null) {
+						var val30 = _g_head30.item;
+						_g_head30 = _g_head30.next;
+						var p2 = val30;
 						summe += p2.second;
 					}
 					var cs = 0;
-					var _g_head29 = node12.pie.h;
-					while(_g_head29 != null) {
-						var val29 = _g_head29.item;
-						_g_head29 = _g_head29.next;
-						var p3 = val29;
+					var _g_head31 = node13.pie.h;
+					while(_g_head31 != null) {
+						var val31 = _g_head31.item;
+						_g_head31 = _g_head31.next;
+						var p3 = val31;
 						var color = p3.first;
 						var perc = p3.second / summe;
-						var pX1 = Math.sin(cs / summe * 2 * Math.PI) * node12.radius + node12.xPos;
-						var pY1 = -Math.cos(cs / summe * 2 * Math.PI) * node12.radius + node12.yPos;
+						var pX1 = Math.sin(cs / summe * 2 * Math.PI) * node13.radius + node13.xPos;
+						var pY1 = -Math.cos(cs / summe * 2 * Math.PI) * node13.radius + node13.yPos;
 						cs += p3.second;
-						var pX2 = Math.sin(cs / summe * 2 * Math.PI) * node12.radius + node12.xPos;
-						var pY2 = -Math.cos(cs / summe * 2 * Math.PI) * node12.radius + node12.yPos;
+						var pX2 = Math.sin(cs / summe * 2 * Math.PI) * node13.radius + node13.xPos;
+						var pY2 = -Math.cos(cs / summe * 2 * Math.PI) * node13.radius + node13.yPos;
 						var arcFlag = perc < 0.5 ? 0 : 1;
-						result8.add("<path fill='" + color + "' d='M" + node12.xPos + "," + node12.yPos + "L" + pX1 + "," + pY1 + "A" + node12.radius + "," + node12.radius + " 1 " + arcFlag + ",1 " + pX2 + ", " + pY2 + " z'/>");
+						result9.add("<path fill='" + color + "' d='M" + node13.xPos + "," + node13.yPos + "L" + pX1 + "," + pY1 + "A" + node13.radius + "," + node13.radius + " 1 " + arcFlag + ",1 " + pX2 + ", " + pY2 + " z'/>");
 					}
 				}
-				node12.svg = result8.join("");
-				node12.valid = true;
-				tmp2 = node12.svg;
-			}
-			result5.add(tmp2);
-		}
-	}
-	if(g_drawCirclesNames) {
-		var _g_head30 = g_nodes.h;
-		while(_g_head30 != null) {
-			var val30 = _g_head30.item;
-			_g_head30 = _g_head30.next;
-			var node13 = val30;
-			var tmp3;
-			if(node13.node.type != parsing_SEQ_$TYPE.SAMPLED_SEQUENCE) {
-				tmp3 = "";
-			} else {
-				var x3 = node13.xPos + node13.radius + 5;
-				var y3 = node13.yPos + node13.radius + 5;
-				tmp3 = "<text x='" + x3 + "' y='" + y3 + "'>" + node13.node.names.first() + "</text>";
+				node13.svg = result9.join("");
+				node13.valid = true;
+				tmp3 = node13.svg;
 			}
 			result5.add(tmp3);
 		}
 	}
+	if(g_drawCirclesNames) {
+		var _g_head32 = g_nodes.h;
+		while(_g_head32 != null) {
+			var val32 = _g_head32.item;
+			_g_head32 = _g_head32.next;
+			var node14 = val32;
+			var tmp4;
+			if(node14.node.type != parsing_SEQ_$TYPE.SAMPLED_SEQUENCE) {
+				tmp4 = "";
+			} else {
+				var x4 = node14.xPos + node14.radius + 5;
+				var y4 = node14.yPos + node14.radius + 5;
+				tmp4 = "<text x='" + x4 + "' y='" + y4 + "'>" + node14.node.names.first() + "</text>";
+			}
+			result5.add(tmp4);
+		}
+	}
 	if(g_drawAngles) {
-		var _g_head31 = g_cons.h;
-		while(_g_head31 != null) {
-			var val31 = _g_head31.item;
-			_g_head31 = _g_head31.next;
-			var c1 = val31;
-			var _g_head32 = g_cons.h;
-			while(_g_head32 != null) {
-				var val32 = _g_head32.item;
-				_g_head32 = _g_head32.next;
-				var c2 = val32;
+		var _g_head33 = g_cons.h;
+		while(_g_head33 != null) {
+			var val33 = _g_head33.item;
+			_g_head33 = _g_head33.next;
+			var c1 = val33;
+			var _g_head34 = g_cons.h;
+			while(_g_head34 != null) {
+				var val34 = _g_head34.item;
+				_g_head34 = _g_head34.next;
+				var c2 = val34;
 				if(c1.id > c2.id) {
 					var nA = null;
 					var nB = null;
@@ -1693,53 +1752,53 @@ draw_Drawer.main = function() {
 		}
 	}
 	if(g_drawBezierPoints) {
-		var _g_head33 = g_links.h;
-		while(_g_head33 != null) {
-			var val33 = _g_head33.item;
-			_g_head33 = _g_head33.next;
-			var link5 = val33;
+		var _g_head35 = g_links.h;
+		while(_g_head35 != null) {
+			var val35 = _g_head35.item;
+			_g_head35 = _g_head35.next;
+			var link5 = val35;
 			result5.add("<circle cx='" + link5.xPos + "' cy='" + link5.yPos + "' r='5' fill='" + link5.strokeColor + "' stroke='" + (link5.setByUser ? "black" : "red") + "' />");
 		}
 	}
 	if(g_drawCenter) {
 		var rx1 = 0;
-		var _g_head34 = g_nodes.h;
-		while(_g_head34 != null) {
-			var val34 = _g_head34.item;
-			_g_head34 = _g_head34.next;
-			var node14 = val34;
-			rx1 += node14.xPos;
-		}
-		var x4 = rx1 / g_nodes.length;
-		var ry1 = 0;
-		var _g_head35 = g_nodes.h;
-		while(_g_head35 != null) {
-			var val35 = _g_head35.item;
-			_g_head35 = _g_head35.next;
-			var node15 = val35;
-			ry1 += node15.yPos;
-		}
-		var y4 = ry1 / g_nodes.length;
-		result5.add("<line x1='" + x4 + "' y1='" + minY + "' x2='" + x4 + "' y2='" + maxY + "' stroke='green' stroke-dasharray='3 3' />");
-		result5.add("<line x1='" + minX + "' y1='" + y4 + "' x2='" + maxX + "' y2='" + y4 + "' stroke='green' stroke-dasharray='3 3' />");
-		var rx2 = 0;
 		var _g_head36 = g_nodes.h;
 		while(_g_head36 != null) {
 			var val36 = _g_head36.item;
 			_g_head36 = _g_head36.next;
-			var node16 = val36;
-			rx2 += node16.xPos;
+			var node15 = val36;
+			rx1 += node15.xPos;
 		}
-		var tmp4 = "<circle cx='" + rx2 / g_nodes.length + "' cy='";
-		var ry2 = 0;
+		var x5 = rx1 / g_nodes.length;
+		var ry1 = 0;
 		var _g_head37 = g_nodes.h;
 		while(_g_head37 != null) {
 			var val37 = _g_head37.item;
 			_g_head37 = _g_head37.next;
-			var node17 = val37;
-			ry2 += node17.yPos;
+			var node16 = val37;
+			ry1 += node16.yPos;
 		}
-		result5.add(tmp4 + ry2 / g_nodes.length + "' r='5' fill='green' />");
+		var y5 = ry1 / g_nodes.length;
+		result5.add("<line x1='" + x5 + "' y1='" + minY + "' x2='" + x5 + "' y2='" + maxY + "' stroke='green' stroke-dasharray='3 3' />");
+		result5.add("<line x1='" + minX + "' y1='" + y5 + "' x2='" + maxX + "' y2='" + y5 + "' stroke='green' stroke-dasharray='3 3' />");
+		var rx2 = 0;
+		var _g_head38 = g_nodes.h;
+		while(_g_head38 != null) {
+			var val38 = _g_head38.item;
+			_g_head38 = _g_head38.next;
+			var node17 = val38;
+			rx2 += node17.xPos;
+		}
+		var tmp5 = "<circle cx='" + rx2 / g_nodes.length + "' cy='";
+		var ry2 = 0;
+		var _g_head39 = g_nodes.h;
+		while(_g_head39 != null) {
+			var val39 = _g_head39.item;
+			_g_head39 = _g_head39.next;
+			var node18 = val39;
+			ry2 += node18.yPos;
+		}
+		result5.add(tmp5 + ry2 / g_nodes.length + "' r='5' fill='green' />");
 	}
 	result5.add("</svg>");
 	var s1 = result5.join("");
@@ -1749,6 +1808,7 @@ var draw_Graph = function(l) {
 	this.drawAngles = false;
 	this.drawCenter = false;
 	this.drawBezierPoints = false;
+	this.drawLoops = false;
 	this.drawCurves = true;
 	this.drawCons = true;
 	this.drawCirclesMedians = false;
@@ -1759,6 +1819,7 @@ var draw_Graph = function(l) {
 	this.drawCirclesMedians = false;
 	this.drawCons = true;
 	this.drawCurves = true;
+	this.drawLoops = false;
 	this.drawBezierPoints = false;
 	this.drawCenter = false;
 	this.drawAngles = false;
@@ -1864,6 +1925,7 @@ draw_Graph.prototype = {
 	,drawCirclesMedians: null
 	,drawCons: null
 	,drawCurves: null
+	,drawLoops: null
 	,drawBezierPoints: null
 	,drawCenter: null
 	,drawAngles: null
@@ -2066,7 +2128,7 @@ draw_Graph.prototype = {
 					}
 				}
 				if(colorName == null) {
-					haxe_Log.trace("WARN: No colorname found/given for '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 103, className : "draw.NodePos", methodName : "set_pieByLst"});
+					haxe_Log.trace("WARN: No colorname found/given for '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 104, className : "draw.NodePos", methodName : "set_pieByLst"});
 				}
 				var found = false;
 				var _g_head3 = l_.h;
@@ -2134,7 +2196,7 @@ draw_Graph.prototype = {
 					}
 				}
 				if(colorName == null) {
-					haxe_Log.trace("WARN: No colorname found/given for '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 103, className : "draw.NodePos", methodName : "set_pieByLst"});
+					haxe_Log.trace("WARN: No colorname found/given for '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 104, className : "draw.NodePos", methodName : "set_pieByLst"});
 				}
 				var found = false;
 				var _g_head3 = l_.h;
@@ -3186,20 +3248,76 @@ draw_Graph.prototype = {
 			}
 			result.add("</g>");
 		}
-		if(this.drawCircles) {
+		if(this.drawLoops) {
 			var _g_head7 = this.nodes.h;
 			while(_g_head7 != null) {
 				var val7 = _g_head7.item;
 				_g_head7 = _g_head7.next;
 				var node1 = val7;
+				var n = 0;
+				var map = new haxe_ds_StringMap();
+				var _g_head8 = node1.node.names.h;
+				while(_g_head8 != null) {
+					var val8 = _g_head8.item;
+					_g_head8 = _g_head8.next;
+					var name = val8;
+					var result3 = name;
+					if(name != null) {
+						var pos = name.lastIndexOf(mj_Seq.delimiter);
+						if(pos != -1) {
+							result3 = HxOverrides.substr(name,0,pos);
+						}
+					}
+					var indName = result3;
+					if(__map_reserved[indName] != null ? map.existsReserved(indName) : map.h.hasOwnProperty(indName)) {
+						if((__map_reserved[indName] != null ? map.getReserved(indName) : map.h[indName]) == 0) {
+							if(__map_reserved[indName] != null) {
+								map.setReserved(indName,1);
+							} else {
+								map.h[indName] = 1;
+							}
+							++n;
+						}
+					} else if(__map_reserved[indName] != null) {
+						map.setReserved(indName,0);
+					} else {
+						map.h[indName] = 0;
+					}
+				}
+				haxe_Log.trace("XXX " + n + " " + node1.xPos + " " + node1.yPos,{ fileName : "NodePos.hx", lineNumber : 240, className : "draw.NodePos", methodName : "getLoopSvg"});
 				var tmp1;
-				if(!this.drawCirclesMedians && node1.node.type != parsing_SEQ_$TYPE.SAMPLED_SEQUENCE) {
+				if(n == 0) {
 					tmp1 = "";
-				} else if(node1.valid) {
-					tmp1 = node1.svg;
 				} else {
-					var result3 = new List();
-					node1.pie = node1.pie.filter(function(t) {
+					var l1 = Math.sqrt(node1.xPos * node1.xPos + node1.yPos * node1.yPos);
+					var x3;
+					var y3;
+					if(l1 < 0.1) {
+						x3 = node1.xPos + node1.radius / 1.414213562;
+						y3 = node1.yPos + node1.radius / 1.414213562;
+					} else {
+						x3 = node1.xPos + node1.xPos / l1 * node1.radius;
+						y3 = node1.yPos + node1.yPos / l1 * node1.radius;
+					}
+					tmp1 = "<circle cx='" + x3 + "' cy='" + y3 + "' r='" + node1.radius + "' stroke-width='" + n + "' stroke='blue' fill='none'/>";
+				}
+				result.add(tmp1);
+			}
+		}
+		if(this.drawCircles) {
+			var _g_head9 = this.nodes.h;
+			while(_g_head9 != null) {
+				var val9 = _g_head9.item;
+				_g_head9 = _g_head9.next;
+				var node2 = val9;
+				var tmp2;
+				if(!this.drawCirclesMedians && node2.node.type != parsing_SEQ_$TYPE.SAMPLED_SEQUENCE) {
+					tmp2 = "";
+				} else if(node2.valid) {
+					tmp2 = node2.svg;
+				} else {
+					var result4 = new List();
+					node2.pie = node2.pie.filter(function(t) {
 						if(t.first != null && t.first != "") {
 							return t.second > 0;
 						} else {
@@ -3207,100 +3325,100 @@ draw_Graph.prototype = {
 						}
 					});
 					var needArcs = false;
-					result3.add("<circle id='");
-					result3.add("n" + node1.node.id);
-					result3.add("' ");
-					result3.add("stroke='");
-					result3.add(node1.strokeColor);
-					result3.add("' ");
-					result3.add("stroke-width='");
-					result3.add("" + node1.strokeWidth);
-					result3.add("' ");
-					if(!node1.dashedArray.isEmpty()) {
-						result3.add("stroke-dasharray='");
-						result3.add(node1.dashedArray.join(","));
-						result3.add("' ");
+					result4.add("<circle id='");
+					result4.add("n" + node2.node.id);
+					result4.add("' ");
+					result4.add("stroke='");
+					result4.add(node2.strokeColor);
+					result4.add("' ");
+					result4.add("stroke-width='");
+					result4.add("" + node2.strokeWidth);
+					result4.add("' ");
+					if(!node2.dashedArray.isEmpty()) {
+						result4.add("stroke-dasharray='");
+						result4.add(node2.dashedArray.join(","));
+						result4.add("' ");
 					}
-					result3.add("cx='");
-					result3.add("" + node1.xPos);
-					result3.add("' ");
-					result3.add("cy='");
-					result3.add("" + node1.yPos);
-					result3.add("' ");
-					result3.add("r='");
-					result3.add("" + node1.radius);
-					result3.add("' ");
-					if(node1.pie.isEmpty()) {
-						result3.add("fill='blue'");
-					} else if(node1.pie.length == 1) {
-						result3.add("fill='");
-						result3.add(node1.pie.first().first);
-						result3.add("' ");
+					result4.add("cx='");
+					result4.add("" + node2.xPos);
+					result4.add("' ");
+					result4.add("cy='");
+					result4.add("" + node2.yPos);
+					result4.add("' ");
+					result4.add("r='");
+					result4.add("" + node2.radius);
+					result4.add("' ");
+					if(node2.pie.isEmpty()) {
+						result4.add("fill='blue'");
+					} else if(node2.pie.length == 1) {
+						result4.add("fill='");
+						result4.add(node2.pie.first().first);
+						result4.add("' ");
 					} else {
 						needArcs = true;
 					}
-					result3.add("/>");
+					result4.add("/>");
 					if(needArcs) {
 						var summe = 0;
-						var _g_head8 = node1.pie.h;
-						while(_g_head8 != null) {
-							var val8 = _g_head8.item;
-							_g_head8 = _g_head8.next;
-							var p2 = val8;
+						var _g_head10 = node2.pie.h;
+						while(_g_head10 != null) {
+							var val10 = _g_head10.item;
+							_g_head10 = _g_head10.next;
+							var p2 = val10;
 							summe += p2.second;
 						}
 						var cs = 0;
-						var _g_head9 = node1.pie.h;
-						while(_g_head9 != null) {
-							var val9 = _g_head9.item;
-							_g_head9 = _g_head9.next;
-							var p3 = val9;
+						var _g_head11 = node2.pie.h;
+						while(_g_head11 != null) {
+							var val11 = _g_head11.item;
+							_g_head11 = _g_head11.next;
+							var p3 = val11;
 							var color = p3.first;
 							var perc = p3.second / summe;
-							var pX1 = Math.sin(cs / summe * 2 * Math.PI) * node1.radius + node1.xPos;
-							var pY1 = -Math.cos(cs / summe * 2 * Math.PI) * node1.radius + node1.yPos;
+							var pX1 = Math.sin(cs / summe * 2 * Math.PI) * node2.radius + node2.xPos;
+							var pY1 = -Math.cos(cs / summe * 2 * Math.PI) * node2.radius + node2.yPos;
 							cs += p3.second;
-							var pX2 = Math.sin(cs / summe * 2 * Math.PI) * node1.radius + node1.xPos;
-							var pY2 = -Math.cos(cs / summe * 2 * Math.PI) * node1.radius + node1.yPos;
+							var pX2 = Math.sin(cs / summe * 2 * Math.PI) * node2.radius + node2.xPos;
+							var pY2 = -Math.cos(cs / summe * 2 * Math.PI) * node2.radius + node2.yPos;
 							var arcFlag = perc < 0.5 ? 0 : 1;
-							result3.add("<path fill='" + color + "' d='M" + node1.xPos + "," + node1.yPos + "L" + pX1 + "," + pY1 + "A" + node1.radius + "," + node1.radius + " 1 " + arcFlag + ",1 " + pX2 + ", " + pY2 + " z'/>");
+							result4.add("<path fill='" + color + "' d='M" + node2.xPos + "," + node2.yPos + "L" + pX1 + "," + pY1 + "A" + node2.radius + "," + node2.radius + " 1 " + arcFlag + ",1 " + pX2 + ", " + pY2 + " z'/>");
 						}
 					}
-					node1.svg = result3.join("");
-					node1.valid = true;
-					tmp1 = node1.svg;
-				}
-				result.add(tmp1);
-			}
-		}
-		if(this.drawCirclesNames) {
-			var _g_head10 = this.nodes.h;
-			while(_g_head10 != null) {
-				var val10 = _g_head10.item;
-				_g_head10 = _g_head10.next;
-				var node2 = val10;
-				var tmp2;
-				if(node2.node.type != parsing_SEQ_$TYPE.SAMPLED_SEQUENCE) {
-					tmp2 = "";
-				} else {
-					var x3 = node2.xPos + node2.radius + 5;
-					var y3 = node2.yPos + node2.radius + 5;
-					tmp2 = "<text x='" + x3 + "' y='" + y3 + "'>" + node2.node.names.first() + "</text>";
+					node2.svg = result4.join("");
+					node2.valid = true;
+					tmp2 = node2.svg;
 				}
 				result.add(tmp2);
 			}
 		}
+		if(this.drawCirclesNames) {
+			var _g_head12 = this.nodes.h;
+			while(_g_head12 != null) {
+				var val12 = _g_head12.item;
+				_g_head12 = _g_head12.next;
+				var node3 = val12;
+				var tmp3;
+				if(node3.node.type != parsing_SEQ_$TYPE.SAMPLED_SEQUENCE) {
+					tmp3 = "";
+				} else {
+					var x4 = node3.xPos + node3.radius + 5;
+					var y4 = node3.yPos + node3.radius + 5;
+					tmp3 = "<text x='" + x4 + "' y='" + y4 + "'>" + node3.node.names.first() + "</text>";
+				}
+				result.add(tmp3);
+			}
+		}
 		if(this.drawAngles) {
-			var _g_head11 = this.cons.h;
-			while(_g_head11 != null) {
-				var val11 = _g_head11.item;
-				_g_head11 = _g_head11.next;
-				var c1 = val11;
-				var _g_head12 = this.cons.h;
-				while(_g_head12 != null) {
-					var val12 = _g_head12.item;
-					_g_head12 = _g_head12.next;
-					var c2 = val12;
+			var _g_head13 = this.cons.h;
+			while(_g_head13 != null) {
+				var val13 = _g_head13.item;
+				_g_head13 = _g_head13.next;
+				var c1 = val13;
+				var _g_head14 = this.cons.h;
+				while(_g_head14 != null) {
+					var val14 = _g_head14.item;
+					_g_head14 = _g_head14.next;
+					var c2 = val14;
 					if(c1.id > c2.id) {
 						var nA = null;
 						var nB = null;
@@ -3327,15 +3445,15 @@ draw_Graph.prototype = {
 							var v1Y = nA.yPos - nC.yPos;
 							var v2X = nB.xPos - nC.xPos;
 							var v2Y = nB.yPos - nC.yPos;
-							var l1 = Math.sqrt(v1X * v1X + v1Y * v1Y);
+							var l11 = Math.sqrt(v1X * v1X + v1Y * v1Y);
 							var l2 = Math.sqrt(v2X * v2X + v2Y * v2Y);
 							var c3 = v1X * v2X + v1Y * v2Y;
-							var wXV = v1X / l1 + v2X / l2;
-							var wYV = v1Y / l1 + v2Y / l2;
+							var wXV = v1X / l11 + v2X / l2;
+							var wYV = v1Y / l11 + v2Y / l2;
 							var wL = Math.sqrt(wXV * wXV + wYV * wYV);
 							var xx = nC.xPos + wXV / wL * (nC.radius + 20);
 							var yy = nC.yPos + wYV / wL * (nC.radius + 20);
-							var txt = HxOverrides.substr("" + Math.acos(c3 / (l1 * l2)) * 360 / (2 * Math.PI),0,6);
+							var txt = HxOverrides.substr("" + Math.acos(c3 / (l11 * l2)) * 360 / (2 * Math.PI),0,6);
 							result.add("<text x='" + xx + "' y='" + yy + "' text-anchor='middle'>" + txt + "</text>");
 						}
 					}
@@ -3343,53 +3461,53 @@ draw_Graph.prototype = {
 			}
 		}
 		if(this.drawBezierPoints) {
-			var _g_head13 = this.links.h;
-			while(_g_head13 != null) {
-				var val13 = _g_head13.item;
-				_g_head13 = _g_head13.next;
-				var link2 = val13;
+			var _g_head15 = this.links.h;
+			while(_g_head15 != null) {
+				var val15 = _g_head15.item;
+				_g_head15 = _g_head15.next;
+				var link2 = val15;
 				result.add("<circle cx='" + link2.xPos + "' cy='" + link2.yPos + "' r='5' fill='" + link2.strokeColor + "' stroke='" + (link2.setByUser ? "black" : "red") + "' />");
 			}
 		}
 		if(this.drawCenter) {
 			var rx = 0;
-			var _g_head14 = this.nodes.h;
-			while(_g_head14 != null) {
-				var val14 = _g_head14.item;
-				_g_head14 = _g_head14.next;
-				var node3 = val14;
-				rx += node3.xPos;
-			}
-			var x4 = rx / this.nodes.length;
-			var ry = 0;
-			var _g_head15 = this.nodes.h;
-			while(_g_head15 != null) {
-				var val15 = _g_head15.item;
-				_g_head15 = _g_head15.next;
-				var node4 = val15;
-				ry += node4.yPos;
-			}
-			var y4 = ry / this.nodes.length;
-			result.add("<line x1='" + x4 + "' y1='" + minY + "' x2='" + x4 + "' y2='" + maxY + "' stroke='green' stroke-dasharray='3 3' />");
-			result.add("<line x1='" + minX + "' y1='" + y4 + "' x2='" + maxX + "' y2='" + y4 + "' stroke='green' stroke-dasharray='3 3' />");
-			var rx1 = 0;
 			var _g_head16 = this.nodes.h;
 			while(_g_head16 != null) {
 				var val16 = _g_head16.item;
 				_g_head16 = _g_head16.next;
-				var node5 = val16;
-				rx1 += node5.xPos;
+				var node4 = val16;
+				rx += node4.xPos;
 			}
-			var tmp3 = "<circle cx='" + rx1 / this.nodes.length + "' cy='";
-			var ry1 = 0;
+			var x5 = rx / this.nodes.length;
+			var ry = 0;
 			var _g_head17 = this.nodes.h;
 			while(_g_head17 != null) {
 				var val17 = _g_head17.item;
 				_g_head17 = _g_head17.next;
-				var node6 = val17;
-				ry1 += node6.yPos;
+				var node5 = val17;
+				ry += node5.yPos;
 			}
-			result.add(tmp3 + ry1 / this.nodes.length + "' r='5' fill='green' />");
+			var y5 = ry / this.nodes.length;
+			result.add("<line x1='" + x5 + "' y1='" + minY + "' x2='" + x5 + "' y2='" + maxY + "' stroke='green' stroke-dasharray='3 3' />");
+			result.add("<line x1='" + minX + "' y1='" + y5 + "' x2='" + maxX + "' y2='" + y5 + "' stroke='green' stroke-dasharray='3 3' />");
+			var rx1 = 0;
+			var _g_head18 = this.nodes.h;
+			while(_g_head18 != null) {
+				var val18 = _g_head18.item;
+				_g_head18 = _g_head18.next;
+				var node6 = val18;
+				rx1 += node6.xPos;
+			}
+			var tmp4 = "<circle cx='" + rx1 / this.nodes.length + "' cy='";
+			var ry1 = 0;
+			var _g_head19 = this.nodes.h;
+			while(_g_head19 != null) {
+				var val19 = _g_head19.item;
+				_g_head19 = _g_head19.next;
+				var node7 = val19;
+				ry1 += node7.yPos;
+			}
+			result.add(tmp4 + ry1 / this.nodes.length + "' r='5' fill='green' />");
 		}
 		result.add("</svg>");
 		return result.join("");
@@ -4303,7 +4421,7 @@ draw_NodePos.set_areaShouldBePropTo = function(s) {
 	} else if(s == "Radius") {
 		draw_NodePos.areaShouldBePropTo = draw_SIZE_$TO_$RADIUS.LIN;
 	} else {
-		haxe_Log.trace("Not understood!",{ fileName : "NodePos.hx", lineNumber : 23, className : "draw.NodePos", methodName : "set_areaShouldBePropTo"});
+		haxe_Log.trace("Not understood!",{ fileName : "NodePos.hx", lineNumber : 24, className : "draw.NodePos", methodName : "set_areaShouldBePropTo"});
 	}
 };
 draw_NodePos.prototype = {
@@ -4396,7 +4514,7 @@ draw_NodePos.prototype = {
 				}
 			}
 			if(colorName == null) {
-				haxe_Log.trace("WARN: No colorname found/given for '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 103, className : "draw.NodePos", methodName : "set_pieByLst"});
+				haxe_Log.trace("WARN: No colorname found/given for '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 104, className : "draw.NodePos", methodName : "set_pieByLst"});
 			}
 			var found = false;
 			var _g_head2 = l_.h;
@@ -4510,6 +4628,53 @@ draw_NodePos.prototype = {
 		this.svg = result.join("");
 		this.valid = true;
 		return this.svg;
+	}
+	,getLoopSvg: function() {
+		var n = 0;
+		var map = new haxe_ds_StringMap();
+		var _g_head = this.node.names.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var name = val;
+			var result = name;
+			if(name != null) {
+				var pos = name.lastIndexOf(mj_Seq.delimiter);
+				if(pos != -1) {
+					result = HxOverrides.substr(name,0,pos);
+				}
+			}
+			var indName = result;
+			if(__map_reserved[indName] != null ? map.existsReserved(indName) : map.h.hasOwnProperty(indName)) {
+				if((__map_reserved[indName] != null ? map.getReserved(indName) : map.h[indName]) == 0) {
+					if(__map_reserved[indName] != null) {
+						map.setReserved(indName,1);
+					} else {
+						map.h[indName] = 1;
+					}
+					++n;
+				}
+			} else if(__map_reserved[indName] != null) {
+				map.setReserved(indName,0);
+			} else {
+				map.h[indName] = 0;
+			}
+		}
+		haxe_Log.trace("XXX " + n + " " + this.xPos + " " + this.yPos,{ fileName : "NodePos.hx", lineNumber : 240, className : "draw.NodePos", methodName : "getLoopSvg"});
+		if(n == 0) {
+			return "";
+		}
+		var l = Math.sqrt(this.xPos * this.xPos + this.yPos * this.yPos);
+		var x;
+		var y;
+		if(l < 0.1) {
+			x = this.xPos + this.radius / 1.414213562;
+			y = this.yPos + this.radius / 1.414213562;
+		} else {
+			x = this.xPos + this.xPos / l * this.radius;
+			y = this.yPos + this.yPos / l * this.radius;
+		}
+		return "<circle cx='" + x + "' cy='" + y + "' r='" + this.radius + "' stroke-width='" + n + "' stroke='blue' fill='none'/>";
 	}
 	,getNodeNameSvg: function() {
 		if(this.node.type != parsing_SEQ_$TYPE.SAMPLED_SEQUENCE) {
