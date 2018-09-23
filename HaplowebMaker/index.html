@@ -290,12 +290,13 @@
                         
 <!--                        <input type="checkbox" name="areaShouldBePropToNrInd" id="areaShouldBePropToNrInd" autocomplete="off" />
                     </td>
-                </tr>--><!--
+                </tr>-->
                 <tr class="advancedSettings tooltip" tid="pieChartAdvSet.title">
                     <td class="label" lid="pieChartAdvSet.label"></td>
-                </tr>-->
+                    <td style="text-align: right"><input type="file" id="pieFile" name="pieFile" autocomplete="off" /></td>
+                </tr>
                 <tr class="advancedSettings tooltip" tid="pieChartsByIndNameOnly.title">
-                    <td>Color file&nbsp;&nbsp;&nbsp;<input type="file" id="pieFile" name="pieFile" autocomplete="off" /></td>
+                    <td>Color file</td>
                     <td style="text-align: right"><select id="pieByIndNameOnly" autocomplete="off">
                         <option>attributing colors to individuals</option>
                         <option>attributing colors to individual sequences</option>
@@ -404,8 +405,8 @@
                     <button onclick="javascript: currentGraphEdit.modifyNodes(9/10); updateSVG();">Nodes--</button>
                     <button onclick="javascript: currentGraphEdit.initStrokeColorListByStr(project['pieChart'], document.getElementById('ignoreUpperLowerName').checked); updateSVG();">Multicolor curves</button>
                     <button onclick="javascript: if(typeof project['pieChart'] !== 'undefined') { currentGraphEdit.assingPiesByTxt(project['pieChart'], project['upperLowerCaseN'], project['pieByIndNameOnly']); updateSVG(); } else { alert('No color file given!'); }">Reinitialize pie charts</button>
-                    <input type="file" id="updateColorFileUploadInput"/>
                     <button onclick="javascript: updateColorFile();">Upload color file</button>
+                    <input type="file" id="updateColorFileUploadInput"/>
                     <br>
                     <span>Mutations shown as lines:</span>
                     <input type="checkbox" name="drawMutsByLineChkbx" id="drawMutsByLineChkbx" autocomplete="off" />
