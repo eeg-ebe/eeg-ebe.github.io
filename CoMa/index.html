@@ -57,7 +57,10 @@ function runComa() {
     for (var i = 0, f; f = files[i]; i++) {
         reader.onload = function(data) {
             document.getElementById("resultDiv").innerHTML = "Running CoMa ...";
-            var txt = data.target.result;
+            var project = {}
+            project['txt'] = data.target.result;
+            project['distanceCalcStrategy'] = (document.getElementById("calcStrat").value.startsWith("0:")) ? 0 : 1;
+            console.log(project['distanceCalcStrategy']);
             // everything is read in ... now create the co. matrix ...
             var worker = new Worker("comaWorker.js");
             // this event will be executed, once results are ready ...
@@ -70,7 +73,7 @@ function runComa() {
                 worker.terminate();
             }, false);
             // start the worker
-            worker.postMessage(txt);
+            worker.postMessage(project);
         };
         document.getElementById("resultDiv").innerHTML = "Reading files ...";
         reader.readAsText(f);
@@ -98,6 +101,10 @@ function runComa() {
                 <br><br>
                 <div id="uploadStuff">
                     Please upload your partition matrix here:&nbsp;&nbsp;&nbsp;<input id="partitionfileUpload" type="file" class="right"><br><br>
+                    Please choose the individual comparison strategy <select id="calcStrat" autocomplete="off">
+                        <option>0: number of markers considering the pair as conspecific - number of markers considering the pair as heteroxpecific</option>
+                        <option>1: number of markers considering the pair as conspecific</option>
+                    </select><br><br>
                     <button onclick="javascript: runComa()" class="ui-button ui-widget ui-corner-all shortcut label tooltip right">Run CoMa</button>
                 </div>
             </div>

@@ -15,10 +15,12 @@ Printer = function () {
 }
 
 self.addEventListener('message', function(e) {
-    var comaData = CoMa.parsePartitionFile(e.data);
+    var txt = e.data['txt'];
+    var strategy = e.data['distanceCalcStrategy'];
+    var comaData = CoMa.parsePartitionFile(txt);
     var p = new Printer();
     var p2 = new Printer();
-    CoMa.runComaFromPartition(comaData, p, p2);
+    CoMa.runComaFromPartition(comaData, p, p2, strategy);
     var comaTxt = p.toText();
     var comaLstTxt = p2.toText();
     self.postMessage(comaTxt + "<br><br><br><pre>" + comaLstTxt + "</pre");

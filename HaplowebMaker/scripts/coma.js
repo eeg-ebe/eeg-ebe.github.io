@@ -51,7 +51,7 @@ CoMa.cToCol = function(v,maxV,minV) {
 	b = (b + m) * 256;
 	return "rgb(" + (r | 0) + "," + (g | 0) + "," + (b | 0) + ")";
 };
-CoMa.runComaJS = function(a,printer,printer2,printer3,namesOfMarkerFiles) {
+CoMa.runComaJS = function(a,printer,printer2,printer3,namesOfMarkerFiles,runComaFromPartition) {
 	var l = new List();
 	var _g1 = 0;
 	var _g = a.length;
@@ -59,9 +59,9 @@ CoMa.runComaJS = function(a,printer,printer2,printer3,namesOfMarkerFiles) {
 		var i = _g1++;
 		l.add(parsing_LstParser.parseLst(a[i]));
 	}
-	CoMa.runComa(l,printer,printer2,printer3,namesOfMarkerFiles);
+	CoMa.runComa(l,printer,printer2,printer3,namesOfMarkerFiles,runComaFromPartition);
 };
-CoMa.runComa = function(l,printer,printer2,printer3,namesOfMarkerFiles) {
+CoMa.runComa = function(l,printer,printer2,printer3,namesOfMarkerFiles,compStrategy) {
 	var comaIndL = new List();
 	var index = 0;
 	var _g_head = l.h;
@@ -119,9 +119,9 @@ CoMa.runComa = function(l,printer,printer2,printer3,namesOfMarkerFiles) {
 		printer3.printString("\n");
 	}
 	printer3.close();
-	CoMa.runComaFromPartition(new util_Pair(comaIndL,null),printer,printer2);
+	CoMa.runComaFromPartition(new util_Pair(comaIndL,null),printer,printer2,compStrategy);
 };
-CoMa.runComaFromPartition = function(comaIndLP,printer,printer2) {
+CoMa.runComaFromPartition = function(comaIndLP,printer,printer2,compStrategy) {
 	var comaIndL = comaIndLP.first;
 	var weights = comaIndLP.second;
 	var orderedL = new List();
@@ -137,7 +137,7 @@ CoMa.runComaFromPartition = function(comaIndLP,printer,printer2) {
 	} else if(comaIndL.length == 2) {
 		orderedL.add(comaIndL.pop());
 		orderedL.add(comaIndL.pop());
-		highestVal = orderedL.first().compare(orderedL.last(),weights);
+		highestVal = orderedL.first().compare(orderedL.last(),weights,compStrategy);
 		lowestVal = highestVal;
 	} else {
 		var bestDist = -Infinity;
@@ -153,7 +153,7 @@ CoMa.runComaFromPartition = function(comaIndLP,printer,printer2) {
 				var val1 = _g_head1.item;
 				_g_head1 = _g_head1.next;
 				var e2 = val1;
-				var dist = e1.compare(e2,weights);
+				var dist = e1.compare(e2,weights,compStrategy);
 				if(e1 != e2) {
 					if(dist > bestDist) {
 						bestDist = dist;
@@ -179,8 +179,8 @@ CoMa.runComaFromPartition = function(comaIndLP,printer,printer2) {
 				var val2 = _g_head2.item;
 				_g_head2 = _g_head2.next;
 				var e = val2;
-				var distFirst = e.compare(orderedL.first(),weights);
-				var distLast = e.compare(orderedL.last(),weights);
+				var distFirst = e.compare(orderedL.first(),weights,compStrategy);
+				var distLast = e.compare(orderedL.last(),weights,compStrategy);
 				if(distFirst > bestDistFirst) {
 					bestDistFirst = distFirst;
 					bestEFirst = e;
@@ -218,7 +218,7 @@ CoMa.runComaFromPartition = function(comaIndLP,printer,printer2) {
 			var val5 = _g_head5.item;
 			_g_head5 = _g_head5.next;
 			var e21 = val5;
-			var dist1 = e11.compare(e21,weights);
+			var dist1 = e11.compare(e21,weights,compStrategy);
 			printer2.printString("\t" + dist1);
 		}
 		printer2.printString("\n");
@@ -250,7 +250,7 @@ CoMa.runComaFromPartition = function(comaIndLP,printer,printer2) {
 			var val8 = _g_head8.item;
 			_g_head8 = _g_head8.next;
 			var e22 = val8;
-			var dist2 = e12.compare(e22,weights);
+			var dist2 = e12.compare(e22,weights,compStrategy);
 			printer.printString("<rect x=\"" + (100 + 20 * i) + "\" y=\"" + (100 + 20 * j) + "\" width=\"20\" height=\"20\" fill=\"" + CoMa.cToCol(dist2,highestVal,lowestVal) + "\"/>");
 			++j;
 		}
@@ -317,7 +317,7 @@ CoMaInd.prototype = {
 	,setSpResultOf: function(i,sp) {
 		this.vals[i] = sp;
 	}
-	,compare: function(other,weights) {
+	,compare: function(other,weights,compStrategy) {
 		var result = 0;
 		var _g1 = 0;
 		var _g = this.vals.length;
@@ -332,10 +332,12 @@ CoMaInd.prototype = {
 				} else {
 					result += weights[i];
 				}
-			} else if(weights == null) {
-				--result;
-			} else {
-				result -= weights[i];
+			} else if(compStrategy == 0) {
+				if(weights == null) {
+					--result;
+				} else {
+					result -= weights[i];
+				}
 			}
 		}
 		return result;
