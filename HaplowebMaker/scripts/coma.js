@@ -51,7 +51,7 @@ CoMa.cToCol = function(v,maxV,minV) {
 	b = (b + m) * 256;
 	return "rgb(" + (r | 0) + "," + (g | 0) + "," + (b | 0) + ")";
 };
-CoMa.runComaJS = function(a,printer,printer2,printer3,namesOfMarkerFiles) {
+CoMa.runComaJS = function(a,printer,printer2,printer3,namesOfMarkerFiles,runComaFromPartition) {
 	var l = new List();
 	var _g1 = 0;
 	var _g = a.length;
@@ -59,9 +59,9 @@ CoMa.runComaJS = function(a,printer,printer2,printer3,namesOfMarkerFiles) {
 		var i = _g1++;
 		l.add(parsing_LstParser.parseLst(a[i]));
 	}
-	CoMa.runComa(l,printer,printer2,printer3,namesOfMarkerFiles);
+	CoMa.runComa(l,printer,printer2,printer3,namesOfMarkerFiles,runComaFromPartition);
 };
-CoMa.runComa = function(l,printer,printer2,printer3,namesOfMarkerFiles) {
+CoMa.runComa = function(l,printer,printer2,printer3,namesOfMarkerFiles,compStrategy) {
 	var comaIndL = new List();
 	var index = 0;
 	var _g_head = l.h;
@@ -119,9 +119,11 @@ CoMa.runComa = function(l,printer,printer2,printer3,namesOfMarkerFiles) {
 		printer3.printString("\n");
 	}
 	printer3.close();
-	CoMa.runComaFromPartition(comaIndL,printer,printer2);
+	CoMa.runComaFromPartition(new util_Pair(comaIndL,null),printer,printer2,compStrategy);
 };
-CoMa.runComaFromPartition = function(comaIndL,printer,printer2) {
+CoMa.runComaFromPartition = function(comaIndLP,printer,printer2,compStrategy) {
+	var comaIndL = comaIndLP.first;
+	var weights = comaIndLP.second;
 	var orderedL = new List();
 	var highestVal = -Infinity;
 	var lowestVal = Infinity;
@@ -135,7 +137,7 @@ CoMa.runComaFromPartition = function(comaIndL,printer,printer2) {
 	} else if(comaIndL.length == 2) {
 		orderedL.add(comaIndL.pop());
 		orderedL.add(comaIndL.pop());
-		highestVal = orderedL.first().compare(orderedL.last());
+		highestVal = orderedL.first().compare(orderedL.last(),weights,compStrategy);
 		lowestVal = highestVal;
 	} else {
 		var bestDist = -Infinity;
@@ -151,7 +153,7 @@ CoMa.runComaFromPartition = function(comaIndL,printer,printer2) {
 				var val1 = _g_head1.item;
 				_g_head1 = _g_head1.next;
 				var e2 = val1;
-				var dist = e1.compare(e2);
+				var dist = e1.compare(e2,weights,compStrategy);
 				if(e1 != e2) {
 					if(dist > bestDist) {
 						bestDist = dist;
@@ -177,8 +179,8 @@ CoMa.runComaFromPartition = function(comaIndL,printer,printer2) {
 				var val2 = _g_head2.item;
 				_g_head2 = _g_head2.next;
 				var e = val2;
-				var distFirst = e.compare(orderedL.first());
-				var distLast = e.compare(orderedL.last());
+				var distFirst = e.compare(orderedL.first(),weights,compStrategy);
+				var distLast = e.compare(orderedL.last(),weights,compStrategy);
 				if(distFirst > bestDistFirst) {
 					bestDistFirst = distFirst;
 					bestEFirst = e;
@@ -216,7 +218,7 @@ CoMa.runComaFromPartition = function(comaIndL,printer,printer2) {
 			var val5 = _g_head5.item;
 			_g_head5 = _g_head5.next;
 			var e21 = val5;
-			var dist1 = e11.compare(e21);
+			var dist1 = e11.compare(e21,weights,compStrategy);
 			printer2.printString("\t" + dist1);
 		}
 		printer2.printString("\n");
@@ -248,7 +250,7 @@ CoMa.runComaFromPartition = function(comaIndL,printer,printer2) {
 			var val8 = _g_head8.item;
 			_g_head8 = _g_head8.next;
 			var e22 = val8;
-			var dist2 = e12.compare(e22);
+			var dist2 = e12.compare(e22,weights,compStrategy);
 			printer.printString("<rect x=\"" + (100 + 20 * i) + "\" y=\"" + (100 + 20 * j) + "\" width=\"20\" height=\"20\" fill=\"" + CoMa.cToCol(dist2,highestVal,lowestVal) + "\"/>");
 			++j;
 		}
@@ -261,8 +263,9 @@ CoMa.runComaFromPartition = function(comaIndL,printer,printer2) {
 };
 CoMa.parsePartitionFile = function(fileContent) {
 	var comaIndL = new List();
-	var lines = fileContent.split("\n");
+	var lines = StringTools.rtrim(fileContent).split("\n");
 	var lineNo = 0;
+	var weightLine = null;
 	var _g = 0;
 	while(_g < lines.length) {
 		var line = lines[_g];
@@ -272,16 +275,26 @@ CoMa.parsePartitionFile = function(fileContent) {
 		if(line == null || line == "" || lineNo == 1) {
 			continue;
 		}
+		if(lineNo == lines.length && (parts[0] == "" || parts[0] == null)) {
+			weightLine = [];
+			var _g2 = 1;
+			var _g1 = parts.length;
+			while(_g2 < _g1) {
+				var index = _g2++;
+				weightLine.push(Std.parseInt(parts[index]));
+			}
+			continue;
+		}
 		var newCoMaInd = new CoMaInd(parts[0],parts.length - 1);
-		var _g2 = 1;
-		var _g1 = parts.length;
-		while(_g2 < _g1) {
-			var index = _g2++;
-			newCoMaInd.setSpResultOf(index - 1,Std.parseInt(parts[index]));
+		var _g21 = 1;
+		var _g11 = parts.length;
+		while(_g21 < _g11) {
+			var index1 = _g21++;
+			newCoMaInd.setSpResultOf(index1 - 1,Std.parseInt(parts[index1]));
 		}
 		comaIndL.add(newCoMaInd);
 	}
-	return comaIndL;
+	return new util_Pair(comaIndL,weightLine);
 };
 CoMa.main = function() {
 };
@@ -304,7 +317,7 @@ CoMaInd.prototype = {
 	,setSpResultOf: function(i,sp) {
 		this.vals[i] = sp;
 	}
-	,compare: function(other) {
+	,compare: function(other,weights,compStrategy) {
 		var result = 0;
 		var _g1 = 0;
 		var _g = this.vals.length;
@@ -314,14 +327,123 @@ CoMaInd.prototype = {
 				continue;
 			}
 			if(this.vals[i] == other.vals[i]) {
-				++result;
-			} else {
-				--result;
+				if(weights == null) {
+					++result;
+				} else {
+					result += weights[i];
+				}
+			} else if(compStrategy == 0) {
+				if(weights == null) {
+					--result;
+				} else {
+					result -= weights[i];
+				}
 			}
 		}
 		return result;
 	}
 	,__class__: CoMaInd
+};
+var EReg = function(r,opt) {
+	this.r = new RegExp(r,opt.split("u").join(""));
+};
+$hxClasses["EReg"] = EReg;
+EReg.__name__ = ["EReg"];
+EReg.prototype = {
+	r: null
+	,match: function(s) {
+		if(this.r.global) {
+			this.r.lastIndex = 0;
+		}
+		this.r.m = this.r.exec(s);
+		this.r.s = s;
+		return this.r.m != null;
+	}
+	,matched: function(n) {
+		if(this.r.m != null && n >= 0 && n < this.r.m.length) {
+			return this.r.m[n];
+		} else {
+			throw new js__$Boot_HaxeError("EReg::matched");
+		}
+	}
+	,matchedLeft: function() {
+		if(this.r.m == null) {
+			throw new js__$Boot_HaxeError("No string matched");
+		}
+		return HxOverrides.substr(this.r.s,0,this.r.m.index);
+	}
+	,matchedRight: function() {
+		if(this.r.m == null) {
+			throw new js__$Boot_HaxeError("No string matched");
+		}
+		var sz = this.r.m.index + this.r.m[0].length;
+		return HxOverrides.substr(this.r.s,sz,this.r.s.length - sz);
+	}
+	,matchedPos: function() {
+		if(this.r.m == null) {
+			throw new js__$Boot_HaxeError("No string matched");
+		}
+		return { pos : this.r.m.index, len : this.r.m[0].length};
+	}
+	,matchSub: function(s,pos,len) {
+		if(len == null) {
+			len = -1;
+		}
+		if(this.r.global) {
+			this.r.lastIndex = pos;
+			var tmp = this.r;
+			var tmp1 = len < 0 ? s : HxOverrides.substr(s,0,pos + len);
+			this.r.m = tmp.exec(tmp1);
+			var b = this.r.m != null;
+			if(b) {
+				this.r.s = s;
+			}
+			return b;
+		} else {
+			var b1 = this.match(len < 0 ? HxOverrides.substr(s,pos,null) : HxOverrides.substr(s,pos,len));
+			if(b1) {
+				this.r.s = s;
+				this.r.m.index += pos;
+			}
+			return b1;
+		}
+	}
+	,split: function(s) {
+		var d = "#__delim__#";
+		return s.replace(this.r,d).split(d);
+	}
+	,replace: function(s,by) {
+		return s.replace(this.r,by);
+	}
+	,map: function(s,f) {
+		var offset = 0;
+		var buf_b = "";
+		while(true) {
+			if(offset >= s.length) {
+				break;
+			} else if(!this.matchSub(s,offset)) {
+				buf_b += Std.string(HxOverrides.substr(s,offset,null));
+				break;
+			}
+			var p = this.matchedPos();
+			buf_b += Std.string(HxOverrides.substr(s,offset,p.pos - offset));
+			buf_b += Std.string(f(this));
+			if(p.len == 0) {
+				buf_b += Std.string(HxOverrides.substr(s,p.pos,1));
+				offset = p.pos + 1;
+			} else {
+				offset = p.pos + p.len;
+			}
+			if(!this.r.global) {
+				break;
+			}
+		}
+		if(!this.r.global && offset > 0 && offset < s.length) {
+			buf_b += Std.string(HxOverrides.substr(s,offset,null));
+		}
+		return buf_b;
+	}
+	,__class__: EReg
 };
 var HxOverrides = function() { };
 $hxClasses["HxOverrides"] = HxOverrides;
@@ -812,6 +934,186 @@ StringBuf.prototype = {
 	}
 	,__class__: StringBuf
 	,__properties__: {get_length:"get_length"}
+};
+var StringTools = function() { };
+$hxClasses["StringTools"] = StringTools;
+StringTools.__name__ = ["StringTools"];
+StringTools.urlEncode = function(s) {
+	return encodeURIComponent(s);
+};
+StringTools.urlDecode = function(s) {
+	return decodeURIComponent(s.split("+").join(" "));
+};
+StringTools.htmlEscape = function(s,quotes) {
+	s = s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+	if(quotes) {
+		return s.split("\"").join("&quot;").split("'").join("&#039;");
+	} else {
+		return s;
+	}
+};
+StringTools.htmlUnescape = function(s) {
+	return s.split("&gt;").join(">").split("&lt;").join("<").split("&quot;").join("\"").split("&#039;").join("'").split("&amp;").join("&");
+};
+StringTools.startsWith = function(s,start) {
+	if(s.length >= start.length) {
+		return HxOverrides.substr(s,0,start.length) == start;
+	} else {
+		return false;
+	}
+};
+StringTools.endsWith = function(s,end) {
+	var elen = end.length;
+	var slen = s.length;
+	if(slen >= elen) {
+		return HxOverrides.substr(s,slen - elen,elen) == end;
+	} else {
+		return false;
+	}
+};
+StringTools.isSpace = function(s,pos) {
+	var c = HxOverrides.cca(s,pos);
+	if(!(c > 8 && c < 14)) {
+		return c == 32;
+	} else {
+		return true;
+	}
+};
+StringTools.ltrim = function(s) {
+	var l = s.length;
+	var r = 0;
+	while(r < l && StringTools.isSpace(s,r)) ++r;
+	if(r > 0) {
+		return HxOverrides.substr(s,r,l - r);
+	} else {
+		return s;
+	}
+};
+StringTools.rtrim = function(s) {
+	var l = s.length;
+	var r = 0;
+	while(r < l && StringTools.isSpace(s,l - r - 1)) ++r;
+	if(r > 0) {
+		return HxOverrides.substr(s,0,l - r);
+	} else {
+		return s;
+	}
+};
+StringTools.trim = function(s) {
+	return StringTools.ltrim(StringTools.rtrim(s));
+};
+StringTools.lpad = function(s,c,l) {
+	if(c.length <= 0) {
+		return s;
+	}
+	while(s.length < l) s = c + s;
+	return s;
+};
+StringTools.rpad = function(s,c,l) {
+	if(c.length <= 0) {
+		return s;
+	}
+	while(s.length < l) s += c;
+	return s;
+};
+StringTools.replace = function(s,sub,by) {
+	return s.split(sub).join(by);
+};
+StringTools.hex = function(n,digits) {
+	var s = "";
+	var hexChars = "0123456789ABCDEF";
+	while(true) {
+		s = hexChars.charAt(n & 15) + s;
+		n >>>= 4;
+		if(!(n > 0)) {
+			break;
+		}
+	}
+	if(digits != null) {
+		while(s.length < digits) s = "0" + s;
+	}
+	return s;
+};
+StringTools.fastCodeAt = function(s,index) {
+	return s.charCodeAt(index);
+};
+StringTools.isEof = function(c) {
+	return c != c;
+};
+StringTools.quoteUnixArg = function(argument) {
+	if(argument == "") {
+		return "''";
+	}
+	if(!new EReg("[^a-zA-Z0-9_@%+=:,./-]","").match(argument)) {
+		return argument;
+	}
+	return "'" + StringTools.replace(argument,"'","'\"'\"'") + "'";
+};
+StringTools.quoteWinArg = function(argument,escapeMetaCharacters) {
+	if(!new EReg("^[^ \t\\\\\"]+$","").match(argument)) {
+		var result_b = "";
+		var needquote = argument.indexOf(" ") != -1 || argument.indexOf("\t") != -1 || argument == "";
+		if(needquote) {
+			result_b += "\"";
+		}
+		var bs_buf = new StringBuf();
+		var _g1 = 0;
+		var _g = argument.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var _g2 = HxOverrides.cca(argument,i);
+			if(_g2 == null) {
+				var c = _g2;
+				if(bs_buf.b.length > 0) {
+					result_b += Std.string(bs_buf.b);
+					bs_buf = new StringBuf();
+				}
+				result_b += String.fromCharCode(c);
+			} else {
+				switch(_g2) {
+				case 34:
+					var bs = bs_buf.b;
+					result_b += bs == null ? "null" : "" + bs;
+					result_b += bs == null ? "null" : "" + bs;
+					bs_buf = new StringBuf();
+					result_b += "\\\"";
+					break;
+				case 92:
+					bs_buf.b += "\\";
+					break;
+				default:
+					var c1 = _g2;
+					if(bs_buf.b.length > 0) {
+						result_b += Std.string(bs_buf.b);
+						bs_buf = new StringBuf();
+					}
+					result_b += String.fromCharCode(c1);
+				}
+			}
+		}
+		result_b += Std.string(bs_buf.b);
+		if(needquote) {
+			result_b += Std.string(bs_buf.b);
+			result_b += "\"";
+		}
+		argument = result_b;
+	}
+	if(escapeMetaCharacters) {
+		var result_b1 = "";
+		var _g11 = 0;
+		var _g3 = argument.length;
+		while(_g11 < _g3) {
+			var i1 = _g11++;
+			var c2 = HxOverrides.cca(argument,i1);
+			if(StringTools.winMetaCharacters.indexOf(c2) >= 0) {
+				result_b1 += "^";
+			}
+			result_b1 += String.fromCharCode(c2);
+		}
+		return result_b1;
+	} else {
+		return argument;
+	}
 };
 var ValueType = $hxClasses["ValueType"] = { __ename__ : ["ValueType"], __constructs__ : ["TNull","TInt","TFloat","TBool","TObject","TFunction","TClass","TEnum","TUnknown"] };
 ValueType.TNull = ["TNull",0];
@@ -1466,7 +1768,71 @@ parsing_LstParser.parseLst = function(fileContent) {
 		var line = lines[_g];
 		++_g;
 		++lineNo;
-		if(line == null || line == "" || line.charAt(0) == "#") {
+		var tmp;
+		var tmp1;
+		if(line != null) {
+			var end = line.length;
+			while(true) {
+				var tmp2;
+				if(end > 0) {
+					var cCode = HxOverrides.cca(line,end - 1);
+					var result1 = false;
+					var _g1 = 0;
+					var _g11 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
+					while(_g1 < _g11.length) {
+						var ele = _g11[_g1];
+						++_g1;
+						if(ele == cCode) {
+							result1 = true;
+							break;
+						}
+					}
+					tmp2 = result1;
+				} else {
+					tmp2 = false;
+				}
+				if(!tmp2) {
+					break;
+				}
+				--end;
+			}
+			var s = line.substring(0,end);
+			var begin = 0;
+			var sLen = s.length;
+			while(true) {
+				var tmp3;
+				if(begin < sLen) {
+					var cCode1 = HxOverrides.cca(s,begin);
+					var result2 = false;
+					var _g2 = 0;
+					var _g12 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
+					while(_g2 < _g12.length) {
+						var ele1 = _g12[_g2];
+						++_g2;
+						if(ele1 == cCode1) {
+							result2 = true;
+							break;
+						}
+					}
+					tmp3 = result2;
+				} else {
+					tmp3 = false;
+				}
+				if(!tmp3) {
+					break;
+				}
+				++begin;
+			}
+			tmp1 = HxOverrides.substr(s,begin,null) == "";
+		} else {
+			tmp1 = true;
+		}
+		if(!tmp1) {
+			tmp = line.charAt(0) == "#";
+		} else {
+			tmp = true;
+		}
+		if(tmp) {
 			continue;
 		}
 		var pos = line.lastIndexOf("\t");
@@ -1474,65 +1840,11 @@ parsing_LstParser.parseLst = function(fileContent) {
 			throw new js__$Boot_HaxeError("Missing tab character in line " + lineNo);
 		}
 		var name = line.substring(0,pos);
-		var end = name.length;
+		var end1 = name.length;
 		while(true) {
 			var name1;
-			if(end > 0) {
-				var cCode = HxOverrides.cca(name,end - 1);
-				var result1 = false;
-				var _g1 = 0;
-				var _g11 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
-				while(_g1 < _g11.length) {
-					var ele = _g11[_g1];
-					++_g1;
-					if(ele == cCode) {
-						result1 = true;
-						break;
-					}
-				}
-				name1 = result1;
-			} else {
-				name1 = false;
-			}
-			if(!name1) {
-				break;
-			}
-			--end;
-		}
-		var s = name.substring(0,end);
-		var begin = 0;
-		var sLen = s.length;
-		while(true) {
-			var name2;
-			if(begin < sLen) {
-				var cCode1 = HxOverrides.cca(s,begin);
-				var result2 = false;
-				var _g2 = 0;
-				var _g12 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
-				while(_g2 < _g12.length) {
-					var ele1 = _g12[_g2];
-					++_g2;
-					if(ele1 == cCode1) {
-						result2 = true;
-						break;
-					}
-				}
-				name2 = result2;
-			} else {
-				name2 = false;
-			}
-			if(!name2) {
-				break;
-			}
-			++begin;
-		}
-		name = HxOverrides.substr(s,begin,null);
-		var chr = line.substring(pos + 1);
-		var end1 = chr.length;
-		while(true) {
-			var chr1;
 			if(end1 > 0) {
-				var cCode2 = HxOverrides.cca(chr,end1 - 1);
+				var cCode2 = HxOverrides.cca(name,end1 - 1);
 				var result3 = false;
 				var _g3 = 0;
 				var _g13 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
@@ -1544,20 +1856,20 @@ parsing_LstParser.parseLst = function(fileContent) {
 						break;
 					}
 				}
-				chr1 = result3;
+				name1 = result3;
 			} else {
-				chr1 = false;
+				name1 = false;
 			}
-			if(!chr1) {
+			if(!name1) {
 				break;
 			}
 			--end1;
 		}
-		var s1 = chr.substring(0,end1);
+		var s1 = name.substring(0,end1);
 		var begin1 = 0;
 		var sLen1 = s1.length;
 		while(true) {
-			var chr2;
+			var name2;
 			if(begin1 < sLen1) {
 				var cCode3 = HxOverrides.cca(s1,begin1);
 				var result4 = false;
@@ -1571,16 +1883,70 @@ parsing_LstParser.parseLst = function(fileContent) {
 						break;
 					}
 				}
-				chr2 = result4;
+				name2 = result4;
+			} else {
+				name2 = false;
+			}
+			if(!name2) {
+				break;
+			}
+			++begin1;
+		}
+		name = HxOverrides.substr(s1,begin1,null);
+		var chr = line.substring(pos + 1);
+		var end2 = chr.length;
+		while(true) {
+			var chr1;
+			if(end2 > 0) {
+				var cCode4 = HxOverrides.cca(chr,end2 - 1);
+				var result5 = false;
+				var _g5 = 0;
+				var _g15 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
+				while(_g5 < _g15.length) {
+					var ele4 = _g15[_g5];
+					++_g5;
+					if(ele4 == cCode4) {
+						result5 = true;
+						break;
+					}
+				}
+				chr1 = result5;
+			} else {
+				chr1 = false;
+			}
+			if(!chr1) {
+				break;
+			}
+			--end2;
+		}
+		var s2 = chr.substring(0,end2);
+		var begin2 = 0;
+		var sLen2 = s2.length;
+		while(true) {
+			var chr2;
+			if(begin2 < sLen2) {
+				var cCode5 = HxOverrides.cca(s2,begin2);
+				var result6 = false;
+				var _g6 = 0;
+				var _g16 = [9,10,11,12,13,32,133,160,5760,8192,8192,8193,8194,8195,8196,8197,8198,8199,8200,8201,8202,8232,8233,8239,8287,12288,6158,8203,8204,8205,8288,65279];
+				while(_g6 < _g16.length) {
+					var ele5 = _g16[_g6];
+					++_g6;
+					if(ele5 == cCode5) {
+						result6 = true;
+						break;
+					}
+				}
+				chr2 = result6;
 			} else {
 				chr2 = false;
 			}
 			if(!chr2) {
 				break;
 			}
-			++begin1;
+			++begin2;
 		}
-		chr = HxOverrides.substr(s1,begin1,null);
+		chr = HxOverrides.substr(s2,begin2,null);
 		if(name == null || name == "" || chr == null || chr == "") {
 			throw new js__$Boot_HaxeError("Error in line " + lineNo);
 		}
@@ -1805,4 +2171,5 @@ Bool.__ename__ = ["Bool"];
 var Class = $hxClasses["Class"] = { __name__ : ["Class"]};
 var Enum = { };
 var Void = $hxClasses["Void"] = { __ename__ : ["Void"]};
+StringTools.winMetaCharacters = [32,40,41,37,33,94,34,60,62,38,124,10,13,44,59];
 js_Boot.__toStr = ({ }).toString;

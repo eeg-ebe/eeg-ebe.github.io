@@ -195,7 +195,7 @@ self.addEventListener('message', function(e) {
         var p = new Printer();
         var p2 = new Printer();
         var p3 = new Printer();
-        CoMa.runComaJS(a, p, p2, p3, fileNames);
+        CoMa.runComaJS(a, p, p2, p3, fileNames, 0);
         var comaTxt = p.toText();
         var comaLstTxt = p2.toText();
         var partitionsLstTxt = p3.toText();
