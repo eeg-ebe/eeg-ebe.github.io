@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="../HaplowebMaker/external/jquery-ui.min.css"/>
         <script src="../HaplowebMaker/external/jquery.js"></script>
         <script src="../HaplowebMaker/external/jquery-ui.min.js"></script>
-
+        <script src="../HaplowebMaker/scripts/util.js"></script>
         <style>
 
 * {
@@ -68,7 +68,10 @@ function runComa() {
                 // once the worker finished ...
                 document.getElementById("uploadStuff").style.visibility = "hidden";
                 // save/show result
-                document.getElementById("resultDiv").innerHTML = event.data;
+                var result = event.data;
+                todownloadTsv = result['lst'];
+                document.getElementById("resultDiv").innerHTML = result['html'];
+                document.getElementById("downloadArea").style.visibility = "visible";
                 // explicitly terminate the worker
                 worker.terminate();
             }, false);
@@ -78,6 +81,11 @@ function runComa() {
         document.getElementById("resultDiv").innerHTML = "Reading files ...";
         reader.readAsText(f);
     }
+}
+
+function downloadTsv() {
+var data = todownloadTsv;
+download("text/plain", "CoMa.tsv", data);
 }
 
         </script>
@@ -110,6 +118,8 @@ function runComa() {
             </div>
         </div>
         <div id="resultDiv"></div>
-
+<div id="downloadArea" style="visibility:hidden">
+<button onclick="javascript: downloadTsv()" class="ui-button ui-widget ui-corner-all">Download tsv</button>
+</div>
     </body>
 </html>
