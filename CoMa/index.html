@@ -70,6 +70,7 @@ function runComa() {
                 // save/show result
                 var result = event.data;
                 todownloadTsv = result['lst'];
+                todownloadSvg = result['svg'];
                 document.getElementById("resultDiv").innerHTML = result['html'];
                 document.getElementById("downloadArea").style.visibility = "visible";
                 // explicitly terminate the worker
@@ -86,6 +87,10 @@ function runComa() {
 function downloadTsv() {
 var data = todownloadTsv;
 download("text/plain", "CoMa.tsv", data);
+}
+function downloadSvg() {
+var data = todownloadTsv;
+download("image/svg+xml", "CoMa.svg", data);
 }
 
         </script>
@@ -117,9 +122,10 @@ download("text/plain", "CoMa.tsv", data);
                 </div>
             </div>
         </div>
-        <div id="resultDiv"></div>
 <div id="downloadArea" style="visibility:hidden">
 <button onclick="javascript: downloadTsv()" class="ui-button ui-widget ui-corner-all">Download tsv</button>
+<button onclick="javascript: downloadSvg()" class="ui-button ui-widget ui-corner-all">Download svg</button>
 </div>
+        <div id="resultDiv"></div>
     </body>
 </html>
