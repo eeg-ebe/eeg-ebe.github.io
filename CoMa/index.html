@@ -59,7 +59,11 @@ function runComa() {
             document.getElementById("resultDiv").innerHTML = "Running CoMa ...";
             var project = {}
             project['txt'] = data.target.result;
-            project['distanceCalcStrategy'] = (document.getElementById("calcStrat").value.startsWith("0:")) ? 0 : 1;
+            project['distanceCalcStrategy'] = parseInt(document.getElementById("calcStrat").value.split(":")[0]);
+//.startsWith("0:")) ? 0 : 1;
+            if(document.getElementById("dontCluster").checked) {
+                project['distanceCalcStrategy'] = project['distanceCalcStrategy'] - 5;
+            }
             console.log(project['distanceCalcStrategy']);
             // everything is read in ... now create the co. matrix ...
             var worker = new Worker("comaWorker.js");
@@ -118,6 +122,7 @@ download("image/svg+xml", "CoMa.svg", data);
                         <option>0: number of markers considering the pair as conspecific - number of markers considering the pair as heterospecific</option>
                         <option>1: number of markers considering the pair as conspecific</option>
                     </select><br><br>
+                    <input type="checkbox" name="dontCluster" id="dontCluster" autocomplete="off">Don't sort/cluster individuals</input><br><br>
                     <button onclick="javascript: runComa()" class="ui-button ui-widget ui-corner-all shortcut label tooltip right">Run CoMa</button>
                 </div>
             </div>

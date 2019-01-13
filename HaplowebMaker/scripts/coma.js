@@ -127,7 +127,25 @@ CoMa.runComaFromPartition = function(comaIndLP,printer,printer2,compStrategy) {
 	var orderedL = new List();
 	var highestVal = -Infinity;
 	var lowestVal = Infinity;
-	if(comaIndL.length == 0) {
+	if(compStrategy < -1) {
+		compStrategy += 5;
+		orderedL = comaIndL;
+		var _g_head = orderedL.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var e1 = val;
+			var _g_head1 = orderedL.h;
+			while(_g_head1 != null) {
+				var val1 = _g_head1.item;
+				_g_head1 = _g_head1.next;
+				var e2 = val1;
+				var dist = e1.compare(e2,weights,compStrategy);
+				highestVal = Math.max(highestVal,dist);
+				lowestVal = Math.min(lowestVal,dist);
+			}
+		}
+	} else if(comaIndL.length == 0) {
 		highestVal = 0;
 		lowestVal = 0;
 	} else if(comaIndL.length == 1) {
@@ -143,26 +161,26 @@ CoMa.runComaFromPartition = function(comaIndLP,printer,printer2,compStrategy) {
 		var bestDist = -Infinity;
 		var bestE1 = null;
 		var bestE2 = null;
-		var _g_head = comaIndL.h;
-		while(_g_head != null) {
-			var val = _g_head.item;
-			_g_head = _g_head.next;
-			var e1 = val;
-			var _g_head1 = comaIndL.h;
-			while(_g_head1 != null) {
-				var val1 = _g_head1.item;
-				_g_head1 = _g_head1.next;
-				var e2 = val1;
-				var dist = e1.compare(e2,weights,compStrategy);
-				if(e1 != e2) {
-					if(dist > bestDist) {
-						bestDist = dist;
-						bestE1 = e1;
-						bestE2 = e2;
+		var _g_head2 = comaIndL.h;
+		while(_g_head2 != null) {
+			var val2 = _g_head2.item;
+			_g_head2 = _g_head2.next;
+			var e11 = val2;
+			var _g_head3 = comaIndL.h;
+			while(_g_head3 != null) {
+				var val3 = _g_head3.item;
+				_g_head3 = _g_head3.next;
+				var e21 = val3;
+				var dist1 = e11.compare(e21,weights,compStrategy);
+				if(e11 != e21) {
+					if(dist1 > bestDist) {
+						bestDist = dist1;
+						bestE1 = e11;
+						bestE2 = e21;
 					}
 				}
-				highestVal = Math.max(highestVal,dist);
-				lowestVal = Math.min(lowestVal,dist);
+				highestVal = Math.max(highestVal,dist1);
+				lowestVal = Math.min(lowestVal,dist1);
 			}
 		}
 		comaIndL.remove(bestE1);
@@ -174,11 +192,11 @@ CoMa.runComaFromPartition = function(comaIndLP,printer,printer2,compStrategy) {
 			var bestDistLast = -Infinity;
 			var bestEFirst = null;
 			var bestELast = null;
-			var _g_head2 = comaIndL.h;
-			while(_g_head2 != null) {
-				var val2 = _g_head2.item;
-				_g_head2 = _g_head2.next;
-				var e = val2;
+			var _g_head4 = comaIndL.h;
+			while(_g_head4 != null) {
+				var val4 = _g_head4.item;
+				_g_head4 = _g_head4.next;
+				var e = val4;
 				var distFirst = e.compare(orderedL.first(),weights,compStrategy);
 				var distLast = e.compare(orderedL.last(),weights,compStrategy);
 				if(distFirst > bestDistFirst) {
@@ -199,27 +217,27 @@ CoMa.runComaFromPartition = function(comaIndLP,printer,printer2,compStrategy) {
 			}
 		}
 	}
-	var _g_head3 = orderedL.h;
-	while(_g_head3 != null) {
-		var val3 = _g_head3.item;
-		_g_head3 = _g_head3.next;
-		var e3 = val3;
+	var _g_head5 = orderedL.h;
+	while(_g_head5 != null) {
+		var val5 = _g_head5.item;
+		_g_head5 = _g_head5.next;
+		var e3 = val5;
 		printer2.printString("\t" + e3.indName);
 	}
 	printer2.printString("\n");
-	var _g_head4 = orderedL.h;
-	while(_g_head4 != null) {
-		var val4 = _g_head4.item;
-		_g_head4 = _g_head4.next;
-		var e11 = val4;
-		printer2.printString(e11.indName);
-		var _g_head5 = orderedL.h;
-		while(_g_head5 != null) {
-			var val5 = _g_head5.item;
-			_g_head5 = _g_head5.next;
-			var e21 = val5;
-			var dist1 = e11.compare(e21,weights,compStrategy);
-			printer2.printString("\t" + dist1);
+	var _g_head6 = orderedL.h;
+	while(_g_head6 != null) {
+		var val6 = _g_head6.item;
+		_g_head6 = _g_head6.next;
+		var e12 = val6;
+		printer2.printString(e12.indName);
+		var _g_head7 = orderedL.h;
+		while(_g_head7 != null) {
+			var val7 = _g_head7.item;
+			_g_head7 = _g_head7.next;
+			var e22 = val7;
+			var dist2 = e12.compare(e22,weights,compStrategy);
+			printer2.printString("\t" + dist2);
 		}
 		printer2.printString("\n");
 	}
@@ -228,11 +246,11 @@ CoMa.runComaFromPartition = function(comaIndLP,printer,printer2,compStrategy) {
 	printer.printString("<svg version=\"1.1\" baseProfile=\"full\" width=\"" + width + "\" height=\"" + height + "\" xmlns=\"http://www.w3.org/2000/svg\">");
 	printer.printString("<g style=\"font-family:serif;font-size:16\">");
 	var index = 0;
-	var _g_head6 = orderedL.h;
-	while(_g_head6 != null) {
-		var val6 = _g_head6.item;
-		_g_head6 = _g_head6.next;
-		var e4 = val6;
+	var _g_head8 = orderedL.h;
+	while(_g_head8 != null) {
+		var val8 = _g_head8.item;
+		_g_head8 = _g_head8.next;
+		var e4 = val8;
 		printer.printString("<text x=\"5\" y=\"" + (100 + 20 * index + 15) + "\">" + e4.indName + "</text>");
 		printer.printString("<text x=\"" + (100 + 20 * index + 15) + "\" y=\"5\" transform=\"rotate(90 " + (100 + 20 * index + 7) + " 5)\">" + e4.indName + "</text>");
 		++index;
@@ -240,18 +258,18 @@ CoMa.runComaFromPartition = function(comaIndLP,printer,printer2,compStrategy) {
 	printer.printString("</g>");
 	var i = 0;
 	var j = 0;
-	var _g_head7 = orderedL.h;
-	while(_g_head7 != null) {
-		var val7 = _g_head7.item;
-		_g_head7 = _g_head7.next;
-		var e12 = val7;
-		var _g_head8 = orderedL.h;
-		while(_g_head8 != null) {
-			var val8 = _g_head8.item;
-			_g_head8 = _g_head8.next;
-			var e22 = val8;
-			var dist2 = e12.compare(e22,weights,compStrategy);
-			printer.printString("<rect x=\"" + (100 + 20 * i) + "\" y=\"" + (100 + 20 * j) + "\" width=\"20\" height=\"20\" fill=\"" + CoMa.cToCol(dist2,highestVal,lowestVal) + "\"/>");
+	var _g_head9 = orderedL.h;
+	while(_g_head9 != null) {
+		var val9 = _g_head9.item;
+		_g_head9 = _g_head9.next;
+		var e13 = val9;
+		var _g_head10 = orderedL.h;
+		while(_g_head10 != null) {
+			var val10 = _g_head10.item;
+			_g_head10 = _g_head10.next;
+			var e23 = val10;
+			var dist3 = e13.compare(e23,weights,compStrategy);
+			printer.printString("<rect x=\"" + (100 + 20 * i) + "\" y=\"" + (100 + 20 * j) + "\" width=\"20\" height=\"20\" fill=\"" + CoMa.cToCol(dist3,highestVal,lowestVal) + "\"/>");
 			++j;
 		}
 		j = 0;
