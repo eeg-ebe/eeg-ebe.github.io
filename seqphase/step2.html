@@ -1,0 +1,97 @@
+<!Doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Seqphase</title>
+        <link rel="stylesheet" href="style.css"/>
+    </head>
+    <body>
+        <div class="contentdiv">
+            <h1>SeqPHASE</h1>
+            <p id="cite">Flot (2010) <strong>SeqPHASE: a web tool for interconverting PHASE input/output files and FASTA sequence alignments </strong> <em>Molecular Ecology Ressources</em> <strong>10</strong> (1): 162-166 [<a href="http://dx.doi.org/10.1111/j.1755-0998.2009.02732.x">link</a>]</p><br>
+            <div class="navigation">
+                <a href="index.html">Back to startpage</a>
+                <a href="faq.html">FAQ</a>
+                <a href="examples.zip">Download examples</a>
+                <a href="step1.html">Step 1</a>
+                <a href="mailto: jflot@ulb.ac.be">E-Mail the author</a>
+            </div>
+            <h2>Step 2: converting PHASE output files into FASTA alignments</h2>
+            <table>
+                <tr class="option">
+                    <td>PHASE output file (.out or .out_pairs)</td>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td><input id="phaseOutFile" type="file" autocomplete="off"></td>
+                </tr>
+                <tr class="description">
+                    <td colspan="3">
+                        <p>If a .out file is inputted, a list of phased haplotypes will be returned as FASTA with 1-letter indetermination code letters (R, W, M, Y, S or K) at positions where phase certainty is inferior to a certain threshold (90% if PHASE default running options were used).</p>
+                        <p>If a .out_pairs file is inputted, a list of all possible haplotype pairs for each individual will be returned as FASTA with their respective probabilities shown between parentheses.</p>
+                    </td>
+                </tr>
+                <tr class="option">
+                    <td>Constant positions file (.const), if any</td>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td>
+                        <span id="passedSpan" style="display: none">
+                            <span id="passedConstFileContent"></span>
+                            <a id="changePassedConstFile">Change</a>
+                        </span>
+                        <input id="constFile" autocomplete="off" type="file">
+                        <input type="hidden" id="completePassedConstFileContent" autocomplete="off" value=""/>
+                    </td>
+                </tr>
+                <tr class="description">
+                    <td colspan="3">
+                        <p>If no .const file is inputted, the FASTA alignment will only contain variable positions.</p>
+                        <p id="passedDescription" style="display: none">The content of the .const file was passed from step 1. Only the first 12 to 15 characters are visible.</p>
+                    </td>
+                </tr>
+                <tr class="option">
+                    <td>Sort sequences</td>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td><input id="sortSequences" type="checkbox" autocomplete="off" checked="checked"></td>
+                </tr>
+                <tr class="description">
+                    <td colspan="3">
+                        <p>Sort sequences in alphabetical order.</p>
+                    </td>
+                </tr>
+                <tr class="option">
+                    <td>Reduce sequences</td>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td><input id="reduceSequences" type="checkbox" autocomplete="off" checked="checked"></td>
+                </tr>
+                <tr class="description">
+                    <td colspan="3">
+                        <p>Reduce output (recommended for some downstream applications, such as phylogenetic analyses)</p>
+                    </td>
+                </tr>
+            </table>
+            <span class="middle">
+                <button id="runJob2Button">Run SeqPHASE</button>
+                &nbsp;&nbsp;&nbsp;
+                <button id="resetJob2Button">Reset Form</button>
+            <span>
+            <div id="resultArea" style="display: none">
+                <p>A FASTA alignment of phased haplotypes has been generated. In this file, each of the two
+                haplotypes inferred from a sequence are given the name of that sequence followed by a or b.
+                The posterior probability of each haplotype is shown in parentheses after its name. In case
+                there are several alternative haplotype reconstructions, then all possible haplotypes are
+                listed.</p>
+                <a id="downloadLink" download="phased.fasta">Click here to download the generated Fasta file</a>
+            </div>
+            <br>
+            <br>
+            <div class="navigation">
+                <a href="index.html">Back to startpage</a>
+                <a href="faq.html">FAQ</a>
+                <a href="examples.zip">Download examples</a>
+                <a href="step1.html">Step 1</a>
+                <a href="mailto: jflot@ulb.ac.be">E-Mail the author</a>
+            </div>
+        </div>
+        <script src="seqphase2.js" type="text/javascript"></script>
+        <script src="step2.js" type="text/javascript"></script>
+    </body>
+</html>
