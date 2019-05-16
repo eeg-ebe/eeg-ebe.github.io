@@ -41,9 +41,9 @@ class SeqPhase1 {
     public static function doIt(align1:Null<String>, align2:Null<String>, align3:Null<String>):SeqPhase1Result {
         SeqPhase1Result.instance().clear();
         // parse
-        var al1:FastaAlignmentParser = new FastaAlignmentParser(align1, false, 1);
-        var al2:FastaAlignmentParser = new FastaAlignmentParser(align2, true, 2);
-        var al3:FastaAlignmentParser = new FastaAlignmentParser(align3, true, 3);
+        var al1:FastaAlignmentParser = new FastaAlignmentParser(align1, false, false, 1);
+        var al2:FastaAlignmentParser = new FastaAlignmentParser(align2, true, true, 2);
+        var al3:FastaAlignmentParser = new FastaAlignmentParser(align3, true, false, 3);
         // check sequence length
         var expectedLength:Int = (al1.getSeqLength() > al2.getSeqLength()) ? al1.getSeqLength() : al2.getSeqLength();
         expectedLength = (expectedLength > al3.getSeqLength()) ? expectedLength : al3.getSeqLength();
@@ -157,7 +157,7 @@ class SeqPhase1 {
             }
         }
         lines.add("P " + l1.join(" "));
-        lines.add(l2.join(" "));
+        lines.add(l2.join(" ") + " ");
         var it1:Iterator<Entry> = al1a.iterator();
         var it2:Iterator<Entry> = al1b.iterator();
         while (it1.hasNext()) {
@@ -166,7 +166,7 @@ class SeqPhase1 {
             lines.add(e1.getName());
             var line1:List<String> = new List<String>();
             var line2:List<String> = new List<String>();
-            for(i in 0...e1.getSeq().length) {
+            for(i in varpos) { //0...e1.getSeq().length) {
                 var char:String = e1.getSeq().charAt(i);
                 if(char == "N" && multiposMap.exists(i)) {
                     line1.add("-1");
@@ -174,7 +174,7 @@ class SeqPhase1 {
                     line1.add(code.get(char));
                 }
             }
-            for(i in 0...e2.getSeq().length) {
+            for(i in varpos) { //0...e2.getSeq().length) {
                 var char:String = e2.getSeq().charAt(i);
                 if(char == "N" && multiposMap.exists(i)) {
                     line2.add("-1");
@@ -182,8 +182,8 @@ class SeqPhase1 {
                     line2.add(code.get(char));
                 }
             }
-            lines.add(line1.join(" "));
-            lines.add(line2.join(" "));
+            lines.add(line1.join(" ") + " ");
+            lines.add(line2.join(" ") + " ");
         }
         var isOdd:Bool = false;
         for (entry in al2.getSequences()) {
@@ -193,7 +193,7 @@ class SeqPhase1 {
                 lines.add(name.substr(0, name.length - 1));
             }
             var line:List<String> = new List<String>();
-            for(i in 0...entry.getSeq().length) {
+            for(i in varpos) { //0...entry.getSeq().length) {
                 var char:String = entry.getSeq().charAt(i);
                 if(char == "N" && multiposMap.exists(i)) {
                     line.add("-1");
@@ -201,7 +201,7 @@ class SeqPhase1 {
                     line.add(code.get(char));
                 }
             }
-            lines.add(line.join(" "));
+            lines.add(line.join(" ") + " ");
         }
         isOdd = false;
         for (entry in al3.getSequences()) {
@@ -211,7 +211,7 @@ class SeqPhase1 {
                 lines.add(name.substr(0, name.length - 1));
             }
             var line:List<String> = new List<String>();
-            for(i in 0...entry.getSeq().length) {
+            for(i in varpos) { //0...entry.getSeq().length) {
                 var char:String = entry.getSeq().charAt(i);
                 if(char == "N" && multiposMap.exists(i)) {
                     line.add("-1");
@@ -219,8 +219,9 @@ class SeqPhase1 {
                     line.add(code.get(char));
                 }
             }
-            lines.add(line.join(" "));
+            lines.add(line.join(" ") + " ");
         }
+        lines.add("");
         SeqPhase1Result.instance().setInpFile(lines.join("\n"));
         // create known file
         var knownLines:List<String> = new List<String>();

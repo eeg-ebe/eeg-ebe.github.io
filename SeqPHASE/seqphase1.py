@@ -704,22 +704,22 @@ class SeqPhase1:
             lines.add(e1.getName())
             line1 = List()
             line2 = List()
-            _g12 = 0
-            _g5 = len(e1.getSeq())
-            while (_g12 < _g5):
-                i2 = _g12
-                _g12 = (_g12 + 1)
+            _g_head1 = varpos.h
+            while (_g_head1 is not None):
+                val3 = _g_head1.item
+                _g_head1 = _g_head1.next
+                i2 = val3
                 _this5 = e1.getSeq()
                 char = ("" if (((i2 < 0) or ((i2 >= len(_this5))))) else _this5[i2])
                 if ((char == "N") and (i2 in multiposMap.h)):
                     line1.add("-1")
                 else:
                     line1.add(SeqPhase1.code.h.get(char,None))
-            _g13 = 0
-            _g6 = len(e2.getSeq())
-            while (_g13 < _g6):
-                i3 = _g13
-                _g13 = (_g13 + 1)
+            _g_head2 = varpos.h
+            while (_g_head2 is not None):
+                val4 = _g_head2.item
+                _g_head2 = _g_head2.next
+                i3 = val4
                 _this6 = e2.getSeq()
                 char1 = ("" if (((i3 < 0) or ((i3 >= len(_this6))))) else _this6[i3])
                 if ((char1 == "N") and (i3 in multiposMap.h)):
@@ -729,21 +729,21 @@ class SeqPhase1:
             lines.add(line1.join(" "))
             lines.add(line2.join(" "))
         isOdd = False
-        _g7 = 0
-        _g14 = al2.getSequences()
-        while (_g7 < len(_g14)):
-            entry5 = (_g14[_g7] if _g7 >= 0 and _g7 < len(_g14) else None)
-            _g7 = (_g7 + 1)
+        _g5 = 0
+        _g12 = al2.getSequences()
+        while (_g5 < len(_g12)):
+            entry5 = (_g12[_g5] if _g5 >= 0 and _g5 < len(_g12) else None)
+            _g5 = (_g5 + 1)
             isOdd = (not isOdd)
             if isOdd:
                 name = entry5.getName()
                 lines.add(HxString.substr(name,0,(len(name) - 1)))
             line = List()
-            _g33 = 0
-            _g23 = len(entry5.getSeq())
-            while (_g33 < _g23):
-                i4 = _g33
-                _g33 = (_g33 + 1)
+            _g2_head2 = varpos.h
+            while (_g2_head2 is not None):
+                val5 = _g2_head2.item
+                _g2_head2 = _g2_head2.next
+                i4 = val5
                 _this7 = entry5.getSeq()
                 char2 = ("" if (((i4 < 0) or ((i4 >= len(_this7))))) else _this7[i4])
                 if ((char2 == "N") and (i4 in multiposMap.h)):
@@ -752,21 +752,21 @@ class SeqPhase1:
                     line.add(SeqPhase1.code.h.get(char2,None))
             lines.add(line.join(" "))
         isOdd = False
-        _g8 = 0
-        _g15 = al3.getSequences()
-        while (_g8 < len(_g15)):
-            entry6 = (_g15[_g8] if _g8 >= 0 and _g8 < len(_g15) else None)
-            _g8 = (_g8 + 1)
+        _g6 = 0
+        _g13 = al3.getSequences()
+        while (_g6 < len(_g13)):
+            entry6 = (_g13[_g6] if _g6 >= 0 and _g6 < len(_g13) else None)
+            _g6 = (_g6 + 1)
             isOdd = (not isOdd)
             if isOdd:
                 name1 = entry6.getName()
                 lines.add(HxString.substr(name1,0,(len(name1) - 1)))
             line3 = List()
-            _g34 = 0
-            _g24 = len(entry6.getSeq())
-            while (_g34 < _g24):
-                i5 = _g34
-                _g34 = (_g34 + 1)
+            _g2_head3 = varpos.h
+            while (_g2_head3 is not None):
+                val6 = _g2_head3.item
+                _g2_head3 = _g2_head3.next
+                i5 = val6
                 _this8 = entry6.getSeq()
                 char3 = ("" if (((i5 < 0) or ((i5 >= len(_this8))))) else _this8[i5])
                 if ((char3 == "N") and (i5 in multiposMap.h)):
@@ -778,27 +778,27 @@ class SeqPhase1:
         knownLines = List()
         i6 = varpos.length
         result = List()
-        _g16 = 0
-        _g9 = i6
-        while (_g16 < _g9):
-            nnn = _g16
-            _g16 = (_g16 + 1)
+        _g14 = 0
+        _g7 = i6
+        while (_g14 < _g7):
+            nnn = _g14
+            _g14 = (_g14 + 1)
             result.add("*")
         nStr = result.join("")
         i7 = varpos.length
         result1 = List()
-        _g17 = 0
-        _g10 = i7
-        while (_g17 < _g10):
-            nnn1 = _g17
-            _g17 = (_g17 + 1)
+        _g15 = 0
+        _g8 = i7
+        while (_g15 < _g8):
+            nnn1 = _g15
+            _g15 = (_g15 + 1)
             result1.add("0")
         oStr = result1.join("")
-        _g18 = 0
-        _g19 = len(al1.getSequences())
-        while (_g18 < _g19):
-            i8 = _g18
-            _g18 = (_g18 + 1)
+        _g16 = 0
+        _g9 = len(al1.getSequences())
+        while (_g16 < _g9):
+            i8 = _g16
+            _g16 = (_g16 + 1)
             knownLines.add(nStr)
         x1 = (len(al2.getSequences()) / 2)
         lll1 = None
@@ -808,11 +808,11 @@ class SeqPhase1:
             _hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
             e3 = _hx_e1
             lll1 = None
-        _g110 = 0
-        _g20 = lll1
-        while (_g110 < _g20):
-            i9 = _g110
-            _g110 = (_g110 + 1)
+        _g17 = 0
+        _g10 = lll1
+        while (_g17 < _g10):
+            i9 = _g17
+            _g17 = (_g17 + 1)
             knownLines.add(nStr)
         x2 = (len(al3.getSequences()) / 2)
         lll2 = None
@@ -822,11 +822,11 @@ class SeqPhase1:
             _hx_e1 = _hx_e.val if isinstance(_hx_e, _HxException) else _hx_e
             e4 = _hx_e1
             lll2 = None
-        _g111 = 0
-        _g25 = lll2
-        while (_g111 < _g25):
-            i10 = _g111
-            _g111 = (_g111 + 1)
+        _g18 = 0
+        _g19 = lll2
+        while (_g18 < _g19):
+            i10 = _g18
+            _g18 = (_g18 + 1)
             knownLines.add(oStr)
         SeqPhase1Result.instance().setKnownFile(knownLines.join("\n"))
         if (len(al3.getSequences()) == 0):

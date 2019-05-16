@@ -32,7 +32,7 @@ class FastaAlignmentParser {
     private var fastaContent:Array<Entry>;
     private var seqLength:Int;
 
-    public function new(fileContent:Null<String>, allChecks:Bool, fileNr:Int) {
+    public function new(fileContent:Null<String>, allChecks:Bool, allSort:Bool, fileNr:Int) {
         fastaContent = new Array<Entry>();
         seqLength = -1;
         // checks
@@ -120,7 +120,7 @@ class FastaAlignmentParser {
         }
         // sort
         fastaContent.sort(function(e1:Entry, e2:Entry) {
-            if(allChecks) {
+            if(allSort) {
                 var nameE1:String = e1.getName();
                 var nameE2:String = e1.getName();
                 var aNameE1:String = nameE1.substring(0, nameE1.length - 1);

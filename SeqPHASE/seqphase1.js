@@ -35,7 +35,7 @@ Entry.prototype = {
 		return this.line;
 	}
 };
-var FastaAlignmentParser = function(fileContent,allChecks,fileNr) {
+var FastaAlignmentParser = function(fileContent,allChecks,allSort,fileNr) {
 	this.fastaContent = [];
 	this.seqLength = -1;
 	if(fileContent == null) {
@@ -291,7 +291,7 @@ var FastaAlignmentParser = function(fileContent,allChecks,fileNr) {
 		}
 	}
 	this.fastaContent.sort(function(e1,e2) {
-		if(allChecks) {
+		if(allSort) {
 			var nameE1 = e1.getName();
 			var nameE2 = e1.getName();
 			var aNameE1 = nameE1.substring(0,nameE1.length - 1);
@@ -568,9 +568,9 @@ var SeqPhase1 = function() { };
 SeqPhase1.__name__ = true;
 SeqPhase1.doIt = function(align1,align2,align3) {
 	SeqPhase1Result.instance().clear();
-	var al1 = new FastaAlignmentParser(align1,false,1);
-	var al2 = new FastaAlignmentParser(align2,true,2);
-	var al3 = new FastaAlignmentParser(align3,true,3);
+	var al1 = new FastaAlignmentParser(align1,false,false,1);
+	var al2 = new FastaAlignmentParser(align2,true,true,2);
+	var al3 = new FastaAlignmentParser(align3,true,false,3);
 	var expectedLength = al1.getSeqLength() > al2.getSeqLength() ? al1.getSeqLength() : al2.getSeqLength();
 	if(expectedLength > al3.getSeqLength()) {
 		expectedLength = expectedLength;
@@ -737,7 +737,7 @@ SeqPhase1.doIt = function(align1,align2,align3) {
 		}
 	}
 	lines.add("P " + l1.join(" "));
-	lines.add(l2.join(" "));
+	lines.add(l2.join(" ") + " ");
 	var it1 = new _$List_ListIterator(al1a.h);
 	var it2 = new _$List_ListIterator(al1b.h);
 	while(it1.hasNext()) {
@@ -746,10 +746,11 @@ SeqPhase1.doIt = function(align1,align2,align3) {
 		lines.add(e1.getName());
 		var line1 = new List();
 		var line2 = new List();
-		var _g12 = 0;
-		var _g5 = e1.getSeq().length;
-		while(_g12 < _g5) {
-			var i2 = _g12++;
+		var _g_head1 = varpos.h;
+		while(_g_head1 != null) {
+			var val3 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var i2 = val3;
 			var $char = e1.getSeq().charAt(i2);
 			if($char == "N" && multiposMap_h.hasOwnProperty(i2)) {
 				line1.add("-1");
@@ -758,10 +759,11 @@ SeqPhase1.doIt = function(align1,align2,align3) {
 				line1.add(__map_reserved[$char] != null ? _this3.getReserved($char) : _this3.h[$char]);
 			}
 		}
-		var _g13 = 0;
-		var _g6 = e2.getSeq().length;
-		while(_g13 < _g6) {
-			var i3 = _g13++;
+		var _g_head2 = varpos.h;
+		while(_g_head2 != null) {
+			var val4 = _g_head2.item;
+			_g_head2 = _g_head2.next;
+			var i3 = val4;
 			var char1 = e2.getSeq().charAt(i3);
 			if(char1 == "N" && multiposMap_h.hasOwnProperty(i3)) {
 				line2.add("-1");
@@ -770,25 +772,26 @@ SeqPhase1.doIt = function(align1,align2,align3) {
 				line2.add(__map_reserved[char1] != null ? _this4.getReserved(char1) : _this4.h[char1]);
 			}
 		}
-		lines.add(line1.join(" "));
-		lines.add(line2.join(" "));
+		lines.add(line1.join(" ") + " ");
+		lines.add(line2.join(" ") + " ");
 	}
 	var isOdd = false;
-	var _g7 = 0;
-	var _g14 = al2.getSequences();
-	while(_g7 < _g14.length) {
-		var entry5 = _g14[_g7];
-		++_g7;
+	var _g5 = 0;
+	var _g12 = al2.getSequences();
+	while(_g5 < _g12.length) {
+		var entry5 = _g12[_g5];
+		++_g5;
 		isOdd = !isOdd;
 		if(isOdd) {
 			var name = entry5.getName();
 			lines.add(HxOverrides.substr(name,0,name.length - 1));
 		}
 		var line = new List();
-		var _g33 = 0;
-		var _g23 = entry5.getSeq().length;
-		while(_g33 < _g23) {
-			var i4 = _g33++;
+		var _g2_head2 = varpos.h;
+		while(_g2_head2 != null) {
+			var val5 = _g2_head2.item;
+			_g2_head2 = _g2_head2.next;
+			var i4 = val5;
 			var char2 = entry5.getSeq().charAt(i4);
 			if(char2 == "N" && multiposMap_h.hasOwnProperty(i4)) {
 				line.add("-1");
@@ -797,24 +800,25 @@ SeqPhase1.doIt = function(align1,align2,align3) {
 				line.add(__map_reserved[char2] != null ? _this5.getReserved(char2) : _this5.h[char2]);
 			}
 		}
-		lines.add(line.join(" "));
+		lines.add(line.join(" ") + " ");
 	}
 	isOdd = false;
-	var _g8 = 0;
-	var _g15 = al3.getSequences();
-	while(_g8 < _g15.length) {
-		var entry6 = _g15[_g8];
-		++_g8;
+	var _g6 = 0;
+	var _g13 = al3.getSequences();
+	while(_g6 < _g13.length) {
+		var entry6 = _g13[_g6];
+		++_g6;
 		isOdd = !isOdd;
 		if(isOdd) {
 			var name1 = entry6.getName();
 			lines.add(HxOverrides.substr(name1,0,name1.length - 1));
 		}
 		var line3 = new List();
-		var _g34 = 0;
-		var _g24 = entry6.getSeq().length;
-		while(_g34 < _g24) {
-			var i5 = _g34++;
+		var _g2_head3 = varpos.h;
+		while(_g2_head3 != null) {
+			var val6 = _g2_head3.item;
+			_g2_head3 = _g2_head3.next;
+			var i5 = val6;
 			var char3 = entry6.getSeq().charAt(i5);
 			if(char3 == "N" && multiposMap_h.hasOwnProperty(i5)) {
 				line3.add("-1");
@@ -823,46 +827,47 @@ SeqPhase1.doIt = function(align1,align2,align3) {
 				line3.add(__map_reserved[char3] != null ? _this6.getReserved(char3) : _this6.h[char3]);
 			}
 		}
-		lines.add(line3.join(" "));
+		lines.add(line3.join(" ") + " ");
 	}
+	lines.add("");
 	SeqPhase1Result.instance().setInpFile(lines.join("\n"));
 	var knownLines = new List();
 	var i6 = varpos.length;
 	var result = new List();
-	var _g16 = 0;
-	var _g9 = i6;
-	while(_g16 < _g9) {
-		var nnn = _g16++;
+	var _g14 = 0;
+	var _g7 = i6;
+	while(_g14 < _g7) {
+		var nnn = _g14++;
 		result.add("*");
 	}
 	var nStr = result.join("");
 	var i7 = varpos.length;
 	var result1 = new List();
-	var _g17 = 0;
-	var _g10 = i7;
-	while(_g17 < _g10) {
-		var nnn1 = _g17++;
+	var _g15 = 0;
+	var _g8 = i7;
+	while(_g15 < _g8) {
+		var nnn1 = _g15++;
 		result1.add("0");
 	}
 	var oStr = result1.join("");
-	var _g18 = 0;
-	var _g19 = al1.getSequences().length;
-	while(_g18 < _g19) {
-		var i8 = _g18++;
+	var _g16 = 0;
+	var _g9 = al1.getSequences().length;
+	while(_g16 < _g9) {
+		var i8 = _g16++;
 		knownLines.add(nStr);
 	}
 	var lll1 = al2.getSequences().length / 2 | 0;
-	var _g110 = 0;
-	var _g20 = lll1;
-	while(_g110 < _g20) {
-		var i9 = _g110++;
+	var _g17 = 0;
+	var _g10 = lll1;
+	while(_g17 < _g10) {
+		var i9 = _g17++;
 		knownLines.add(nStr);
 	}
 	var lll2 = al3.getSequences().length / 2 | 0;
-	var _g111 = 0;
-	var _g25 = lll2;
-	while(_g111 < _g25) {
-		var i10 = _g111++;
+	var _g18 = 0;
+	var _g19 = lll2;
+	while(_g18 < _g19) {
+		var i10 = _g18++;
 		knownLines.add(oStr);
 	}
 	SeqPhase1Result.instance().setKnownFile(knownLines.join("\n"));
