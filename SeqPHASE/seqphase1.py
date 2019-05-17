@@ -99,7 +99,7 @@ class FastaAlignmentParser:
     _hx_methods = ["getSeqLength", "getSequences"]
     _hx_statics = ["authorizedCharacters", "startsWith", "isWhitespace", "stripStringBegin", "stripStringEnd", "stripString"]
 
-    def __init__(self,fileContent,allChecks,fileNr):
+    def __init__(self,fileContent,allChecks,allSort,fileNr):
         self.fastaContent = list()
         self.seqLength = -1
         if (fileContent is None):
@@ -300,7 +300,7 @@ class FastaAlignmentParser:
             if ((("" if (((index < 0) or ((index >= len(_this2))))) else _this2[index])) == "-"):
                 SeqPhase1Result.instance().addWrn((((("Sequence " + HxOverrides.stringOrNull(val.getName())) + " (line ") + Std.string(val.getLineNo())) + ") ends with '-'. Is it a real indel or did you mean 'N' or '?' (missing data)?"),fileNr)
         def _hx_local_14(e1,e2):
-            if allChecks:
+            if allSort:
                 nameE1 = e1.getName()
                 nameE2 = e1.getName()
                 aNameE1 = HxString.substring(nameE1,0,(len(nameE1) - 1))
@@ -552,9 +552,9 @@ class SeqPhase1:
     @staticmethod
     def doIt(align1,align2,align3):
         SeqPhase1Result.instance().clear()
-        al1 = FastaAlignmentParser(align1,False,1)
-        al2 = FastaAlignmentParser(align2,True,2)
-        al3 = FastaAlignmentParser(align3,True,3)
+        al1 = FastaAlignmentParser(align1,False,False,1)
+        al2 = FastaAlignmentParser(align2,True,True,2)
+        al3 = FastaAlignmentParser(align3,True,False,3)
         expectedLength = (al1.getSeqLength() if ((al1.getSeqLength() > al2.getSeqLength())) else al2.getSeqLength())
         if (expectedLength > al3.getSeqLength()):
             expectedLength = expectedLength
@@ -695,7 +695,7 @@ class SeqPhase1:
             else:
                 l2.add("S")
         lines.add(("P " + HxOverrides.stringOrNull(l1.join(" "))))
-        lines.add(l2.join(" "))
+        lines.add((HxOverrides.stringOrNull(l2.join(" ")) + " "))
         it1 = _List_ListIterator(al1a.h)
         it2 = _List_ListIterator(al1b.h)
         while it1.hasNext():
@@ -711,7 +711,7 @@ class SeqPhase1:
                 i2 = val3
                 _this5 = e1.getSeq()
                 char = ("" if (((i2 < 0) or ((i2 >= len(_this5))))) else _this5[i2])
-                if ((char == "N") and (i2 in multiposMap.h)):
+                if ((char == "N") and (not (i2 in multiposMap.h))):
                     line1.add("-1")
                 else:
                     line1.add(SeqPhase1.code.h.get(char,None))
@@ -722,12 +722,12 @@ class SeqPhase1:
                 i3 = val4
                 _this6 = e2.getSeq()
                 char1 = ("" if (((i3 < 0) or ((i3 >= len(_this6))))) else _this6[i3])
-                if ((char1 == "N") and (i3 in multiposMap.h)):
+                if ((char1 == "N") and (not (i3 in multiposMap.h))):
                     line2.add("-1")
                 else:
                     line2.add(SeqPhase1.code.h.get(char1,None))
-            lines.add(line1.join(" "))
-            lines.add(line2.join(" "))
+            lines.add((HxOverrides.stringOrNull(line1.join(" ")) + " "))
+            lines.add((HxOverrides.stringOrNull(line2.join(" ")) + " "))
         isOdd = False
         _g5 = 0
         _g12 = al2.getSequences()
@@ -746,11 +746,11 @@ class SeqPhase1:
                 i4 = val5
                 _this7 = entry5.getSeq()
                 char2 = ("" if (((i4 < 0) or ((i4 >= len(_this7))))) else _this7[i4])
-                if ((char2 == "N") and (i4 in multiposMap.h)):
+                if ((char2 == "N") and (not (i4 in multiposMap.h))):
                     line.add("-1")
                 else:
                     line.add(SeqPhase1.code.h.get(char2,None))
-            lines.add(line.join(" "))
+            lines.add((HxOverrides.stringOrNull(line.join(" ")) + " "))
         isOdd = False
         _g6 = 0
         _g13 = al3.getSequences()
@@ -769,11 +769,12 @@ class SeqPhase1:
                 i5 = val6
                 _this8 = entry6.getSeq()
                 char3 = ("" if (((i5 < 0) or ((i5 >= len(_this8))))) else _this8[i5])
-                if ((char3 == "N") and (i5 in multiposMap.h)):
+                if ((char3 == "N") and (not (i5 in multiposMap.h))):
                     line3.add("-1")
                 else:
                     line3.add(SeqPhase1.code.h.get(char3,None))
-            lines.add(line3.join(" "))
+            lines.add((HxOverrides.stringOrNull(line3.join(" ")) + " "))
+        lines.add("")
         SeqPhase1Result.instance().setInpFile(lines.join("\n"))
         knownLines = List()
         i6 = varpos.length

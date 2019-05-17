@@ -168,7 +168,7 @@ class SeqPhase1 {
             var line2:List<String> = new List<String>();
             for(i in varpos) { //0...e1.getSeq().length) {
                 var char:String = e1.getSeq().charAt(i);
-                if(char == "N" && multiposMap.exists(i)) {
+                if(char == "N" && !multiposMap.exists(i)) {
                     line1.add("-1");
                 } else {
                     line1.add(code.get(char));
@@ -176,7 +176,7 @@ class SeqPhase1 {
             }
             for(i in varpos) { //0...e2.getSeq().length) {
                 var char:String = e2.getSeq().charAt(i);
-                if(char == "N" && multiposMap.exists(i)) {
+                if(char == "N" && !multiposMap.exists(i)) {
                     line2.add("-1");
                 } else {
                     line2.add(code.get(char));
@@ -195,7 +195,7 @@ class SeqPhase1 {
             var line:List<String> = new List<String>();
             for(i in varpos) { //0...entry.getSeq().length) {
                 var char:String = entry.getSeq().charAt(i);
-                if(char == "N" && multiposMap.exists(i)) {
+                if(char == "N" && !multiposMap.exists(i)) {
                     line.add("-1");
                 } else {
                     line.add(code.get(char));
@@ -213,7 +213,7 @@ class SeqPhase1 {
             var line:List<String> = new List<String>();
             for(i in varpos) { //0...entry.getSeq().length) {
                 var char:String = entry.getSeq().charAt(i);
-                if(char == "N" && multiposMap.exists(i)) {
+                if(char == "N" && !multiposMap.exists(i)) {
                     line.add("-1");
                 } else {
                     line.add(code.get(char));

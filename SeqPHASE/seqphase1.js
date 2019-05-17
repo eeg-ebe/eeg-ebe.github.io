@@ -752,7 +752,7 @@ SeqPhase1.doIt = function(align1,align2,align3) {
 			_g_head1 = _g_head1.next;
 			var i2 = val3;
 			var $char = e1.getSeq().charAt(i2);
-			if($char == "N" && multiposMap_h.hasOwnProperty(i2)) {
+			if($char == "N" && !multiposMap_h.hasOwnProperty(i2)) {
 				line1.add("-1");
 			} else {
 				var _this3 = SeqPhase1.code;
@@ -765,7 +765,7 @@ SeqPhase1.doIt = function(align1,align2,align3) {
 			_g_head2 = _g_head2.next;
 			var i3 = val4;
 			var char1 = e2.getSeq().charAt(i3);
-			if(char1 == "N" && multiposMap_h.hasOwnProperty(i3)) {
+			if(char1 == "N" && !multiposMap_h.hasOwnProperty(i3)) {
 				line2.add("-1");
 			} else {
 				var _this4 = SeqPhase1.code;
@@ -793,7 +793,7 @@ SeqPhase1.doIt = function(align1,align2,align3) {
 			_g2_head2 = _g2_head2.next;
 			var i4 = val5;
 			var char2 = entry5.getSeq().charAt(i4);
-			if(char2 == "N" && multiposMap_h.hasOwnProperty(i4)) {
+			if(char2 == "N" && !multiposMap_h.hasOwnProperty(i4)) {
 				line.add("-1");
 			} else {
 				var _this5 = SeqPhase1.code;
@@ -820,7 +820,7 @@ SeqPhase1.doIt = function(align1,align2,align3) {
 			_g2_head3 = _g2_head3.next;
 			var i5 = val6;
 			var char3 = entry6.getSeq().charAt(i5);
-			if(char3 == "N" && multiposMap_h.hasOwnProperty(i5)) {
+			if(char3 == "N" && !multiposMap_h.hasOwnProperty(i5)) {
 				line3.add("-1");
 			} else {
 				var _this6 = SeqPhase1.code;
