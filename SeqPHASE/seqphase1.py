@@ -291,7 +291,7 @@ class FastaAlignmentParser:
             _this1 = self.fastaContent
             _this1.append(val)
             if (len(val.getSeq()) != len(current.getSeq())):
-                SeqPhase1Result.instance().addErr(((((((((((("Not all sequences in this file have equal lengths. E.g. sequence " + HxOverrides.stringOrNull(val.getName())) + " (line ") + Std.string(val.getLineNo())) + ") is of length ") + Std.string(len(val.getSeq()))) + " while sequence ") + HxOverrides.stringOrNull(current.getName())) + " (line ") + Std.string(current.getLineNo())) + ") is of length ") + Std.string(len(val.getSeq()))),fileNr)
+                SeqPhase1Result.instance().addErr(((((((((((("Not all sequences in this file have equal lengths. E.g. sequence " + HxOverrides.stringOrNull(val.getName())) + " (line ") + Std.string(val.getLineNo())) + ") is of length ") + Std.string(len(val.getSeq()))) + " while sequence ") + HxOverrides.stringOrNull(current.getName())) + " (line ") + Std.string(current.getLineNo())) + ") is of length ") + Std.string(len(current.getSeq()))),fileNr)
                 return
             if (HxString.substr(val.getSeq(),0,len("-")) == "-"):
                 SeqPhase1Result.instance().addWrn((((("Sequence " + HxOverrides.stringOrNull(val.getName())) + " (line ") + Std.string(val.getLineNo())) + ") starts with '-'. Is it a real indel or did you mean 'N' or '?' (missing data)?"),fileNr)

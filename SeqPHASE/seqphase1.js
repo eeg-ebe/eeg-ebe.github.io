@@ -280,7 +280,7 @@ var FastaAlignmentParser = function(fileContent,allChecks,allSort,fileNr) {
 		var val = __map_reserved[key1] != null ? entryMap.getReserved(key1) : entryMap.h[key1];
 		this.fastaContent.push(val);
 		if(val.getSeq().length != current.getSeq().length) {
-			SeqPhase1Result.instance().addErr("Not all sequences in this file have equal lengths. E.g. sequence " + val.getName() + " (line " + val.getLineNo() + ") is of length " + val.getSeq().length + " while sequence " + current.getName() + " (line " + current.getLineNo() + ") is of length " + val.getSeq().length,fileNr);
+			SeqPhase1Result.instance().addErr("Not all sequences in this file have equal lengths. E.g. sequence " + val.getName() + " (line " + val.getLineNo() + ") is of length " + val.getSeq().length + " while sequence " + current.getName() + " (line " + current.getLineNo() + ") is of length " + current.getSeq().length,fileNr);
 			return;
 		}
 		if(HxOverrides.substr(val.getSeq(),0,"-".length) == "-") {

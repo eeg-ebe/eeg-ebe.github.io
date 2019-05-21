@@ -106,7 +106,7 @@ class FastaAlignmentParser {
                 SeqPhase1Result.instance().addErr("Not all sequences in this file have equal lengths. E.g. sequence "
                 + val.getName() + " (line " + val.getLineNo() + ") is of length " + val.getSeq().length
                 + " while sequence " + current.getName() + " (line " + current.getLineNo()
-                + ") is of length " + val.getSeq().length, fileNr);
+                + ") is of length " + current.getSeq().length, fileNr);
                 return;
             }
             if (startsWith(val.getSeq(), "-")) {
