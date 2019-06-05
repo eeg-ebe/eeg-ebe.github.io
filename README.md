@@ -1,3 +1,11 @@
+# Bioinformatic tools of the group "Ecological and Evolutionary Genomics" at the Université libre de Bruxelles
+
+# [Champuru](http://www.mnhn.fr/jfflot/champuru/)
+This tool automatizes the deconvolution of the mixed traces obtained when Sanger-sequencing mixtures of PCR products of different lengths (for details, see [Flot J-F, Tillier A, Samadi S, Tillier S (2006) Phase determination from direct sequencing of length-variable DNA regions. *Molecular Ecology Notes* 6:627–630](https://doi.org/10.1111/j.1471-8286.2006.01355.x) and [Flot J-F (2007) Champuru 1.0: a computer software for unraveling mixtures of two DNA sequences of unequal lengths. *Molecular Ecology Notes* 7:974–977]https://doi.org/10.1111/j.1471-8286.2007.01857.x)).
+
+# [SeqPHASE](SeqPHASE)
+This tool allows users to generate easily PHASE input files from FASTA sequences alignemnts and convert PHASE output files back into FASTA (as detailed in [Flot J-F (2010) SeqPHASE: a web tool for interconverting PHASE input/output files and FASTA sequence alignments. *Molecular Ecology Resources* 10:162–166](https://doi.org/10.1111/j.1755-0998.2009.02732.x)). 
+
 # [HaplowebMaker](HaplowebMaker)
 
 This web tool allows users to generate quickly publication-quality haplowebs (short for "haplotype webs", see http://dx.doi.org/10.1186/1471-2148-10-372 for details).
