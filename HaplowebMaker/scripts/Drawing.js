@@ -2111,7 +2111,7 @@ draw_Graph.prototype = {
 					}
 					name = result;
 				}
-				var colorName = null;
+				var colorName = "black";
 				var _g_head2 = l.h;
 				while(_g_head2 != null) {
 					var val2 = _g_head2.item;
