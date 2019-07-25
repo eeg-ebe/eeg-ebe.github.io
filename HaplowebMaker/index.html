@@ -881,6 +881,7 @@ document.getElementById("loopButton").disabled = true;
                             console.log("INFO: project data: " + data.target.result);
                             project = JSON.parse(data.target.result);
                             $( "#genericInfoDialog" ).dialog("close");
+                            mj_Seq.delimiter = project["delimiter"];
                             showProject();
                         };
                         reader.readAsText(f);
