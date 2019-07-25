@@ -1466,7 +1466,12 @@ draw_Drawer.main = function() {
 				result7.add(" " + link4.n2.xPos);
 				result7.add(" " + link4.n2.yPos);
 				result7.add("' stroke='");
-				result7.add(link4.strokeColor);
+				if(link4.strokeColor == null) {
+					haxe_Log.trace("WRN: Use black instead of null as strokecolor",{ fileName : "Link.hx", lineNumber : 71, className : "draw.Link", methodName : "getLinkSvg"});
+					result7.add("black");
+				} else {
+					result7.add(link4.strokeColor);
+				}
 				result7.add("' stroke-width='");
 				result7.add(link4.strokeWidth + "' ");
 				if(!link4.dashedArray.isEmpty()) {
@@ -1524,7 +1529,12 @@ draw_Drawer.main = function() {
 					result7.add(" " + (link4.n2.xPos + v10X * l3));
 					result7.add(" " + (link4.n2.yPos + v10Y * l3));
 					result7.add("' stroke='");
-					result7.add(c);
+					if(link4.strokeColor == null) {
+						haxe_Log.trace("WRN: Use black instead of null as strokecolor",{ fileName : "Link.hx", lineNumber : 128, className : "draw.Link", methodName : "getLinkSvg"});
+						result7.add("black");
+					} else {
+						result7.add(c);
+					}
 					result7.add("' stroke-width='");
 					result7.add(d2 * factor + "' ");
 					if(!link4.dashedArray.isEmpty()) {
@@ -2111,7 +2121,7 @@ draw_Graph.prototype = {
 					}
 					name = result;
 				}
-				var colorName = "black";
+				var colorName = null;
 				var _g_head2 = l.h;
 				while(_g_head2 != null) {
 					var val2 = _g_head2.item;
@@ -2255,7 +2265,7 @@ draw_Graph.prototype = {
 					}
 					var nn2 = result1;
 					if(nn1 == nn2) {
-						var colorName = null;
+						var colorName = "black";
 						if(ignoreCase) {
 							var _g_head3 = l.h;
 							while(_g_head3 != null) {
@@ -3175,7 +3185,12 @@ draw_Graph.prototype = {
 					result2.add(" " + link1.n2.xPos);
 					result2.add(" " + link1.n2.yPos);
 					result2.add("' stroke='");
-					result2.add(link1.strokeColor);
+					if(link1.strokeColor == null) {
+						haxe_Log.trace("WRN: Use black instead of null as strokecolor",{ fileName : "Link.hx", lineNumber : 71, className : "draw.Link", methodName : "getLinkSvg"});
+						result2.add("black");
+					} else {
+						result2.add(link1.strokeColor);
+					}
 					result2.add("' stroke-width='");
 					result2.add(link1.strokeWidth + "' ");
 					if(!link1.dashedArray.isEmpty()) {
@@ -3233,7 +3248,12 @@ draw_Graph.prototype = {
 						result2.add(" " + (link1.n2.xPos + v10X * l));
 						result2.add(" " + (link1.n2.yPos + v10Y * l));
 						result2.add("' stroke='");
-						result2.add(c);
+						if(link1.strokeColor == null) {
+							haxe_Log.trace("WRN: Use black instead of null as strokecolor",{ fileName : "Link.hx", lineNumber : 128, className : "draw.Link", methodName : "getLinkSvg"});
+							result2.add("black");
+						} else {
+							result2.add(c);
+						}
 						result2.add("' stroke-width='");
 						result2.add(d * factor + "' ");
 						if(!link1.dashedArray.isEmpty()) {
@@ -4280,7 +4300,12 @@ draw_Link.prototype = {
 			result.add(" " + this.n2.xPos);
 			result.add(" " + this.n2.yPos);
 			result.add("' stroke='");
-			result.add(this.strokeColor);
+			if(this.strokeColor == null) {
+				haxe_Log.trace("WRN: Use black instead of null as strokecolor",{ fileName : "Link.hx", lineNumber : 71, className : "draw.Link", methodName : "getLinkSvg"});
+				result.add("black");
+			} else {
+				result.add(this.strokeColor);
+			}
 			result.add("' stroke-width='");
 			result.add(this.strokeWidth + "' ");
 			if(!this.dashedArray.isEmpty()) {
@@ -4338,7 +4363,12 @@ draw_Link.prototype = {
 				result.add(" " + (this.n2.xPos + v10X * l));
 				result.add(" " + (this.n2.yPos + v10Y * l));
 				result.add("' stroke='");
-				result.add(c);
+				if(this.strokeColor == null) {
+					haxe_Log.trace("WRN: Use black instead of null as strokecolor",{ fileName : "Link.hx", lineNumber : 128, className : "draw.Link", methodName : "getLinkSvg"});
+					result.add("black");
+				} else {
+					result.add(c);
+				}
 				result.add("' stroke-width='");
 				result.add(d * factor + "' ");
 				if(!this.dashedArray.isEmpty()) {
