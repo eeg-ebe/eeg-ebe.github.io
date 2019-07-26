@@ -1222,6 +1222,9 @@ document.getElementById("loopButton").disabled = true;
                         }
                     }
                 ],
+                create: function( event, ui ) {
+                    $('.ui-dialog-buttonset').prependTo('.ui-dialog-titlebar');
+                },
                 hide: {
                     effect: "explode",
                     duration: 1000
