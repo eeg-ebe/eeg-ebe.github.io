@@ -244,7 +244,7 @@ var FastaAlignmentParser = function(fileContent,allChecks,allSort,fileNr) {
 			var _g16 = line.length;
 			while(_g21 < _g16) {
 				var i = _g21++;
-				var $char = line.charAt(i);
+				var $char = line.charAt(i).toUpperCase();
 				var _this = FastaAlignmentParser.authorizedCharacters;
 				if(!(__map_reserved[$char] != null ? _this.existsReserved($char) : _this.h.hasOwnProperty($char))) {
 					SeqPhase1Result.instance().addErr("Unknown character state " + $char + " in " + current.getName() + ", line " + lineNo,fileNr);

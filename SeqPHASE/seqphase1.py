@@ -269,7 +269,7 @@ class FastaAlignmentParser:
                 while (_g21 < _g16):
                     i = _g21
                     _g21 = (_g21 + 1)
-                    char = ("" if (((i < 0) or ((i >= len(line))))) else line[i])
+                    char = ("" if (((i < 0) or ((i >= len(line))))) else line[i]).upper()
                     if (not (char in FastaAlignmentParser.authorizedCharacters.h)):
                         SeqPhase1Result.instance().addErr(((((("Unknown character state " + ("null" if char is None else char)) + " in ") + HxOverrides.stringOrNull(current.getName())) + ", line ") + Std.string(lineNo)),fileNr)
                     elif (allChecks and ((FastaAlignmentParser.authorizedCharacters.h.get(char,None) == False))):

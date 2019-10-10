@@ -495,7 +495,7 @@ class SeqPhase2:
                 myArgs2 = i
                 constFileContent = sys_io_File.getContent((myArgs[myArgs2] if myArgs2 >= 0 and myArgs2 < len(myArgs) else None))
             else:
-                Sys.stderr().writeString(("Error: Unknown commandline option " + ("null" if current is None else current)))
+                Sys.stderr().writeString((("Error: Unknown commandline option " + ("null" if current is None else current)) + "\n"))
                 Sys.exit(1)
             i = (i + 1)
         if (fileContent is None):

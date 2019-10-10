@@ -76,7 +76,7 @@ class FastaAlignmentParser {
                 }
             } else {
                 for(i in 0...line.length) {
-                    var char:String = line.charAt(i);
+                    var char:String = line.charAt(i).toUpperCase();
                     if(!authorizedCharacters.exists(char)) {
                         SeqPhase1Result.instance().addErr("Unknown character state " + char + " in "
                         + current.getName() + ", line " + lineNo, fileNr);
