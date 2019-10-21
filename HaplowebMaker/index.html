@@ -1213,16 +1213,12 @@ document.getElementById("loopButton").disabled = true;
                             project["faFiles"][editSVGId]["graphstyle"] = currentGraphEdit.saveStyle();
                             project["faFiles"][editSVGId]["svg"] = currentGraphEdit.getSvgCode();
                             $( '#editSVGDialog' ).dialog( "close" );
-                            $( '.ui-widget-overlay' ).remove();
-                            $( '.ui-dialog' ).remove();
                         }
                     }, {
                         "text" : languageDicts[language]["dict"]["buttonCancel"],
                         "class" : "dialogCancelButton",
                         "click" : function() {
                             $( '#editSVGDialog' ).dialog( "close" );
-                            $( '.ui-widget-overlay' ).remove();
-                            $( '.ui-dialog' ).remove();
                         }
                     }
                 ],
