@@ -1217,6 +1217,7 @@ document.getElementById("loopButton").disabled = true;
                         "class" : "dialogSaveButton",
                         "click" : function() {
                             if(openEditCircleDialog != null) {
+                                $( '#' + openEditCircleDialog ).dialog("moveToTop");
                                 $( '#' + openEditCircleDialog ).dialog("close");
                             }
                             project["faFiles"][editSVGId]["graphstyle"] = currentGraphEdit.saveStyle();
@@ -1228,6 +1229,7 @@ document.getElementById("loopButton").disabled = true;
                         "class" : "dialogCancelButton",
                         "click" : function() {
                             if(openEditCircleDialog != null) {
+                                $( '#' + openEditCircleDialog ).dialog("moveToTop");
                                 $( '#' + openEditCircleDialog ).dialog("close");
                             }
                             $( '#editSVGDialog' ).dialog( "close" );
