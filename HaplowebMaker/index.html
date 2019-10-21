@@ -619,7 +619,7 @@ try {
                                 "click" : function() {
                                     $( '#' + nodeId ).dialog( "close" );
                                     $( '#' + nodeId ).remove();
-                                    $( "#modalOverlay" ).hide();
+                                    openEditCircleDialog = null;
                                 }
                             }],
                             hide: {
@@ -632,7 +632,6 @@ try {
                         });
                         $( '#' + nodeId ).dialog('option', 'title', "INFO"); // TODO languageDicts[language]["dict"]["cite.label"]
                         $( '#' + nodeId ).dialog("open");
-                        $( "#modalOverlay" ).show();
                         // hack in order to bring this dialog to the front
                         setTimeout( function() { $( '#' + nodeId ).dialog('moveToTop'); }, 120);
                     }
@@ -1219,6 +1218,7 @@ document.getElementById("loopButton").disabled = true;
                             if(openEditCircleDialog != null) {
                                 $( '#' + openEditCircleDialog ).dialog("moveToTop");
                                 $( '#' + openEditCircleDialog ).dialog("close");
+                                openEditCircleDialog = null;
                             }
                             project["faFiles"][editSVGId]["graphstyle"] = currentGraphEdit.saveStyle();
                             project["faFiles"][editSVGId]["svg"] = currentGraphEdit.getSvgCode();
@@ -1231,6 +1231,7 @@ document.getElementById("loopButton").disabled = true;
                             if(openEditCircleDialog != null) {
                                 $( '#' + openEditCircleDialog ).dialog("moveToTop");
                                 $( '#' + openEditCircleDialog ).dialog("close");
+                                openEditCircleDialog = null;
                             }
                             $( '#editSVGDialog' ).dialog( "close" );
                         }
