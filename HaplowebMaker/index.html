@@ -628,7 +628,7 @@ try {
                         $( '#' + nodeId ).dialog("open");
                         $( "#modalOverlay" ).show();
                         // hack in order to bring this dialog to the front
-                        setTimeout( function() { $( '#' + nodeId ).parent().css('z-index', 250); }, 120);
+                        setTimeout( function() { $( '#' + nodeId ).moveToTop(); }, 120);
                     }
                 }
                 function updateSVG() {
