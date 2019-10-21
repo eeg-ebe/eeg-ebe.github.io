@@ -602,11 +602,17 @@ try {
                     initObjX = selectedObj.xPos;
                     initObjY = selectedObj.yPos;
                 }
+                function removePreviousCircleDialogs() {
+                    if(openEditCircleDialog != null) {
+                        $( '#' + openEditCircleDialog ).dialog("moveToTop");
+                        $( '#' + openEditCircleDialog ).dialog("close");
+                        $( '#' + openEditCircleDialog ).remove();
+                    }
+                    openEditCircleDialog = null;
+                }
                 function showDetailsMenu(obj) {
                     if('pie' in selectedObj) { // obj is a nodepos object
-                        if (openEditCircleDialog != null) {
-                            $( '#' + openEditCircleDialog ).dialog("close");
-                        }
+                        removePreviousCircleDialogs();
                         var nodeId = "editObjCirlce" + obj.node.id + "Dialog";
                         openEditCircleDialog = nodeId;
                         $("body").append($("<div id='" + nodeId + "'>" + obj.getDivContent() + "</div>"));
@@ -617,9 +623,7 @@ try {
                                 "text" : languageDicts[language]["dict"]["buttonOk"],
                                 "class" : "dialogOkButton",
                                 "click" : function() {
-                                    $( '#' + nodeId ).dialog( "close" );
-                                    $( '#' + nodeId ).remove();
-                                    openEditCircleDialog = null;
+                                    removePreviousCircleDialogs();
                                 }
                             }],
                             hide: {
@@ -1215,11 +1219,7 @@ document.getElementById("loopButton").disabled = true;
                         "text" : languageDicts[language]["dict"]["buttonSave"],
                         "class" : "dialogSaveButton",
                         "click" : function() {
-                            if(openEditCircleDialog != null) {
-                                $( '#' + openEditCircleDialog ).dialog("moveToTop");
-                                $( '#' + openEditCircleDialog ).dialog("close");
-                                openEditCircleDialog = null;
-                            }
+                            removePreviousCircleDialogs();
                             project["faFiles"][editSVGId]["graphstyle"] = currentGraphEdit.saveStyle();
                             project["faFiles"][editSVGId]["svg"] = currentGraphEdit.getSvgCode();
                             $( '#editSVGDialog' ).dialog( "close" );
@@ -1228,11 +1228,7 @@ document.getElementById("loopButton").disabled = true;
                         "text" : languageDicts[language]["dict"]["buttonCancel"],
                         "class" : "dialogCancelButton",
                         "click" : function() {
-                            if(openEditCircleDialog != null) {
-                                $( '#' + openEditCircleDialog ).dialog("moveToTop");
-                                $( '#' + openEditCircleDialog ).dialog("close");
-                                openEditCircleDialog = null;
-                            }
+                            removePreviousCircleDialogs();
                             $( '#editSVGDialog' ).dialog( "close" );
                         }
                     }
