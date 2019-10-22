@@ -3096,6 +3096,7 @@ draw_Graph.prototype = {
 		var sw;
 		var sh;
 		var l;
+		var minSize = 15;
 		var minCircleSize = Infinity;
 		var _g_head2 = this.nodes.h;
 		while(_g_head2 != null) {
@@ -3107,8 +3108,8 @@ draw_Graph.prototype = {
 		l = minCircleSize;
 		sw = width / 1920 / l;
 		sh = height / 1080 / l;
-		if(!(l * 1920 / width < 5 || l * 1080 / height < 5)) {
-			this.modifyNodes(5 * Math.max(sw,sh));
+		if(!(l * 1920 / width < minSize || l * 1080 / height < minSize)) {
+			this.modifyNodes(minSize * Math.max(sw,sh));
 		}
 		var minLineSize = Infinity;
 		var _g_head3 = this.cons.h;
@@ -3121,8 +3122,8 @@ draw_Graph.prototype = {
 		l = minLineSize;
 		sw = width / 1920 / l;
 		sh = height / 1080 / l;
-		if(!(l * 1920 / width < 5 || l * 1080 / height < 5)) {
-			this.modifyCons(5 * Math.max(sw,sh));
+		if(!(l * 1920 / width < minSize || l * 1080 / height < minSize)) {
+			this.modifyCons(minSize * Math.max(sw,sh));
 		}
 		var minCurveSize = Infinity;
 		var _g_head4 = this.links.h;
@@ -3135,8 +3136,8 @@ draw_Graph.prototype = {
 		l = minCurveSize;
 		sw = width / 1920 / l;
 		sh = height / 1080 / l;
-		if(!(l * 1920 / width < 5 || l * 1080 / height < 5)) {
-			this.modifyLinks(5 * Math.max(sw,sh));
+		if(!(l * 1920 / width < minSize || l * 1080 / height < minSize)) {
+			this.modifyLinks(minSize * Math.max(sw,sh));
 		}
 	}
 	,getSvgCode: function(ow,oh) {
