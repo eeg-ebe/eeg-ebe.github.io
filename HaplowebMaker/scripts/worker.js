@@ -156,6 +156,8 @@ function calculateFaFile(project, i) {
                 g.initStrokeColorListByStr(project["pieChart"], project["upperLowerCaseN"]);
             }
             */
+            // resize nodes / lines / curves if needed
+            g.normalizeGraph();
             // return result
             setFileVal(i, "graphstyle", g.saveStyle());
             setFileVal(i, "svg", g.getSvgCode());

@@ -3043,6 +3043,102 @@ draw_Graph.prototype = {
 		}
 		return minLineSize;
 	}
+	,normalizeGraph: function() {
+		var maxX = -Infinity;
+		var maxY = -Infinity;
+		var minX = Infinity;
+		var minY = Infinity;
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			var tmp = this.drawCirclesNames;
+			maxX = Math.max(maxX,node.xPos + node.radius);
+			maxY = Math.max(maxY,node.yPos + node.radius);
+			minX = Math.min(minX,node.xPos - node.radius);
+			minY = Math.min(minY,node.yPos - node.radius);
+		}
+		var _g_head1 = this.links.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var link = val1;
+			var tMax = 0;
+			var bX = 2 * link.xPos - (link.n1.xPos + link.n2.xPos) / 2;
+			if(2 * bX - link.n1.xPos - link.n2.xPos != 0) {
+				tMax = (bX - link.n1.xPos) / (2 * bX - link.n1.xPos - link.n2.xPos);
+			}
+			if(0 <= tMax && tMax <= 1) {
+				tMax = tMax;
+			} else {
+				tMax = 0;
+			}
+			var x = (1 - tMax) * ((1 - tMax) * link.n1.xPos + tMax * bX) + tMax * ((1 - tMax) * bX + tMax * link.n2.xPos);
+			var tMax1 = 0;
+			var bY = 2 * link.yPos - (link.n1.yPos + link.n2.yPos) / 2;
+			if(2 * bY - link.n1.yPos - link.n2.yPos != 0) {
+				tMax1 = (bY - link.n1.yPos) / (2 * bY - link.n1.yPos - link.n2.yPos);
+			}
+			if(0 <= tMax1 && tMax1 <= 1) {
+				tMax1 = tMax1;
+			} else {
+				tMax1 = 0;
+			}
+			var y = (1 - tMax1) * ((1 - tMax1) * link.n1.yPos + tMax1 * bY) + tMax1 * ((1 - tMax1) * bY + tMax1 * link.n2.yPos);
+			maxX = Math.max(maxX,x);
+			maxY = Math.max(maxY,y);
+			minX = Math.min(minX,x);
+			minY = Math.min(minY,y);
+		}
+		var width = maxX - minX + 30;
+		var height = maxY - minY + 30;
+		var sw;
+		var sh;
+		var l;
+		var minCircleSize = Infinity;
+		var _g_head2 = this.nodes.h;
+		while(_g_head2 != null) {
+			var val2 = _g_head2.item;
+			_g_head2 = _g_head2.next;
+			var node1 = val2;
+			minCircleSize = Math.min(minCircleSize,node1.radius);
+		}
+		l = minCircleSize;
+		sw = width / 1920 / l;
+		sh = height / 1080 / l;
+		if(!(l * 1920 / width < 5 || l * 1080 / height < 5)) {
+			this.modifyNodes(5 * Math.max(sw,sh));
+		}
+		var minLineSize = Infinity;
+		var _g_head3 = this.cons.h;
+		while(_g_head3 != null) {
+			var val3 = _g_head3.item;
+			_g_head3 = _g_head3.next;
+			var con = val3;
+			minLineSize = Math.min(minLineSize,con.strokeWidth);
+		}
+		l = minLineSize;
+		sw = width / 1920 / l;
+		sh = height / 1080 / l;
+		if(!(l * 1920 / width < 5 || l * 1080 / height < 5)) {
+			this.modifyCons(5 * Math.max(sw,sh));
+		}
+		var minCurveSize = Infinity;
+		var _g_head4 = this.links.h;
+		while(_g_head4 != null) {
+			var val4 = _g_head4.item;
+			_g_head4 = _g_head4.next;
+			var link1 = val4;
+			minCurveSize = Math.min(minCurveSize,link1.strokeWidth);
+		}
+		l = minCurveSize;
+		sw = width / 1920 / l;
+		sh = height / 1080 / l;
+		if(!(l * 1920 / width < 5 || l * 1080 / height < 5)) {
+			this.modifyLinks(5 * Math.max(sw,sh));
+		}
+	}
 	,getSvgCode: function(ow,oh) {
 		if(oh == null) {
 			oh = -1;
