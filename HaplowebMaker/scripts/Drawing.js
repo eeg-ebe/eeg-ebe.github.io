@@ -1529,7 +1529,7 @@ draw_Drawer.main = function() {
 					result7.add(" " + (link4.n2.xPos + v10X * l3));
 					result7.add(" " + (link4.n2.yPos + v10Y * l3));
 					result7.add("' stroke='");
-					if(link4.strokeColor == null) {
+					if(c == null) {
 						haxe_Log.trace("WRN: Use black instead of null as strokecolor",{ fileName : "Link.hx", lineNumber : 128, className : "draw.Link", methodName : "getLinkSvg"});
 						result7.add("black");
 					} else {
@@ -3010,6 +3010,39 @@ draw_Graph.prototype = {
 			link.yPos = parseFloat(attrs3[5]);
 		}
 	}
+	,getMinCircleSize: function() {
+		var minCircleSize = Infinity;
+		var _g_head = this.nodes.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var node = val;
+			minCircleSize = Math.min(minCircleSize,node.radius);
+		}
+		return minCircleSize;
+	}
+	,getMinCurveSize: function() {
+		var minCurveSize = Infinity;
+		var _g_head = this.links.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var link = val;
+			minCurveSize = Math.min(minCurveSize,link.strokeWidth);
+		}
+		return minCurveSize;
+	}
+	,getMinLineSize: function() {
+		var minLineSize = Infinity;
+		var _g_head = this.cons.h;
+		while(_g_head != null) {
+			var val = _g_head.item;
+			_g_head = _g_head.next;
+			var con = val;
+			minLineSize = Math.min(minLineSize,con.strokeWidth);
+		}
+		return minLineSize;
+	}
 	,getSvgCode: function(ow,oh) {
 		if(oh == null) {
 			oh = -1;
@@ -3248,7 +3281,7 @@ draw_Graph.prototype = {
 						result2.add(" " + (link1.n2.xPos + v10X * l));
 						result2.add(" " + (link1.n2.yPos + v10Y * l));
 						result2.add("' stroke='");
-						if(link1.strokeColor == null) {
+						if(c == null) {
 							haxe_Log.trace("WRN: Use black instead of null as strokecolor",{ fileName : "Link.hx", lineNumber : 128, className : "draw.Link", methodName : "getLinkSvg"});
 							result2.add("black");
 						} else {
@@ -4363,7 +4396,7 @@ draw_Link.prototype = {
 				result.add(" " + (this.n2.xPos + v10X * l));
 				result.add(" " + (this.n2.yPos + v10Y * l));
 				result.add("' stroke='");
-				if(this.strokeColor == null) {
+				if(c == null) {
 					haxe_Log.trace("WRN: Use black instead of null as strokecolor",{ fileName : "Link.hx", lineNumber : 128, className : "draw.Link", methodName : "getLinkSvg"});
 					result.add("black");
 				} else {
