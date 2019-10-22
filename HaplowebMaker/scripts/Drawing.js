@@ -3108,7 +3108,7 @@ draw_Graph.prototype = {
 		l = minCircleSize;
 		sw = width / 1920 / l;
 		sh = height / 1080 / l;
-		if(!(l * 1920 / width < minSize || l * 1080 / height < minSize)) {
+		if(l * 1920 / width < minSize || l * 1080 / height < minSize) {
 			this.modifyNodes(minSize * Math.max(sw,sh));
 		}
 		var minLineSize = Infinity;
@@ -3122,7 +3122,7 @@ draw_Graph.prototype = {
 		l = minLineSize;
 		sw = width / 1920 / l;
 		sh = height / 1080 / l;
-		if(!(l * 1920 / width < minSize || l * 1080 / height < minSize)) {
+		if(l * 1920 / width < minSize || l * 1080 / height < minSize) {
 			this.modifyCons(minSize * Math.max(sw,sh));
 		}
 		var minCurveSize = Infinity;
@@ -3136,7 +3136,7 @@ draw_Graph.prototype = {
 		l = minCurveSize;
 		sw = width / 1920 / l;
 		sh = height / 1080 / l;
-		if(!(l * 1920 / width < minSize || l * 1080 / height < minSize)) {
+		if(l * 1920 / width < minSize || l * 1080 / height < minSize) {
 			this.modifyLinks(minSize * Math.max(sw,sh));
 		}
 	}
