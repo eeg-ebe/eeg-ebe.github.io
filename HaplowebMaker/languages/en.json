@@ -123,7 +123,7 @@
     "areaShouldBePropToNrInd.label" : "Haplotype frequency",
     "pieChartAdvSet.title" : "Tab delimited file. In this file the individuals are listed in the first and the second column attributes one color to each of them.",
     "pieChartAdvSet.label" : "Color file",
-    "indelIs5State.text" : "Some of your sequences start with '-' (indel character). Please be aware that HaplowebMaker consider the indel character as a 5th character state, not as missing information",
+    "indelIs5State.text" : "Some of your sequences start or end with '-' (indel character). Please be aware that HaplowebMaker consider the indel character as a 5th character state, not as missing information",
     "pieChartsByIndNameOnly.title" : "",
     "pieChartsByIndNameOnly.label" : "Name is sufficient for pie chart",
     "colorByFFR.title" : "When this option is ticked each FFR gets a color attributed.",
