@@ -322,25 +322,41 @@ SeqPhase2.processLines = function(indName,seqLine1,seqLine2,$const,lineNo) {
 		var c2 = pLine2[i];
 		var processed1 = false;
 		var processed2 = false;
-		if(c1.charAt(0) == "[") {
+		if(c1.charAt(0) == "[" || c2.charAt(0) == "[") {
 			r1.add("N");
 			r2.add("N");
 			processed1 = true;
 			processed2 = true;
 		}
 		if(c1.charAt(0) == "(") {
-			r1.add(SeqPhase2.getSumCode(c1,c2));
+			var toAdd = SeqPhase2.getSumCode(c1,c2);
+			if(toAdd == null || toAdd == "") {
+				throw new js__$Boot_HaxeError("Unexpected input: Parsing error for " + indName + " " + toAdd + " " + i + " " + c1 + " " + c2 + " (1)");
+			}
+			r1.add(toAdd);
 			processed1 = true;
 		}
 		if(c2.charAt(0) == "(") {
-			r2.add(SeqPhase2.getSumCode(c2,c1));
+			var toAdd1 = SeqPhase2.getSumCode(c2,c1);
+			if(toAdd1 == null || toAdd1 == "") {
+				throw new js__$Boot_HaxeError("Unexpected input: Parsing error for " + indName + " " + toAdd1 + " " + i + " " + c1 + " " + c2 + " (2)");
+			}
+			r2.add(toAdd1);
 			processed2 = true;
 		}
 		if(!processed1) {
-			r1.add(SeqPhase2.code.h[Std.parseInt(c1)]);
+			var toAdd2 = SeqPhase2.code.h[Std.parseInt(c1)];
+			if(toAdd2 == null || toAdd2 == "") {
+				throw new js__$Boot_HaxeError("Unexpected input: Parsing error for " + indName + " " + toAdd2 + " " + i + " " + c1 + " " + c2 + " (3)");
+			}
+			r1.add(toAdd2);
 		}
 		if(!processed2) {
-			r2.add(SeqPhase2.code.h[Std.parseInt(c2)]);
+			var toAdd3 = SeqPhase2.code.h[Std.parseInt(c2)];
+			if(toAdd3 == null || toAdd3 == "") {
+				throw new js__$Boot_HaxeError("Unexpected input: Parsing error for " + indName + " " + toAdd3 + " " + i + " " + c1 + " " + c2 + " (4)");
+			}
+			r2.add(toAdd3);
 		}
 	}
 	var seq1 = new List();

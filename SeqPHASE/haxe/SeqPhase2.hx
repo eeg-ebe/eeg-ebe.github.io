@@ -203,7 +203,7 @@ class SeqPhase2 {
             var processed1:Bool = false;
             var processed2:Bool = false;
             // [] => N
-            if (c1.charAt(0) == "[") {
+            if (c1.charAt(0) == "[" || c2.charAt(0) == "[") {
                 r1.add("N");
                 r2.add("N");
                 processed1 = true;
@@ -211,18 +211,34 @@ class SeqPhase2 {
             }
             // () => sum
             if (c1.charAt(0) == "(") {
-                r1.add(getSumCode(c1, c2));
+                var toAdd:String = getSumCode(c1, c2);
+                if(toAdd == null || toAdd == "") {
+                    throw "Unexpected input: Parsing error for " + indName + " " + toAdd + " " + i + " " + c1 + " " + c2 + " (1)";
+                }
+                r1.add(toAdd);
                 processed1 = true;
             }
             if (c2.charAt(0) == "(") {
-                r2.add(getSumCode(c2, c1));
+                var toAdd:String = getSumCode(c2, c1);
+                if(toAdd == null || toAdd == "") {
+                    throw "Unexpected input: Parsing error for " + indName + " " + toAdd + " " + i + " " + c1 + " " + c2 + " (2)";
+                }
+                r2.add(toAdd);
                 processed2 = true;
             }
             if (!processed1) {
-                r1.add(code.get(Std.parseInt(c1)));
+                var toAdd:String = code.get(Std.parseInt(c1));
+                if(toAdd == null || toAdd == "") {
+                    throw "Unexpected input: Parsing error for " + indName + " " + toAdd + " " + i + " " + c1 + " " + c2 + " (3)";
+                }
+                r1.add(toAdd);
             }
             if (!processed2) {
-                r2.add(code.get(Std.parseInt(c2)));
+                var toAdd:String = code.get(Std.parseInt(c2));
+                if(toAdd == null || toAdd == "") {
+                    throw "Unexpected input: Parsing error for " + indName + " " + toAdd + " " + i + " " + c1 + " " + c2 + " (4)";
+                }
+                r2.add(toAdd);
             }
         }
         var seq1:List<String> = new List<String>();

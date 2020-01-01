@@ -421,25 +421,37 @@ class SeqPhase2:
             c2 = (pLine2[i] if i >= 0 and i < len(pLine2) else None)
             processed1 = False
             processed2 = False
-            if ((("" if ((0 >= len(c1))) else c1[0])) == "["):
+            if (((("" if ((0 >= len(c1))) else c1[0])) == "[") or (((("" if ((0 >= len(c2))) else c2[0])) == "["))):
                 r1.add("N")
                 r2.add("N")
                 processed1 = True
                 processed2 = True
             if ((("" if ((0 >= len(c1))) else c1[0])) == "("):
-                r1.add(SeqPhase2.getSumCode(c1,c2))
+                toAdd = SeqPhase2.getSumCode(c1,c2)
+                if ((toAdd is None) or ((toAdd == ""))):
+                    raise _HxException((((((((((("Unexpected input: Parsing error for " + ("null" if indName is None else indName)) + " ") + ("null" if toAdd is None else toAdd)) + " ") + Std.string(i)) + " ") + ("null" if c1 is None else c1)) + " ") + ("null" if c2 is None else c2)) + " (1)"))
+                r1.add(toAdd)
                 processed1 = True
             if ((("" if ((0 >= len(c2))) else c2[0])) == "("):
-                r2.add(SeqPhase2.getSumCode(c2,c1))
+                toAdd1 = SeqPhase2.getSumCode(c2,c1)
+                if ((toAdd1 is None) or ((toAdd1 == ""))):
+                    raise _HxException((((((((((("Unexpected input: Parsing error for " + ("null" if indName is None else indName)) + " ") + ("null" if toAdd1 is None else toAdd1)) + " ") + Std.string(i)) + " ") + ("null" if c1 is None else c1)) + " ") + ("null" if c2 is None else c2)) + " (2)"))
+                r2.add(toAdd1)
                 processed2 = True
             if (not processed1):
                 _this = SeqPhase2.code
                 key = Std.parseInt(c1)
-                r1.add(_this.h.get(key,None))
+                toAdd2 = _this.h.get(key,None)
+                if ((toAdd2 is None) or ((toAdd2 == ""))):
+                    raise _HxException((((((((((("Unexpected input: Parsing error for " + ("null" if indName is None else indName)) + " ") + ("null" if toAdd2 is None else toAdd2)) + " ") + Std.string(i)) + " ") + ("null" if c1 is None else c1)) + " ") + ("null" if c2 is None else c2)) + " (3)"))
+                r1.add(toAdd2)
             if (not processed2):
                 _this1 = SeqPhase2.code
                 key1 = Std.parseInt(c2)
-                r2.add(_this1.h.get(key1,None))
+                toAdd3 = _this1.h.get(key1,None)
+                if ((toAdd3 is None) or ((toAdd3 == ""))):
+                    raise _HxException((((((((((("Unexpected input: Parsing error for " + ("null" if indName is None else indName)) + " ") + ("null" if toAdd3 is None else toAdd3)) + " ") + Std.string(i)) + " ") + ("null" if c1 is None else c1)) + " ") + ("null" if c2 is None else c2)) + " (4)"))
+                r2.add(toAdd3)
         seq1 = List()
         seq2 = List()
         doesNotMatch = False
