@@ -57,6 +57,7 @@ class FastaAlignmentParser {
         var entryMap:StringMap<Entry> = new StringMap<Entry>();
         var current:Null<Entry> = null;
         var lineNo:Int = 0;
+        var underscoreWarningOutputted:Bool = false;
         for (line in lines) {
             lineNo++;
             line = stripString(line);
@@ -64,6 +65,14 @@ class FastaAlignmentParser {
                 continue;
             } else if (startsWith(line, ">")) { // header
                 var indName:String = stripString(line.substr(1));
+                var indNameCor:String = StringTools.replace(indName, " ", "_");
+                if(indName != indNameCor) { // PHASE does not accept spaces in individual names. So replace by underscore
+                    if(!underscoreWarningOutputted) {
+                        SeqPhase1Result.instance().addWrn("Warning: PHASE does not accept spaces in individual names. These spaces got replaced by underscore characters.", fileNr);
+                        underscoreWarningOutputted = true;
+                    }
+                    indName = indNameCor;
+                }
                 if(entryMap.exists(indName)) {
                     SeqPhase1Result.instance().addErr("Repeat of name " + indName
                         + " encountered in alignment (line " +  lineNo + ", line "
