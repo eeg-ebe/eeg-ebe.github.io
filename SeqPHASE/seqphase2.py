@@ -421,10 +421,11 @@ class SeqPhase2:
             c2 = (pLine2[i] if i >= 0 and i < len(pLine2) else None)
             processed1 = False
             processed2 = False
-            if (((("" if ((0 >= len(c1))) else c1[0])) == "[") or (((("" if ((0 >= len(c2))) else c2[0])) == "["))):
+            if ((("" if ((0 >= len(c1))) else c1[0])) == "["):
                 r1.add("N")
-                r2.add("N")
                 processed1 = True
+            if ((("" if ((0 >= len(c2))) else c2[0])) == "["):
+                r2.add("N")
                 processed2 = True
             if ((("" if ((0 >= len(c1))) else c1[0])) == "("):
                 toAdd = SeqPhase2.getSumCode(c1,c2)

@@ -322,10 +322,12 @@ SeqPhase2.processLines = function(indName,seqLine1,seqLine2,$const,lineNo) {
 		var c2 = pLine2[i];
 		var processed1 = false;
 		var processed2 = false;
-		if(c1.charAt(0) == "[" || c2.charAt(0) == "[") {
+		if(c1.charAt(0) == "[") {
 			r1.add("N");
-			r2.add("N");
 			processed1 = true;
+		}
+		if(c2.charAt(0) == "[") {
+			r2.add("N");
 			processed2 = true;
 		}
 		if(c1.charAt(0) == "(") {

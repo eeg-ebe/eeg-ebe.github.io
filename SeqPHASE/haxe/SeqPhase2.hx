@@ -203,10 +203,12 @@ class SeqPhase2 {
             var processed1:Bool = false;
             var processed2:Bool = false;
             // [] => N
-            if (c1.charAt(0) == "[" || c2.charAt(0) == "[") {
+            if (c1.charAt(0) == "[") {
                 r1.add("N");
-                r2.add("N");
                 processed1 = true;
+            }
+            if (c2.charAt(0) == "[") {
+                r2.add("N");
                 processed2 = true;
             }
             // () => sum
