@@ -13,6 +13,7 @@ try:
 except:
     pass
 import random as python_lib_Random
+import re as python_lib_Re
 import subprocess as python_lib_Subprocess
 import sys as python_lib_Sys
 try:
@@ -50,6 +51,56 @@ class Enum:
         else:
             _this = self.params
             return (((HxOverrides.stringOrNull(self.tag) + "(") + HxOverrides.stringOrNull(",".join([python_Boot.toString1(x1,'') for x1 in _this]))) + ")")
+
+
+
+class EReg:
+    _hx_class_name = "EReg"
+    __slots__ = ("pattern", "matchObj", "_hx_global")
+    _hx_fields = ["pattern", "matchObj", "global"]
+    _hx_methods = ["split"]
+
+    def __init__(self,r,opt):
+        self.matchObj = None
+        self._hx_global = False
+        options = 0
+        _g1 = 0
+        _g = len(opt)
+        while (_g1 < _g):
+            i = _g1
+            _g1 = (_g1 + 1)
+            c = (-1 if ((i >= len(opt))) else ord(opt[i]))
+            if (c == 109):
+                options = (options | python_lib_Re.M)
+            if (c == 105):
+                options = (options | python_lib_Re.I)
+            if (c == 115):
+                options = (options | python_lib_Re.S)
+            if (c == 117):
+                options = (options | python_lib_Re.U)
+            if (c == 103):
+                self._hx_global = True
+        self.pattern = python_lib_Re.compile(r,options)
+
+    def split(self,s):
+        if self._hx_global:
+            ret = []
+            lastEnd = 0
+            x = python_HaxeIterator(python_lib_Re.finditer(self.pattern,s))
+            while x.hasNext():
+                x1 = x.next()
+                x2 = HxString.substring(s,lastEnd,x1.start())
+                ret.append(x2)
+                lastEnd = x1.end()
+            x3 = HxString.substr(s,lastEnd,None)
+            ret.append(x3)
+            return ret
+        else:
+            self.matchObj = python_lib_Re.search(self.pattern,s)
+            if (self.matchObj is None):
+                return [s]
+            else:
+                return [HxString.substring(s,0,self.matchObj.start()), HxString.substr(s,self.matchObj.end(),None)]
 
 
 
@@ -352,8 +403,9 @@ class SeqPhase2:
     @staticmethod
     def processLines(indName,seqLine1,seqLine2,const,lineNo):
         result = List()
-        pLine1 = seqLine1.split(" ")
-        pLine2 = seqLine2.split(" ")
+        r = EReg(" +","g")
+        pLine1 = r.split(seqLine1)
+        pLine2 = r.split(seqLine2)
         if (len(pLine1) != len(pLine2)):
             raise _HxException((((("Error: Sequences have different lengths. Please check sequences of individual " + ("null" if indName is None else indName)) + " (line ") + Std.string(((lineNo - 2)))) + "ff.) in input file."))
         if ((const is None) or ((const == ""))):
@@ -409,7 +461,7 @@ class SeqPhase2:
                 seq1.add(_hx_chr)
                 seq2.add(_hx_chr)
         if ((doesNotMatch or ((r1.length != 0))) or ((r2.length != 0))):
-            raise _HxException("Error: The data in the const and in the input file do not match; please check input data.")
+            raise _HxException((((((("Error: The data in the const and in the input file do not match; please check input data. (" + Std.string(doesNotMatch)) + ", ") + Std.string(r1.length)) + ", ") + Std.string(r2.length)) + ")"))
         ind = Individual(indName,seq1.join(""),seq2.join(""),-1,1.0)
         result.add(ind)
         return result

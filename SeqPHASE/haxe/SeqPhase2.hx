@@ -186,8 +186,9 @@ class SeqPhase2 {
 
     public static function processLines(indName:String, seqLine1:String, seqLine2:String, const:String, lineNo:Int):List<Individual> {
         var result:List<Individual> = new List<Individual>();
-        var pLine1:Array<String> = seqLine1.split(" ");
-        var pLine2:Array<String> = seqLine2.split(" ");
+        var r = ~/ +/g;
+        var pLine1:Array<String> = r.split(seqLine1);
+        var pLine2:Array<String> = r.split(seqLine2);
         if (pLine1.length != pLine2.length) {
             throw "Error: Sequences have different lengths. Please check sequences of individual " + indName + " (line " + (lineNo-2) + "ff.) in input file.";
         }
@@ -244,7 +245,7 @@ class SeqPhase2 {
             }
         }
         if (doesNotMatch || r1.length != 0 || r2.length != 0) {
-            throw "Error: The data in the const and in the input file do not match; please check input data.";
+            throw "Error: The data in the const and in the input file do not match; please check input data. (" + doesNotMatch + ", " + r1.length + ", " + r2.length + ")";
         }
         var ind:Individual = new Individual(indName, seq1.join(""), seq2.join(""), -1, 1.0);
         result.add(ind);

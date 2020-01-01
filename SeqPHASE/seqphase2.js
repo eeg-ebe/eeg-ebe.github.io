@@ -5,6 +5,16 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var EReg = function(r,opt) {
+	this.r = new RegExp(r,opt.split("u").join(""));
+};
+EReg.__name__ = true;
+EReg.prototype = {
+	split: function(s) {
+		var d = "#__delim__#";
+		return s.replace(this.r,d).split(d);
+	}
+};
 var HxOverrides = function() { };
 HxOverrides.__name__ = true;
 HxOverrides.cca = function(s,index) {
@@ -293,8 +303,9 @@ SeqPhase2.getSumCode = function(c1,c2) {
 };
 SeqPhase2.processLines = function(indName,seqLine1,seqLine2,$const,lineNo) {
 	var result = new List();
-	var pLine1 = seqLine1.split(" ");
-	var pLine2 = seqLine2.split(" ");
+	var r = new EReg(" +","g");
+	var pLine1 = r.split(seqLine1);
+	var pLine2 = r.split(seqLine2);
 	if(pLine1.length != pLine2.length) {
 		throw new js__$Boot_HaxeError("Error: Sequences have different lengths. Please check sequences of individual " + indName + " (line " + (lineNo - 2) + "ff.) in input file.");
 	}
@@ -355,7 +366,7 @@ SeqPhase2.processLines = function(indName,seqLine1,seqLine2,$const,lineNo) {
 		}
 	}
 	if(doesNotMatch || r1.length != 0 || r2.length != 0) {
-		throw new js__$Boot_HaxeError("Error: The data in the const and in the input file do not match; please check input data.");
+		throw new js__$Boot_HaxeError("Error: The data in the const and in the input file do not match; please check input data. (" + (doesNotMatch == null ? "null" : "" + doesNotMatch) + ", " + r1.length + ", " + r2.length + ")");
 	}
 	var ind = new Individual(indName,seq1.join(""),seq2.join(""),-1,1.0);
 	result.add(ind);
