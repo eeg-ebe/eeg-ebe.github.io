@@ -162,6 +162,7 @@ class FastaAlignmentParser:
         entryMap = haxe_ds_StringMap()
         current = None
         lineNo = 0
+        underscoreWarningOutputted = False
         _g3 = 0
         while (_g3 < len(lines)):
             line = (lines[_g3] if _g3 >= 0 and _g3 < len(lines) else None)
@@ -257,6 +258,12 @@ class FastaAlignmentParser:
                         break
                     begin2 = (begin2 + 1)
                 indName = HxString.substr(s3,begin2,None)
+                indNameCor = StringTools.replace(indName," ","_")
+                if (indName != indNameCor):
+                    if (not underscoreWarningOutputted):
+                        SeqPhase1Result.instance().addWrn("Warning: PHASE does not accept spaces in individual names. These spaces got replaced by underscore characters.",fileNr)
+                        underscoreWarningOutputted = True
+                    indName = indNameCor
                 if (indName in entryMap.h):
                     SeqPhase1Result.instance().addErr((((((("Repeat of name " + ("null" if indName is None else indName)) + " encountered in alignment (line ") + Std.string(lineNo)) + ", line ") + Std.string(entryMap.h.get(indName,None).getLineNo())) + ")"),fileNr)
                 current = Entry(lineNo,indName)
@@ -1313,7 +1320,7 @@ class Std:
 class StringTools:
     _hx_class_name = "StringTools"
     __slots__ = ()
-    _hx_statics = ["startsWith"]
+    _hx_statics = ["startsWith", "replace"]
 
     @staticmethod
     def startsWith(s,start):
@@ -1321,6 +1328,11 @@ class StringTools:
             return (HxString.substr(s,0,len(start)) == start)
         else:
             return False
+
+    @staticmethod
+    def replace(s,sub,by):
+        _this = (list(s) if ((sub == "")) else s.split(sub))
+        return by.join([python_Boot.toString1(x1,'') for x1 in _this])
 
 
 class sys_FileSystem:
