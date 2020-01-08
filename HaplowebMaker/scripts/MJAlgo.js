@@ -2704,7 +2704,18 @@ mj_MJAlgo.prototype = {
 		return this.seqCount;
 	}
 	,getNrDifSeqs: function() {
-		return this.seqs.size;
+		var normal = 0;
+		var median = 0;
+		var current = this.seqs.first;
+		while(current != null) {
+			if(current.names.length != 0) {
+				++normal;
+			} else {
+				++median;
+			}
+			current = current.next;
+		}
+		return normal + "+" + median;
 	}
 	,getSeqLength: function() {
 		return this.seqs.origSeqLen;
