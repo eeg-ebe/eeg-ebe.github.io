@@ -58,7 +58,7 @@ function calculateFaFile(project, i) {
                 var c = seq.charAt(chIndex).toUpperCase();
                 if(!(c == 'A' || c == 'T' || c == 'G' || c == 'C' || c == '-')) {
                     if(project["ambigStrat"] == "error") {
-                        if (c == 'R' || c == 'Y' || c == 'K' || c == 'M' || c == 'S' || c == 'W' || c == 'B' || c == 'D' || c == 'H' || c == 'V' || c == 'N') {
+                        if (c == 'R' || c == 'Y' || c == 'K' || c == 'M' || c == 'S' || c == 'W' || c == 'B' || c == 'D' || c == 'H' || c == 'V' || c == 'N' || c == '?') {
                             throw new js__$Boot_HaxeError("Your input FASTA file contains one or several ambiguities (" + c + "). Please make sure that all your sequences are properly phased and do not contain any ambiguities before running HaplowebMaker. (Or enable an option for treating ambiguities ...)");
                         }
                         throw new js__$Boot_HaxeError("Your input FASTA file contains one or several unauthorized characters (" + c + ")!");
