@@ -498,13 +498,18 @@ class SeqPhase2:
             _g = (_g + 1)
             line = SeqPhase2.removePossibleLineEndingR(line)
             lineNo = (lineNo + 1)
-            if (line == "BEGIN BESTPAIRS1"):
+            if ((line == "BEGIN BESTPAIRS1") or ((line == "BEGIN GENOTYPES"))):
                 seenBeginBestPairs1 = True
-            elif (line == "END BESTPAIRS1"):
+            elif ((line == "END BESTPAIRS1") or ((line == "END GENOTYPES"))):
                 break
             elif seenBeginBestPairs1:
+                isThatAnEmptyLine = StringTools.trim(line)
+                if (isThatAnEmptyLine == ""):
+                    continue
                 if (currentIndividualName is None):
                     currentIndividualName = HxOverrides.arrayGet(line.split(" "), 1)
+                    if (currentIndividualName is None):
+                        currentIndividualName = line
                 elif (currentSeq1 is None):
                     currentSeq1 = line
                 else:

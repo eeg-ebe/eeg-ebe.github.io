@@ -409,13 +409,20 @@ SeqPhase2.parseOutFile = function(fileContent,$const) {
 		++_g;
 		line = SeqPhase2.removePossibleLineEndingR(line);
 		++lineNo;
-		if(line == "BEGIN BESTPAIRS1") {
+		if(line == "BEGIN BESTPAIRS1" || line == "BEGIN GENOTYPES") {
 			seenBeginBestPairs1 = true;
-		} else if(line == "END BESTPAIRS1") {
+		} else if(line == "END BESTPAIRS1" || line == "END GENOTYPES") {
 			break;
 		} else if(seenBeginBestPairs1) {
+			var isThatAnEmptyLine = StringTools.trim(line);
+			if(isThatAnEmptyLine == "") {
+				continue;
+			}
 			if(currentIndividualName == null) {
 				currentIndividualName = line.split(" ")[1];
+				if(currentIndividualName == null) {
+					currentIndividualName = line;
+				}
 			} else if(currentSeq1 == null) {
 				currentSeq1 = line;
 			} else {
