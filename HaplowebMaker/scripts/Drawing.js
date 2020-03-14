@@ -2419,7 +2419,7 @@ draw_Graph.prototype = {
 					}
 				}
 				if(colorName == null) {
-					haxe_Log.trace("WARN: No colorname found/given for '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 104, className : "draw.NodePos", methodName : "set_pieByLst"});
+					throw new js__$Boot_HaxeError("No colorname found/given for '" + name + "'!");
 				}
 				var found = false;
 				var _g_head3 = l_.h;
@@ -2487,7 +2487,7 @@ draw_Graph.prototype = {
 					}
 				}
 				if(colorName == null) {
-					haxe_Log.trace("WARN: No colorname found/given for '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 104, className : "draw.NodePos", methodName : "set_pieByLst"});
+					throw new js__$Boot_HaxeError("No colorname found/given for '" + name + "'!");
 				}
 				var found = false;
 				var _g_head3 = l_.h;
@@ -4955,7 +4955,7 @@ draw_NodePos.prototype = {
 				}
 			}
 			if(colorName == null) {
-				haxe_Log.trace("WARN: No colorname found/given for '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 104, className : "draw.NodePos", methodName : "set_pieByLst"});
+				throw new js__$Boot_HaxeError("No colorname found/given for '" + name + "'!");
 			}
 			var found = false;
 			var _g_head2 = l_.h;
