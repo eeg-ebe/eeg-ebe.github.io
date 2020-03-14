@@ -468,13 +468,17 @@
                         var reader2 = new FileReader();
                         reader2.onload = function(data) {
                             // parse
-                            project["pieChart"] = data.target.result;
-                            if(typeof project["pieChart"] !== "undefined") {
-                                currentGraphEdit.assingPiesByTxt(project["pieChart"], project["upperLowerCaseN"], project["pieByIndNameOnly"]);
-                            } else if(typeof project["assignRandomColoresToFFRs"] !== "undefined" && !!project["assignRandomColoresToFFRs"]) {
-                                currentGraphEdit.colorNetwork();
+                            try {
+                                project["pieChart"] = data.target.result;
+                                if(typeof project["pieChart"] !== "undefined") {
+                                    currentGraphEdit.assingPiesByTxt(project["pieChart"], project["upperLowerCaseN"], project["pieByIndNameOnly"]);
+                                } else if(typeof project["assignRandomColoresToFFRs"] !== "undefined" && !!project["assignRandomColoresToFFRs"]) {
+                                    currentGraphEdit.colorNetwork();
+                                }
+                                updateSVG();
+                            } catch (e) {
+                                alert(e);
                             }
-                            updateSVG();
                         };
                         reader2.readAsText(pieFile[0]);
                     }
