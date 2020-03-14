@@ -6,6 +6,107 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var EReg = function(r,opt) {
+	this.r = new RegExp(r,opt.split("u").join(""));
+};
+$hxClasses["EReg"] = EReg;
+EReg.__name__ = ["EReg"];
+EReg.prototype = {
+	r: null
+	,match: function(s) {
+		if(this.r.global) {
+			this.r.lastIndex = 0;
+		}
+		this.r.m = this.r.exec(s);
+		this.r.s = s;
+		return this.r.m != null;
+	}
+	,matched: function(n) {
+		if(this.r.m != null && n >= 0 && n < this.r.m.length) {
+			return this.r.m[n];
+		} else {
+			throw new js__$Boot_HaxeError("EReg::matched");
+		}
+	}
+	,matchedLeft: function() {
+		if(this.r.m == null) {
+			throw new js__$Boot_HaxeError("No string matched");
+		}
+		return HxOverrides.substr(this.r.s,0,this.r.m.index);
+	}
+	,matchedRight: function() {
+		if(this.r.m == null) {
+			throw new js__$Boot_HaxeError("No string matched");
+		}
+		var sz = this.r.m.index + this.r.m[0].length;
+		return HxOverrides.substr(this.r.s,sz,this.r.s.length - sz);
+	}
+	,matchedPos: function() {
+		if(this.r.m == null) {
+			throw new js__$Boot_HaxeError("No string matched");
+		}
+		return { pos : this.r.m.index, len : this.r.m[0].length};
+	}
+	,matchSub: function(s,pos,len) {
+		if(len == null) {
+			len = -1;
+		}
+		if(this.r.global) {
+			this.r.lastIndex = pos;
+			var tmp = this.r;
+			var tmp1 = len < 0 ? s : HxOverrides.substr(s,0,pos + len);
+			this.r.m = tmp.exec(tmp1);
+			var b = this.r.m != null;
+			if(b) {
+				this.r.s = s;
+			}
+			return b;
+		} else {
+			var b1 = this.match(len < 0 ? HxOverrides.substr(s,pos,null) : HxOverrides.substr(s,pos,len));
+			if(b1) {
+				this.r.s = s;
+				this.r.m.index += pos;
+			}
+			return b1;
+		}
+	}
+	,split: function(s) {
+		var d = "#__delim__#";
+		return s.replace(this.r,d).split(d);
+	}
+	,replace: function(s,by) {
+		return s.replace(this.r,by);
+	}
+	,map: function(s,f) {
+		var offset = 0;
+		var buf_b = "";
+		while(true) {
+			if(offset >= s.length) {
+				break;
+			} else if(!this.matchSub(s,offset)) {
+				buf_b += Std.string(HxOverrides.substr(s,offset,null));
+				break;
+			}
+			var p = this.matchedPos();
+			buf_b += Std.string(HxOverrides.substr(s,offset,p.pos - offset));
+			buf_b += Std.string(f(this));
+			if(p.len == 0) {
+				buf_b += Std.string(HxOverrides.substr(s,p.pos,1));
+				offset = p.pos + 1;
+			} else {
+				offset = p.pos + p.len;
+			}
+			if(!this.r.global) {
+				break;
+			}
+		}
+		if(!this.r.global && offset > 0 && offset < s.length) {
+			buf_b += Std.string(HxOverrides.substr(s,offset,null));
+		}
+		return buf_b;
+	}
+	,__class__: EReg
+};
 var HxOverrides = function() { };
 $hxClasses["HxOverrides"] = HxOverrides;
 HxOverrides.__name__ = ["HxOverrides"];
@@ -495,6 +596,186 @@ StringBuf.prototype = {
 	}
 	,__class__: StringBuf
 	,__properties__: {get_length:"get_length"}
+};
+var StringTools = function() { };
+$hxClasses["StringTools"] = StringTools;
+StringTools.__name__ = ["StringTools"];
+StringTools.urlEncode = function(s) {
+	return encodeURIComponent(s);
+};
+StringTools.urlDecode = function(s) {
+	return decodeURIComponent(s.split("+").join(" "));
+};
+StringTools.htmlEscape = function(s,quotes) {
+	s = s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+	if(quotes) {
+		return s.split("\"").join("&quot;").split("'").join("&#039;");
+	} else {
+		return s;
+	}
+};
+StringTools.htmlUnescape = function(s) {
+	return s.split("&gt;").join(">").split("&lt;").join("<").split("&quot;").join("\"").split("&#039;").join("'").split("&amp;").join("&");
+};
+StringTools.startsWith = function(s,start) {
+	if(s.length >= start.length) {
+		return HxOverrides.substr(s,0,start.length) == start;
+	} else {
+		return false;
+	}
+};
+StringTools.endsWith = function(s,end) {
+	var elen = end.length;
+	var slen = s.length;
+	if(slen >= elen) {
+		return HxOverrides.substr(s,slen - elen,elen) == end;
+	} else {
+		return false;
+	}
+};
+StringTools.isSpace = function(s,pos) {
+	var c = HxOverrides.cca(s,pos);
+	if(!(c > 8 && c < 14)) {
+		return c == 32;
+	} else {
+		return true;
+	}
+};
+StringTools.ltrim = function(s) {
+	var l = s.length;
+	var r = 0;
+	while(r < l && StringTools.isSpace(s,r)) ++r;
+	if(r > 0) {
+		return HxOverrides.substr(s,r,l - r);
+	} else {
+		return s;
+	}
+};
+StringTools.rtrim = function(s) {
+	var l = s.length;
+	var r = 0;
+	while(r < l && StringTools.isSpace(s,l - r - 1)) ++r;
+	if(r > 0) {
+		return HxOverrides.substr(s,0,l - r);
+	} else {
+		return s;
+	}
+};
+StringTools.trim = function(s) {
+	return StringTools.ltrim(StringTools.rtrim(s));
+};
+StringTools.lpad = function(s,c,l) {
+	if(c.length <= 0) {
+		return s;
+	}
+	while(s.length < l) s = c + s;
+	return s;
+};
+StringTools.rpad = function(s,c,l) {
+	if(c.length <= 0) {
+		return s;
+	}
+	while(s.length < l) s += c;
+	return s;
+};
+StringTools.replace = function(s,sub,by) {
+	return s.split(sub).join(by);
+};
+StringTools.hex = function(n,digits) {
+	var s = "";
+	var hexChars = "0123456789ABCDEF";
+	while(true) {
+		s = hexChars.charAt(n & 15) + s;
+		n >>>= 4;
+		if(!(n > 0)) {
+			break;
+		}
+	}
+	if(digits != null) {
+		while(s.length < digits) s = "0" + s;
+	}
+	return s;
+};
+StringTools.fastCodeAt = function(s,index) {
+	return s.charCodeAt(index);
+};
+StringTools.isEof = function(c) {
+	return c != c;
+};
+StringTools.quoteUnixArg = function(argument) {
+	if(argument == "") {
+		return "''";
+	}
+	if(!new EReg("[^a-zA-Z0-9_@%+=:,./-]","").match(argument)) {
+		return argument;
+	}
+	return "'" + StringTools.replace(argument,"'","'\"'\"'") + "'";
+};
+StringTools.quoteWinArg = function(argument,escapeMetaCharacters) {
+	if(!new EReg("^[^ \t\\\\\"]+$","").match(argument)) {
+		var result_b = "";
+		var needquote = argument.indexOf(" ") != -1 || argument.indexOf("\t") != -1 || argument == "";
+		if(needquote) {
+			result_b += "\"";
+		}
+		var bs_buf = new StringBuf();
+		var _g1 = 0;
+		var _g = argument.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var _g2 = HxOverrides.cca(argument,i);
+			if(_g2 == null) {
+				var c = _g2;
+				if(bs_buf.b.length > 0) {
+					result_b += Std.string(bs_buf.b);
+					bs_buf = new StringBuf();
+				}
+				result_b += String.fromCharCode(c);
+			} else {
+				switch(_g2) {
+				case 34:
+					var bs = bs_buf.b;
+					result_b += bs == null ? "null" : "" + bs;
+					result_b += bs == null ? "null" : "" + bs;
+					bs_buf = new StringBuf();
+					result_b += "\\\"";
+					break;
+				case 92:
+					bs_buf.b += "\\";
+					break;
+				default:
+					var c1 = _g2;
+					if(bs_buf.b.length > 0) {
+						result_b += Std.string(bs_buf.b);
+						bs_buf = new StringBuf();
+					}
+					result_b += String.fromCharCode(c1);
+				}
+			}
+		}
+		result_b += Std.string(bs_buf.b);
+		if(needquote) {
+			result_b += Std.string(bs_buf.b);
+			result_b += "\"";
+		}
+		argument = result_b;
+	}
+	if(escapeMetaCharacters) {
+		var result_b1 = "";
+		var _g11 = 0;
+		var _g3 = argument.length;
+		while(_g11 < _g3) {
+			var i1 = _g11++;
+			var c2 = HxOverrides.cca(argument,i1);
+			if(StringTools.winMetaCharacters.indexOf(c2) >= 0) {
+				result_b1 += "^";
+			}
+			result_b1 += String.fromCharCode(c2);
+		}
+		return result_b1;
+	} else {
+		return argument;
+	}
 };
 var ValueType = $hxClasses["ValueType"] = { __ename__ : ["ValueType"], __constructs__ : ["TNull","TInt","TFloat","TBool","TObject","TFunction","TClass","TEnum","TUnknown"] };
 ValueType.TNull = ["TNull",0];
@@ -2092,7 +2373,7 @@ draw_Graph.prototype = {
 		return result;
 	}
 	,assingPiesByTxt: function(s,ignoreCase,byIndNameOnly) {
-		var l = parsing_LstParser.parseLst(s);
+		var l = parsing_LstParser.parseColorList(s);
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
@@ -2229,7 +2510,7 @@ draw_Graph.prototype = {
 		}
 	}
 	,initStrokeColorListByStr: function(s,ignoreCase) {
-		this.initStrokeColorList(parsing_LstParser.parseLst(s),ignoreCase);
+		this.initStrokeColorList(parsing_LstParser.parseColorList(s),ignoreCase);
 	}
 	,initStrokeColorList: function(l,ignoreCase) {
 		var _g_head = this.links.h;
@@ -5918,6 +6199,487 @@ parsing_LstParser.parseLst = function(fileContent) {
 	}
 	return result;
 };
+parsing_LstParser.isValidColor = function(s) {
+	if(s == null || s == "") {
+		return false;
+	}
+	s = s.toUpperCase();
+	if(s.charAt(0) == "#") {
+		if(s.length != 4 || s.length != 7) {
+			return false;
+		}
+		var _g1 = 1;
+		var _g = s.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var character = s.charAt(i);
+			if(character != "0" && character != "1" && character != "2" && character != "3" && character != "4" && character != "5" && character != "6" && character != "7" && character != "8" && character != "9" && character != "A" && character != "B" && character != "C" && character != "D" && character != "E" && character != "F") {
+				return false;
+			}
+		}
+		return true;
+	} else {
+		if(s == "ALICEBLUE") {
+			return true;
+		}
+		if(s == "ANTIQUEWHITE") {
+			return true;
+		}
+		if(s == "AQUA") {
+			return true;
+		}
+		if(s == "AQUAMARINE") {
+			return true;
+		}
+		if(s == "AZURE") {
+			return true;
+		}
+		if(s == "BEIGE") {
+			return true;
+		}
+		if(s == "BISQUE") {
+			return true;
+		}
+		if(s == "BLACK") {
+			return true;
+		}
+		if(s == "BLANCHEDALMOND") {
+			return true;
+		}
+		if(s == "BLUE") {
+			return true;
+		}
+		if(s == "BLUEVIOLET") {
+			return true;
+		}
+		if(s == "BROWN") {
+			return true;
+		}
+		if(s == "BURLYWOOD") {
+			return true;
+		}
+		if(s == "CADETBLUE") {
+			return true;
+		}
+		if(s == "CHARTREUSE") {
+			return true;
+		}
+		if(s == "CHOCOLATE") {
+			return true;
+		}
+		if(s == "CORAL") {
+			return true;
+		}
+		if(s == "CORNFLOWERBLUE") {
+			return true;
+		}
+		if(s == "CORNSILK") {
+			return true;
+		}
+		if(s == "CRIMSON") {
+			return true;
+		}
+		if(s == "CYAN") {
+			return true;
+		}
+		if(s == "DARKBLUE") {
+			return true;
+		}
+		if(s == "DARKCYAN") {
+			return true;
+		}
+		if(s == "DARKGOLDENROD") {
+			return true;
+		}
+		if(s == "DARKGRAY") {
+			return true;
+		}
+		if(s == "DARKGREY") {
+			return true;
+		}
+		if(s == "DARKGREEN") {
+			return true;
+		}
+		if(s == "DARKKHAKI") {
+			return true;
+		}
+		if(s == "DARKMAGENTA") {
+			return true;
+		}
+		if(s == "DARKOLIVEGREEN") {
+			return true;
+		}
+		if(s == "DARKORANGE") {
+			return true;
+		}
+		if(s == "DARKORCHID") {
+			return true;
+		}
+		if(s == "DARKRED") {
+			return true;
+		}
+		if(s == "DARKSALMON") {
+			return true;
+		}
+		if(s == "DARKSEAGREEN") {
+			return true;
+		}
+		if(s == "DARKSLATEBLUE") {
+			return true;
+		}
+		if(s == "DARKSLATEGRAY") {
+			return true;
+		}
+		if(s == "DARKSLATEGREY") {
+			return true;
+		}
+		if(s == "DARKTURQUOISE") {
+			return true;
+		}
+		if(s == "DARKVIOLET") {
+			return true;
+		}
+		if(s == "DEEPPINK") {
+			return true;
+		}
+		if(s == "DEEPSKYBLUE") {
+			return true;
+		}
+		if(s == "DIMGRAY") {
+			return true;
+		}
+		if(s == "DIMGREY") {
+			return true;
+		}
+		if(s == "DODGERBLUE") {
+			return true;
+		}
+		if(s == "FIREBRICK") {
+			return true;
+		}
+		if(s == "FLORALWHITE") {
+			return true;
+		}
+		if(s == "FORESTGREEN") {
+			return true;
+		}
+		if(s == "FUCHSIA") {
+			return true;
+		}
+		if(s == "GAINSBORO") {
+			return true;
+		}
+		if(s == "GHOSTWHITE") {
+			return true;
+		}
+		if(s == "GOLD") {
+			return true;
+		}
+		if(s == "GOLDENROD") {
+			return true;
+		}
+		if(s == "GRAY") {
+			return true;
+		}
+		if(s == "GREY") {
+			return true;
+		}
+		if(s == "GREEN") {
+			return true;
+		}
+		if(s == "GREENYELLOW") {
+			return true;
+		}
+		if(s == "HONEYDEW") {
+			return true;
+		}
+		if(s == "HOTPINK") {
+			return true;
+		}
+		if(s == "INDIANRED") {
+			return true;
+		}
+		if(s == "INDIGO") {
+			return true;
+		}
+		if(s == "IVORY") {
+			return true;
+		}
+		if(s == "KHAKI") {
+			return true;
+		}
+		if(s == "LAVENDER") {
+			return true;
+		}
+		if(s == "LAVENDERBLUSH") {
+			return true;
+		}
+		if(s == "LAWNGREEN") {
+			return true;
+		}
+		if(s == "LEMONCHIFFON") {
+			return true;
+		}
+		if(s == "LIGHTBLUE") {
+			return true;
+		}
+		if(s == "LIGHTCORAL") {
+			return true;
+		}
+		if(s == "LIGHTCYAN") {
+			return true;
+		}
+		if(s == "LIGHTGOLDENRODYELLOW") {
+			return true;
+		}
+		if(s == "LIGHTGRAY") {
+			return true;
+		}
+		if(s == "LIGHTGREY") {
+			return true;
+		}
+		if(s == "LIGHTGREEN") {
+			return true;
+		}
+		if(s == "LIGHTPINK") {
+			return true;
+		}
+		if(s == "LIGHTSALMON") {
+			return true;
+		}
+		if(s == "LIGHTSEAGREEN") {
+			return true;
+		}
+		if(s == "LIGHTSKYBLUE") {
+			return true;
+		}
+		if(s == "LIGHTSLATEGRAY") {
+			return true;
+		}
+		if(s == "LIGHTSLATEGREY") {
+			return true;
+		}
+		if(s == "LIGHTSTEELBLUE") {
+			return true;
+		}
+		if(s == "LIGHTYELLOW") {
+			return true;
+		}
+		if(s == "LIME") {
+			return true;
+		}
+		if(s == "LIMEGREEN") {
+			return true;
+		}
+		if(s == "LINEN") {
+			return true;
+		}
+		if(s == "MAGENTA") {
+			return true;
+		}
+		if(s == "MAROON") {
+			return true;
+		}
+		if(s == "MEDIUMAQUAMARINE") {
+			return true;
+		}
+		if(s == "MEDIUMBLUE") {
+			return true;
+		}
+		if(s == "MEDIUMORCHID") {
+			return true;
+		}
+		if(s == "MEDIUMPURPLE") {
+			return true;
+		}
+		if(s == "MEDIUMSEAGREEN") {
+			return true;
+		}
+		if(s == "MEDIUMSLATEBLUE") {
+			return true;
+		}
+		if(s == "MEDIUMSPRINGGREEN") {
+			return true;
+		}
+		if(s == "MEDIUMTURQUOISE") {
+			return true;
+		}
+		if(s == "MEDIUMVIOLETRED") {
+			return true;
+		}
+		if(s == "MIDNIGHTBLUE") {
+			return true;
+		}
+		if(s == "MINTCREAM") {
+			return true;
+		}
+		if(s == "MISTYROSE") {
+			return true;
+		}
+		if(s == "MOCCASIN") {
+			return true;
+		}
+		if(s == "NAVAJOWHITE") {
+			return true;
+		}
+		if(s == "NAVY") {
+			return true;
+		}
+		if(s == "OLDLACE") {
+			return true;
+		}
+		if(s == "OLIVE") {
+			return true;
+		}
+		if(s == "OLIVEDRAB") {
+			return true;
+		}
+		if(s == "ORANGE") {
+			return true;
+		}
+		if(s == "ORANGERED") {
+			return true;
+		}
+		if(s == "ORCHID") {
+			return true;
+		}
+		if(s == "PALEGOLDENROD") {
+			return true;
+		}
+		if(s == "PALEGREEN") {
+			return true;
+		}
+		if(s == "PALETURQUOISE") {
+			return true;
+		}
+		if(s == "PALEVIOLETRED") {
+			return true;
+		}
+		if(s == "PAPAYAWHIP") {
+			return true;
+		}
+		if(s == "PEACHPUFF") {
+			return true;
+		}
+		if(s == "PERU") {
+			return true;
+		}
+		if(s == "PINK") {
+			return true;
+		}
+		if(s == "PLUM") {
+			return true;
+		}
+		if(s == "POWDERBLUE") {
+			return true;
+		}
+		if(s == "PURPLE") {
+			return true;
+		}
+		if(s == "REBECCAPURPLE") {
+			return true;
+		}
+		if(s == "RED") {
+			return true;
+		}
+		if(s == "ROSYBROWN") {
+			return true;
+		}
+		if(s == "ROYALBLUE") {
+			return true;
+		}
+		if(s == "SADDLEBROWN") {
+			return true;
+		}
+		if(s == "SALMON") {
+			return true;
+		}
+		if(s == "SANDYBROWN") {
+			return true;
+		}
+		if(s == "SEAGREEN") {
+			return true;
+		}
+		if(s == "SEASHELL") {
+			return true;
+		}
+		if(s == "SIENNA") {
+			return true;
+		}
+		if(s == "SILVER") {
+			return true;
+		}
+		if(s == "SKYBLUE") {
+			return true;
+		}
+		if(s == "SLATEBLUE") {
+			return true;
+		}
+		if(s == "SLATEGRAY") {
+			return true;
+		}
+		if(s == "SLATEGREY") {
+			return true;
+		}
+		if(s == "SNOW") {
+			return true;
+		}
+		if(s == "SPRINGGREEN") {
+			return true;
+		}
+		if(s == "STEELBLUE") {
+			return true;
+		}
+		if(s == "TAN") {
+			return true;
+		}
+		if(s == "TEAL") {
+			return true;
+		}
+		if(s == "THISTLE") {
+			return true;
+		}
+		if(s == "TOMATO") {
+			return true;
+		}
+		if(s == "TURQUOISE") {
+			return true;
+		}
+		if(s == "VIOLET") {
+			return true;
+		}
+		if(s == "WHEAT") {
+			return true;
+		}
+		if(s == "WHITE") {
+			return true;
+		}
+		if(s == "WHITESMOKE") {
+			return true;
+		}
+		if(s == "YELLOW") {
+			return true;
+		}
+		if(s == "YELLOWGREEN") {
+			return true;
+		}
+	}
+	return false;
+};
+parsing_LstParser.parseColorList = function(fileContent) {
+	var result = parsing_LstParser.parseLst(fileContent);
+	var _g_head = result.h;
+	while(_g_head != null) {
+		var val = _g_head.item;
+		_g_head = _g_head.next;
+		var pair = val;
+		pair.second = StringTools.trim(pair.second);
+		if(!parsing_LstParser.isValidColor(pair.second)) {
+			throw new js__$Boot_HaxeError("Invalid color " + pair.second);
+		}
+	}
+	return result;
+};
 var parsing_MJNetParser = function() { };
 $hxClasses["parsing.MJNetParser"] = parsing_MJNetParser;
 parsing_MJNetParser.__name__ = ["parsing","MJNetParser"];
@@ -6319,6 +7081,7 @@ var Class = $hxClasses["Class"] = { __name__ : ["Class"]};
 var Enum = { };
 var Void = $hxClasses["Void"] = { __ename__ : ["Void"]};
 var __map_reserved = {};
+StringTools.winMetaCharacters = [32,40,41,37,33,94,34,60,62,38,124,10,13,44,59];
 draw_NodePos.areaShouldBePropTo = draw_SIZE_$TO_$RADIUS.SQRT;
 js_Boot.__toStr = ({ }).toString;
 mj_Seq.delimiter = "_";
