@@ -2419,7 +2419,7 @@ draw_Graph.prototype = {
 					}
 				}
 				if(colorName == null) {
-					throw new js__$Boot_HaxeError("No colorname found/given for '" + name + "'!");
+					throw new js__$Boot_HaxeError("No colorname found for individual '" + name + "'!");
 				}
 				var found = false;
 				var _g_head3 = l_.h;
@@ -2487,7 +2487,7 @@ draw_Graph.prototype = {
 					}
 				}
 				if(colorName == null) {
-					throw new js__$Boot_HaxeError("No colorname found/given for '" + name + "'!");
+					throw new js__$Boot_HaxeError("No colorname found for individual '" + name + "'!");
 				}
 				var found = false;
 				var _g_head3 = l_.h;
@@ -4955,7 +4955,7 @@ draw_NodePos.prototype = {
 				}
 			}
 			if(colorName == null) {
-				throw new js__$Boot_HaxeError("No colorname found/given for '" + name + "'!");
+				throw new js__$Boot_HaxeError("No colorname found for individual '" + name + "'!");
 			}
 			var found = false;
 			var _g_head2 = l_.h;
@@ -6668,6 +6668,7 @@ parsing_LstParser.isValidColor = function(s) {
 };
 parsing_LstParser.parseColorList = function(fileContent) {
 	var result = parsing_LstParser.parseLst(fileContent);
+	var lst = new List();
 	var _g_head = result.h;
 	while(_g_head != null) {
 		var val = _g_head.item;
@@ -6675,8 +6676,11 @@ parsing_LstParser.parseColorList = function(fileContent) {
 		var pair = val;
 		pair.second = StringTools.trim(pair.second);
 		if(!parsing_LstParser.isValidColor(pair.second)) {
-			throw new js__$Boot_HaxeError("Invalid color " + pair.second);
+			lst.add(pair.second);
 		}
+	}
+	if(!lst.isEmpty()) {
+		throw new js__$Boot_HaxeError("Invalid color(s) " + lst.join(","));
 	}
 	return result;
 };
