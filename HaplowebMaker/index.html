@@ -372,49 +372,49 @@
         <div id="editSVGDialog"><!-- TODO -->
             <div id="editSVGDialogDim" style="overlow:hidden">
                 <div id="toolboxBar">
-                    <button onclick="javascript: currentGraphEdit.drawCircles = !currentGraphEdit.drawCircles; updateSVG();">Toggle circle</button>
-                    <button onclick="javascript: currentGraphEdit.drawCirclesMedians = !currentGraphEdit.drawCirclesMedians; updateSVG();">Toggle med vector</button>
-                    <button onclick="javascript: currentGraphEdit.drawCons = !currentGraphEdit.drawCons; updateSVG();">Toggle line</button>
-                    <button onclick="javascript: currentGraphEdit.drawCurves = !currentGraphEdit.drawCurves; updateSVG();">Toggle curve</button>
-                    <button onclick="javascript: currentGraphEdit.drawBezierPoints = !currentGraphEdit.drawBezierPoints; updateSVG();">Toggle Bézier</button>
-                    <button onclick="javascript: currentGraphEdit.drawCenter = !currentGraphEdit.drawCenter; updateSVG();">Toggle center</button>
-                    <button onclick="javascript: currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle</button>
-                    <button onclick="javascript: currentGraphEdit.drawCirclesNames = !currentGraphEdit.drawCirclesNames; updateSVG();">Toggle circle name</button>
-                    <button id="loopButton" onclick="javascript: currentGraphEdit.drawLoops = !currentGraphEdit.drawLoops; updateSVG();">Toggle self-loop</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCircles = !currentGraphEdit.drawCircles; updateSVG();">Toggle circle</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCirclesMedians = !currentGraphEdit.drawCirclesMedians; updateSVG();">Toggle med vector</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCons = !currentGraphEdit.drawCons; updateSVG();">Toggle line</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCurves = !currentGraphEdit.drawCurves; updateSVG();">Toggle curve</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawBezierPoints = !currentGraphEdit.drawBezierPoints; updateSVG();">Toggle Bézier</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCenter = !currentGraphEdit.drawCenter; updateSVG();">Toggle center</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCirclesNames = !currentGraphEdit.drawCirclesNames; updateSVG();">Toggle circle name</button>
+                    <button id="loopButton" onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawLoops = !currentGraphEdit.drawLoops; updateSVG();">Toggle self-loop</button>
                     <br>
-                    <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Restart</button>
-                    <button onclick="javascript: currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
-                    <button onclick="javascript: stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
-                    <button onclick="javascript: stopForce=true">Stop force</button>
-                    <button onclick="javascript: currentGraphEditstretch *= 9/10; updateSVG();">Zoom out</button>
-                    <button onclick="javascript: var f=parseFloat(prompt('Please insert zooming factor: (float)').trim()); if(isNaN(f)) { alert('Illegal input'); } else { currentGraphEditstretch *= f; updateSVG(); }">Zoom?</button>
-                    <button onclick="javascript: currentGraphEditstretch *= 10/9; updateSVG();">Zoom in</button>
-                    <button onclick="javascript: currentGraphEditstretch = 1; updateSVG();">Reset zoom</button>
-                    <button onclick="javascript: exportEditSVG('image/png');">Export png</button>
-                    <button onclick="javascript: exportEditSVGasSVG();">Export svg</button>
-                    <button onclick="javascript: currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves (force)</button>
-                    <button onclick="javascript: currentGraphEdit.assignLinkPos(false); updateSVG();">Recalc curves (weak)</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignRandomNodePos(); stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Restart</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Force</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; stopForce=true">Stop force</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEditstretch *= 9/10; updateSVG();">Zoom out</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; var f=parseFloat(prompt('Please insert zooming factor: (float)').trim()); if(isNaN(f)) { alert('Illegal input'); } else { currentGraphEditstretch *= f; updateSVG(); }">Zoom?</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEditstretch *= 10/9; updateSVG();">Zoom in</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEditstretch = 1; updateSVG();">Reset zoom</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; exportEditSVG('image/png');">Export png</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; exportEditSVGasSVG();">Export svg</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves (force)</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignLinkPos(false); updateSVG();">Recalc curves (weak)</button>
 <!--
                     <button onclick="javascript: currentGraphEdit.mult_radius(10/9); updateSVG();">Circles ++</button>
                     <button onclick="javascript: currentGraphEdit.mult_radius(9/10); updateSVG();">Circles --</button>
 -->
                     <br>
-                    <button onclick="javascript: currentGraphEdit.rotateN90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s"></span></button>
-                    <button onclick="javascript: var f=parseFloat(prompt('Please insert angle: (float,degree)')); if(isNaN(f)) { alert('Illegal input'); } else {currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();}">Rot angle</button>
-                    <button onclick="javascript: currentGraphEdit.rotateP90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s mirror"></span></button>
-                    <button onclick="javascript: currentGraphEdit.mirrorX(); updateSVG();">Mirror X</button>
-                    <button onclick="javascript: currentGraphEdit.mirrorY(); updateSVG();">Mirror Y</button>
-                    <button onclick="javascript: currentGraphEdit.colorNetwork(); updateSVG();">Color according to FFRs</button>
-                    <button onclick="javascript: currentGraphEdit.modifyLinks(10/9); updateSVG();">Curves++</button>
-                    <button onclick="javascript: currentGraphEdit.modifyLinks(9/10); updateSVG();">Curves--</button>
-                    <button onclick="javascript: currentGraphEdit.modifyCons(10/9); updateSVG();">Edges++</button>
-                    <button onclick="javascript: currentGraphEdit.modifyCons(9/10); updateSVG();">Edges--</button>
-                    <button onclick="javascript: currentGraphEdit.modifyNodes(10/9); updateSVG();">Nodes++</button>
-                    <button onclick="javascript: currentGraphEdit.modifyNodes(9/10); updateSVG();">Nodes--</button>
-                    <button onclick="javascript: currentGraphEdit.initStrokeColorListByStr(project['pieChart'], document.getElementById('ignoreUpperLowerName').checked); updateSVG();">Multicolor curves</button>
-                    <button onclick="javascript: if(typeof project['pieChart'] !== 'undefined') { currentGraphEdit.assingPiesByTxt(project['pieChart'], project['upperLowerCaseN'], project['pieByIndNameOnly']); updateSVG(); } else { alert('No color file given!'); }">Reinitialize pie charts</button>
-                    <!--<button onclick="javascript: updateColorFile();">Upload color file</button>
-                    <input type="file" id="updateColorFileUploadInput"/>-->
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.rotateN90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s"></span></button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; var f=parseFloat(prompt('Please insert angle: (float,degree)')); if(isNaN(f)) { alert('Illegal input'); } else {currentGraphEdit.rotate(f / 360 * 2 * Math.PI); updateSVG();}">Rot angle</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.rotateP90(); updateSVG();"><span class="ui-icon ui-icon-arrowreturnthick-1-s mirror"></span></button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.mirrorX(); updateSVG();">Mirror X</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.mirrorY(); updateSVG();">Mirror Y</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.colorNetwork(); updateSVG();">Color according to FFRs</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.modifyLinks(10/9); updateSVG();">Curves++</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.modifyLinks(9/10); updateSVG();">Curves--</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.modifyCons(10/9); updateSVG();">Edges++</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.modifyCons(9/10); updateSVG();">Edges--</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.modifyNodes(10/9); updateSVG();">Nodes++</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.modifyNodes(9/10); updateSVG();">Nodes--</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.initStrokeColorListByStr(project['pieChart'], document.getElementById('ignoreUpperLowerName').checked); updateSVG();">Multicolor curves</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; if(typeof project['pieChart'] !== 'undefined') { currentGraphEdit.assingPiesByTxt(project['pieChart'], project['upperLowerCaseN'], project['pieByIndNameOnly']); updateSVG(); } else { alert('No color file given!'); }">Reinitialize pie charts</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; updateColorFile();">Upload color file</button>
+                    <input type="file" id="updateColorFileUploadInput"/>
                     <br>
                     <span>Mutations shown as lines:</span>
                     <input type="checkbox" name="drawMutsByLineChkbx" id="drawMutsByLineChkbx" autocomplete="off" />
@@ -422,7 +422,7 @@
                     width: <input type="text" name="drawMutsLineStrokeWidth" id="drawMutsLineStrokeWidth" value="3" autocomplete="off" />
                     length: <input type="text" name="drawMutsLineStrokeSize" id="drawMutsLineStrokeSize" value="10" autocomplete="off" />
                     <input type="text" name="drawMutsLineStrokeArr" id="drawMutsLineStrokeArr" value="" autocomplete="off" style="visibility: collapse;" />
-                    <button onclick="javascript: assignMutsLines();">Change</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; assignMutsLines();">Change</button>
                     <br>
                     <span>Mutations shown as text:</span>
                     <input type="checkbox" name="drawMutsByTextChkbx" id="drawMutsByTextChkbx" autocomplete="off" />
@@ -441,7 +441,7 @@
                     <input type="color" name="drawMutsTextColor" id="drawMutsTextColor" value="#000000" autocomplete="off" />
                     offset x: <input type="text" name="drawMutsTextPX" id="drawMutsTextPX" value="0" autocomplete="off" />
                     offset y: <input type="text" name="drawMutsTextPY" id="drawMutsTextPY" value="0" autocomplete="off" />
-                    <button onclick="javascript: assignMutsText();">Change</button><!--
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; assignMutsText();">Change</button><!--
                     <br>
                     <span>Mutations shown as dots:</span>
                     <input type="checkbox" name="drawMutsByDotChkbx" id="drawMutsByDotChkbx" autocomplete="off" />
