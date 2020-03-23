@@ -473,7 +473,7 @@
                                 if(typeof project["pieChart"] !== "undefined") {
                                     var warnings = currentGraphEdit.assingPiesByTxt(project["pieChart"], project["upperLowerCaseN"], project["pieByIndNameOnly"]);
                                     if (warnings != "") {
-                                        alert(warnings);
+                                        alert("Missing colors for individual(s) " + warnings);
                                     }
                                 } else if(typeof project["assignRandomColoresToFFRs"] !== "undefined" && !!project["assignRandomColoresToFFRs"]) {
                                     currentGraphEdit.colorNetwork();
