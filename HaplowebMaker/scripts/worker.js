@@ -146,7 +146,8 @@ function calculateFaFile(project, i) {
             g.assignLinkPos();
             // assign pie charts if needed
             if(typeof project["pieChart"] !== "undefined") {
-                g.assingPiesByTxt(project["pieChart"], project["upperLowerCaseN"], project["pieByIndNameOnly"]);
+                var txt = g.assingPiesByTxt(project["pieChart"], project["upperLowerCaseN"], project["pieByIndNameOnly"]);
+                // TODO handle txt
             } else if(typeof project["assignRandomColoresToFFRs"] !== "undefined" && !!project["assignRandomColoresToFFRs"]) {
                 g.colorNetwork();
             }

@@ -1866,7 +1866,7 @@ draw_Drawer.main = function() {
 					map.h[indName] = 0;
 				}
 			}
-			haxe_Log.trace("XXX " + n4 + " " + node12.xPos + " " + node12.yPos,{ fileName : "NodePos.hx", lineNumber : 240, className : "draw.NodePos", methodName : "getLoopSvg"});
+			haxe_Log.trace("XXX " + n4 + " " + node12.xPos + " " + node12.yPos,{ fileName : "NodePos.hx", lineNumber : 243, className : "draw.NodePos", methodName : "getLoopSvg"});
 			var tmp2;
 			if(n4 == 0) {
 				tmp2 = "";
@@ -2374,6 +2374,7 @@ draw_Graph.prototype = {
 	}
 	,assingPiesByTxt: function(s,ignoreCase,byIndNameOnly) {
 		var l = parsing_LstParser.parseColorList(s);
+		var warnings = new List();
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
@@ -2387,6 +2388,7 @@ draw_Graph.prototype = {
 				continue;
 			}
 			var l_ = new List();
+			var warnings1 = new List();
 			var _g_head1 = node.node.names.h;
 			while(_g_head1 != null) {
 				var val1 = _g_head1.item;
@@ -2419,7 +2421,8 @@ draw_Graph.prototype = {
 					}
 				}
 				if(colorName == null) {
-					throw new js__$Boot_HaxeError("No colorname found for individual '" + name + "'!");
+					haxe_Log.trace("No colorname found for individual '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 105, className : "draw.NodePos", methodName : "set_pieByLst"});
+					warnings1.add(name);
 				}
 				var found = false;
 				var _g_head3 = l_.h;
@@ -2439,9 +2442,15 @@ draw_Graph.prototype = {
 			}
 			node.valid = false;
 			node.pie = l_;
+			var result1 = warnings1.join(",");
+			if(result1 != "") {
+				warnings.add(result1);
+			}
 		}
+		return warnings.join(",");
 	}
 	,assignPieCharts: function(l,ignoreCase,byIndNameOnly) {
+		var warnings = new List();
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
@@ -2455,6 +2464,7 @@ draw_Graph.prototype = {
 				continue;
 			}
 			var l_ = new List();
+			var warnings1 = new List();
 			var _g_head1 = node.node.names.h;
 			while(_g_head1 != null) {
 				var val1 = _g_head1.item;
@@ -2487,7 +2497,8 @@ draw_Graph.prototype = {
 					}
 				}
 				if(colorName == null) {
-					throw new js__$Boot_HaxeError("No colorname found for individual '" + name + "'!");
+					haxe_Log.trace("No colorname found for individual '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 105, className : "draw.NodePos", methodName : "set_pieByLst"});
+					warnings1.add(name);
 				}
 				var found = false;
 				var _g_head3 = l_.h;
@@ -2507,7 +2518,12 @@ draw_Graph.prototype = {
 			}
 			node.valid = false;
 			node.pie = l_;
+			var result1 = warnings1.join(",");
+			if(result1 != "") {
+				warnings.add(result1);
+			}
 		}
+		return warnings.join(",");
 	}
 	,initStrokeColorListByStr: function(s,ignoreCase) {
 		this.initStrokeColorList(parsing_LstParser.parseColorList(s),ignoreCase);
@@ -3715,7 +3731,7 @@ draw_Graph.prototype = {
 						map.h[indName] = 0;
 					}
 				}
-				haxe_Log.trace("XXX " + n + " " + node1.xPos + " " + node1.yPos,{ fileName : "NodePos.hx", lineNumber : 240, className : "draw.NodePos", methodName : "getLoopSvg"});
+				haxe_Log.trace("XXX " + n + " " + node1.xPos + " " + node1.yPos,{ fileName : "NodePos.hx", lineNumber : 243, className : "draw.NodePos", methodName : "getLoopSvg"});
 				var tmp1;
 				if(n == 0) {
 					tmp1 = "";
@@ -4923,6 +4939,7 @@ draw_NodePos.prototype = {
 	}
 	,set_pieByLst: function(l,ignoreCase,byIndNameOnly) {
 		var l_ = new List();
+		var warnings = new List();
 		var _g_head = this.node.names.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
@@ -4955,7 +4972,8 @@ draw_NodePos.prototype = {
 				}
 			}
 			if(colorName == null) {
-				throw new js__$Boot_HaxeError("No colorname found for individual '" + name + "'!");
+				haxe_Log.trace("No colorname found for individual '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 105, className : "draw.NodePos", methodName : "set_pieByLst"});
+				warnings.add(name);
 			}
 			var found = false;
 			var _g_head2 = l_.h;
@@ -4975,6 +4993,7 @@ draw_NodePos.prototype = {
 		}
 		this.valid = false;
 		this.pie = l_;
+		return warnings.join(",");
 	}
 	,set_strokeColor: function(n) {
 		this.valid = false;
@@ -5101,7 +5120,7 @@ draw_NodePos.prototype = {
 				map.h[indName] = 0;
 			}
 		}
-		haxe_Log.trace("XXX " + n + " " + this.xPos + " " + this.yPos,{ fileName : "NodePos.hx", lineNumber : 240, className : "draw.NodePos", methodName : "getLoopSvg"});
+		haxe_Log.trace("XXX " + n + " " + this.xPos + " " + this.yPos,{ fileName : "NodePos.hx", lineNumber : 243, className : "draw.NodePos", methodName : "getLoopSvg"});
 		if(n == 0) {
 			return "";
 		}
