@@ -147,6 +147,14 @@ function calculateFaFile(project, i) {
             // assign pie charts if needed
             if(typeof project["pieChart"] !== "undefined") {
                 var txt = g.assingPiesByTxt(project["pieChart"], project["upperLowerCaseN"], project["pieByIndNameOnly"]);
+                if (txt != "") {
+                    self.postMessage([
+                        {
+                            "key" : "warning",
+                            "val" : "Missing colors for individual(s) " + txt
+                        }
+                    ]);
+                }
                 // TODO handle txt
             } else if(typeof project["assignRandomColoresToFFRs"] !== "undefined" && !!project["assignRandomColoresToFFRs"]) {
                 g.colorNetwork();

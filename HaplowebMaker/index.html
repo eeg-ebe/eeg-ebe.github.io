@@ -871,11 +871,15 @@ document.getElementById("loopButton").disabled = true;
                                         var key = e.data[k]["key"];
                                         var val = e.data[k]["val"];
                                         console.log("INFO: +", key, val);
-                                        var obj = project;
-                                        for(var keyi = 0; keyi < key.length - 1; keyi++) {
-                                            obj = obj[key[keyi]];
+                                        if (key == "warning") {
+                                            project["notifications"].push({ "ui" : "highlight", "icon" : "info", "text" : val });
+                                        } else {
+                                            var obj = project;
+                                            for(var keyi = 0; keyi < key.length - 1; keyi++) {
+                                                obj = obj[key[keyi]];
+                                            }
+                                            obj[key[key.length - 1]] = val;
                                         }
-                                        obj[key[key.length - 1]] = val;
                                     }
                                     showProject();
                                     $("#calculationOverlay").hide();
