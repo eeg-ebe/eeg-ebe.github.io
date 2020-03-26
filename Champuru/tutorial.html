@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+<title> Champuru v1.0 Tutorial </title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<h1> Tutorial for Champuru v1.0 </h1>
+
+<p> Here is a detailed description of how the example dataset was 
+generated from the original chromatograms accessible from the main page.
+ Please note, however, that the method outlined here is only one among 
+many others; other paths may be more suitable to your data. </p>
+
+<p> First, the two traces were imported into a contig editor (namely, 
+Sequencher) and assembled using the following assembly parameters: </p>
+
+<p><img src="imgs/parameters.jfif" alt="screen copy 1"></p>
+
+<p> Here is the appearance of the aligned chromatograms: </p>
+
+<p><img src="imgs/assembled.jfif" alt="screen copy 2"></p>
+
+<p> Many double peaks are not properly called, and it is always a good 
+idea to start by correcting as many calling mistakes as possible before 
+submitting the sequences to Champuru; this can save a lot of time in the
+ following steps. A convenient and fast way to do so is to is by looking
+ for positions where the forward and reverse chromatograms are 
+incompatible in the alignment (represented by black dots on the figure 
+below): </p>
+
+<p><img src="imgs/incompatibilities.jfif" alt="screen copy 3"></p>
+
+<p> Once all base-calling mistakes visible as sequence incompatibilities
+ are corrected in the first alignment position, one may want to find the
+ second, alternative alignment in order to correct other mistakes. This 
+can be achieved onscreen be dragging one sequence relatively to the 
+other until finding another alignment that minimizes the number of 
+incompatible positions. The distance observed at the end of each 
+chromatogram between the two end peaks can also help to estimate the 
+length difference between the two haplotypes and how far away one 
+chromatogram needs to be dragged relative to the other in order to find 
+the alternative alignment position: </p>
+ 
+<p><img src="imgs/endpeaks.jfif" alt="screen copy 4"></p>
+
+<p> Here the distance between the two end peaks shows unambiguously that
+ the length difference between the two haplotype is 2 bp; hence, the 
+second alternative alignment can be obtained from the first one by 
+dragging one chromatogram 2 bp in one direction or the other relative to
+ the other chromatogram. </p>
+
+<p> The same information can also be obtained by submitting the 
+partially corrected sequences to Champuru. The output will look like: </p>
+
+<p><img src="imgs/champuru1.jfif" alt="screen copy 5"></p>
+
+<p> The offset between the forward and reverse chromatogram for the 
+first aligment (best compatibility score) being 31 bp, and 33 bp for the
+ second alignment (second best compatibility score), one alignment can 
+be obtained from the other by dragging one chromatogram by 33 - 31 = 2 
+bp. Alternatively, one can use the offset information to position 
+directly the chromatograms correctly in front of each other: here is for
+ the first alignment (offset = 31 bb) </p>
+
+<p><img src="imgs/align1.jfif" alt="screen copy 6"></p>
+
+<p> and here is for the second (offset = 33 bp). </p>
+
+<p><img src="imgs/align2.jfif" alt="screen copy 7"></p>
+
+<p> Once all easily detected mistakes have been corrected, it is now 
+time to submit the corrected sequences to Champuru; the output will look
+ like: </p>
+
+<p><img src="imgs/champuru2.jfif" alt="screen copy 8"></p>
+
+<p> Thanks to all the pre-cleaning of base-calling mistakes, there are 
+only 3 problems left to be corrected, all detected on the reverse 
+chromatogram. Let us have a look, for instance, at position 143 on the 
+reverse chromatogram: </p>
+
+<p><img src="imgs/p143.jfif" alt="screen copy 9"></p>
+
+<p> One may be suprised to see that the base calling on the reverse 
+chromatogram at that position is perfectly correct; actually, the 
+problem is located on the other chromatogram (M instead of A) due to the
+ presence of an artefactual peak. The locations given by Champuru for 
+the problems it detects are only approximate, and one sometimes needs to
+ look closely at the surroundings of the indicated location in order to 
+find out what the problem is. </p>
+<p> After the last remaining problems are corrected, Champuru is run one
+ last time on the corrected chromatogram sequences in order to produce 
+the reconstructed haplotype sequences. The corrected chromatogram 
+sequences are the one provided on the main page as example dataset. </p>
+
+<p><img src="imgs/champuru3.jfif" alt="screen copy 10"></p>
+
+<p> The haplotype sequences can finally be saved on disk in a single FASTA file, or copy/pasted into other applications. </p>
+
+<p><strong> This detailed description of the process may look 
+complicated, but with a bit of training it it possible to clean a pair 
+of chromatogram and obtain the corresponding haplotype sequences in less
+ than five minutes. <a href="index.html">Have a try!</a></strong></p>
+
+
+
+</body></html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+<title>FAQ Champuru v1.0</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<h1> FAQ Champuru v1.0 </h1>
+
+<h2> Frequently Asked Questions </h2>
+
+<h3> Q1: What is Champuru? </h3>
+
+<p> Champuru is an interactive, user-friendly web software
+that facilitates the deconvolution of mixed chromatogram sequence data
+in the simplest case of a mixture of two sequences of unequal lengths.
+It takes as input two strings of characters describing the forward and
+reverse chromatograms as obtained by direct sequencing, and returns,
+most often after several iterations aiming at correcting basecalling
+errors, the two sequences present in the mixture. This provides a
+cheap, fast and reliable alternative to cloning that works best
+whenever sequences differ in length only by a small insertion/deletion.
+</p>
+
+<h3> Q2: What does "Champuru" means? </h3>
+
+<p> In the dialect of Okinawa, "champuru" means "to mix up";
+it is also the name of a popular local dish, a sautéed mixture of
+diverse ingredients. </p>
+
+<h3> Q3: How does it work? </h3>
+
+<p> After the user hits the "Submit" button on the web form,
+Champuru starts by computing, for all possible alignments of the two
+sequences provided, a compatibility score reflecting the number of
+compatible positions in the alignment: for instance, W (A or T) is
+compatible with A, T, K (G or T), D (A, T or G), but not with S (C or
+G). Champuru then finds the two best alignments, and combines the two
+sequences in each alignment into strict consensus sequences (discarding
+nucleotide positions outside the zone of overlap). As a result of this
+computing, a web page is generated that displays the three best
+compatibility scores obtained, along with the two consensus sequences.</p>
+ 
+<p> Along with each compatibility score, the user is provided
+with a number representing the offset between the forward and reverse
+sequences in the corresponding alignment, expressed as the position of
+the first base of the forward chromatogram by reference to the first
+base of the reverse chromatogram. If incompatibilities between the
+forward and reverse base sequences are detected, they are represented
+as underscores ("_") in the consensus sequences and the user is invited
+to check his input data for basecalling errors (most often undetected
+double peaks) before resubmitting corrected sequences. As a final
+verification step, Champuru simulates the result of sequencing
+directly, in the forward and reverse directions, a mixture of the two
+consensus sequences it has reconstructed, and compares it with the
+actual forward and reverse input sequences. If some peaks represented
+in the input sequences are not found in the superposition of the two
+consensus sequences, the user is invited again to check his input data
+(usually for spurious double-base callings of single peaks, but also
+sometimes for undetected double peaks in other positions)</p>
+
+<h3> Q4: How are sequences entered and/or exported? </h3>
+
+<p>Champuru takes as input two strings of characters
+describing the forward and reverse chromatograms as obtained by direct
+sequencing. It is essential, however, that double peaks be represented
+by their corresponding one-letter codes. The one-letter codes for three
+nucleotides (such as H for A, C or T) are also accepted to represent
+eventual triple peaks. Most chromatogram analysis programs, such as
+Phred, Sequencing Analysis 5.2 (Applied Biosystems) and CEQ 2000XL DNA
+Analysis System (Beckman Coulter), are capable of detecting and
+analyzing double peaks, and commercial sequencing companies routinely
+provide such reanalyzed sequences upon request. Moreover, sequence
+alignment programs such as Sequencher (Gene Codes) can also be used to
+call secondary peaks and produce chromatogram descriptions that meet
+Champuru's requirements. As all automatic basecalling programs make
+mistakes, especially when dealing with long stretches of double peaks,
+it is a good idea to check visually for forgotten peaks and other
+errors at this stage; to ensure efficient haplotype reconstruction,
+low-quality trace data found at the beginning and/or at the end of a
+chromatogram should also be discarded.</p>
+
+<p> Input sequences should be copy/pasted into the
+corresponding fields of the web interface (example sequences are
+provided on the webpage). As most users will prefer to use Champuru
+while displaying chromatogram alignments in another software, the
+default option considers that the reverse sequence is entered as it is
+when aligned with the forward sequence, i.e. as the reverse complement
+of the sequence obtained from direct sequencing. If this is not the
+case, the checkbox "Reverse-complement reverse sequence" should be
+ticked.</p>
+
+<p> Output sequences can be exported by copying and pasting
+them from the webpage into other applications, such as alignment
+softwares. Alternatively, a FASTA file containing both output sequences
+is automatically generated to facilitate downstream analyses. </p>
+
+<h3> Q5: Are there any known issues? </h3>
+
+<p> Champuru works best when dealing with mixtures of
+sequences that are closely similar to each other, such as homologous
+copies of a gene whose lengths differ only by a small
+insertion/deletion. When sequences are very divergent, differences in
+electrophoretic mobility among bases may cause misalignment of the
+peaks or even complete phase shift of one or several nucleotides. In
+such situation, one cannot summarize input chromatograms as strings of
+IUB code letters and Champuru cannot be used. </p>
+
+<h3> Q6: Champuru keeps telling me that there are some incompatible positions but I cannot find them. What can I do? </h3>
+
+<p> To locate incompatible positions, use the "Find" command of your web
+ browser and look for underscore  ("_") on the Champuru output webpage 
+(this is the character that Champuru inserts in the consensus whenever 
+there is an incompatibility between the two sequences it is trying to 
+align).  Then copy the sequence adjacent to the incompatibility and 
+paste it in the "Find bases" window of Sequencher in order to be taken 
+directly to the corresponding positions in the chromatograms (you may 
+have to tick the "Any ambiguous base" option in the "Find bases" window 
+in order for Sequencher to be able to locate the consensus bases). </p>
+
+<h3> Q7: How should I cite Champuru? </h3>
+
+<p> Flot et al. (2006) <strong> Phase determination from direct sequencing of length-variable DNA regions. </strong> <em> Molecular Ecology Notes </em> <strong>6</strong> (3), 627-630 <a href="http://dx.doi.org/10.1111/j.1471-8286.2006.01355.x">link </a> <br>
+Flot (2007) <strong>Champuru 1.0: a computer software for unraveling mixtures of two DNA sequences of unequal lengths.</strong> <em>Molecular Ecology Notes</em> <strong>7</strong> (6), 974-977 <a href="http://dx.doi.org/10.1111/j.1471-8286.2007.01857.x">link</a> </p>
+<p> For instance: <q>Phase determination in length variant heterozygotes
+ was performed by direct sequencing (Flot et al., 2006) with the help of
+ Champuru v1.0 (Flot 2007, available online at <a href="https://eeg-ebe.github.io/Champuru/">https://eeg-ebe.github.io/Champuru/</a>)</q></p>
+
+<p> For an example of a paper using Champuru for haplotype reconstruction see Flot et al. (2008) <strong>
+ Patterns of genetic structure among Hawaiian corals of the genus 
+Pocillopora yield clusters of individuals that are compatible with 
+morphology. </strong> <em> Comptes Rendus Biologies </em> <strong>331</strong> 239-247 <a href="http://dx.doi.org/10.1016/j.crvi.2007.12.003">link </a></p>
+
+</body></html>
