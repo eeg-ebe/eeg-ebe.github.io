@@ -111,7 +111,12 @@ class SeqPhase2 {
         }
         var codeS:List<String> = new List<String>();
         for (part in nrs) {
-            codeS.add(code.get(Std.parseInt(part)));
+            var i:Int = Std.parseInt(part);
+            var r:String = code.get(i);
+            if (r == null) {
+                throw "Error: The .out/.out_pairs file contains an allele not present in the input dataset (" + i + ", " + nrs + ")";
+            }
+            codeS.add(r);
         }
         var doesNotMatch:Bool = false;
         var result:List<String> = new List<String>();
