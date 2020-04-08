@@ -1022,7 +1022,7 @@ document.getElementById("loopButton").disabled = true;
                             html += (missing(project["faFiles"][i]["nrSeqs"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["nrSeqs"];
                             html += "</td></tr><tr class='tooltip' tid='nrDifSequencesInFile.title'><td><b class='label' lid='nrDifSequencesInFile.label'></b></td><td></td><td class='right'>";
                             html += (missing(project["faFiles"][i]["nrDifSeqs"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["nrDifSeqs"].split("+")[0];
-                            html += "</td></tr><tr><td><b class='label'>Median vectors</b></td><td></td><td class='right'>";
+                            html += "</td></tr><tr><td><b class='label'>No. of median vectors</b></td><td></td><td class='right'>";
                             html += (missing(project["faFiles"][i]["nrDifSeqs"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["nrDifSeqs"].split("+")[1];
                             html += "</td></tr><tr class='tooltip' tid='seqLen.title'><td><b class='label' lid='seqLen.label'></b></td><td></td><td class='right'>";
                             html += (missing(project["faFiles"][i]["seqLen"])) ? "<span class='label' lid='unknown'></span>" : project["faFiles"][i]["seqLen"];
