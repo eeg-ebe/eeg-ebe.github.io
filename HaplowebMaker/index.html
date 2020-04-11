@@ -612,13 +612,8 @@ try {
                     selectedObj = currentGraphEdit.getNearestO(initX, initY);
                     if(event.which == 3) { // jquery maps event.button == 2 to event.which == 3
                         $( document ).ready(function() {
-                            $(document).holdReady(true);
-                            try {
-                                showDetailsMenu(selectedObj);
-                                selectedObj = null; // just to be sure ...
-                            } finally {
-                                $(document).holdReady(false);
-                            }
+                            showDetailsMenu(selectedObj);
+                            selectedObj = null; // just to be sure ...
                         });
                         return;
                     }
