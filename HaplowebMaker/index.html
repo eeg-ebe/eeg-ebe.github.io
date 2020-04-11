@@ -620,43 +620,43 @@ try {
                 }
                 function removePreviousCircleDialogs() {
                     if(openEditCircleDialog != null) {
-                        $(document).ready(function() {
-                            $( '#' + openEditCircleDialog ).dialog("moveToTop");
-                            $( '#' + openEditCircleDialog ).dialog("close");
-                            $( '#' + openEditCircleDialog ).remove();
-                        });
+                        $( '#' + openEditCircleDialog ).dialog("moveToTop");
+                        $( '#' + openEditCircleDialog ).dialog("close");
+                        $( '#' + openEditCircleDialog ).remove();
                     }
                     openEditCircleDialog = null;
                 }
                 function showDetailsMenu(obj) {
-                    if('pie' in selectedObj) { // obj is a nodepos object
-                        removePreviousCircleDialogs();
-                        var nodeId = "editObjCirlce" + obj.node.id + "Dialog";
-                        openEditCircleDialog = nodeId;
-                        $("body").append($("<div id='" + nodeId + "'>" + obj.getDivContent() + "</div>"));
-                        $( '#' + nodeId ).dialog({
-                            modal: true,
-                            autoOpen: false,
-                            buttons: [ {
-                                "text" : languageDicts[language]["dict"]["buttonOk"],
-                                "class" : "dialogOkButton",
-                                "click" : function() {
-                                    removePreviousCircleDialogs();
+                    $( document ).ready(function() {
+                        if('pie' in selectedObj) { // obj is a nodepos object
+                            removePreviousCircleDialogs();
+                            var nodeId = "editObjCirlce" + obj.node.id + "Dialog";
+                            openEditCircleDialog = nodeId;
+                            $("body").append($("<div id='" + nodeId + "'>" + obj.getDivContent() + "</div>"));
+                            $( '#' + nodeId ).dialog({
+                                modal: true,
+                                autoOpen: false,
+                                buttons: [ {
+                                    "text" : languageDicts[language]["dict"]["buttonOk"],
+                                    "class" : "dialogOkButton",
+                                    "click" : function() {
+                                        removePreviousCircleDialogs();
+                                    }
+                                }],
+                                hide: {
+                                    effect: "explode",
+                                    duration: 1000
+                                },
+                                open: function(event, ui) {
+                                    $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
                                 }
-                            }],
-                            hide: {
-                                effect: "explode",
-                                duration: 1000
-                            },
-                            open: function(event, ui) {
-                                $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
-                            }
-                        });
-                        $( '#' + nodeId ).dialog('option', 'title', "INFO"); // TODO languageDicts[language]["dict"]["cite.label"]
-                        $( '#' + nodeId ).dialog("open");
-                        // hack in order to bring this dialog to the front
-                        setTimeout( function() { $( '#' + nodeId ).dialog('moveToTop'); }, 120);
-                    }
+                            });
+                            $( '#' + nodeId ).dialog('option', 'title', "INFO"); // TODO languageDicts[language]["dict"]["cite.label"]
+                            $( '#' + nodeId ).dialog("open");
+                            // hack in order to bring this dialog to the front
+                            setTimeout( function() { $( '#' + nodeId ).dialog('moveToTop'); }, 120);
+                        }
+                    });
                 }
                 function updateSVG() {
                     var svgDisp = document.getElementById("svgDisplay");
@@ -1249,17 +1249,21 @@ document.getElementById("loopButton").disabled = true;
                         "text" : languageDicts[language]["dict"]["buttonSave"],
                         "class" : "dialogSaveButton",
                         "click" : function() {
-                            removePreviousCircleDialogs();
-                            project["faFiles"][editSVGId]["graphstyle"] = currentGraphEdit.saveStyle();
-                            project["faFiles"][editSVGId]["svg"] = currentGraphEdit.getSvgCode();
-                            $( '#editSVGDialog' ).dialog( "close" );
+                            $( document ).ready(function() {
+                                removePreviousCircleDialogs();
+                                project["faFiles"][editSVGId]["graphstyle"] = currentGraphEdit.saveStyle();
+                                project["faFiles"][editSVGId]["svg"] = currentGraphEdit.getSvgCode();
+                                $( '#editSVGDialog' ).dialog( "close" );
+                            });
                         }
                     }, {
                         "text" : languageDicts[language]["dict"]["buttonCancel"],
                         "class" : "dialogCancelButton",
                         "click" : function() {
-                            removePreviousCircleDialogs();
-                            $( '#editSVGDialog' ).dialog( "close" );
+                            $( document ).ready(function() {
+                                removePreviousCircleDialogs();
+                                $( '#editSVGDialog' ).dialog( "close" );
+                            });
                         }
                     }
                 ],
