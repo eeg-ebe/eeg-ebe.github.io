@@ -147,6 +147,7 @@ function calculateFaFile(project, i) {
             // assign pie charts if needed
             if(typeof project["pieChart"] !== "undefined") {
                 var txt = g.assingPiesByTxt(project["pieChart"], project["upperLowerCaseN"], project["pieByIndNameOnly"]);
+                g.initStrokeColorListByStr(project['pieChart'], project["upperLowerCaseN"]);
                 if (txt != "") {
                     self.postMessage([
                         {
