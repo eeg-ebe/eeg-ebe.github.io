@@ -587,6 +587,9 @@ try {
                     return y / currentGraphEdit.lastStretchFact;
                 }
                 function editMouseMove(event) {
+                    if (block) {
+                        return;
+                    }
                     if(event.which == 3) {
                         selectedObj = null; // just to be sure ...
                         return;
@@ -598,6 +601,9 @@ try {
                     }
                 }
                 function editMouseUp(event) {
+                    if (block) {
+                        return;
+                    }
                     if(event.which == 3) {
                         selectedObj = null; // just to be sure ...
                         return;
@@ -608,18 +614,20 @@ try {
                     selectedObj = null;
                 }
                 function editMouseDown(event) {
+                    if (block) {
+                        return;
+                    }
                     initX = getClickX(event);
                     initY = getClickY(event);
                     selectedObj = currentGraphEdit.getNearestO(initX, initY);
                     if(event.which == 3) { // jquery maps event.button == 2 to event.which == 3
-                        if (block) {
-                            return;
-                        }
                         block = true;
                         $( document ).ready(function() {
                             showDetailsMenu(selectedObj);
                             selectedObj = null; // just to be sure ...
-                            block = false;
+                            setTimeout(function() {
+                                block = false;
+                            }, 100);
                         });
                         return;
                     }
