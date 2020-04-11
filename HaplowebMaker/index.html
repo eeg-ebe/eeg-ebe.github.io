@@ -586,37 +586,43 @@ try {
                     return y / currentGraphEdit.lastStretchFact;
                 }
                 function editMouseMove(event) {
-                    if(event.which == 3) {
-                        selectedObj = null; // just to be sure ...
-                        return;
-                    }
-                    if(selectedObj != null) {
-                        selectedObj.set_xPos(initObjX + getClickX(event) - initX);
-                        selectedObj.set_yPos(initObjY + getClickY(event) - initY);
-                        updateSVG();
-                    }
+                    $( document ).ready(function() {
+                        if(event.which == 3) {
+                            selectedObj = null; // just to be sure ...
+                            return;
+                        }
+                        if(selectedObj != null) {
+                            selectedObj.set_xPos(initObjX + getClickX(event) - initX);
+                            selectedObj.set_yPos(initObjY + getClickY(event) - initY);
+                            updateSVG();
+                        }
+                    });
                 }
                 function editMouseUp(event) {
-                    if(event.which == 3) {
-                        selectedObj = null; // just to be sure ...
-                        return;
-                    }
-                    if('setByUser' in selectedObj) {
-                        selectedObj.setByUser = true;
-                    }
-                    selectedObj = null;
+                    $( document ).ready(function() {
+                        if(event.which == 3) {
+                            selectedObj = null; // just to be sure ...
+                            return;
+                        }
+                        if('setByUser' in selectedObj) {
+                            selectedObj.setByUser = true;
+                        }
+                        selectedObj = null;
+                    });
                 }
                 function editMouseDown(event) {
-                    initX = getClickX(event);
-                    initY = getClickY(event);
-                    selectedObj = currentGraphEdit.getNearestO(initX, initY);
-                    if(event.which == 3) { // jquery maps event.button == 2 to event.which == 3
-                        showDetailsMenu(selectedObj);
-                        selectedObj = null; // just to be sure ...
-                        return;
-                    }
-                    initObjX = selectedObj.xPos;
-                    initObjY = selectedObj.yPos;
+                    $( document ).ready(function() {
+                        initX = getClickX(event);
+                        initY = getClickY(event);
+                        selectedObj = currentGraphEdit.getNearestO(initX, initY);
+                        if(event.which == 3) { // jquery maps event.button == 2 to event.which == 3
+                            showDetailsMenu(selectedObj);
+                            selectedObj = null; // just to be sure ...
+                            return;
+                        }
+                        initObjX = selectedObj.xPos;
+                        initObjY = selectedObj.yPos;
+                    });
                 }
                 function removePreviousCircleDialogs() {
                     if(openEditCircleDialog != null) {
