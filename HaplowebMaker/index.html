@@ -645,31 +645,35 @@ try {
                 function showDetailsMenu(obj) {
                     if('pie' in selectedObj) { // obj is a nodepos object
                         removePreviousCircleDialogs();
-                        var nodeId = "editObjCirlce" + obj.node.id + "Dialog";
-                        openEditCircleDialog = nodeId;
-                        $("body").append($("<div id='" + nodeId + "'>" + obj.getDivContent() + "</div>"));
-                        $( '#' + nodeId ).dialog({
-                            modal: true,
-                            autoOpen: false,
-                            buttons: [ {
-                                "text" : languageDicts[language]["dict"]["buttonOk"],
-                                "class" : "dialogOkButton",
-                                "click" : function() {
-                                    removePreviousCircleDialogs();
+                        $( document ).ready(function() {
+                            var nodeId = "editObjCirlce" + obj.node.id + "Dialog";
+                            openEditCircleDialog = nodeId;
+                            $("body").append($("<div id='" + nodeId + "'>" + obj.getDivContent() + "</div>"));
+                            $( '#' + nodeId ).dialog({
+                                modal: true,
+                                autoOpen: false,
+                                buttons: [ {
+                                    "text" : languageDicts[language]["dict"]["buttonOk"],
+                                    "class" : "dialogOkButton",
+                                    "click" : function() {
+                                        $( document ).ready(function() {
+                                            removePreviousCircleDialogs();
+                                        });
+                                    }
+                                }],
+                                hide: {
+                                    effect: "explode",
+                                    duration: 1000
+                                },
+                                open: function(event, ui) {
+                                    $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
                                 }
-                            }],
-                            hide: {
-                                effect: "explode",
-                                duration: 1000
-                            },
-                            open: function(event, ui) {
-                                $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
-                            }
+                            });
+                            $( '#' + nodeId ).dialog('option', 'title', "INFO"); // TODO languageDicts[language]["dict"]["cite.label"]
+                            $( '#' + nodeId ).dialog("open");
+                            // hack in order to bring this dialog to the front
+                            setTimeout( function() { $( '#' + nodeId ).dialog('moveToTop'); }, 120);
                         });
-                        $( '#' + nodeId ).dialog('option', 'title', "INFO"); // TODO languageDicts[language]["dict"]["cite.label"]
-                        $( '#' + nodeId ).dialog("open");
-                        // hack in order to bring this dialog to the front
-                        setTimeout( function() { $( '#' + nodeId ).dialog('moveToTop'); }, 120);
                     }
                 }
                 function updateSVG() {
@@ -1265,9 +1269,11 @@ document.getElementById("loopButton").disabled = true;
                         "click" : function() {
                             $( document ).ready(function() {
                                 removePreviousCircleDialogs();
-                                project["faFiles"][editSVGId]["graphstyle"] = currentGraphEdit.saveStyle();
-                                project["faFiles"][editSVGId]["svg"] = currentGraphEdit.getSvgCode();
-                                $( '#editSVGDialog' ).dialog( "close" );
+                                $( document ).ready(function() {
+                                    project["faFiles"][editSVGId]["graphstyle"] = currentGraphEdit.saveStyle();
+                                    project["faFiles"][editSVGId]["svg"] = currentGraphEdit.getSvgCode();
+                                    $( '#editSVGDialog' ).dialog( "close" );
+                                });
                             });
                         }
                     }, {
@@ -1276,7 +1282,9 @@ document.getElementById("loopButton").disabled = true;
                         "click" : function() {
                             $( document ).ready(function() {
                                 removePreviousCircleDialogs();
-                                $( '#editSVGDialog' ).dialog( "close" );
+                                $( document ).ready(function() {
+                                    $( '#editSVGDialog' ).dialog( "close" );
+                                });
                             });
                         }
                     }
