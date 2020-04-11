@@ -2835,6 +2835,7 @@ draw_Graph.prototype = {
 			var val = _g_head.item;
 			_g_head = _g_head.next;
 			var link = val;
+			link.strokeColorList = null;
 			if(link.n1 == n) {
 				link.strokeColor = s;
 				if(!link.n2.isProcessed) {
