@@ -911,6 +911,9 @@ document.getElementById("loopButton").disabled = true;
                             project = JSON.parse(data.target.result);
                             $( "#genericInfoDialog" ).dialog("close");
                             mj_Seq.delimiter = project["delimiter"];
+                            if(isNaN(project["nrDifSeqs"])) { // old projects may have a single number in nrDifSeqs, instead of two
+                                project["nrDifSeqs"] = "?+?";
+                            }
                             showProject();
                         };
                         reader.readAsText(f);
