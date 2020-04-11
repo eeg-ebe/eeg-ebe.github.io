@@ -623,11 +623,14 @@ try {
                     if(event.which == 3) { // jquery maps event.button == 2 to event.which == 3
                         block = true;
                         $( document ).ready(function() {
-                            showDetailsMenu(selectedObj);
-                            selectedObj = null; // just to be sure ...
-                            setTimeout(function() {
-                                block = false;
-                            }, 100);
+                            try {
+                                showDetailsMenu(selectedObj);
+                                selectedObj = null; // just to be sure ...
+                            } finally {
+                                setTimeout(function() {
+                                    block = false;
+                                }, 700);
+                            }
                         });
                         return;
                     }
@@ -663,7 +666,7 @@ try {
                                 }],
                                 hide: {
                                     effect: "explode",
-                                    duration: 1000
+                                    duration: 500
                                 },
                                 open: function(event, ui) {
                                     $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
