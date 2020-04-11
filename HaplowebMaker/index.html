@@ -620,9 +620,11 @@ try {
                 }
                 function removePreviousCircleDialogs() {
                     if(openEditCircleDialog != null) {
-                        $( '#' + openEditCircleDialog ).dialog("moveToTop");
-                        $( '#' + openEditCircleDialog ).dialog("close");
-                        $( '#' + openEditCircleDialog ).remove();
+                        $(document).ready(function() {
+                            $( '#' + openEditCircleDialog ).dialog("moveToTop");
+                            $( '#' + openEditCircleDialog ).dialog("close");
+                            $( '#' + openEditCircleDialog ).remove();
+                        });
                     }
                     openEditCircleDialog = null;
                 }
