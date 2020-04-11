@@ -586,43 +586,44 @@ try {
                     return y / currentGraphEdit.lastStretchFact;
                 }
                 function editMouseMove(event) {
-                    $( document ).ready(function() {
-                        if(event.which == 3) {
-                            selectedObj = null; // just to be sure ...
-                            return;
-                        }
-                        if(selectedObj != null) {
-                            selectedObj.set_xPos(initObjX + getClickX(event) - initX);
-                            selectedObj.set_yPos(initObjY + getClickY(event) - initY);
-                            updateSVG();
-                        }
-                    });
+                    if(event.which == 3) {
+                        selectedObj = null; // just to be sure ...
+                        return;
+                    }
+                    if(selectedObj != null) {
+                        selectedObj.set_xPos(initObjX + getClickX(event) - initX);
+                        selectedObj.set_yPos(initObjY + getClickY(event) - initY);
+                        updateSVG();
+                    }
                 }
                 function editMouseUp(event) {
-                    $( document ).ready(function() {
-                        if(event.which == 3) {
-                            selectedObj = null; // just to be sure ...
-                            return;
-                        }
-                        if('setByUser' in selectedObj) {
-                            selectedObj.setByUser = true;
-                        }
-                        selectedObj = null;
-                    });
+                    if(event.which == 3) {
+                        selectedObj = null; // just to be sure ...
+                        return;
+                    }
+                    if('setByUser' in selectedObj) {
+                        selectedObj.setByUser = true;
+                    }
+                    selectedObj = null;
                 }
                 function editMouseDown(event) {
-                    $( document ).ready(function() {
-                        initX = getClickX(event);
-                        initY = getClickY(event);
-                        selectedObj = currentGraphEdit.getNearestO(initX, initY);
-                        if(event.which == 3) { // jquery maps event.button == 2 to event.which == 3
-                            showDetailsMenu(selectedObj);
-                            selectedObj = null; // just to be sure ...
-                            return;
-                        }
-                        initObjX = selectedObj.xPos;
-                        initObjY = selectedObj.yPos;
-                    });
+                    initX = getClickX(event);
+                    initY = getClickY(event);
+                    selectedObj = currentGraphEdit.getNearestO(initX, initY);
+                    if(event.which == 3) { // jquery maps event.button == 2 to event.which == 3
+                        $( document ).ready(function() {
+                            $(document).holdReady(true);
+                            try {
+                                showDetailsMenu(selectedObj);
+                                selectedObj = null; // just to be sure ...
+                            } finally {
+                                $(document).holdReady(false);
+                            }
+                        });
+                        return;
+                    }
+                    initObjX = selectedObj.xPos;
+                    initObjY = selectedObj.yPos;
                 }
                 function removePreviousCircleDialogs() {
                     if(openEditCircleDialog != null) {
@@ -633,36 +634,34 @@ try {
                     openEditCircleDialog = null;
                 }
                 function showDetailsMenu(obj) {
-                    $( document ).ready(function() {
-                        if('pie' in selectedObj) { // obj is a nodepos object
-                            removePreviousCircleDialogs();
-                            var nodeId = "editObjCirlce" + obj.node.id + "Dialog";
-                            openEditCircleDialog = nodeId;
-                            $("body").append($("<div id='" + nodeId + "'>" + obj.getDivContent() + "</div>"));
-                            $( '#' + nodeId ).dialog({
-                                modal: true,
-                                autoOpen: false,
-                                buttons: [ {
-                                    "text" : languageDicts[language]["dict"]["buttonOk"],
-                                    "class" : "dialogOkButton",
-                                    "click" : function() {
-                                        removePreviousCircleDialogs();
-                                    }
-                                }],
-                                hide: {
-                                    effect: "explode",
-                                    duration: 1000
-                                },
-                                open: function(event, ui) {
-                                    $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                    if('pie' in selectedObj) { // obj is a nodepos object
+                        removePreviousCircleDialogs();
+                        var nodeId = "editObjCirlce" + obj.node.id + "Dialog";
+                        openEditCircleDialog = nodeId;
+                        $("body").append($("<div id='" + nodeId + "'>" + obj.getDivContent() + "</div>"));
+                        $( '#' + nodeId ).dialog({
+                            modal: true,
+                            autoOpen: false,
+                            buttons: [ {
+                                "text" : languageDicts[language]["dict"]["buttonOk"],
+                                "class" : "dialogOkButton",
+                                "click" : function() {
+                                    removePreviousCircleDialogs();
                                 }
-                            });
-                            $( '#' + nodeId ).dialog('option', 'title', "INFO"); // TODO languageDicts[language]["dict"]["cite.label"]
-                            $( '#' + nodeId ).dialog("open");
-                            // hack in order to bring this dialog to the front
-                            setTimeout( function() { $( '#' + nodeId ).dialog('moveToTop'); }, 120);
-                        }
-                    });
+                            }],
+                            hide: {
+                                effect: "explode",
+                                duration: 1000
+                            },
+                            open: function(event, ui) {
+                                $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                            }
+                        });
+                        $( '#' + nodeId ).dialog('option', 'title', "INFO"); // TODO languageDicts[language]["dict"]["cite.label"]
+                        $( '#' + nodeId ).dialog("open");
+                        // hack in order to bring this dialog to the front
+                        setTimeout( function() { $( '#' + nodeId ).dialog('moveToTop'); }, 120);
+                    }
                 }
                 function updateSVG() {
                     var svgDisp = document.getElementById("svgDisplay");
