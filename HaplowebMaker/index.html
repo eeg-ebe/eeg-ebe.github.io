@@ -911,8 +911,11 @@ document.getElementById("loopButton").disabled = true;
                             project = JSON.parse(data.target.result);
                             $( "#genericInfoDialog" ).dialog("close");
                             mj_Seq.delimiter = project["delimiter"];
-                            if(isNaN(project["nrDifSeqs"])) { // old projects may have a single number in nrDifSeqs, instead of two
-                                project["nrDifSeqs"] = "?+?";
+                            // old projects may have a single number in nrDifSeqs, instead of two, here
+                            for(var i = 0; i < project["faFiles"].length; i++) {
+                                if(isNaN(project["faFiles"][i]["nrDifSeqs"])) {
+                                    project["faFiles"][i]["nrDifSeqs"] = "?+?";
+                                }
                             }
                             showProject();
                         };
