@@ -648,7 +648,7 @@ try {
                 function showDetailsMenu(obj) {
                     if('pie' in selectedObj) { // obj is a nodepos object
                         removePreviousCircleDialogs();
-                        $( document ).ready(function() {
+                        setTimeout(function() {
                             var nodeId = "editObjCirlce" + obj.node.id + "Dialog";
                             openEditCircleDialog = nodeId;
                             $("body").append($("<div id='" + nodeId + "'>" + obj.getDivContent() + "</div>"));
@@ -664,10 +664,6 @@ try {
                                         });
                                     }
                                 }],
-                                hide: {
-                                    effect: "explode",
-                                    duration: 500
-                                },
                                 open: function(event, ui) {
                                     $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
                                 }
@@ -676,7 +672,7 @@ try {
                             $( '#' + nodeId ).dialog("open");
                             // hack in order to bring this dialog to the front
                             setTimeout( function() { $( '#' + nodeId ).dialog('moveToTop'); }, 120);
-                        });
+                        }, 100);
                     }
                 }
                 function updateSVG() {
@@ -1272,11 +1268,11 @@ document.getElementById("loopButton").disabled = true;
                         "click" : function() {
                             $( document ).ready(function() {
                                 removePreviousCircleDialogs();
-                                $( document ).ready(function() {
+                                setTimeout(function() {
                                     project["faFiles"][editSVGId]["graphstyle"] = currentGraphEdit.saveStyle();
                                     project["faFiles"][editSVGId]["svg"] = currentGraphEdit.getSvgCode();
                                     $( '#editSVGDialog' ).dialog( "close" );
-                                });
+                                }, 100);
                             });
                         }
                     }, {
@@ -1285,9 +1281,9 @@ document.getElementById("loopButton").disabled = true;
                         "click" : function() {
                             $( document ).ready(function() {
                                 removePreviousCircleDialogs();
-                                $( document ).ready(function() {
+                                setTimeout(function() {
                                     $( '#editSVGDialog' ).dialog( "close" );
-                                });
+                                }, 100);
                             });
                         }
                     }
