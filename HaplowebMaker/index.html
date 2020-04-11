@@ -913,7 +913,7 @@ document.getElementById("loopButton").disabled = true;
                             mj_Seq.delimiter = project["delimiter"];
                             // old projects may have a single number in nrDifSeqs, instead of two, here
                             for(var i = 0; i < project["faFiles"].length; i++) {
-                                if(isNaN(project["faFiles"][i]["nrDifSeqs"])) {
+                                if(!isNaN(project["faFiles"][i]["nrDifSeqs"])) {
                                     project["faFiles"][i]["nrDifSeqs"] = "?+?";
                                 }
                             }
