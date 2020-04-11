@@ -1866,7 +1866,7 @@ draw_Drawer.main = function() {
 					map.h[indName] = 0;
 				}
 			}
-			haxe_Log.trace("XXX " + n4 + " " + node12.xPos + " " + node12.yPos,{ fileName : "NodePos.hx", lineNumber : 243, className : "draw.NodePos", methodName : "getLoopSvg"});
+			haxe_Log.trace("XXX " + n4 + " " + node12.xPos + " " + node12.yPos,{ fileName : "NodePos.hx", lineNumber : 244, className : "draw.NodePos", methodName : "getLoopSvg"});
 			var tmp2;
 			if(n4 == 0) {
 				tmp2 = "";
@@ -2423,6 +2423,7 @@ draw_Graph.prototype = {
 				if(colorName == null) {
 					haxe_Log.trace("No colorname found for individual '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 105, className : "draw.NodePos", methodName : "set_pieByLst"});
 					warnings1.add(name);
+					colorName = "black";
 				}
 				var found = false;
 				var _g_head3 = l_.h;
@@ -2499,6 +2500,7 @@ draw_Graph.prototype = {
 				if(colorName == null) {
 					haxe_Log.trace("No colorname found for individual '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 105, className : "draw.NodePos", methodName : "set_pieByLst"});
 					warnings1.add(name);
+					colorName = "black";
 				}
 				var found = false;
 				var _g_head3 = l_.h;
@@ -3731,7 +3733,7 @@ draw_Graph.prototype = {
 						map.h[indName] = 0;
 					}
 				}
-				haxe_Log.trace("XXX " + n + " " + node1.xPos + " " + node1.yPos,{ fileName : "NodePos.hx", lineNumber : 243, className : "draw.NodePos", methodName : "getLoopSvg"});
+				haxe_Log.trace("XXX " + n + " " + node1.xPos + " " + node1.yPos,{ fileName : "NodePos.hx", lineNumber : 244, className : "draw.NodePos", methodName : "getLoopSvg"});
 				var tmp1;
 				if(n == 0) {
 					tmp1 = "";
@@ -4974,6 +4976,7 @@ draw_NodePos.prototype = {
 			if(colorName == null) {
 				haxe_Log.trace("No colorname found for individual '" + name + "'!",{ fileName : "NodePos.hx", lineNumber : 105, className : "draw.NodePos", methodName : "set_pieByLst"});
 				warnings.add(name);
+				colorName = "black";
 			}
 			var found = false;
 			var _g_head2 = l_.h;
@@ -5120,7 +5123,7 @@ draw_NodePos.prototype = {
 				map.h[indName] = 0;
 			}
 		}
-		haxe_Log.trace("XXX " + n + " " + this.xPos + " " + this.yPos,{ fileName : "NodePos.hx", lineNumber : 243, className : "draw.NodePos", methodName : "getLoopSvg"});
+		haxe_Log.trace("XXX " + n + " " + this.xPos + " " + this.yPos,{ fileName : "NodePos.hx", lineNumber : 244, className : "draw.NodePos", methodName : "getLoopSvg"});
 		if(n == 0) {
 			return "";
 		}
