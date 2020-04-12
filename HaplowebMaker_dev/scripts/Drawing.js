@@ -3100,6 +3100,7 @@ draw_Graph.prototype = {
 	,saveStyle: function() {
 		var result = new List();
 		var n = new List();
+		n.add("A");
 		n.add(this.drawCircles ? "1" : "0");
 		n.add(this.drawCons ? "1" : "0");
 		n.add(this.drawCurves ? "1" : "0");
@@ -3165,6 +3166,23 @@ draw_Graph.prototype = {
 			var n3 = new List();
 			n3.add("" + link.w);
 			n3.add(link.strokeColor);
+			if(link.strokeColorList == null) {
+				n3.add("null");
+			} else {
+				var x = new List();
+				var _g_head4 = link.strokeColorList.h;
+				while(_g_head4 != null) {
+					var val4 = _g_head4.item;
+					_g_head4 = _g_head4.next;
+					var p1 = val4;
+					if(p1 == null) {
+						x.add("null");
+					} else {
+						x.add((p1.first == null ? "null" : p1.first) + "$" + (p1.second == null ? "null" : "" + p1.second));
+					}
+				}
+				n3.add(x.join("|"));
+			}
 			n3.add("" + link.strokeWidth);
 			n3.add(link.dashedArray.join("|"));
 			n3.add("" + link.xPos);
@@ -3194,13 +3212,24 @@ draw_Graph.prototype = {
 			++_g;
 			lines.add(line);
 		}
+		var saveVersion = 0;
 		var attrs = lines.pop().split("\x02");
-		this.drawCircles = attrs[0] == "1";
-		this.drawCons = attrs[1] == "1";
-		this.drawCurves = attrs[2] == "1";
-		this.drawBezierPoints = attrs[3] == "1";
-		this.drawCenter = attrs[4] == "1";
-		this.drawAngles = attrs[5] == "1";
+		if(attrs[0] == "A") {
+			saveVersion = 1;
+			this.drawCircles = attrs[1] == "1";
+			this.drawCons = attrs[2] == "1";
+			this.drawCurves = attrs[3] == "1";
+			this.drawBezierPoints = attrs[4] == "1";
+			this.drawCenter = attrs[5] == "1";
+			this.drawAngles = attrs[6] == "1";
+		} else {
+			this.drawCircles = attrs[0] == "1";
+			this.drawCons = attrs[1] == "1";
+			this.drawCurves = attrs[2] == "1";
+			this.drawBezierPoints = attrs[3] == "1";
+			this.drawCenter = attrs[4] == "1";
+			this.drawAngles = attrs[5] == "1";
+		}
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
@@ -3297,17 +3326,59 @@ draw_Graph.prototype = {
 			var attrs3 = lines.pop().split("\x02");
 			link.w = parseFloat(attrs3[0]);
 			link.strokeColor = attrs3[1];
-			link.strokeWidth = parseFloat(attrs3[2]);
-			link.dashedArray = new List();
-			var _g7 = 0;
-			var _g16 = attrs3[3].split("|");
-			while(_g7 < _g16.length) {
-				var f4 = _g16[_g7];
-				++_g7;
-				link.dashedArray.add(parseFloat(f4));
+			if(saveVersion == 1) {
+				if(attrs3[3] == "null") {
+					link.strokeColorList = null;
+				} else {
+					link.strokeColorList = new List();
+					var _g7 = 0;
+					var _g16 = attrs3[3].split("|");
+					while(_g7 < _g16.length) {
+						var f4 = _g16[_g7];
+						++_g7;
+						if(f4 == "null") {
+							link.strokeColorList.add(null);
+						} else if(f4 == "" || f4 == null) {
+							continue;
+						} else {
+							var first = f4.split("$")[0];
+							if(first == "null" || first == "") {
+								first = null;
+							}
+							var secondStr = f4.split("$")[1];
+							var second = null;
+							if(!(secondStr == "null" || secondStr == "")) {
+								second = Std.parseInt(f4.split("$")[1]);
+							}
+							var p1 = new util_Pair(first,second);
+							link.strokeColorList.add(p1);
+						}
+					}
+				}
+				link.strokeWidth = parseFloat(attrs3[3]);
+				link.dashedArray = new List();
+				var _g8 = 0;
+				var _g17 = attrs3[4].split("|");
+				while(_g8 < _g17.length) {
+					var f5 = _g17[_g8];
+					++_g8;
+					link.dashedArray.add(parseFloat(f5));
+				}
+				link.xPos = parseFloat(attrs3[5]);
+				link.yPos = parseFloat(attrs3[6]);
+			} else {
+				link.strokeWidth = parseFloat(attrs3[2]);
+				link.dashedArray = new List();
+				var _g9 = 0;
+				var _g18 = attrs3[3].split("|");
+				while(_g9 < _g18.length) {
+					var f6 = _g18[_g9];
+					++_g9;
+					link.dashedArray.add(parseFloat(f6));
+				}
+				link.xPos = parseFloat(attrs3[4]);
+				link.yPos = parseFloat(attrs3[5]);
 			}
-			link.xPos = parseFloat(attrs3[4]);
-			link.yPos = parseFloat(attrs3[5]);
 		}
 	}
 	,getMinCircleSize: function() {
