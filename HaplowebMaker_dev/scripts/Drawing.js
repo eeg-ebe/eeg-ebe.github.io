@@ -1628,8 +1628,8 @@ draw_Drawer.main = function() {
 		minX = Math.min(minX,x);
 		minY = Math.min(minY,y);
 	}
-	var width = maxX - minX + 30;
-	var height = maxY - minY + 30;
+	var width = maxX - minX + 200;
+	var height = maxY - minY + 200;
 	var f1 = ow / width;
 	if(ow == -1) {
 		f1 = 1;
@@ -1644,7 +1644,7 @@ draw_Drawer.main = function() {
 	var result5 = new List();
 	result5.add("<svg version='1.1' baseProfile='full' width='" + ow);
 	result5.add("' height='" + oh);
-	result5.add("' viewBox='" + (minX - 15) + "," + (minY - 15) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
+	result5.add("' viewBox='" + (minX - 100) + "," + (minY - 100) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
 	if(g_drawCons) {
 		var _g_head22 = g_cons.h;
 		while(_g_head22 != null) {
@@ -2327,8 +2327,8 @@ draw_Graph.prototype = {
 			minX = Math.min(minX,x1);
 			minY = Math.min(minY,y1);
 		}
-		x = x + minX - 15;
-		y = y + minY - 15;
+		x = x + minX - 100;
+		y = y + minY - 100;
 		var result = null;
 		var best = Infinity;
 		var d = 0;
@@ -3525,8 +3525,8 @@ draw_Graph.prototype = {
 			minX = Math.min(minX,x);
 			minY = Math.min(minY,y);
 		}
-		var width = maxX - minX + 30;
-		var height = maxY - minY + 30;
+		var width = maxX - minX + 200;
+		var height = maxY - minY + 200;
 		var sw;
 		var sh;
 		var minCircleSize = Infinity;
@@ -3628,8 +3628,8 @@ draw_Graph.prototype = {
 			minX = Math.min(minX,x);
 			minY = Math.min(minY,y);
 		}
-		var width = maxX - minX + 30;
-		var height = maxY - minY + 30;
+		var width = maxX - minX + 200;
+		var height = maxY - minY + 200;
 		var f1 = ow / width;
 		if(ow == -1) {
 			f1 = 1;
@@ -3644,7 +3644,7 @@ draw_Graph.prototype = {
 		var result = new List();
 		result.add("<svg version='1.1' baseProfile='full' width='" + ow);
 		result.add("' height='" + oh);
-		result.add("' viewBox='" + (minX - 15) + "," + (minY - 15) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
+		result.add("' viewBox='" + (minX - 100) + "," + (minY - 100) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
 		if(this.drawCons) {
 			var _g_head2 = this.cons.h;
 			while(_g_head2 != null) {
