@@ -380,7 +380,7 @@
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawBezierPoints = !currentGraphEdit.drawBezierPoints; updateSVG();">Toggle Bézier</button>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCenter = !currentGraphEdit.drawCenter; updateSVG();">Toggle center</button>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle</button>
-                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCirclesNames = !currentGraphEdit.drawCirclesNames; updateSVG();">Toggle circle name</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.textSize = parseInt(prompt('Text size:', 20)); currentGraphEdit.drawCirclesNames = !currentGraphEdit.drawCirclesNames; updateSVG();">Toggle circle name</button>
                     <button id="loopButton" onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawLoops = !currentGraphEdit.drawLoops; updateSVG();">Toggle self-loop</button>
                     <br>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignRandomNodePos(); stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Restart</button>
