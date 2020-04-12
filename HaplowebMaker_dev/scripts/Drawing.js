@@ -3367,12 +3367,12 @@ draw_Graph.prototype = {
 			link.w = parseFloat(attrs3[0]);
 			link.strokeColor = attrs3[1];
 			if(saveVersion == 1) {
-				if(attrs3[3] == "null") {
+				if(attrs3[2] == "null") {
 					link.strokeColorList = null;
 				} else {
 					link.strokeColorList = new List();
 					var _g7 = 0;
-					var _g16 = attrs3[3].split("|");
+					var _g16 = attrs3[2].split("|");
 					while(_g7 < _g16.length) {
 						var f4 = _g16[_g7];
 						++_g7;
