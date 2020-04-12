@@ -1278,6 +1278,7 @@ draw_Drawer.main = function() {
 		result.add(currentNode);
 	}
 	var net = result;
+	var g_textSize;
 	var g_nodes;
 	var g_links;
 	var g_lastStretchFact;
@@ -1300,6 +1301,7 @@ draw_Drawer.main = function() {
 	g_drawBezierPoints = false;
 	g_drawCenter = false;
 	g_drawAngles = false;
+	g_textSize = 20;
 	g_drawCircles = true;
 	g_drawCirclesNames = false;
 	g_drawCirclesMedians = false;
@@ -1974,6 +1976,7 @@ draw_Drawer.main = function() {
 		}
 	}
 	if(g_drawCirclesNames) {
+		result5.add("<g font-size=\"" + g_textSize + "px\" font-family=\"Times\">");
 		var _g_head32 = g_nodes.h;
 		while(_g_head32 != null) {
 			var val32 = _g_head32.item;
@@ -1989,6 +1992,7 @@ draw_Drawer.main = function() {
 			}
 			result5.add(tmp4);
 		}
+		result5.add("</g>");
 	}
 	if(g_drawAngles) {
 		var _g_head33 = g_cons.h;
@@ -2096,6 +2100,7 @@ draw_Drawer.main = function() {
 	haxe_Log.trace(s1,{ fileName : "StdOutPrinter.hx", lineNumber : 15, className : "util.StdOutPrinter", methodName : "printString"});
 };
 var draw_Graph = function(l) {
+	this.textSize = 20;
 	this.drawAngles = false;
 	this.drawCenter = false;
 	this.drawBezierPoints = false;
@@ -2221,6 +2226,7 @@ draw_Graph.prototype = {
 	,drawCenter: null
 	,drawAngles: null
 	,lastStretchFact: null
+	,textSize: null
 	,assignMutsLines: function(drawMutsByLine,drawMutsLineStrokeColor,drawMutsLineWidth,drawMutsLineLen,drawMutsLineDashedArray) {
 		var drawMutsLineDashedArray_ = new List();
 		var _g = 0;
@@ -3107,6 +3113,7 @@ draw_Graph.prototype = {
 		n.add(this.drawBezierPoints ? "1" : "0");
 		n.add(this.drawCenter ? "1" : "0");
 		n.add(this.drawAngles ? "1" : "0");
+		n.add("" + this.textSize);
 		result.add(n.join("\x02"));
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
@@ -3222,6 +3229,11 @@ draw_Graph.prototype = {
 			this.drawBezierPoints = attrs[4] == "1";
 			this.drawCenter = attrs[5] == "1";
 			this.drawAngles = attrs[6] == "1";
+			if(attrs[7] != null) {
+				this.textSize = Std.parseInt(attrs[7]);
+			} else {
+				this.textSize = 20;
+			}
 		} else {
 			this.drawCircles = attrs[0] == "1";
 			this.drawCons = attrs[1] == "1";
@@ -3229,6 +3241,11 @@ draw_Graph.prototype = {
 			this.drawBezierPoints = attrs[3] == "1";
 			this.drawCenter = attrs[4] == "1";
 			this.drawAngles = attrs[5] == "1";
+			if(attrs[7] != null) {
+				this.textSize = Std.parseInt(attrs[7]);
+			} else {
+				this.textSize = 20;
+			}
 		}
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
@@ -3959,6 +3976,7 @@ draw_Graph.prototype = {
 			}
 		}
 		if(this.drawCirclesNames) {
+			result.add("<g font-size=\"" + this.textSize + "px\" font-family=\"Times\">");
 			var _g_head12 = this.nodes.h;
 			while(_g_head12 != null) {
 				var val12 = _g_head12.item;
@@ -3974,6 +3992,7 @@ draw_Graph.prototype = {
 				}
 				result.add(tmp3);
 			}
+			result.add("</g>");
 		}
 		if(this.drawAngles) {
 			var _g_head13 = this.cons.h;
