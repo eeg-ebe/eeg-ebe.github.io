@@ -3178,7 +3178,7 @@ draw_Graph.prototype = {
 					if(p1 == null) {
 						x.add("null");
 					} else {
-						x.add((p1.first == null ? "null" : p1.first) + "$" + (p1.second == null ? "null" : "" + p1.second));
+						x.add((p1.first == null ? "null" : p1.first) + "\x01" + (p1.second == null ? "null" : "" + p1.second));
 					}
 				}
 				n3.add(x.join("|"));
@@ -3267,6 +3267,9 @@ draw_Graph.prototype = {
 			while(_g3 < _g12.length) {
 				var f = _g12[_g3];
 				++_g3;
+				if(f == "" || f == null) {
+					continue;
+				}
 				l.add(parseFloat(f));
 			}
 			node.valid = false;
@@ -3279,35 +3282,69 @@ draw_Graph.prototype = {
 			var con = val1;
 			var attrs2 = lines.pop().split("\x02");
 			con.strokeColor = attrs2[0];
-			con.strokeWidth = parseFloat(attrs2[1]);
+			if(attrs2[1] == "null") {
+				con.strokeWidth = null;
+			} else {
+				con.strokeWidth = parseFloat(attrs2[1]);
+			}
 			con.dashedArray = new List();
 			var _g4 = 0;
 			var _g13 = attrs2[2].split("|");
 			while(_g4 < _g13.length) {
 				var f1 = _g13[_g4];
 				++_g4;
+				if(f1 == null || f1 == "") {
+					continue;
+				}
 				con.dashedArray.add(parseFloat(f1));
 			}
 			con.drawMutsByLine = attrs2[3] == "1";
 			con.drawMutsLineStrokeColor = attrs2[4];
-			con.drawMutsLineWidth = parseFloat(attrs2[5]);
-			con.drawMutsLineLen = parseFloat(attrs2[6]);
+			if(attrs2[5] == "null") {
+				con.drawMutsLineWidth = null;
+			} else {
+				con.drawMutsLineWidth = parseFloat(attrs2[5]);
+			}
+			if(attrs2[6] == "null") {
+				con.drawMutsLineLen = null;
+			} else {
+				con.drawMutsLineLen = parseFloat(attrs2[6]);
+			}
 			con.drawMutsLineDashedArray = new List();
 			var _g5 = 0;
 			var _g14 = attrs2[7].split("|");
 			while(_g5 < _g14.length) {
 				var f2 = _g14[_g5];
 				++_g5;
+				if(f2 == null || f2 == "") {
+					continue;
+				}
 				con.drawMutsLineDashedArray.add(parseFloat(f2));
 			}
 			con.drawMutsByText = attrs2[8] == "1";
 			con.drawMutsTextFont = attrs2[9];
-			con.drawMutsTextSize = parseFloat(attrs2[10]);
+			if(attrs2[10] == "null") {
+				con.drawMutsTextSize = null;
+			} else {
+				con.drawMutsTextSize = parseFloat(attrs2[10]);
+			}
 			con.drawMutsTextColor = attrs2[11];
-			con.drawMutsTextPX = parseFloat(attrs2[12]);
-			con.drawMutsTextPY = parseFloat(attrs2[13]);
+			if(attrs2[12] == "null") {
+				con.drawMutsTextPX = null;
+			} else {
+				con.drawMutsTextPX = parseFloat(attrs2[12]);
+			}
+			if(attrs2[13] == "null") {
+				con.drawMutsTextPY = null;
+			} else {
+				con.drawMutsTextPY = parseFloat(attrs2[13]);
+			}
 			con.drawMutsByDots = attrs2[14] == "1";
-			con.drawMutsDotsSize = parseFloat(attrs2[15]);
+			if(attrs2[15] == "null") {
+				con.drawMutsDotsSize = null;
+			} else {
+				con.drawMutsDotsSize = parseFloat(attrs2[15]);
+			}
 			con.drawMutsDotsColor = attrs2[16];
 			con.drawMutsDotsDashedArray = new List();
 			var _g6 = 0;
@@ -3315,6 +3352,9 @@ draw_Graph.prototype = {
 			while(_g6 < _g15.length) {
 				var f3 = _g15[_g6];
 				++_g6;
+				if(f3 == null || f3 == "") {
+					continue;
+				}
 				con.drawMutsDotsDashedArray.add(parseFloat(f3));
 			}
 		}
@@ -3341,14 +3381,14 @@ draw_Graph.prototype = {
 						} else if(f4 == "" || f4 == null) {
 							continue;
 						} else {
-							var first = f4.split("$")[0];
+							var first = f4.split("\x01")[0];
 							if(first == "null" || first == "") {
 								first = null;
 							}
-							var secondStr = f4.split("$")[1];
+							var secondStr = f4.split("\x01")[1];
 							var second = null;
 							if(!(secondStr == "null" || secondStr == "")) {
-								second = Std.parseInt(f4.split("$")[1]);
+								second = Std.parseInt(secondStr);
 							}
 							var p1 = new util_Pair(first,second);
 							link.strokeColorList.add(p1);
@@ -3362,6 +3402,9 @@ draw_Graph.prototype = {
 				while(_g8 < _g17.length) {
 					var f5 = _g17[_g8];
 					++_g8;
+					if(f5 == "" || f5 == null) {
+						continue;
+					}
 					link.dashedArray.add(parseFloat(f5));
 				}
 				link.xPos = parseFloat(attrs3[5]);
@@ -3374,6 +3417,9 @@ draw_Graph.prototype = {
 				while(_g9 < _g18.length) {
 					var f6 = _g18[_g9];
 					++_g9;
+					if(f6 == "" || f6 == null) {
+						continue;
+					}
 					link.dashedArray.add(parseFloat(f6));
 				}
 				link.xPos = parseFloat(attrs3[4]);
