@@ -1278,6 +1278,7 @@ draw_Drawer.main = function() {
 		result.add(currentNode);
 	}
 	var net = result;
+	var g_textSize;
 	var g_nodes;
 	var g_links;
 	var g_lastStretchFact;
@@ -1300,6 +1301,7 @@ draw_Drawer.main = function() {
 	g_drawBezierPoints = false;
 	g_drawCenter = false;
 	g_drawAngles = false;
+	g_textSize = 20;
 	g_drawCircles = true;
 	g_drawCirclesNames = false;
 	g_drawCirclesMedians = false;
@@ -1626,8 +1628,8 @@ draw_Drawer.main = function() {
 		minX = Math.min(minX,x);
 		minY = Math.min(minY,y);
 	}
-	var width = maxX - minX + 30;
-	var height = maxY - minY + 30;
+	var width = maxX - minX + 200;
+	var height = maxY - minY + 200;
 	var f1 = ow / width;
 	if(ow == -1) {
 		f1 = 1;
@@ -1642,7 +1644,7 @@ draw_Drawer.main = function() {
 	var result5 = new List();
 	result5.add("<svg version='1.1' baseProfile='full' width='" + ow);
 	result5.add("' height='" + oh);
-	result5.add("' viewBox='" + (minX - 15) + "," + (minY - 15) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
+	result5.add("' viewBox='" + (minX - 100) + "," + (minY - 100) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
 	if(g_drawCons) {
 		var _g_head22 = g_cons.h;
 		while(_g_head22 != null) {
@@ -1974,6 +1976,7 @@ draw_Drawer.main = function() {
 		}
 	}
 	if(g_drawCirclesNames) {
+		result5.add("<g font-size=\"" + g_textSize + "px\" font-family=\"Times\">");
 		var _g_head32 = g_nodes.h;
 		while(_g_head32 != null) {
 			var val32 = _g_head32.item;
@@ -1989,6 +1992,7 @@ draw_Drawer.main = function() {
 			}
 			result5.add(tmp4);
 		}
+		result5.add("</g>");
 	}
 	if(g_drawAngles) {
 		var _g_head33 = g_cons.h;
@@ -2096,6 +2100,7 @@ draw_Drawer.main = function() {
 	haxe_Log.trace(s1,{ fileName : "StdOutPrinter.hx", lineNumber : 15, className : "util.StdOutPrinter", methodName : "printString"});
 };
 var draw_Graph = function(l) {
+	this.textSize = 20;
 	this.drawAngles = false;
 	this.drawCenter = false;
 	this.drawBezierPoints = false;
@@ -2221,6 +2226,7 @@ draw_Graph.prototype = {
 	,drawCenter: null
 	,drawAngles: null
 	,lastStretchFact: null
+	,textSize: null
 	,assignMutsLines: function(drawMutsByLine,drawMutsLineStrokeColor,drawMutsLineWidth,drawMutsLineLen,drawMutsLineDashedArray) {
 		var drawMutsLineDashedArray_ = new List();
 		var _g = 0;
@@ -2321,8 +2327,8 @@ draw_Graph.prototype = {
 			minX = Math.min(minX,x1);
 			minY = Math.min(minY,y1);
 		}
-		x = x + minX - 15;
-		y = y + minY - 15;
+		x = x + minX - 100;
+		y = y + minY - 100;
 		var result = null;
 		var best = Infinity;
 		var d = 0;
@@ -3100,12 +3106,14 @@ draw_Graph.prototype = {
 	,saveStyle: function() {
 		var result = new List();
 		var n = new List();
+		n.add("A");
 		n.add(this.drawCircles ? "1" : "0");
 		n.add(this.drawCons ? "1" : "0");
 		n.add(this.drawCurves ? "1" : "0");
 		n.add(this.drawBezierPoints ? "1" : "0");
 		n.add(this.drawCenter ? "1" : "0");
 		n.add(this.drawAngles ? "1" : "0");
+		n.add("" + this.textSize);
 		result.add(n.join("\x02"));
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
@@ -3165,6 +3173,23 @@ draw_Graph.prototype = {
 			var n3 = new List();
 			n3.add("" + link.w);
 			n3.add(link.strokeColor);
+			if(link.strokeColorList == null) {
+				n3.add("null");
+			} else {
+				var x = new List();
+				var _g_head4 = link.strokeColorList.h;
+				while(_g_head4 != null) {
+					var val4 = _g_head4.item;
+					_g_head4 = _g_head4.next;
+					var p1 = val4;
+					if(p1 == null) {
+						x.add("null");
+					} else {
+						x.add((p1.first == null ? "null" : p1.first) + "\x01" + (p1.second == null ? "null" : "" + p1.second));
+					}
+				}
+				n3.add(x.join("|"));
+			}
 			n3.add("" + link.strokeWidth);
 			n3.add(link.dashedArray.join("|"));
 			n3.add("" + link.xPos);
@@ -3194,13 +3219,34 @@ draw_Graph.prototype = {
 			++_g;
 			lines.add(line);
 		}
+		var saveVersion = 0;
 		var attrs = lines.pop().split("\x02");
-		this.drawCircles = attrs[0] == "1";
-		this.drawCons = attrs[1] == "1";
-		this.drawCurves = attrs[2] == "1";
-		this.drawBezierPoints = attrs[3] == "1";
-		this.drawCenter = attrs[4] == "1";
-		this.drawAngles = attrs[5] == "1";
+		if(attrs[0] == "A") {
+			saveVersion = 1;
+			this.drawCircles = attrs[1] == "1";
+			this.drawCons = attrs[2] == "1";
+			this.drawCurves = attrs[3] == "1";
+			this.drawBezierPoints = attrs[4] == "1";
+			this.drawCenter = attrs[5] == "1";
+			this.drawAngles = attrs[6] == "1";
+			if(attrs[7] != null) {
+				this.textSize = Std.parseInt(attrs[7]);
+			} else {
+				this.textSize = 20;
+			}
+		} else {
+			this.drawCircles = attrs[0] == "1";
+			this.drawCons = attrs[1] == "1";
+			this.drawCurves = attrs[2] == "1";
+			this.drawBezierPoints = attrs[3] == "1";
+			this.drawCenter = attrs[4] == "1";
+			this.drawAngles = attrs[5] == "1";
+			if(attrs[7] != null) {
+				this.textSize = Std.parseInt(attrs[7]);
+			} else {
+				this.textSize = 20;
+			}
+		}
 		var _g_head = this.nodes.h;
 		while(_g_head != null) {
 			var val = _g_head.item;
@@ -3238,6 +3284,9 @@ draw_Graph.prototype = {
 			while(_g3 < _g12.length) {
 				var f = _g12[_g3];
 				++_g3;
+				if(f == "" || f == null) {
+					continue;
+				}
 				l.add(parseFloat(f));
 			}
 			node.valid = false;
@@ -3250,35 +3299,69 @@ draw_Graph.prototype = {
 			var con = val1;
 			var attrs2 = lines.pop().split("\x02");
 			con.strokeColor = attrs2[0];
-			con.strokeWidth = parseFloat(attrs2[1]);
+			if(attrs2[1] == "null") {
+				con.strokeWidth = null;
+			} else {
+				con.strokeWidth = parseFloat(attrs2[1]);
+			}
 			con.dashedArray = new List();
 			var _g4 = 0;
 			var _g13 = attrs2[2].split("|");
 			while(_g4 < _g13.length) {
 				var f1 = _g13[_g4];
 				++_g4;
+				if(f1 == null || f1 == "") {
+					continue;
+				}
 				con.dashedArray.add(parseFloat(f1));
 			}
 			con.drawMutsByLine = attrs2[3] == "1";
 			con.drawMutsLineStrokeColor = attrs2[4];
-			con.drawMutsLineWidth = parseFloat(attrs2[5]);
-			con.drawMutsLineLen = parseFloat(attrs2[6]);
+			if(attrs2[5] == "null") {
+				con.drawMutsLineWidth = null;
+			} else {
+				con.drawMutsLineWidth = parseFloat(attrs2[5]);
+			}
+			if(attrs2[6] == "null") {
+				con.drawMutsLineLen = null;
+			} else {
+				con.drawMutsLineLen = parseFloat(attrs2[6]);
+			}
 			con.drawMutsLineDashedArray = new List();
 			var _g5 = 0;
 			var _g14 = attrs2[7].split("|");
 			while(_g5 < _g14.length) {
 				var f2 = _g14[_g5];
 				++_g5;
+				if(f2 == null || f2 == "") {
+					continue;
+				}
 				con.drawMutsLineDashedArray.add(parseFloat(f2));
 			}
 			con.drawMutsByText = attrs2[8] == "1";
 			con.drawMutsTextFont = attrs2[9];
-			con.drawMutsTextSize = parseFloat(attrs2[10]);
+			if(attrs2[10] == "null") {
+				con.drawMutsTextSize = null;
+			} else {
+				con.drawMutsTextSize = parseFloat(attrs2[10]);
+			}
 			con.drawMutsTextColor = attrs2[11];
-			con.drawMutsTextPX = parseFloat(attrs2[12]);
-			con.drawMutsTextPY = parseFloat(attrs2[13]);
+			if(attrs2[12] == "null") {
+				con.drawMutsTextPX = null;
+			} else {
+				con.drawMutsTextPX = parseFloat(attrs2[12]);
+			}
+			if(attrs2[13] == "null") {
+				con.drawMutsTextPY = null;
+			} else {
+				con.drawMutsTextPY = parseFloat(attrs2[13]);
+			}
 			con.drawMutsByDots = attrs2[14] == "1";
-			con.drawMutsDotsSize = parseFloat(attrs2[15]);
+			if(attrs2[15] == "null") {
+				con.drawMutsDotsSize = null;
+			} else {
+				con.drawMutsDotsSize = parseFloat(attrs2[15]);
+			}
 			con.drawMutsDotsColor = attrs2[16];
 			con.drawMutsDotsDashedArray = new List();
 			var _g6 = 0;
@@ -3286,6 +3369,9 @@ draw_Graph.prototype = {
 			while(_g6 < _g15.length) {
 				var f3 = _g15[_g6];
 				++_g6;
+				if(f3 == null || f3 == "") {
+					continue;
+				}
 				con.drawMutsDotsDashedArray.add(parseFloat(f3));
 			}
 		}
@@ -3297,17 +3383,65 @@ draw_Graph.prototype = {
 			var attrs3 = lines.pop().split("\x02");
 			link.w = parseFloat(attrs3[0]);
 			link.strokeColor = attrs3[1];
-			link.strokeWidth = parseFloat(attrs3[2]);
-			link.dashedArray = new List();
-			var _g7 = 0;
-			var _g16 = attrs3[3].split("|");
-			while(_g7 < _g16.length) {
-				var f4 = _g16[_g7];
-				++_g7;
-				link.dashedArray.add(parseFloat(f4));
+			if(saveVersion == 1) {
+				if(attrs3[2] == "null") {
+					link.strokeColorList = null;
+				} else {
+					link.strokeColorList = new List();
+					var _g7 = 0;
+					var _g16 = attrs3[2].split("|");
+					while(_g7 < _g16.length) {
+						var f4 = _g16[_g7];
+						++_g7;
+						if(f4 == "null") {
+							link.strokeColorList.add(null);
+						} else if(f4 == "" || f4 == null) {
+							continue;
+						} else {
+							var first = f4.split("\x01")[0];
+							if(first == "null" || first == "") {
+								first = null;
+							}
+							var secondStr = f4.split("\x01")[1];
+							var second = null;
+							if(!(secondStr == "null" || secondStr == "")) {
+								second = Std.parseInt(secondStr);
+							}
+							var p1 = new util_Pair(first,second);
+							link.strokeColorList.add(p1);
+						}
+					}
+				}
+				link.strokeWidth = parseFloat(attrs3[3]);
+				link.dashedArray = new List();
+				var _g8 = 0;
+				var _g17 = attrs3[4].split("|");
+				while(_g8 < _g17.length) {
+					var f5 = _g17[_g8];
+					++_g8;
+					if(f5 == "" || f5 == null) {
+						continue;
+					}
+					link.dashedArray.add(parseFloat(f5));
+				}
+				link.xPos = parseFloat(attrs3[5]);
+				link.yPos = parseFloat(attrs3[6]);
+			} else {
+				link.strokeWidth = parseFloat(attrs3[2]);
+				link.dashedArray = new List();
+				var _g9 = 0;
+				var _g18 = attrs3[3].split("|");
+				while(_g9 < _g18.length) {
+					var f6 = _g18[_g9];
+					++_g9;
+					if(f6 == "" || f6 == null) {
+						continue;
+					}
+					link.dashedArray.add(parseFloat(f6));
+				}
+				link.xPos = parseFloat(attrs3[4]);
+				link.yPos = parseFloat(attrs3[5]);
 			}
-			link.xPos = parseFloat(attrs3[4]);
-			link.yPos = parseFloat(attrs3[5]);
 		}
 	}
 	,getMinCircleSize: function() {
@@ -3391,8 +3525,8 @@ draw_Graph.prototype = {
 			minX = Math.min(minX,x);
 			minY = Math.min(minY,y);
 		}
-		var width = maxX - minX + 30;
-		var height = maxY - minY + 30;
+		var width = maxX - minX + 200;
+		var height = maxY - minY + 200;
 		var sw;
 		var sh;
 		var minCircleSize = Infinity;
@@ -3494,8 +3628,8 @@ draw_Graph.prototype = {
 			minX = Math.min(minX,x);
 			minY = Math.min(minY,y);
 		}
-		var width = maxX - minX + 30;
-		var height = maxY - minY + 30;
+		var width = maxX - minX + 200;
+		var height = maxY - minY + 200;
 		var f1 = ow / width;
 		if(ow == -1) {
 			f1 = 1;
@@ -3510,7 +3644,7 @@ draw_Graph.prototype = {
 		var result = new List();
 		result.add("<svg version='1.1' baseProfile='full' width='" + ow);
 		result.add("' height='" + oh);
-		result.add("' viewBox='" + (minX - 15) + "," + (minY - 15) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
+		result.add("' viewBox='" + (minX - 100) + "," + (minY - 100) + "," + width + "," + height + "' xmlns='http://www.w3.org/2000/svg'>");
 		if(this.drawCons) {
 			var _g_head2 = this.cons.h;
 			while(_g_head2 != null) {
@@ -3842,6 +3976,7 @@ draw_Graph.prototype = {
 			}
 		}
 		if(this.drawCirclesNames) {
+			result.add("<g font-size=\"" + this.textSize + "px\" font-family=\"Times\">");
 			var _g_head12 = this.nodes.h;
 			while(_g_head12 != null) {
 				var val12 = _g_head12.item;
@@ -3857,6 +3992,7 @@ draw_Graph.prototype = {
 				}
 				result.add(tmp3);
 			}
+			result.add("</g>");
 		}
 		if(this.drawAngles) {
 			var _g_head13 = this.cons.h;
