@@ -671,7 +671,10 @@ try {
                             $( '#' + nodeId ).dialog('option', 'title', "INFO"); // TODO languageDicts[language]["dict"]["cite.label"]
                             $( '#' + nodeId ).dialog("open");
                             // hack in order to bring this dialog to the front
-                            setTimeout( function() { $( '#' + nodeId ).dialog('moveToTop'); }, 120);
+                            setTimeout( function() {
+                                $( '#' + nodeId ).dialog('moveToTop');
+                                $( '#' + nodeId ).dialog("widget").position({ of : $("#editSVGDialog"), collision : "none" });;
+                            }, 120);
                         }, 100);
                     }
                 }
