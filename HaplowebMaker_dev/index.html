@@ -382,7 +382,7 @@
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle</button>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; if(!currentGraphEdit.drawCirclesNames) { currentGraphEdit.textSize = parseInt(prompt('Text size:', currentGraphEdit.textSize)); }; currentGraphEdit.drawCirclesNames = !currentGraphEdit.drawCirclesNames; updateSVG();">Toggle circle name</button>
                     <button id="loopButton" onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawLoops = !currentGraphEdit.drawLoops; updateSVG();">Toggle self-loop</button>
-                    <input id="namesearch" type="text" placeholder="Search">
+                    <input id="namesearch" type="text" placeholder="Search" autocomplete="off">
                     <br>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignRandomNodePos(); stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Restart</button>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
@@ -1298,6 +1298,12 @@ document.getElementById("loopButton").disabled = true;
                         source: availableNames,
                         select : function (event, ui) {
                             searchSequenceByName(ui.item.value);
+                        }
+                    });
+                    $( "#namesearch" ).keydown(function(event){
+                        if (event.keyCode == 13) {
+                            var val = $("#namesearch").val();
+                            searchSequenceByName(val);
                         }
                     });
                     $( "#editSVGDialog" ).dialog("open");
