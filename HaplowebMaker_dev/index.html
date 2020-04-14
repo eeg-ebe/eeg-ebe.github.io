@@ -487,18 +487,31 @@
                     console.log("Not found!");
                     alert("Not found!");
                 }
+                currentHighlight = null;
                 function highlightCircle(n) {
+                    // clear all current circle highlights
+                    if (currentHighlight != null) {
+                        console.log("Currently another highlight is going on");
+                        return;
+                    }
+                    // highlight
                     var circle = $("#n" + n);
                     var origR = circle.attr('r');
-                    var interval = setInterval(function() {
+                    currentHighlight = setInterval(function() {
                         var currentRadius = circle.attr('r');
                         var newRadius = (currentRadius == origR) ? origR * 8 : origR;
                         circle.attr("r", newRadius);
                     }, 500);
-                    window.setTimeout(function() {
-                        clearInterval(interval);
+                    var f = function() {
+                        try {
+                            clearInterval(currentHighlight);
+                        } catch(e) {
+                            console.log(e);
+                        }
+                        currentHighlight = null;
                         circle.attr("r", origR);
-                    }, 5000);
+                    };
+                    setTimeout(f, 5000);
                 }
                 function updateColorFile() { // TODO
                     var reader = new FileReader();
@@ -1298,12 +1311,16 @@ document.getElementById("loopButton").disabled = true;
                         source: availableNames,
                         select : function (event, ui) {
                             searchSequenceByName(ui.item.value);
+                            event.preventDefault();
+                            return false;
                         }
                     });
                     $( "#namesearch" ).keydown(function(event){
                         if (event.keyCode == 13) {
                             var val = $("#namesearch").val();
                             searchSequenceByName(val);
+                            event.preventDefault();
+                            return false;
                         }
                     });
                     $( "#editSVGDialog" ).dialog("open");
