@@ -382,6 +382,7 @@
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle</button>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; if(!currentGraphEdit.drawCirclesNames) { currentGraphEdit.textSize = parseInt(prompt('Text size:', currentGraphEdit.textSize)); }; currentGraphEdit.drawCirclesNames = !currentGraphEdit.drawCirclesNames; updateSVG();">Toggle circle name</button>
                     <button id="loopButton" onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawLoops = !currentGraphEdit.drawLoops; updateSVG();">Toggle self-loop</button>
+                    <input id="namesearch" type="text" placeholder="Search">
                     <br>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignRandomNodePos(); stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Restart</button>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignRandomNodePos(); updateSVG();">Random</button>
@@ -461,6 +462,44 @@
             <a id="scrollUpLink" href="#top"></a>
             <a id="scrollDownLink" href="#bottom"></a>
             <script>
+                function containsName(names, name) {
+                    var current = names.h;
+                    while (current != null) {
+                        if(name == current.item) {
+                            return true;
+                        }
+                        current = current.next;
+                    }
+                    return false;
+                }
+                function searchSequenceByName(n) {
+                    var nodes = currentGraphEdit.nodes;
+                    var current = nodes.h;
+                    while(current != null) {
+                        var circle = current.item;
+                        if (circle.node.names != null && containsName(circle.node.names, n)) {
+                            console.log("Found in circle " + circle.node.id);
+                            highlightCircle(circle.node.id);
+                            return;
+                        }
+                        current = current.next;
+                    }
+                    console.log("Not found!");
+                    alert("Not found!");
+                }
+                function highlightCircle(n) {
+                    var circle = $("#n" + n);
+                    var origR = circle.attr('r');
+                    var interval = setInterval(function() {
+                        var currentRadius = circle.attr('r');
+                        var newRadius = (currentRadius == origR) ? origR * 8 : origR;
+                        circle.attr("r", newRadius);
+                    }, 500);
+                    window.setTimeout(function() {
+                        clearInterval(interval);
+                        circle.attr("r", origR);
+                    }, 5000);
+                }
                 function updateColorFile() { // TODO
                     var reader = new FileReader();
                     var input = document.getElementById("updateColorFileUploadInput");
@@ -1232,11 +1271,35 @@ document.getElementById("loopButton").disabled = true;
                 function downloadSVG(i) {
                     download("text/plain", project["faFiles"][i]["filename"] + ".svg", project["faFiles"][i]["svg"]);
                 }
+                function getAvailableNames() {
+                    var names = [];
+                    var nodes = currentGraphEdit.nodes;
+                    var current = nodes.h;
+                    while(current != null) {
+                        if (current.item != null && current.item.node != null && current.item.node.names != null) {
+                            var current2 = current.item.node.names.h
+                            while(current2 != null) {
+                                names.push(current2.item);
+                                current2 = current2.next;
+                            }
+                        }
+                        current = current.next;
+                    }
+                    names.sort();
+                    return names;
+                }
                 function editSVG(i) {
                     currentGraphEdit = new draw_Graph(parsing_MJNetParser.parseNet(project["faFiles"][i]["mj"]));
                     currentGraphEditstretch = 1;
                     currentGraphEdit.loadStyle(project["faFiles"][i]["graphstyle"]);
                     editSVGId = i;
+                    var availableNames = getAvailableNames();
+                    $( "#namesearch" ).autocomplete({
+                        source: availableNames,
+                        select : function (event, ui) {
+                            searchSequenceByName(ui.item.value);
+                        }
+                    });
                     $( "#editSVGDialog" ).dialog("open");
                 }
             </script>
