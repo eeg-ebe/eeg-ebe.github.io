@@ -497,10 +497,14 @@
                     // highlight
                     var circle = $("#n" + n);
                     var origR = circle.attr('r');
+                    var origColor = circle.attr('fill');
                     currentHighlight = setInterval(function() {
                         var currentRadius = circle.attr('r');
-                        var newRadius = (currentRadius == origR) ? origR * 8 : origR;
+                        var currentColor = circle.attr('fill');
+                        var newRadius = (currentRadius == origR) ? origR * 8 : origR * 2;
+                        var newColor = (currentColor == 'black') ? 'white' : 'black';
                         circle.attr("r", newRadius);
+                        circle.attr("fill", newColor);
                     }, 500);
                     var f = function() {
                         try {
@@ -510,6 +514,7 @@
                         }
                         currentHighlight = null;
                         circle.attr("r", origR);
+                        circle.attr("fill", origColor);
                     };
                     setTimeout(f, 5000);
                 }
