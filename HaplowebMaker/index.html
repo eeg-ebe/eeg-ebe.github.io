@@ -153,6 +153,11 @@
                         </div>
                     </li>
                     <li>
+                        <div id="videoDiv">
+                            <span class="ui-icon ui-icon-video"></span><a target="_blank" href="https://youtu.be/aFIlv7L0k8Q" style="text-decoration: none;">Introduction Video</a></span>
+                        </div>
+                    </li>
+                    <li>
                         <div class="shortcut" shortcut="contact" onclick="javascript: window.location='mailto: Yann Spöri <ga29qal@mytum.de>,Jean-François Flot <jflot@ulb.ac.be>?subject=[HaplowebMaker/CoMa]'">
                             <span class="ui-icon ui-icon-contact"></span>
                             <span class="label tooltip" lid="contact.label"></span>
@@ -497,10 +502,14 @@
                     // highlight
                     var circle = $("#n" + n);
                     var origR = circle.attr('r');
+                    var origColor = circle.attr('fill');
                     currentHighlight = setInterval(function() {
                         var currentRadius = circle.attr('r');
-                        var newRadius = (currentRadius == origR) ? origR * 8 : origR;
+                        var currentColor = circle.attr('fill');
+                        var newRadius = (currentRadius == origR) ? origR * 8 : origR * 2;
+                        var newColor = (currentColor == 'black') ? 'white' : 'black';
                         circle.attr("r", newRadius);
+                        circle.attr("fill", newColor);
                     }, 500);
                     var f = function() {
                         try {
@@ -510,6 +519,7 @@
                         }
                         currentHighlight = null;
                         circle.attr("r", origR);
+                        circle.attr("fill", origColor);
                     };
                     setTimeout(f, 5000);
                 }
