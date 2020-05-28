@@ -66,6 +66,9 @@ function calculateFaFile(project, i) {
                         toRem.push(chIndex);
                     }
                 }
+                if(c == '-' && !!project["replaceIndelPositions"] && project["ambigStrat"] == "error") {
+                    throw new js__$Boot_HaxeError("Your input FASTA file contains indels that are treated as ambigious character, thereby triggering this error message. Please check the Advanced Settings for other options.");
+                }
                 if(c == '-' && !!project["replaceIndelPositions"]) {
                     toRem.push(chIndex);
                 }
