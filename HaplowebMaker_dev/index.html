@@ -382,15 +382,15 @@
         <div id="editSVGDialog"><!-- TODO -->
             <div id="editSVGDialogDim" style="overlow:hidden">
                 <div id="toolboxBar">
-                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCircles = !currentGraphEdit.drawCircles; updateSVG();">Toggle circle</button>
-                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCirclesMedians = !currentGraphEdit.drawCirclesMedians; updateSVG();">Toggle med vector</button>
-                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCons = !currentGraphEdit.drawCons; updateSVG();">Toggle line</button>
-                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCurves = !currentGraphEdit.drawCurves; updateSVG();">Toggle curve</button>
-                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawBezierPoints = !currentGraphEdit.drawBezierPoints; updateSVG();">Toggle Bézier</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCircles = !currentGraphEdit.drawCircles; updateSVG();">Toggle nodes</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCirclesMedians = !currentGraphEdit.drawCirclesMedians; updateSVG();">Toggle median vectors</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCons = !currentGraphEdit.drawCons; updateSVG();">Toggle edges</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCurves = !currentGraphEdit.drawCurves; updateSVG();">Toggle curves</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawBezierPoints = !currentGraphEdit.drawBezierPoints; updateSVG();">Toggle Bézier points</button>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawCenter = !currentGraphEdit.drawCenter; updateSVG();">Toggle center</button>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawAngles = !currentGraphEdit.drawAngles; updateSVG();">Toggle angle</button>
-                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; if(!currentGraphEdit.drawCirclesNames) { currentGraphEdit.textSize = parseInt(prompt('Text size:', currentGraphEdit.textSize)); }; currentGraphEdit.drawCirclesNames = !currentGraphEdit.drawCirclesNames; updateSVG();">Toggle circle name</button>
-                    <button id="loopButton" onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawLoops = !currentGraphEdit.drawLoops; updateSVG();">Toggle self-loop</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; if(!currentGraphEdit.drawCirclesNames) { currentGraphEdit.textSize = parseInt(prompt('Text size:', currentGraphEdit.textSize)); }; currentGraphEdit.drawCirclesNames = !currentGraphEdit.drawCirclesNames; updateSVG();">Toggle node name</button>
+                    <button id="loopButton" onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.drawLoops = !currentGraphEdit.drawLoops; updateSVG();">Toggle self-loops</button>
                     <input id="namesearch" type="text" placeholder="Search sequence name" autocomplete="off">
                     <br>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignRandomNodePos(); stopForce=false; currentGraphEdit.forceDirectedMethod(false, 0.6, 0.5, 500.0, 0.1, 0.1, 1, true); force();">Restart</button>
@@ -403,8 +403,8 @@
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEditstretch = 1; updateSVG();">Reset zoom</button>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; exportEditSVG('image/png');">Export png</button>
                     <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; exportEditSVGasSVG();">Export svg</button>
-                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignLinkPos(); updateSVG();">Recalc curves (force)</button>
-                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignLinkPos(false); updateSVG();">Recalc curves (weak)</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignLinkPos(); updateSVG();">Recalc all curves</button>
+                    <button onclick="javascript: mj_Seq.delimiter = project['delimiter']; currentGraphEdit.assignLinkPos(false); updateSVG();">Recalc other curves</button>
 <!--
                     <button onclick="javascript: currentGraphEdit.mult_radius(10/9); updateSVG();">Circles ++</button>
                     <button onclick="javascript: currentGraphEdit.mult_radius(9/10); updateSVG();">Circles --</button>
