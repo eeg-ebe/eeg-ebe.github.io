@@ -13,8 +13,9 @@
             </h3>
         <answer>HaplowebMaker is a program that automatizes the creation of haplotype networks (haplonets) and haplotype webs (haplowebs) from FASTA alignments. Haplowebs are a logical extension of
             the concept of haplonets in the case of nuclear markers: haplowebs are haplonets with connections added between haplotypes found co-occuring in heterozygous individuals (see
-            <a href="https://bmcevolbiol.biomedcentral.com/articles/10.1186/1471-2148-10-372">Flot et al. 2010</a></answer> allowing notable to detect FFRs (fields of recombination, i.e. groups of individuals
-            sharing a common pool of alleles following the terminology of 
+            <a href="https://bmcevolbiol.biomedcentral.com/articles/10.1186/1471-2148-10-372">Flot et al. 2010</a>) allowing notably to detect FFRs (fields of recombination, i.e. groups of individuals
+            sharing a common pool of alleles following the terminology of <a href="https://doi.org/10.2307/2419811">Doyle 1995</a>).</answer>
+        
         <a name="typical_workflow"></a>
         <h3>Q1.2: <question>What is the typical HaplowebMaker workflow?</question>
             </h3>
@@ -23,7 +24,8 @@
             HaplowebMaker can deal with IUPAC ambiguity codes as well as with missing data (represented with the "?" character), it is recommended to use perfectly phased, well-aligned sequences
             without missing data. After choosing the correct delimiter (by default "_"), users click the "Submit job" button to upload their data file(s). For each input FASTA,
             HaplowebMaker first computes a median-joining network (following the algorithm of <a href="https://doi.org/10.1093/oxfordjournals.molbev.a026036">Bandelt et al. 1999</a> also implemented in
-            the program Network) and turns it into a haploweb by adding curves connecting the various haplotypes of each individual. To generate publication-quality figures, users may edit each haploweb
+            the program <a href="https://www.fluxus-engineering.com/sharenet.htm">Network</a>) and turns it into a haploweb by adding curves connecting the various haplotypes of each individual. To generate
+            publication-quality figures, users may edit each haploweb
             using the SVG editor included in HaplowebMaker. Each haploweb can be exported as SVG or PNG files using buttons available within the SVG editor; for obtaining a vectorial PDF output, users
             may convert the SVG using e.g. Inkscape or alternatively open the SVG within their web browser and use the "print as PDF" function of their browser. Users can save their HaplowebMaker
             project as a JSON file (containing all the initial data files as well as the results of the analyses) using the "Save project" button in the top left menu. This JSON file can then be
@@ -36,8 +38,8 @@
             one should make sure that the character selected as a delimiter is not present in the name of any individual. HaplowebMaker can also deal with individuals having three or more haplotype: for
             instance, if individual "Ind3" possesses three different haplotypes (because it is triploid or simply because of a copy-number variation in the locus under study), then its three
             haplotypes can be entered as e.g. "Ind3_a", "Ind3_b" and "Ind3_c" (for examples of such cases, see <a href="https://doi.org/10.1016/j.crvi.2007.12.003">Flot et al.
-            2008</a>). If an individual is declared in the file as possessing *n* different haplotypes, HaplowebMaker will draw for this individual *n*&#8901;(*n*-1)/2 curves connecting each of its pairs of
-            haplotypes.</answer>
+            2008</a>). If an individual is declared in the file as possessing <i>n</i> different haplotypes, HaplowebMaker will draw for this individual <i>n</i>&#8901;(<i>n</i>-1)/2 curves connecting each of its
+            pairs of haplotypes.</answer>
         
         <a name="generated_output"></a>
         <h3>Q1.4: <question>What output files does HaplowebMarker generate for each FASTA file?</question>
@@ -83,10 +85,11 @@
             or to alleles of individuals. A check box (checked by default) allows users to choose whether to color the parts of the network according to each detected FFR. Another check box allow users to
             speed calculation by skipping the haploweb construction stage and going directly to partition calculation (which is particularly useful when processing a large number of FASTA files). And finally,
             a last check box allows users to filter out singletons (i.e., haplotypes found a single time in the dataset), an option useful when dealing with cloned sequences (which often comprise many
-            PCR-induced mutations) or with invasive specie (since range expansion result in numerous singleton mutation; Excoffier et al. 2013).</answer>
+            PCR-induced mutations) or with invasive specie (since range expansion result in numerous singleton mutation;
+            <a href="https://www.annualreviews.org/doi/abs/10.1146/annurev.ecolsys.39.110707.173414">Excoffier et al. 2013</a>).</answer>
         
         <a name="actions_svg_editor"></a>
-        <h3>Q1.8: <question>What are the different actions available in the SVG editor included in HaplowebMaker</question>
+        <h3>Q1.8: <question>What are the different actions available in the SVG editor included in HaplowebMaker?</question>
             </h3>
         <answer>Each haploweb SVG is composed of several sets of elements that can be acted upon independently. Nodes can be toggled on or off ("Toggle nodes" button), users can increase their
             size relative to the rest of the figure or decrease it ("Nodes++" and "Nodes--" buttons), and their respective colors can be modified by uploading a "color file"
