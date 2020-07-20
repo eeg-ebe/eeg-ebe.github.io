@@ -1,18 +1,18 @@
-# Bioinformatic tools of the group [Ecological and Evolutionary Genomics](https://ebe.ulb.ac.be/ebe/Flot.html) at the Université libre de Bruxelles (ULB)
+## Bioinformatic tools of the group [Ecological and Evolutionary Genomics](https://ebe.ulb.ac.be/ebe/Flot.html) at the Université libre de Bruxelles (ULB)
 
-# [Champuru](http://www.mnhn.fr/jfflot/champuru/)
+## [Champuru](http://www.mnhn.fr/jfflot/champuru/)
 This tool automatizes the deconvolution of the mixed traces obtained when Sanger-sequencing mixtures of PCR products of different lengths (for details, see [Flot J-F, Tillier A, Samadi S, Tillier S (2006) Phase determination from direct sequencing of length-variable DNA regions. *Molecular Ecology Notes* 6:627–630](https://doi.org/10.1111/j.1471-8286.2006.01355.x) and [Flot J-F (2007) Champuru 1.0: a computer software for unraveling mixtures of two DNA sequences of unequal lengths. *Molecular Ecology Notes* 7:974–977](https://doi.org/10.1111/j.1471-8286.2007.01857.x) for details).
 
-# [SeqPHASE](https://eeg-ebe.github.io/SeqPHASE/)
+## [SeqPHASE](https://eeg-ebe.github.io/SeqPHASE/)
 This tool allows users to generate easily PHASE input files from FASTA sequences alignemnts and convert PHASE output files back into FASTA (as detailed in [Flot J-F (2010) SeqPHASE: a web tool for interconverting PHASE input/output files and FASTA sequence alignments. *Molecular Ecology Resources* 10:162–166](https://doi.org/10.1111/j.1755-0998.2009.02732.x)). 
 
-# [HaplowebMaker](https://eeg-ebe.github.io/HaplowebMaker)
+## [HaplowebMaker](https://eeg-ebe.github.io/HaplowebMaker)
 This web tool allows users to generate quickly publication-quality haplowebs (short for "haplotype webs"), see [Flot J-F, Couloux A, Tillier S (2010) Haplowebs as a graphical tool for delimiting species: a revival of Doyle’s “field for recombination” approach and its application to the coral genus Pocillopora in Clipperton. *BMC Evolutionary Biology* 10:372](http://dx.doi.org/10.1186/1471-2148-10-372) and [Spöri Y, Flot J (2020) HaplowebMaker and CoMa: two web tools to delimit species using haplowebs and conspecificity matrices. *Methods in Ecology and Evolution*](https://doi.org/10.1111/2041-210X.13454) for details). A detailed [FAQ](https://eeg-ebe.github.io/HaplowebMaker/faq.html) is also available.
 
-# [CoMa](https://eeg-ebe.github.io/CoMa)
+## [CoMa](https://eeg-ebe.github.io/CoMa)
 This web tool automatizes the production of conspecicity matrices from partition matrices (produced e.g. using [HaplowebMaker](https://eeg-ebe.github.io/HaplowebMaker). For details, see [Spöri Y, Flot J (2020) HaplowebMaker and CoMa: two web tools to delimit species using haplowebs and conspecificity matrices. *Methods in Ecology and Evolution*](https://doi.org/10.1111/2041-210X.13454) and the [FAQ](https://eeg-ebe.github.io/CoMa/faq.html)
 
-# [Bcool](https://github.com/eeg-ebe/Bcool)
+## [Bcool](https://github.com/eeg-ebe/Bcool)
 Bcool implements a graph-based approach to short-read correction that is more accurate than classical k-mer spectrum-based approaches. For details, see [Limasset A, Flot J-F, Peterlongo P (2020) Toward perfect reads: self-correction of short reads via mapping on de Bruijn graphs. *Bioinformatics* 36:1374–1381](https://doi.org/10.1093/bioinformatics/btz102) 
 
 
