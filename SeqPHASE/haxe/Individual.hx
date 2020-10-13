@@ -83,7 +83,7 @@ class Individual {
 //        } else {
 //            if (reduce) {
                 if (p == 1.0) {
-                    if (isHomozygous()) {
+                    if (isHomozygous() && reduce) {
                         result.add(">" + name);
                         result.add(seq1);
                     } else {
@@ -93,7 +93,7 @@ class Individual {
                         result.add(seq2);
                     }
                 } else { // name-counter . a (t)
-                    if (isHomozygous()) {
+                    if (isHomozygous() && reduce) {
                         result.add(">" + name + "-" + index + "(" + p + ")");
                         result.add(seq1);
                     } else {
